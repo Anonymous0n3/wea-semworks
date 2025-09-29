@@ -1,0 +1,52 @@
+# Na https://aka.ms/customizecontainer se dozvíte, jak si přizpůsobit kontejner ladění
+# a jak Visual Studio používá tento dokument Dockerfile k sestavení vašich imagí
+# pro rychlejší ladění.
+
+# -----------------------------
+# Base image (runtime)
+# -----------------------------
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# -----------------------------
+# Build image (SDK)
+# -----------------------------
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+# zkopíruj csproj a obnov závislosti
+COPY ["WebApplication1/WebApplication1.csproj", "WebApplication1/"]
+RUN dotnet restore "./WebApplication1/WebApplication1.csproj"
+
+# zkopíruj zbytek projektu
+COPY . .
+WORKDIR "/src/WebApplication1"
+
+# build
+RUN dotnet build "./WebApplication1.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# -----------------------------
+# Publish image
+# -----------------------------
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./WebApplication1.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# -----------------------------
+# Final image (production)
+# -----------------------------
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+# proměnné prostředí pro CouchDB a logy
+ENV ASPNETCORE_URLS=http://+:8080 \
+    COUCHDB_URL=http://couchdb:5984 \
+    COUCHDB_USER=admin \
+    COUCHDB_PASSWORD=adminpassword \
+    APP_LOG_PATH=/var/log/webapp/app.log
+
+ENTRYPOINT ["dotnet", "WebApplication1.dll"]

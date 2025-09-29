@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  webapplication1:
+    build:
+      context: .
+      dockerfile: WebApplication1/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - COUCHDB_URL=http://couchdb:5984
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpassword
+      - APP_LOG_PATH=/var/log/webapp/app.log
+    depends_on:
+      - couchdb
+    volumes:
+      - webapp-logs:/var/log/webapp
+
+  couchdb:
+    image: couchdb:3.3
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpassword
+      - COUCHDB_SINGLE_NODE=true
+    volumes:
+      - couchdb-data:/opt/couchdb/data
+
+volumes:
+  couchdb-data:
+  webapp-logs:

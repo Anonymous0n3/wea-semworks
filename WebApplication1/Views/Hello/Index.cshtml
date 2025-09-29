@@ -1,0 +1,24 @@
+﻿@model WebApplication1.Models.HelloDoc
+
+@{
+    ViewData["Title"] = "Hello CouchDB";
+}
+
+<h2>Hello CouchDB</h2>
+
+@if (Model != null)
+{
+    <p><strong>Aktuální text:</strong> @Model.text</p>
+}
+else
+{
+    <p><strong>Aktuální text:</strong> (žádný)</p>
+}
+
+<form asp-controller="Hello" asp-action="Save" method="post">
+    <div class="form-group">
+        <label for="text">Zadej nový text:</label>
+        <input type="text" class="form-control" id="text" name="text" />
+    </div>
+    <button type="submit" class="btn btn-primary">Uložit</button>
+</form>
