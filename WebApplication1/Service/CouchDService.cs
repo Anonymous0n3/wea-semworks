@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using WebApplication1.Models;
 
 namespace WebApplication1.Service
 {
@@ -57,6 +58,27 @@ namespace WebApplication1.Service
         {
             var content = new StringContent(JsonSerializer.Serialize(doc), Encoding.UTF8, "application/json");
             return await _client.PostAsync($"{_couchBase}/{_dbName}", content);
+        }
+
+        public async Task<List<HelloDoc>> GetAllDocumentsAsync()
+        {
+            // include_docs=true vrátí celé dokumenty
+            var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
+            resp.EnsureSuccessStatusCode();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            var list = new List<HelloDoc>();
+            foreach (var row in doc.RootElement.GetProperty("rows").EnumerateArray())
+            {
+                if (row.TryGetProperty("doc", out var d))
+                {
+                    var item = JsonSerializer.Deserialize<HelloDoc>(d.GetRawText(), _jsonOptions);
+                    if (item != null) list.Add(item);
+                }
+            }
+            return list;
         }
     }
 }

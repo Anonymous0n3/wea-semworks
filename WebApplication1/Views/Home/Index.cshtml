@@ -1,4 +1,4 @@
-﻿@model WebApplication1.Models.HelloDoc
+﻿@model List<WebApplication1.Models.HelloDoc>
 
 @{
     ViewData["Title"] = "Hello CouchDB";
@@ -6,15 +6,30 @@
 
 <h2>Hello CouchDB</h2>
 
-@if (Model != null)
+@if (Model != null && Model.Any())
 {
-    <p><strong>Aktuální text:</strong> @Model.text</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doc in Model)
+            {
+                <tr>
+                    <td>@doc.text</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
-    <p><strong>Aktuální text:</strong> (žádný)</p>
+    <p><strong>Databáze je prázdná</strong></p>
 }
 
+<hr />
 <form asp-controller="Hello" asp-action="Save" method="post">
     <div class="form-group">
         <label for="text">Zadej nový text:</label>

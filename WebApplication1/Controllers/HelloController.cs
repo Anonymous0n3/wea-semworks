@@ -20,16 +20,8 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Index()
         {
             await _couch.EnsureDbExistsAsync();
-            var resp = await _couch.GetDocumentAsync("hello");
-            HelloDoc? doc = null;
-
-            if (resp.IsSuccessStatusCode)
-            {
-                var json = await resp.Content.ReadAsStringAsync();
-                doc = JsonSerializer.Deserialize<HelloDoc>(json, _jsonOptions);
-            }
-
-            return View(doc ?? new HelloDoc { text = "Zatím nic v DB" });
+            var allDocs = await _couch.GetAllDocumentsAsync();
+            return View(allDocs);
         }
 
         [HttpPost]
