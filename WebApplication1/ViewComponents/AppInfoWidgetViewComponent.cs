@@ -8,9 +8,6 @@ namespace YourProject.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var logsPath = Environment.GetEnvironmentVariable("APP_LOG_PATH") ?? "/logs";
-
             var model = new AppInfoViewModel
             {
                 AppVersion = typeof(Program).Assembly.GetName().Version?.ToString(),
@@ -18,8 +15,7 @@ namespace YourProject.ViewComponents
                 MemoryUsage = GetMemoryUsage(),
                 CpuUsage = await GetCpuUsageAsync(),
                 ProcessCount = GetProcessCount(),
-                ApiStatuses = new List<string>(),
-                LogsUrl = "/logs" // Controller níže
+                ApiStatuses = new List<string>()
             };
 
             return View(model);
@@ -35,7 +31,7 @@ namespace YourProject.ViewComponents
 
                 if (!System.IO.File.Exists(usagePath))
                 {
-                    // Fallback pro cgroup v1
+                    // starší cgroup v1 fallback
                     usagePath = "/sys/fs/cgroup/memory/memory.usage_in_bytes";
                     limitPath = "/sys/fs/cgroup/memory/memory.limit_in_bytes";
                 }
@@ -57,21 +53,19 @@ namespace YourProject.ViewComponents
         {
             try
             {
-                var cpuUsageFile = "/sys/fs/cgroup/cpu.stat";
-
+                var cpuUsageFile = "/sys/fs/cgroup/cpu/cpu.stat";
                 if (!System.IO.File.Exists(cpuUsageFile))
-                {
-                    cpuUsageFile = "/sys/fs/cgroup/cpuacct.usage";
-                }
+                    return "N/A";
 
                 var initialUsage = await ReadCpuUsageAsync(cpuUsageFile);
                 await Task.Delay(500);
                 var finalUsage = await ReadCpuUsageAsync(cpuUsageFile);
 
-                var delta = finalUsage - initialUsage;
-                var cpuPercent = (delta / 5_000_000.0).ToString("F2", CultureInfo.InvariantCulture);
+                var delta = finalUsage - initialUsage; // mikrosekundy
+                var cpuCount = Environment.ProcessorCount;
+                var percent = (delta / 500_000_000.0) / cpuCount; // půl sekundy = 500 000 µs
 
-                return $"{cpuPercent}%";
+                return $"{percent:F1}%";
             }
             catch
             {
@@ -81,17 +75,15 @@ namespace YourProject.ViewComponents
 
         private async Task<long> ReadCpuUsageAsync(string path)
         {
-            var text = await System.IO.File.ReadAllTextAsync(path);
-            if (text.StartsWith("usage_usec"))
+            var lines = await System.IO.File.ReadAllLinesAsync(path);
+            var usageLine = lines.FirstOrDefault(l => l.StartsWith("usage_usec"));
+            if (usageLine != null)
             {
-                var usage = text.Split('\n').FirstOrDefault(l => l.StartsWith("usage_usec"));
-                return long.Parse(usage?.Split(' ').Last() ?? "0") * 1000; // µs → ns
+                return long.Parse(usageLine.Split(' ')[1]);
             }
-            else
-            {
-                return long.Parse(text.Trim());
-            }
+            return 0;
         }
+
 
         // === PROCESY ===
         private int GetProcessCount()
@@ -121,6 +113,6 @@ namespace YourProject.ViewComponents
         public string CpuUsage { get; set; } = "";
         public int ProcessCount { get; set; }
         public List<string> ApiStatuses { get; set; } = [];
-        public string LogsUrl { get; set; } = "";
+        public string LogsUrl { get; set; } = "/logs";
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model List<WebApplication1.Models.HelloDoc>
-
+@await Component.InvokeAsync("AppInfoWidget")
 @{
     ViewData["Title"] = "Hello CouchDB";
 }
