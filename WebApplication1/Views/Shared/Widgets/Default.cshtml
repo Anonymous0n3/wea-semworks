@@ -1,0 +1,18 @@
+﻿<div class="widget card">
+    <h3>@Localizer["App Info"]</h3>
+    <p><strong>@Localizer["Version"]:</strong> @Model.AppVersion</p>
+    <p><strong>@Localizer["Deployed"]:</strong> @Model.DeploymentDate</p>
+    <p><strong>@Localizer["Memory usage"]:</strong> @Model.MemoryUsage</p>
+    <p><strong>@Localizer["CPU usage"]:</strong> @Model.CpuUsage</p>
+    <p><strong>@Localizer["Running processes"]:</strong> @Model.ProcessCount</p>
+
+    <h4>@Localizer["API statuses"]</h4>
+    <ul>
+        @if (Model.ApiStatuses.Count == 0)
+        {
+            <li>@Localizer["No data yet"]</li>
+        }
+    </ul>
+
+    <a href="/logs" target="_blank">@Localizer["View logs"]</a>
+</div>

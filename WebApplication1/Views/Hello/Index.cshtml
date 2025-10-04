@@ -30,6 +30,11 @@ else
 }
 
 <hr />
+<h2>@Localizer["Widgets"]</h2>
+
+<div id="widgets">
+    @await Component.InvokeAsync("AppInfoWidget")
+</div>
 <form asp-controller="Hello" asp-action="Save" method="post">
     <div class="form-group">
         <label for="text">Zadej nový text:</label>
