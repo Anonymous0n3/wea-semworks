@@ -1,0 +1,60 @@
+2025-10-04 18:34:02.415 +02:00 [INF] User profile is available. Using 'C:\Users\marti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:34:02.542 +02:00 [INF] Creating key {4ca5696a-170c-4723-bea7-c1c272bac4fc} with creation date 2025-10-04 16:34:02Z, activation date 2025-10-04 16:34:02Z, and expiration date 2026-01-02 16:34:02Z.
+2025-10-04 18:34:02.574 +02:00 [INF] Writing data to file 'C:\Users\marti\AppData\Local\ASP.NET\DataProtection-Keys\key-4ca5696a-170c-4723-bea7-c1c272bac4fc.xml'.
+2025-10-04 18:34:02.959 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:34:02.960 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:34:03.084 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:34:03.085 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:34:03.085 +02:00 [INF] Content root path: C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1
+2025-10-04 18:34:05.128 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:34:05.451 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:34:05.525 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:34:05.548 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:34:06.151 +02:00 [INF] Executed ViewResult - view Index executed in 605.0812ms.
+2025-10-04 18:34:06.159 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 633.0578ms
+2025-10-04 18:34:06.161 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:34:06.175 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 1061.4988ms
+2025-10-04 18:34:06.215 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 18:34:06.215 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 18:34:06.215 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 18:34:06.220 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 18:34:06.221 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 18:34:06.221 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 18:34:06.243 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:34:06.244 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 18:34:06.255 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:34:06.306 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 63.1865ms
+2025-10-04 18:34:06.343 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-04 18:34:06.343 +02:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\css\site.css'
+2025-10-04 18:34:06.344 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-04 18:34:06.344 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 200 362 text/css 129.487ms
+2025-10-04 18:34:06.344 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 200 875 text/javascript 123.0343ms
+2025-10-04 18:34:06.343 +02:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-04 18:34:06.344 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 200 875 text/javascript 100.8807ms
+2025-10-04 18:34:06.347 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 131.7555ms
+2025-10-04 18:34:06.366 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-10-04 18:34:06.366 +02:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-10-04 18:34:06.366 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-10-04 18:34:06.367 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 200 162726 text/css 152.6568ms
+2025-10-04 18:34:06.367 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78474 text/javascript 146.4544ms
+2025-10-04 18:34:06.367 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 200 89503 text/javascript 147.4705ms
+2025-10-04 18:34:06.458 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 203.2222ms
+2025-10-04 18:34:06.627 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/favicon.ico - null null
+2025-10-04 18:34:06.632 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\favicon.ico'
+2025-10-04 18:34:06.633 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/favicon.ico - 200 5430 image/x-icon 7.0206ms
+2025-10-04 18:34:22.179 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/en - null null
+2025-10-04 18:34:22.192 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/en - 404 0 null 13.8143ms
+2025-10-04 18:34:22.193 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/en, Response status code: 404
+2025-10-04 18:34:28.212 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:34:28.218 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:34:28.218 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:34:28.219 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:34:28.367 +02:00 [INF] Executed ViewResult - view Index executed in 148.6506ms.
+2025-10-04 18:34:28.369 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 150.8843ms
+2025-10-04 18:34:28.370 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:34:28.371 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 159.7484ms
+2025-10-04 18:34:28.423 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:34:28.425 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 3.2538ms
+2025-10-04 18:34:30.072 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/logs - null null
+2025-10-04 18:34:30.079 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/logs - 404 0 null 8.3246ms
+2025-10-04 18:34:30.079 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/logs, Response status code: 404
