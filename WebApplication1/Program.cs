@@ -12,6 +12,7 @@ builder.Host.UseSerilog(logger);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient("couchdb");
 builder.Services.AddHttpClient<WebApplication1.Service.CouchDbService>();
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
