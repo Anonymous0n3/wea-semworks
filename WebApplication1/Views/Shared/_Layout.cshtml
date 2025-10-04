@@ -45,5 +45,10 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <select id="langSelect" class="form-select form-select-sm w-auto ms-auto">
+        <option value="cs">Čeština</option>
+        <option value="en">English</option>
+    </select>
+    <script src="~/js/site.js"></script>
 </body>
 </html>

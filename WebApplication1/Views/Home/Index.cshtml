@@ -1,39 +1,80 @@
 ﻿@model List<WebApplication1.Models.HelloDoc>
 
+@await Component.InvokeAsync("AppInfoWidget")
+
 @{
-    ViewData["Title"] = "Hello CouchDB";
+    ViewData["Title"] = "Dashboard";
 }
 
-<h2>Hello CouchDB</h2>
+<div class="container mt-4">
 
-@if (Model != null && Model.Any())
-{
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Text</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var doc in Model)
-            {
-                <tr>
-                    <td>@doc.text</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p><strong>Databáze je prázdná</strong></p>
-}
-
-<hr />
-<form asp-controller="Hello" asp-action="Save" method="post">
-    <div class="form-group">
-        <label for="text">Zadej nový text:</label>
-        <input type="text" class="form-control" id="text" name="text" />
+    <!-- Jazykový přepínač -->
+    <div class="d-flex justify-content-end mb-3">
+        <select id="langSelect" class="form-select form-select-sm w-auto">
+            <option value="cs">Čeština</option>
+            <option value="en">English</option>
+        </select>
     </div>
-    <button type="submit" class="btn btn-primary">Uložit</button>
-</form>
+
+    <!-- Widgety -->
+    <h2 id="widgets-title">Widgety</h2>
+
+    <div id="widgets-container" class="row g-3">
+        <div class="col-md-6">
+            <!-- AppInfo widget -->
+            <div id="appInfoWidget" class="card shadow-sm p-3">
+                <h5 id="app-info-title">Informace o aplikaci</h5>
+                <ul class="list-unstyled mb-2">
+                    <li><strong>Verze:</strong> <span id="appVersion">1.0.0</span></li>
+                    <li><strong>Poslední nasazení:</strong> <span id="lastDeployment">2025-09-30 14:22</span></li>
+                    <li><strong>CPU:</strong> <span id="cpuUsage">12%</span></li>
+                    <li><strong>Paměť:</strong> <span id="memoryUsage">256 MB</span></li>
+                    <li><strong>Procesy:</strong> <span id="processCount">42</span></li>
+                </ul>
+
+                <div class="border-top pt-2">
+                    <strong id="api-statuses-title">API stavy:</strong>
+                    <p id="api-statuses-content"><em>Zatím prázdné...</em></p>
+                </div>
+
+                <a id="viewLogsLink" href="#" class="btn btn-link p-0 mt-2">Zobrazit logy</a>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- Původní Hello CouchDB sekce -->
+    <h2>Hello CouchDB</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doc in Model)
+                {
+                    <tr>
+                        <td>@doc.text</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p><strong>Databáze je prázdná</strong></p>
+    }
+
+    <form asp-controller="Hello" asp-action="Save" method="post" class="mt-3">
+        <div class="form-group">
+            <label for="text">Zadej nový text:</label>
+            <input type="text" class="form-control" id="text" name="text" />
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Uložit</button>
+    </form>
+</div>

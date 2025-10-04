@@ -1,0 +1,33 @@
+﻿@model YourProject.ViewComponents.AppInfoViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<div class="card shadow-sm p-3 mb-3">
+    <h5>@Localizer["App Info"]</h5>
+    <ul>
+        <li>@Localizer["App Version"]: <strong>@Model.AppVersion</strong></li>
+        <li>@Localizer["Last Deployment"]: <strong>@Model.DeploymentDate.ToLocalTime()</strong></li>
+        <li>@Localizer["Memory Usage"]: <strong>@Model.MemoryUsage</strong></li>
+        <li>@Localizer["CPU Usage"]: <strong>@Model.CpuUsage</strong></li>
+        <li>@Localizer["Process Count"]: <strong>@Model.ProcessCount</strong></li>
+    </ul>
+
+    <div class="mt-3 border-top pt-2">
+        <strong>@Localizer["API statuses"]:</strong>
+        @if (Model.ApiStatuses.Any())
+        {
+            <ul>
+                @foreach (var status in Model.ApiStatuses)
+                {
+                    <li>@status</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p><em>@Localizer["Coming soon..."]</em></p>
+        }
+    </div>
+
+    <a href="@Model.LogsUrl" target="_blank" class="btn btn-link">@Localizer["View Logs"]</a>
+</div>
