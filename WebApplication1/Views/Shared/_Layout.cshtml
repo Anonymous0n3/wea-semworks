@@ -26,6 +26,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+
+                    <!-- 🔽 Dropdown s widgety -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            Widgety
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="widgetMenu">
+                            <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>
+                            <li><a class="dropdown-item widget-link" data-widget="HelloWidget" href="#">Hello CouchDB</a></li>
+                            <li><a class="dropdown-item widget-link" data-widget="StatsWidget" href="#">Statistiky</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -34,6 +46,9 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div id="widgetContainer" class="mt-4">
+            @await Component.InvokeAsync("AppInfoWidget") <!-- výchozí widget -->
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -51,4 +66,35 @@
     </select>
     <script src="~/js/site.js"></script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const widgetLinks = document.querySelectorAll('.widget-link');
+        const container = document.getElementById('widgetContainer');
+
+        widgetLinks.forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const widgetName = link.getAttribute('data-widget');
+
+                try {
+                    const response = await fetch(`/Widget/Load?name=${widgetName}`);
+                    const html = await response.text();
+                    container.innerHTML = html;
+                } catch (err) {
+                    container.innerHTML = "<div class='alert alert-danger'>Nepodařilo se načíst widget.</div>";
+                }
+            });
+        });
+    });
+
+
+    function removeAppInfoWidget() {
+        const widget = document.getElementById('appInfoWidget');
+        if (widget) {
+            widget.style.transition = "opacity 0.3s ease";
+            widget.style.opacity = "0";
+            setTimeout(() => widget.remove(), 300);
+        }
+    }
+</script>
 </html>

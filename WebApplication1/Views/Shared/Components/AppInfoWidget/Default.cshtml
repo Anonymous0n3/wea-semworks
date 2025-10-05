@@ -2,7 +2,14 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
-<div class="card shadow-sm p-3 mb-3">
+<div class="card shadow-sm p-3 mb-3 position-relative" id="appInfoWidget">
+    <!-- ❌ Tlačítko pro zavření -->
+    <button type="button"
+            class="btn-close position-absolute top-0 end-0 m-2"
+            aria-label="Close"
+            onclick="removeAppInfoWidget()">
+    </button>
+
     <h5>@Localizer["App Info"]</h5>
     <ul>
         <li>@Localizer["App Version"]: <strong>@Model.AppVersion</strong></li>

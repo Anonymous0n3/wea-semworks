@@ -1,0 +1,525 @@
+2025-10-05 16:46:08.620 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 16:46:09.398 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 16:46:09.399 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 16:46:09.597 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 16:46:09.601 +02:00 [INF] Hosting environment: Development
+2025-10-05 16:46:09.616 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 16:46:14.453 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 16:46:14.827 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 16:46:14.927 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 16:46:14.952 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 16:46:15.820 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-05 16:46:15.826 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-05 16:46:15.827 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-05 16:46:15.845 +02:00 [INF] Executed ViewResult - view Index executed in 873.7867ms.
+2025-10-05 16:46:15.854 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-05 16:46:15.871 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-05 16:46:15.871 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-05 16:46:15.871 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-05 16:46:15.871 +02:00 [INF] The file /css/site.css was not modified
+2025-10-05 16:46:15.871 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-05 16:46:15.872 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 943.7852ms
+2025-10-05 16:46:15.872 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 16:46:15.873 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 16:46:15.877 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 56.9298ms
+2025-10-05 16:46:15.877 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 4.8821ms
+2025-10-05 16:46:15.877 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 22.9531ms
+2025-10-05 16:46:15.878 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-05 16:46:15.881 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 16:46:15.881 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 16:46:15.880 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 50.8083ms
+2025-10-05 16:46:15.882 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 16:46:15.882 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 4.0227ms
+2025-10-05 16:46:15.883 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 49.1842ms
+2025-10-05 16:46:15.884 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 1444.2413ms
+2025-10-05 16:46:15.912 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 31.1382ms
+2025-10-05 16:46:15.950 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-05 16:46:15.956 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-05 16:46:15.957 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 9.6048ms
+2025-10-05 16:46:16.488 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 607.0448ms
+2025-10-05 16:46:19.259 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 16:46:19.271 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:19.299 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:19.351 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 16:46:19.609 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 307.9933ms
+2025-10-05 16:46:19.610 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:19.610 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 351.1873ms
+2025-10-05 16:46:19.615 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 16:46:19.617 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:19.617 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:19.618 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 16:46:20.021 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 403.2987ms
+2025-10-05 16:46:20.021 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:20.021 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 405.7428ms
+2025-10-05 16:46:20.282 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-05 16:46:20.283 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:20.283 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:20.283 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-05 16:46:20.333 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 50.2672ms
+2025-10-05 16:46:20.345 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:20.373 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-05 16:46:20.495 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 211.7255ms
+2025-10-05 16:46:20.514 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-05 16:46:20.518 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:20.518 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:20.519 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-05 16:46:20.561 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 42.1385ms
+2025-10-05 16:46:20.568 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:20.588 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-05 16:46:20.590 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 76.1697ms
+2025-10-05 16:46:21.221 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 16:46:21.222 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:21.228 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:21.228 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 16:46:21.470 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 241.7317ms
+2025-10-05 16:46:21.470 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:21.470 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 249.1688ms
+2025-10-05 16:46:21.477 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 16:46:21.479 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:21.482 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 16:46:21.483 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 16:46:21.671 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 184.9626ms
+2025-10-05 16:46:21.671 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 16:46:21.673 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 195.4527ms
+2025-10-05 16:46:23.083 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/logs - null null
+2025-10-05 16:46:23.186 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/logs - 404 0 null 104.0242ms
+2025-10-05 16:46:23.190 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/logs, Response status code: 404
+2025-10-05 17:00:58.620 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:00:58.892 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:00:58.893 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:00:58.945 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:00:58.945 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:00:58.945 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:00:59.567 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:00:59.710 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:00:59.756 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:00:59.769 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:01:00.110 +02:00 [INF] Executed ViewResult - view Index executed in 341.7971ms.
+2025-10-05 17:01:00.115 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 357.3445ms
+2025-10-05 17:01:00.115 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:01:00.121 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 563.9721ms
+2025-10-05 17:01:00.134 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:01:00.134 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:01:00.144 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 9.0248ms
+2025-10-05 17:01:00.185 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 51.6155ms
+2025-10-05 17:01:23.001 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:23.011 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:23.017 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:23.029 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:23.106 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 89.2432ms
+2025-10-05 17:01:23.106 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:23.107 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 106.9138ms
+2025-10-05 17:01:23.108 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:23.110 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:23.110 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:23.111 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:23.168 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 57.9178ms
+2025-10-05 17:01:23.168 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:23.168 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 60.4582ms
+2025-10-05 17:01:35.616 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:35.618 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:35.618 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:35.619 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:35.714 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 95.5604ms
+2025-10-05 17:01:35.714 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:35.714 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 99.6887ms
+2025-10-05 17:01:35.718 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:35.719 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:35.722 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:35.724 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:35.791 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 68.0781ms
+2025-10-05 17:01:35.791 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:35.791 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 74.3926ms
+2025-10-05 17:01:36.347 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:36.348 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:36.348 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:36.349 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:36.424 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 74.802ms
+2025-10-05 17:01:36.424 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:36.424 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 77.186ms
+2025-10-05 17:01:36.427 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:36.427 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:36.427 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:36.427 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:36.491 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 64.0259ms
+2025-10-05 17:01:36.491 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:36.491 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 65.4402ms
+2025-10-05 17:01:37.158 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:37.159 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:37.159 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:37.160 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:37.234 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 74.6511ms
+2025-10-05 17:01:37.234 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:37.234 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 76.5927ms
+2025-10-05 17:01:37.236 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:01:37.236 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:37.236 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:01:37.237 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:01:37.299 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 62.2108ms
+2025-10-05 17:01:37.299 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:01:37.299 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 63.9142ms
+2025-10-05 17:05:04.702 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:05:04.940 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:05:04.941 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:05:04.992 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:05:04.993 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:05:04.993 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:05:05.667 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:05:05.809 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:05:05.837 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:05:05.845 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:05:06.156 +02:00 [INF] Executed ViewResult - view Index executed in 311.3356ms.
+2025-10-05 17:05:06.160 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 321.8341ms
+2025-10-05 17:05:06.161 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:05:06.168 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 516.007ms
+2025-10-05 17:05:06.177 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:05:06.177 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:05:06.182 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 5.2726ms
+2025-10-05 17:05:06.220 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 43.0227ms
+2025-10-05 17:06:06.229 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:06:06.465 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:06:06.466 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:06:06.527 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:06:06.527 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:06:06.528 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:06:07.185 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:06:07.388 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:06:07.424 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:06:07.437 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:06:07.718 +02:00 [INF] Executed ViewResult - view Index executed in 284.1634ms.
+2025-10-05 17:06:07.722 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 296.6702ms
+2025-10-05 17:06:07.722 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:06:07.729 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 557.9301ms
+2025-10-05 17:06:07.737 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:06:07.737 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:06:07.746 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 9.1909ms
+2025-10-05 17:06:07.779 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 41.9921ms
+2025-10-05 17:06:22.501 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/logs - null null
+2025-10-05 17:06:22.510 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/logs - 404 0 null 9.0649ms
+2025-10-05 17:06:22.511 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/logs, Response status code: 404
+2025-10-05 17:11:16.679 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:11:17.004 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:11:17.005 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:11:17.076 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:11:17.076 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:11:17.076 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:11:18.265 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:11:18.484 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:11:18.529 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:11:18.538 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:11:18.902 +02:00 [INF] Executed ViewResult - view Index executed in 362.2375ms.
+2025-10-05 17:11:18.911 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 381.116ms
+2025-10-05 17:11:18.912 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:11:18.918 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:11:18.918 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:11:18.928 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 9.4432ms
+2025-10-05 17:11:18.929 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 677.7121ms
+2025-10-05 17:11:19.021 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 102.6608ms
+2025-10-05 17:11:23.232 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:11:23.240 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:23.250 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:11:23.265 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:11:23.343 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 93.0901ms
+2025-10-05 17:11:23.343 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:23.343 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 111.3589ms
+2025-10-05 17:11:23.346 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:11:23.347 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:23.348 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:11:23.349 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:11:23.413 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 65.287ms
+2025-10-05 17:11:23.413 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:23.413 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 68.1123ms
+2025-10-05 17:11:31.555 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:11:31.557 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:31.557 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:11:31.557 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:11:31.628 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 71.298ms
+2025-10-05 17:11:31.628 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:31.629 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 73.9565ms
+2025-10-05 17:11:31.631 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:11:31.632 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:31.632 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:11:31.632 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:11:31.699 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 67.4662ms
+2025-10-05 17:11:31.699 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:11:31.700 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 69.29ms
+2025-10-05 17:11:34.521 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:11:34.528 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:11:34.528 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:11:34.528 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:11:34.634 +02:00 [INF] Executed ViewResult - view Index executed in 106.3255ms.
+2025-10-05 17:11:34.635 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 107.1199ms
+2025-10-05 17:11:34.635 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:11:34.636 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 115.2543ms
+2025-10-05 17:11:34.656 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:11:34.657 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:11:34.660 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 3.055ms
+2025-10-05 17:11:34.699 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 42.7343ms
+2025-10-05 17:11:34.758 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/favicon.ico - null null
+2025-10-05 17:11:34.780 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\favicon.ico'
+2025-10-05 17:11:34.780 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/favicon.ico - 200 5430 image/x-icon 22.1477ms
+2025-10-05 17:13:05.524 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:13:05.751 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:13:05.751 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:13:05.812 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:13:05.813 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:13:05.813 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:13:06.591 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:13:06.745 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:13:06.776 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:13:06.785 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:13:07.115 +02:00 [INF] Executed ViewResult - view Index executed in 332.4462ms.
+2025-10-05 17:13:07.120 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 343.0896ms
+2025-10-05 17:13:07.121 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:13:07.128 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 547.0672ms
+2025-10-05 17:13:07.140 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:13:07.140 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:13:07.145 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 6.1028ms
+2025-10-05 17:13:07.180 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.7537ms
+2025-10-05 17:13:16.406 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:13:16.414 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:13:16.426 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:13:16.440 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:13:16.518 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 92.3061ms
+2025-10-05 17:13:16.518 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:13:16.519 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 113.3888ms
+2025-10-05 17:13:16.520 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:13:16.522 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:13:16.522 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:13:16.523 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:13:16.584 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 61.7687ms
+2025-10-05 17:13:16.584 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:13:16.584 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 64.505ms
+2025-10-05 17:15:32.629 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:15:32.873 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:15:32.874 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:15:32.933 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:15:32.934 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:15:32.934 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:15:33.821 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:15:33.959 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:15:33.989 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:15:34.007 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:15:34.301 +02:00 [INF] Executed ViewResult - view Index executed in 300.9051ms.
+2025-10-05 17:15:34.307 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 315.6102ms
+2025-10-05 17:15:34.307 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:15:34.314 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 502.2078ms
+2025-10-05 17:15:34.321 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:15:34.322 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:15:34.328 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 6.4521ms
+2025-10-05 17:15:34.367 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.9454ms
+2025-10-05 17:15:41.621 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:15:41.629 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:15:41.641 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:15:41.659 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:15:41.745 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 103.3459ms
+2025-10-05 17:15:41.745 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:15:41.745 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 124.1164ms
+2025-10-05 17:15:41.747 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:15:41.749 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:15:41.749 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:15:41.750 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:15:41.809 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 60.1172ms
+2025-10-05 17:15:41.809 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:15:41.809 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 62.9765ms
+2025-10-05 17:37:17.479 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:37:17.997 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:37:17.998 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:37:18.106 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:37:18.107 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:37:18.107 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:37:19.305 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:37:19.751 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:37:19.856 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:37:19.876 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:37:20.618 +02:00 [INF] Executed ViewResult - view Index executed in 744.7368ms.
+2025-10-05 17:37:20.635 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 774.4153ms
+2025-10-05 17:37:20.637 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:37:20.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 1366.4466ms
+2025-10-05 17:37:20.730 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:37:20.733 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:37:20.746 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 16.3213ms
+2025-10-05 17:37:21.004 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 270.6985ms
+2025-10-05 17:37:34.280 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:37:34.307 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:34.321 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:37:34.355 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:37:34.475 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 152.1893ms
+2025-10-05 17:37:34.475 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:34.475 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 195.4145ms
+2025-10-05 17:37:34.478 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:37:34.480 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:34.481 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:37:34.481 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:37:34.619 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 138.0344ms
+2025-10-05 17:37:34.619 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:34.619 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 142.1171ms
+2025-10-05 17:37:37.396 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:37:37.397 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:37.397 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:37:37.397 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:37:37.568 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 171.2471ms
+2025-10-05 17:37:37.568 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:37.568 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 172.4957ms
+2025-10-05 17:37:37.582 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:37:37.583 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:37.583 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:37:37.583 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:37:37.688 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 104.5894ms
+2025-10-05 17:37:37.688 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:37:37.688 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 105.6744ms
+2025-10-05 17:39:07.732 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 17:39:08.113 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 17:39:08.113 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 17:39:08.196 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 17:39:08.197 +02:00 [INF] Hosting environment: Development
+2025-10-05 17:39:08.197 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 17:39:09.124 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 17:39:09.410 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:39:09.470 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 17:39:09.484 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 17:39:10.179 +02:00 [INF] Executed ViewResult - view Index executed in 698.7639ms.
+2025-10-05 17:39:10.183 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 712.2203ms
+2025-10-05 17:39:10.184 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 17:39:10.190 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 1076.0099ms
+2025-10-05 17:39:10.249 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 17:39:10.249 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 17:39:10.265 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 13.0553ms
+2025-10-05 17:39:10.488 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 239.646ms
+2025-10-05 17:39:17.872 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:39:17.895 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:39:17.928 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:39:17.970 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:39:18.116 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 187.1434ms
+2025-10-05 17:39:18.116 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:39:18.116 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 244.299ms
+2025-10-05 17:39:18.130 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 17:39:18.132 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:39:18.132 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 17:39:18.133 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 17:39:18.265 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 132.5588ms
+2025-10-05 17:39:18.265 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 17:39:18.266 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 135.7556ms
+2025-10-05 19:20:00.040 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 19:20:00.337 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 19:20:00.338 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 19:20:00.389 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 19:20:00.390 +02:00 [INF] Hosting environment: Development
+2025-10-05 19:20:00.390 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-05 19:20:01.161 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 19:20:01.376 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 19:20:01.430 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 19:20:01.440 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 19:20:01.838 +02:00 [INF] Executed ViewResult - view Index executed in 393.3849ms.
+2025-10-05 19:20:01.843 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 411.8496ms
+2025-10-05 19:20:01.843 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 19:20:01.852 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 19:20:01.852 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-05 19:20:01.852 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-05 19:20:01.853 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 719.2776ms
+2025-10-05 19:20:01.852 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-05 19:20:01.858 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-05 19:20:01.868 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-05 19:20:01.872 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 20.5556ms
+2025-10-05 19:20:01.875 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-05 19:20:01.876 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 19:20:01.878 +02:00 [INF] The file /css/site.css was not modified
+2025-10-05 19:20:01.878 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 19:20:01.878 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 19:20:01.878 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-05 19:20:01.878 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-05 19:20:01.879 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-05 19:20:01.880 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 21.0554ms
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 34.5998ms
+2025-10-05 19:20:01.887 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 7.7094ms
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 35.5903ms
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 34.5914ms
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 11.7135ms
+2025-10-05 19:20:01.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 34.9561ms
+2025-10-05 19:20:01.941 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 65.7396ms
+2025-10-05 19:20:12.090 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:12.093 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:12.103 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:12.121 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:12.207 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 104.0541ms
+2025-10-05 19:20:12.207 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:12.207 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 117.7769ms
+2025-10-05 19:20:12.209 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:12.210 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:12.210 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:12.211 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:12.277 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 66.8832ms
+2025-10-05 19:20:12.277 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:12.278 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 69.2817ms
+2025-10-05 19:20:23.666 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:23.667 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:23.667 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:23.667 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:23.753 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 85.7467ms
+2025-10-05 19:20:23.753 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:23.753 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 88.1448ms
+2025-10-05 19:20:23.755 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:23.756 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:23.756 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:23.756 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:23.834 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 78.3561ms
+2025-10-05 19:20:23.834 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:23.834 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 79.8113ms
+2025-10-05 19:20:32.019 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:32.019 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:32.019 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:32.019 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:32.104 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 84.2392ms
+2025-10-05 19:20:32.104 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:32.104 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 85.3471ms
+2025-10-05 19:20:32.105 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-05 19:20:32.106 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:32.106 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-05 19:20:32.106 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-05 19:20:32.174 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 67.5967ms
+2025-10-05 19:20:32.174 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-05 19:20:32.174 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 69.6488ms

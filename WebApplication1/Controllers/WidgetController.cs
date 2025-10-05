@@ -1,27 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WidgetsDemo.Models;
-using WidgetsDemo.Services;
 
-namespace WidgetsDemo.Controllers
+namespace WebApplication1.Controllers
 {
     public class WidgetController : Controller
     {
-        private readonly SystemMetricsService _metricsService;
-
-        public WidgetController(SystemMetricsService metricsService)
+        public IActionResult Load(string name)
         {
-            _metricsService = metricsService;
-        }
+            if (string.IsNullOrEmpty(name))
+                return Content("Widget name not provided");
 
-        public IActionResult AppInfo()
-        {
-            var model = new AppInfoModel
-            {
-                CpuUsage = _metricsService.GetCpuUsage(),
-                MemoryUsageMB = _metricsService.GetMemoryUsageMB(),
-                ProcessCount = _metricsService.GetProcessCount(),
-            };
-            return PartialView("~/Views/Widgets/_AppInfoWidget.cshtml", model);
+            return ViewComponent(name);
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿@model List<WebApplication1.Models.HelloDoc>
 
-@await Component.InvokeAsync("AppInfoWidget")
-
-@{
-    ViewData["Title"] = "Dashboard";
-}
-
 <div class="container mt-4">
 
     <!-- Jazykový přepínač -->
@@ -17,6 +11,18 @@
     </div>
 
     <hr class="my-4" />
+
+    <!-- 🔽 Kontejner pro widgety -->
+    <div id="widgetContainer" class="mb-4">
+        <!-- sem se dynamicky načte AppInfoWidget nebo jiné -->
+    </div>
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-4">
 
     <!-- Původní Hello CouchDB sekce -->
     <h2>Hello CouchDB</h2>
@@ -52,3 +58,39 @@
         <button type="submit" class="btn btn-primary mt-2">Uložit</button>
     </form>
 </div>
+
+
+    @section Scripts {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const widgetLinks = document.querySelectorAll('.widget-link');
+                const container = document.getElementById('widgetContainer');
+
+                widgetLinks.forEach(link => {
+                    link.addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        const widgetName = link.getAttribute('data-widget');
+
+                        try {
+                            const response = await fetch(`/Widget/Load?name=${widgetName}`);
+                            const html = await response.text();
+                            container.innerHTML = html;
+                        } catch (err) {
+                            container.innerHTML = "<div class='alert alert-danger'>Nepodařilo se načíst widget.</div>";
+                        }
+                    });
+                });
+
+                // 🔄 Jazykový přepínač
+                const langSelect = document.getElementById('langSelect');
+                const savedLang = localStorage.getItem('lang');
+                const browserLang = navigator.language.startsWith('en') ? 'en' : 'cs';
+                langSelect.value = savedLang || browserLang;
+
+                langSelect.addEventListener('change', () => {
+                    localStorage.setItem('lang', langSelect.value);
+                    location.reload();
+                });
+            });
+        </script>
+    }

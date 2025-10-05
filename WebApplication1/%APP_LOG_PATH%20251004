@@ -1,0 +1,1234 @@
+2025-10-04 18:36:16.592 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:36:16.925 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:36:16.925 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:36:16.985 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:36:16.985 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:36:16.986 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:36:18.126 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:36:18.329 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:36:18.381 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:36:18.397 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:36:19.016 +02:00 [INF] Executed ViewResult - view Index executed in 622.6379ms.
+2025-10-04 18:36:19.023 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 640.9689ms
+2025-10-04 18:36:19.023 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:36:19.030 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 917.2485ms
+2025-10-04 18:36:19.042 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 18:36:19.042 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 18:36:19.042 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 18:36:19.042 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 18:36:19.055 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 18:36:19.060 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 18:36:19.076 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 18:36:19.080 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:36:19.090 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:36:19.108 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 28.1522ms
+2025-10-04 18:36:19.114 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-04 18:36:19.114 +02:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\css\site.css'
+2025-10-04 18:36:19.115 +02:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-04 18:36:19.115 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-04 18:36:19.115 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 72.4447ms
+2025-10-04 18:36:19.115 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 200 875 text/javascript 45.706ms
+2025-10-04 18:36:19.115 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 200 875 text/javascript 59.5039ms
+2025-10-04 18:36:19.115 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 200 362 text/css 72.4453ms
+2025-10-04 18:36:19.116 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-10-04 18:36:19.116 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78474 text/javascript 59.8639ms
+2025-10-04 18:36:19.130 +02:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-10-04 18:36:19.131 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 200 89503 text/javascript 88.3173ms
+2025-10-04 18:36:19.133 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-10-04 18:36:19.134 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 200 162726 text/css 91.1567ms
+2025-10-04 18:36:19.193 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 103.648ms
+2025-10-04 18:37:50.213 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:37:50.482 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:37:50.483 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:37:50.540 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:37:50.541 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:37:50.541 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:37:51.364 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:37:51.518 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:37:51.545 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:37:51.553 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:37:51.879 +02:00 [INF] Executed ViewResult - view Index executed in 326.4652ms.
+2025-10-04 18:37:51.884 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 338.3296ms
+2025-10-04 18:37:51.885 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:37:51.892 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 539.9485ms
+2025-10-04 18:37:51.907 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:37:51.909 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:37:51.915 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 7.8775ms
+2025-10-04 18:37:52.013 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 103.9531ms
+2025-10-04 18:38:43.120 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:38:43.403 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:38:43.403 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:38:43.459 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:38:43.459 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:38:43.459 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:38:44.248 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:38:44.405 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:38:44.441 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:38:44.449 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:38:44.736 +02:00 [INF] Executed ViewResult - view Index executed in 285.4138ms.
+2025-10-04 18:38:44.743 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 301.6213ms
+2025-10-04 18:38:44.744 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:38:44.752 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 514.1856ms
+2025-10-04 18:38:44.763 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:38:44.763 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:38:44.768 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 5.5807ms
+2025-10-04 18:38:44.811 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 47.8386ms
+2025-10-04 18:39:03.083 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:39:03.092 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:03.092 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:03.093 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:39:03.208 +02:00 [INF] Executed ViewResult - view Index executed in 115.564ms.
+2025-10-04 18:39:03.209 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 116.8389ms
+2025-10-04 18:39:03.210 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:03.210 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 126.9335ms
+2025-10-04 18:39:03.234 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:03.235 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:03.245 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 5.219ms
+2025-10-04 18:39:03.270 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.8847ms
+2025-10-04 18:39:04.021 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:39:04.025 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.026 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:04.026 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:39:04.138 +02:00 [INF] Executed ViewResult - view Index executed in 111.8932ms.
+2025-10-04 18:39:04.138 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 112.6549ms
+2025-10-04 18:39:04.139 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.140 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 118.9436ms
+2025-10-04 18:39:04.160 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:04.163 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:04.165 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 2.0563ms
+2025-10-04 18:39:04.189 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 29.4228ms
+2025-10-04 18:39:04.370 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:39:04.374 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.375 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:04.375 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:39:04.493 +02:00 [INF] Executed ViewResult - view Index executed in 118.1472ms.
+2025-10-04 18:39:04.494 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 118.8273ms
+2025-10-04 18:39:04.494 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.494 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 124.019ms
+2025-10-04 18:39:04.530 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:04.534 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:04.539 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 5.472ms
+2025-10-04 18:39:04.550 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 20.3354ms
+2025-10-04 18:39:04.694 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:39:04.696 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.696 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:04.696 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:39:04.801 +02:00 [INF] Executed ViewResult - view Index executed in 104.6671ms.
+2025-10-04 18:39:04.801 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 105.1929ms
+2025-10-04 18:39:04.801 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:04.802 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 108.653ms
+2025-10-04 18:39:04.825 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:04.832 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:04.833 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 1.3195ms
+2025-10-04 18:39:04.848 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.0972ms
+2025-10-04 18:39:05.915 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Home/Privacy - null null
+2025-10-04 18:39:05.926 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Privacy (WebApplication1)'
+2025-10-04 18:39:05.929 +02:00 [INF] Route matched with {action = "Privacy", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Privacy() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:05.930 +02:00 [INF] Executing ViewResult, running view Privacy.
+2025-10-04 18:39:05.934 +02:00 [INF] Executed ViewResult - view Privacy executed in 5.0413ms.
+2025-10-04 18:39:05.934 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Privacy (WebApplication1) in 5.3826ms
+2025-10-04 18:39:05.935 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Privacy (WebApplication1)'
+2025-10-04 18:39:05.935 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Home/Privacy - 200 null text/html; charset=utf-8 19.4227ms
+2025-10-04 18:39:05.975 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:05.975 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:05.977 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 1.9796ms
+2025-10-04 18:39:06.001 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 26.0228ms
+2025-10-04 18:39:07.379 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:39:07.387 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:07.387 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:39:07.387 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:39:07.499 +02:00 [INF] Executed ViewResult - view Index executed in 111.7909ms.
+2025-10-04 18:39:07.500 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 112.4008ms
+2025-10-04 18:39:07.500 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:39:07.500 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 120.7411ms
+2025-10-04 18:39:07.524 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:39:07.524 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:39:07.525 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 1.2792ms
+2025-10-04 18:39:07.546 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 22.6902ms
+2025-10-04 18:40:35.149 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:40:35.447 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:40:35.448 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:40:35.511 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:40:35.511 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:40:35.511 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:40:36.367 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:40:36.515 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:40:36.554 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:40:36.563 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:40:36.882 +02:00 [INF] Executed ViewResult - view Index executed in 317.1102ms.
+2025-10-04 18:40:36.888 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 333.5406ms
+2025-10-04 18:40:36.889 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:40:36.906 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 18:40:36.906 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 18:40:36.906 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 18:40:36.907 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 18:40:36.907 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 18:40:36.916 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:40:36.921 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 552.2094ms
+2025-10-04 18:40:36.924 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 18:40:36.932 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 18:40:36.934 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:40:36.934 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-04 18:40:36.934 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-04 18:40:36.934 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-04 18:40:36.935 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:40:36.935 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 18:40:36.935 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:40:36.936 +02:00 [INF] The file /css/site.css was not modified
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 29.0343ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 29.9891ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 11.6739ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 4.4809ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 30.5623ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 29.7727ms
+2025-10-04 18:40:36.936 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 30.7963ms
+2025-10-04 18:40:36.939 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 22.4335ms
+2025-10-04 18:40:36.996 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 61.9227ms
+2025-10-04 18:40:47.927 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/logs - null null
+2025-10-04 18:40:47.942 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/logs - 404 0 null 15.2212ms
+2025-10-04 18:40:47.943 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/logs, Response status code: 404
+2025-10-04 18:42:06.299 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:42:06.607 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:42:06.608 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:42:06.673 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:42:06.674 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:42:06.674 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:42:07.240 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:42:07.410 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:42:07.441 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:42:07.451 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:42:07.936 +02:00 [INF] Executed ViewResult - view Index executed in 478.3966ms.
+2025-10-04 18:42:07.939 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:42:07.945 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 502.9791ms
+2025-10-04 18:42:07.946 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:42:07.947 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:42:07.950 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 9.934ms
+2025-10-04 18:42:08.036 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 809.3667ms
+2025-10-04 18:42:08.076 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 132.9946ms
+2025-10-04 18:42:38.749 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:42:39.037 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:42:39.038 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:42:39.095 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:42:39.095 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:42:39.095 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:42:39.794 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:42:39.939 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:42:39.974 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:42:39.982 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:42:40.385 +02:00 [INF] Executed ViewResult - view Index executed in 401.4355ms.
+2025-10-04 18:42:40.391 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 416.7789ms
+2025-10-04 18:42:40.392 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:42:40.402 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 618.0281ms
+2025-10-04 18:42:40.410 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:42:40.410 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:42:40.417 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 6.4129ms
+2025-10-04 18:42:40.454 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 43.798ms
+2025-10-04 18:43:55.694 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:43:56.027 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:43:56.028 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:43:56.090 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:43:56.091 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:43:56.091 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:43:56.719 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:43:56.894 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:43:56.929 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:43:56.941 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:43:57.260 +02:00 [INF] Executed ViewResult - view Index executed in 320.1589ms.
+2025-10-04 18:43:57.265 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 335.4595ms
+2025-10-04 18:43:57.266 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:43:57.276 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 565.3087ms
+2025-10-04 18:43:57.289 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:43:57.289 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:43:57.295 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 6.196ms
+2025-10-04 18:43:57.334 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.8846ms
+2025-10-04 18:46:39.120 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:46:39.402 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:46:39.403 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:46:39.481 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:46:39.482 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:46:39.482 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:46:39.895 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:46:40.072 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:46:40.108 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:46:40.120 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:46:40.606 +02:00 [INF] Executed ViewResult - view Index executed in 481.2511ms.
+2025-10-04 18:46:40.610 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 501.8132ms
+2025-10-04 18:46:40.611 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:46:40.617 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 736.6066ms
+2025-10-04 18:46:40.624 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 18:46:40.624 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 18:46:40.624 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 18:46:40.625 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 18:46:40.625 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 18:46:40.625 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 18:46:40.627 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 18:46:40.636 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:46:40.643 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:46:40.647 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-04 18:46:40.647 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:46:40.647 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-04 18:46:40.647 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-04 18:46:40.648 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:46:40.648 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 18:46:40.648 +02:00 [INF] The file /css/site.css was not modified
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 24.9001ms
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 23.1307ms
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 23.4773ms
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 23.517ms
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 24.7771ms
+2025-10-04 18:46:40.648 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 23.5347ms
+2025-10-04 18:46:40.649 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 25.1228ms
+2025-10-04 18:46:40.657 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 20.9564ms
+2025-10-04 18:46:40.700 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 56.4851ms
+2025-10-04 18:46:42.853 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 18:46:42.858 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 404 0 null 5.5344ms
+2025-10-04 18:46:42.859 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/Widget/Load, Response status code: 404
+2025-10-04 18:46:44.350 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 18:46:44.351 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 404 0 null 1.4764ms
+2025-10-04 18:46:44.352 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/Widget/Load, Response status code: 404
+2025-10-04 18:46:45.995 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 18:46:45.996 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 404 0 null 0.9741ms
+2025-10-04 18:46:45.996 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/Widget/Load, Response status code: 404
+2025-10-04 18:52:18.469 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:52:18.782 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:52:18.783 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:52:18.838 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:52:18.838 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:52:18.838 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:52:19.503 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:52:19.674 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:52:19.706 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:52:19.718 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:52:20.208 +02:00 [INF] Executed ViewResult - view Index executed in 491.6482ms.
+2025-10-04 18:52:20.213 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 505.8712ms
+2025-10-04 18:52:20.214 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:52:20.223 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 734.5771ms
+2025-10-04 18:52:20.230 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 18:52:20.231 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 18:52:20.231 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 18:52:20.231 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 18:52:20.233 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 18:52:20.271 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 18:52:20.273 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 18:52:20.278 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-04 18:52:20.278 +02:00 [INF] The file /css/site.css was not modified
+2025-10-04 18:52:20.278 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:52:20.278 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-04 18:52:20.278 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:52:20.278 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 18:52:20.279 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 18:52:20.279 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 52.0956ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 52.9122ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 52.9054ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 12.5446ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 51.0573ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 53.6949ms
+2025-10-04 18:52:20.284 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 11.4684ms
+2025-10-04 18:52:20.289 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 11.2284ms
+2025-10-04 18:52:20.328 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.7525ms
+2025-10-04 18:52:23.185 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 18:52:23.190 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:23.200 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 18:52:23.218 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 18:52:23.318 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 117.6365ms
+2025-10-04 18:52:23.318 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:23.318 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 133.2427ms
+2025-10-04 18:52:24.334 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 18:52:24.338 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:24.338 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 18:52:24.339 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 18:52:24.367 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 28.6861ms
+2025-10-04 18:52:24.369 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:24.373 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 18:52:24.394 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 59.491ms
+2025-10-04 18:52:25.913 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 18:52:25.914 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:25.914 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 18:52:25.915 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 18:52:25.919 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 5.0143ms
+2025-10-04 18:52:25.921 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 18:52:25.922 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 18:52:25.925 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 11.9402ms
+2025-10-04 18:56:12.371 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 18:56:12.690 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 18:56:12.691 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 18:56:12.795 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 18:56:12.796 +02:00 [INF] Hosting environment: Development
+2025-10-04 18:56:12.796 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 18:56:13.719 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 18:56:14.042 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:56:14.087 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 18:56:14.103 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 18:56:14.734 +02:00 [INF] Executed ViewResult - view Index executed in 632.9989ms.
+2025-10-04 18:56:14.739 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 650.7959ms
+2025-10-04 18:56:14.740 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 18:56:14.749 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 1048.0797ms
+2025-10-04 18:56:14.759 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 18:56:14.759 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 18:56:14.766 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 9.7424ms
+2025-10-04 18:56:14.825 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 65.7334ms
+2025-10-04 19:04:10.246 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 19:04:10.503 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 19:04:10.503 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 19:04:10.560 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 19:04:10.560 +02:00 [INF] Hosting environment: Development
+2025-10-04 19:04:10.560 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 19:04:10.997 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 19:04:11.146 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:04:11.178 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 19:04:11.186 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 19:04:11.502 +02:00 [INF] Executed ViewResult - view Index executed in 314.0905ms.
+2025-10-04 19:04:11.509 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 329.3697ms
+2025-10-04 19:04:11.509 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:04:11.516 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 530.3104ms
+2025-10-04 19:04:11.525 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 19:04:11.525 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 19:04:11.525 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 19:04:11.525 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 19:04:11.525 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 19:04:11.533 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 19:04:11.547 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 19:04:11.552 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 19:04:11.593 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 19:04:11.594 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 19:04:11.594 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 19:04:11.594 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 19:04:11.594 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-04 19:04:11.595 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-04 19:04:11.595 +02:00 [INF] The file /css/site.css was not modified
+2025-10-04 19:04:11.595 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 71.1336ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 62.401ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 45.0152ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 70.5067ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 70.3242ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 54.5848ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 71.0658ms
+2025-10-04 19:04:11.596 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 71.1336ms
+2025-10-04 19:04:11.635 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 41.8843ms
+2025-10-04 19:04:16.623 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:04:16.628 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:16.640 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:16.660 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:04:16.754 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 114.2951ms
+2025-10-04 19:04:16.754 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:16.755 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 132.6178ms
+2025-10-04 19:04:16.758 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:04:16.759 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:16.759 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:16.760 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:04:16.836 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 76.6738ms
+2025-10-04 19:04:16.836 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:16.836 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 78.9094ms
+2025-10-04 19:04:18.843 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:04:18.844 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:18.844 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:18.845 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:04:18.850 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 5.7349ms
+2025-10-04 19:04:18.851 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:18.856 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:04:18.878 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 35.0277ms
+2025-10-04 19:04:18.882 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:04:18.883 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:18.883 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:18.883 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:04:18.885 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.7593ms
+2025-10-04 19:04:18.885 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:18.886 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:04:18.887 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 5.5212ms
+2025-10-04 19:04:20.914 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:04:20.915 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:20.916 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:20.916 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:04:20.918 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 2.238ms
+2025-10-04 19:04:20.919 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:20.919 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:04:20.921 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 7.0555ms
+2025-10-04 19:04:20.924 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:04:20.925 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:20.925 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:04:20.926 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:04:20.927 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.4495ms
+2025-10-04 19:04:20.927 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:04:20.928 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:04:20.930 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.7459ms
+2025-10-04 19:06:28.096 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:06:28.103 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:28.103 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:28.105 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:06:28.188 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 83.7709ms
+2025-10-04 19:06:28.188 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:28.189 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 95.0208ms
+2025-10-04 19:06:28.194 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:06:28.196 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:28.196 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:28.197 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:06:28.269 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 72.6225ms
+2025-10-04 19:06:28.269 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:28.269 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 74.9754ms
+2025-10-04 19:06:30.172 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:30.173 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:30.173 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:30.173 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:30.175 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.5294ms
+2025-10-04 19:06:30.175 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:30.176 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:30.179 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 7.259ms
+2025-10-04 19:06:30.183 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:30.184 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:30.184 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:30.184 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:30.186 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.6857ms
+2025-10-04 19:06:30.186 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:30.187 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:30.188 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 6.049ms
+2025-10-04 19:06:33.339 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:06:33.340 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:33.340 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:33.340 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:06:33.341 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.4273ms
+2025-10-04 19:06:33.342 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:33.344 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:33.345 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.4874ms
+2025-10-04 19:06:33.348 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:06:33.349 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:33.349 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:33.349 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:06:33.351 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.9004ms
+2025-10-04 19:06:33.351 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:33.352 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:33.354 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.8968ms
+2025-10-04 19:06:35.299 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:35.300 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:35.300 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:35.300 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:35.303 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 3.0085ms
+2025-10-04 19:06:35.303 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:35.304 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:35.305 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 6.5302ms
+2025-10-04 19:06:35.310 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:35.311 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:35.311 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:35.311 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:35.312 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.3658ms
+2025-10-04 19:06:35.313 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:35.313 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:35.316 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 6.4126ms
+2025-10-04 19:06:37.630 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:37.631 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:37.631 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:37.631 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:37.632 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.4101ms
+2025-10-04 19:06:37.632 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:37.633 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:37.636 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 6.1766ms
+2025-10-04 19:06:37.639 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:37.639 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:37.639 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:37.640 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:37.641 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.7033ms
+2025-10-04 19:06:37.642 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:37.643 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:37.645 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 7.1442ms
+2025-10-04 19:06:39.511 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:06:39.512 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:39.512 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:39.512 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:06:39.514 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.7009ms
+2025-10-04 19:06:39.514 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:39.515 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:39.517 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.3172ms
+2025-10-04 19:06:39.520 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:06:39.521 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:39.521 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:39.522 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:06:39.523 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.4276ms
+2025-10-04 19:06:39.523 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:39.524 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:39.526 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.169ms
+2025-10-04 19:06:42.256 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:42.256 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:42.256 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:42.257 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:42.258 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.0505ms
+2025-10-04 19:06:42.258 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:42.258 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:42.260 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 3.9047ms
+2025-10-04 19:06:42.272 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:06:42.272 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:42.273 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:42.275 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:06:42.284 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 9.342ms
+2025-10-04 19:06:42.284 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:42.285 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:06:42.285 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 24.5901ms
+2025-10-04 19:06:45.826 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:06:45.826 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:45.830 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:45.832 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:06:45.941 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 109.6266ms
+2025-10-04 19:06:45.941 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:45.941 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 116.0909ms
+2025-10-04 19:06:45.943 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:06:45.943 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:45.944 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:06:45.944 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:06:46.029 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 85.3603ms
+2025-10-04 19:06:46.029 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:06:46.029 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 86.3065ms
+2025-10-04 19:10:47.742 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 19:10:48.066 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 19:10:48.067 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 19:10:48.128 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 19:10:48.129 +02:00 [INF] Hosting environment: Development
+2025-10-04 19:10:48.129 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 19:10:48.684 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 19:10:48.842 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:10:48.875 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 19:10:48.889 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 19:10:49.241 +02:00 [INF] Executed ViewResult - view Index executed in 356.8442ms.
+2025-10-04 19:10:49.245 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 369.0259ms
+2025-10-04 19:10:49.246 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:10:49.253 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 579.5208ms
+2025-10-04 19:10:49.266 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 19:10:49.266 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 19:10:49.273 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 19:10:49.280 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 13.9579ms
+2025-10-04 19:10:49.293 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 19:10:49.295 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 29.2803ms
+2025-10-04 19:10:49.328 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 55.935ms
+2025-10-04 19:12:12.431 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:12:12.449 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:12.466 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:12:12.485 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:12:12.487 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 21.0542ms
+2025-10-04 19:12:12.488 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:12.492 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:12:12.508 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 76.9135ms
+2025-10-04 19:12:12.510 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:12:12.512 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:12.512 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:12:12.513 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:12:12.514 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.9198ms
+2025-10-04 19:12:12.514 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:12.515 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:12:12.517 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 7.1187ms
+2025-10-04 19:12:13.586 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:12:13.588 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:13.588 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:12:13.589 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:12:13.682 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 92.8647ms
+2025-10-04 19:12:13.682 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:13.682 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 96.6227ms
+2025-10-04 19:12:13.683 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:12:13.684 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:13.684 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:12:13.685 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:12:13.762 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 77.8707ms
+2025-10-04 19:12:13.762 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:12:13.763 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 79.6863ms
+2025-10-04 19:18:35.655 +02:00 [INF] User profile is available. Using 'C:\Users\hofmi\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-04 19:18:35.927 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-04 19:18:35.928 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-04 19:18:35.993 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-04 19:18:35.993 +02:00 [INF] Hosting environment: Development
+2025-10-04 19:18:35.993 +02:00 [INF] Content root path: C:\Users\hofmi\Source\Repos\wea-semworks\WebApplication1
+2025-10-04 19:18:36.725 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-04 19:18:37.053 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:18:37.163 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-04 19:18:37.186 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-04 19:18:37.631 +02:00 [INF] Executed ViewResult - view Index executed in 395.7098ms.
+2025-10-04 19:18:37.645 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-04 19:18:37.651 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 482.706ms
+2025-10-04 19:18:37.654 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-04 19:18:37.667 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-04 19:18:37.673 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-04 19:18:37.676 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 967.0836ms
+2025-10-04 19:18:37.694 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-04 19:18:37.709 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-04 19:18:37.709 +02:00 [INF] The file /css/site.css was not modified
+2025-10-04 19:18:37.709 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-04 19:18:37.709 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-04 19:18:37.710 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-04 19:18:37.710 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 1.2642ms
+2025-10-04 19:18:37.710 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 66.1472ms
+2025-10-04 19:18:37.711 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 39.7627ms
+2025-10-04 19:18:37.711 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-04 19:18:37.711 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-04 19:18:37.711 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 43.778ms
+2025-10-04 19:18:37.711 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-04 19:18:37.718 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 19:18:37.718 +02:00 [INF] The file /js/site.js was not modified
+2025-10-04 19:18:37.718 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 7.3445ms
+2025-10-04 19:18:37.718 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 7.3516ms
+2025-10-04 19:18:37.726 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-04 19:18:37.743 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-04 19:18:37.744 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 32.466ms
+2025-10-04 19:18:37.760 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13766 application/javascript; charset=utf-8 65.3223ms
+2025-10-04 19:18:37.844 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 133.4593ms
+2025-10-04 19:18:47.415 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:18:47.422 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:47.441 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:47.461 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:18:47.464 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 22.1691ms
+2025-10-04 19:18:47.464 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:47.468 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:18:47.487 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 72.302ms
+2025-10-04 19:18:47.490 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - null null
+2025-10-04 19:18:47.491 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:47.491 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:47.491 +02:00 [INF] Executing ViewComponentResult, running HelloWidget.
+2025-10-04 19:18:47.493 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.6994ms
+2025-10-04 19:18:47.493 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:47.494 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'HelloWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:18:47.496 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=HelloWidget - 500 null text/plain; charset=utf-8 6.477ms
+2025-10-04 19:18:50.918 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:18:50.919 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:50.919 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:50.920 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:18:51.044 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 125.0042ms
+2025-10-04 19:18:51.045 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:51.045 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 126.8442ms
+2025-10-04 19:18:51.047 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:18:51.048 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:51.048 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:51.050 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:18:51.198 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 149.7172ms
+2025-10-04 19:18:51.199 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:51.199 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 152.5397ms
+2025-10-04 19:18:54.198 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:18:54.198 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:54.198 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:54.198 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:18:54.200 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.2787ms
+2025-10-04 19:18:54.200 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:54.201 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:18:54.203 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 5.4841ms
+2025-10-04 19:18:54.205 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - null null
+2025-10-04 19:18:54.206 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:54.206 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:54.206 +02:00 [INF] Executing ViewComponentResult, running StatsWidget.
+2025-10-04 19:18:54.208 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1.8289ms
+2025-10-04 19:18:54.209 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:54.209 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: A view component named 'StatsWidget' could not be found. A view component must be a public non-abstract class, not contain any generic parameters, and either be decorated with 'ViewComponentAttribute' or have a class name ending with the 'ViewComponent' suffix. A view component must not be decorated with 'NonViewComponentAttribute'.
+   at Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentHelper.InvokeAsync(String name, Object arguments)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.ViewComponentResultExecutor.ExecuteAsync(ActionContext context, ViewComponentResult result)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-04 19:18:54.211 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=StatsWidget - 500 null text/plain; charset=utf-8 6.8954ms
+2025-10-04 19:18:55.851 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:18:55.851 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:55.851 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:55.852 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:18:55.944 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 92.3356ms
+2025-10-04 19:18:55.944 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:55.944 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 94.0356ms
+2025-10-04 19:18:55.948 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-04 19:18:55.949 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:55.949 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-04 19:18:56.002 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-04 19:18:56.080 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 130.7982ms
+2025-10-04 19:18:56.080 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-04 19:18:56.080 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 131.8687ms
