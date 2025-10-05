@@ -96,5 +96,24 @@
             setTimeout(() => widget.remove(), 300);
         }
     }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const langSelect = document.getElementById('langSelect');
+
+        // Zjisti aktuální jazyk z cookie
+        const cultureCookie = document.cookie.split('; ').find(row => row.startsWith('.AspNetCore.Culture='));
+        if (cultureCookie) {
+            const langMatch = cultureCookie.match(/c=([^|]+)/);
+            if (langMatch) langSelect.value = langMatch[1];
+        }
+
+        // Změna jazyka => nastav cookie a reload
+        langSelect.addEventListener('change', () => {
+            const lang = langSelect.value;
+            document.cookie = `.AspNetCore.Culture=c=${lang}|uic=${lang}; path=/`;
+            location.reload();
+        });
+    });
 </script>
 </html>

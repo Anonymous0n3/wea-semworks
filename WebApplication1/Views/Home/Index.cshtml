@@ -1,4 +1,12 @@
 ﻿@model List<WebApplication1.Models.HelloDoc>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
 
 <div class="container mt-4">
 
@@ -17,22 +25,14 @@
         <!-- sem se dynamicky načte AppInfoWidget nebo jiné -->
     </div>
 
-
-@{
-    ViewData["Title"] = "Dashboard";
-}
-
-<div class="container mt-4">
-
-    <!-- Původní Hello CouchDB sekce -->
-    <h2>Hello CouchDB</h2>
+    <h2>@Localizer["Hello CouchDB"]</h2>
 
     @if (Model != null && Model.Any())
     {
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Text</th>
+                    <th>@Localizer["Text"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,50 +47,53 @@
     }
     else
     {
-        <p><strong>Databáze je prázdná</strong></p>
+        <p><strong>@Localizer["The database is empty"]</strong></p>
     }
 
     <form asp-controller="Hello" asp-action="Save" method="post" class="mt-3">
         <div class="form-group">
-            <label for="text">Zadej nový text:</label>
+            <label for="text">@Localizer["Enter new text:"]</label>
             <input type="text" class="form-control" id="text" name="text" />
         </div>
-        <button type="submit" class="btn btn-primary mt-2">Uložit</button>
+        <button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button>
     </form>
 </div>
 
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 🔽 Widget loader
+            const widgetLinks = document.querySelectorAll('.widget-link');
+            const container = document.getElementById('widgetContainer');
 
-    @section Scripts {
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const widgetLinks = document.querySelectorAll('.widget-link');
-                const container = document.getElementById('widgetContainer');
+            widgetLinks.forEach(link => {
+                link.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const widgetName = link.getAttribute('data-widget');
 
-                widgetLinks.forEach(link => {
-                    link.addEventListener('click', async (e) => {
-                        e.preventDefault();
-                        const widgetName = link.getAttribute('data-widget');
-
-                        try {
-                            const response = await fetch(`/Widget/Load?name=${widgetName}`);
-                            const html = await response.text();
-                            container.innerHTML = html;
-                        } catch (err) {
-                            container.innerHTML = "<div class='alert alert-danger'>Nepodařilo se načíst widget.</div>";
-                        }
-                    });
-                });
-
-                // 🔄 Jazykový přepínač
-                const langSelect = document.getElementById('langSelect');
-                const savedLang = localStorage.getItem('lang');
-                const browserLang = navigator.language.startsWith('en') ? 'en' : 'cs';
-                langSelect.value = savedLang || browserLang;
-
-                langSelect.addEventListener('change', () => {
-                    localStorage.setItem('lang', langSelect.value);
-                    location.reload();
+                    try {
+                        const response = await fetch(`/Widget/Load?name=${widgetName}`);
+                        const html = await response.text();
+                        container.innerHTML = html;
+                    } catch (err) {
+                        container.innerHTML = "<div class='alert alert-danger'>Nepodařilo se načíst widget.</div>";
+                    }
                 });
             });
-        </script>
-    }
+
+            // 🔄 Jazykový přepínač (ASP.NET cookie)
+            const langSelect = document.getElementById('langSelect');
+            const cultureCookie = document.cookie.split('; ').find(row => row.startsWith('.AspNetCore.Culture='));
+            if (cultureCookie) {
+                const langMatch = cultureCookie.match(/c=([^|]+)/);
+                if (langMatch) langSelect.value = langMatch[1];
+            }
+
+            langSelect.addEventListener('change', () => {
+                const lang = langSelect.value;
+                document.cookie = `.AspNetCore.Culture=c=${lang}|uic=${lang}; path=/`;
+                location.reload();
+            });
+        });
+    </script>
+}
