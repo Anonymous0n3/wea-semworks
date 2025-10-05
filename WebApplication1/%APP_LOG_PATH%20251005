@@ -1,0 +1,209 @@
+2025-10-05 12:04:37.319 +02:00 [INF] User profile is available. Using 'C:\Users\marti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 12:04:37.749 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 12:04:37.750 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 12:04:37.880 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 12:04:37.881 +02:00 [INF] Hosting environment: Development
+2025-10-05 12:04:37.881 +02:00 [INF] Content root path: C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1
+2025-10-05 12:04:39.406 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 12:04:39.693 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:04:39.726 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:04:39.741 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:04:40.276 +02:00 [INF] Executed ViewResult - view Index executed in 537.6806ms.
+2025-10-05 12:04:40.282 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 555.2271ms
+2025-10-05 12:04:40.283 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:04:40.291 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 898.0121ms
+2025-10-05 12:04:40.332 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 12:04:40.332 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-05 12:04:40.333 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-05 12:04:40.334 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-05 12:04:40.334 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-05 12:04:40.347 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-05 12:04:40.361 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-05 12:04:40.373 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-05 12:04:40.385 +02:00 [INF] The file /css/site.css was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 12:04:40.389 +02:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] The file /js/site.js was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2025-10-05 12:04:40.385 +02:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2025-10-05 12:04:40.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 49.874ms
+2025-10-05 12:04:40.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 304 null text/css 64.4675ms
+2025-10-05 12:04:40.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 62.8845ms
+2025-10-05 12:04:40.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 304 null text/javascript 37.5376ms
+2025-10-05 12:04:40.402 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 69.8832ms
+2025-10-05 12:04:40.402 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 304 null text/css 69.3303ms
+2025-10-05 12:04:40.401 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 304 null text/javascript 67.6744ms
+2025-10-05 12:04:40.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 304 null text/javascript 25.2384ms
+2025-10-05 12:04:40.508 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 122.653ms
+2025-10-05 12:04:40.568 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/favicon.ico - null null
+2025-10-05 12:04:40.589 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\favicon.ico'
+2025-10-05 12:04:40.589 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/favicon.ico - 200 5430 image/x-icon 21.4185ms
+2025-10-05 12:04:59.971 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/degug-culture - null null
+2025-10-05 12:04:59.988 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/degug-culture - 404 0 null 17.4795ms
+2025-10-05 12:04:59.989 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/degug-culture, Response status code: 404
+2025-10-05 12:05:06.723 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:05:06.730 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:06.769 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:05:06.773 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:06.773 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 50.836ms
+2025-10-05 12:05:13.464 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:05:13.469 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:13.470 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:05:13.471 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:13.471 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 7.7338ms
+2025-10-05 12:05:26.169 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:05:26.190 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:26.190 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:05:26.190 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:05:26.191 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 22.3807ms
+2025-10-05 12:05:26.290 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/favicon.ico - null null
+2025-10-05 12:05:26.296 +02:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1\wwwroot\favicon.ico'
+2025-10-05 12:05:26.297 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/favicon.ico - 200 5430 image/x-icon 6.74ms
+2025-10-05 12:07:35.473 +02:00 [INF] User profile is available. Using 'C:\Users\marti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-05 12:07:35.899 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-05 12:07:35.900 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-05 12:07:36.027 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-05 12:07:36.028 +02:00 [INF] Hosting environment: Development
+2025-10-05 12:07:36.028 +02:00 [INF] Content root path: C:\Users\marti\Plocha\Škola\webové aplikace\wea-semworks\WebApplication1
+2025-10-05 12:07:36.822 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 12:07:37.041 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:07:37.069 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:07:37.084 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:07:37.520 +02:00 [INF] Executed ViewResult - view Index executed in 440.009ms.
+2025-10-05 12:07:37.526 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 455.8635ms
+2025-10-05 12:07:37.527 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:07:37.535 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 726.8925ms
+2025-10-05 12:07:37.571 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 12:07:37.571 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-05 12:07:37.578 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 7.5733ms
+2025-10-05 12:07:37.632 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 61.0375ms
+2025-10-05 12:07:49.236 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/degub-culture - null null
+2025-10-05 12:07:49.251 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/degub-culture - 404 0 null 14.8508ms
+2025-10-05 12:07:49.252 +02:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7131/degub-culture, Response status code: 404
+2025-10-05 12:08:00.125 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:08:00.135 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:08:00.156 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:08:00.159 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:08:00.159 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 34.6542ms
+2025-10-05 12:09:04.709 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 12:09:04.726 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:09:04.732 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:09:04.737 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:09:04.899 +02:00 [INF] Executed ViewResult - view Index executed in 160.6636ms.
+2025-10-05 12:09:04.903 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 166.6135ms
+2025-10-05 12:09:04.905 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:09:04.905 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 198.0877ms
+2025-10-05 12:09:04.950 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 12:09:04.952 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 2.9866ms
+2025-10-05 12:11:55.602 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 35
+2025-10-05 12:11:55.604 +02:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-10-05 12:11:55.623 +02:00 [INF] Executing RedirectResult, redirecting to /debug-culture.
+2025-10-05 12:11:55.623 +02:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-10-05 12:11:55.625 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7131/set-language - 302 0 null 22.4287ms
+2025-10-05 12:11:55.627 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - application/x-www-form-urlencoded null
+2025-10-05 12:11:55.628 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:11:55.628 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:11:55.630 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:11:55.630 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 3.2795ms
+2025-10-05 12:12:10.000 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:12:10.019 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:10.020 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:12:10.020 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:10.020 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 20.4257ms
+2025-10-05 12:12:32.582 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-05 12:12:32.593 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:12:32.593 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:12:32.594 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:12:32.712 +02:00 [INF] Executed ViewResult - view Index executed in 117.9733ms.
+2025-10-05 12:12:32.713 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 119.2276ms
+2025-10-05 12:12:32.713 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:12:32.717 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 135.8282ms
+2025-10-05 12:12:32.762 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-05 12:12:32.764 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 13782 application/javascript; charset=utf-8 2.6142ms
+2025-10-05 12:12:38.963 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:12:38.968 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:38.968 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:12:38.969 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:38.969 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 6.7731ms
+2025-10-05 12:12:42.348 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:12:42.352 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:42.353 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:12:42.353 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:12:42.353 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 5.7221ms
+2025-10-05 12:13:05.744 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:13:05.744 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:13:05.745 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:13:05.745 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:13:05.745 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.8306ms
+2025-10-05 12:18:19.482 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 35
+2025-10-05 12:18:19.482 +02:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-10-05 12:18:19.483 +02:00 [INF] Executing RedirectResult, redirecting to /debug-culture.
+2025-10-05 12:18:19.483 +02:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-10-05 12:18:19.483 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7131/set-language - 302 0 null 1.1732ms
+2025-10-05 12:18:19.485 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - application/x-www-form-urlencoded null
+2025-10-05 12:18:19.485 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:18:19.485 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:18:19.485 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:18:19.485 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.8613ms
+2025-10-05 12:18:37.855 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:18:37.855 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:18:37.855 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:18:37.855 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:18:37.856 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.7648ms
+2025-10-05 12:31:22.945 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 22
+2025-10-05 12:31:22.945 +02:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-10-05 12:31:22.945 +02:00 [INF] Executing RedirectResult, redirecting to /.
+2025-10-05 12:31:22.945 +02:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-10-05 12:31:22.945 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7131/set-language - 302 0 null 0.7947ms
+2025-10-05 12:31:22.946 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/ - application/x-www-form-urlencoded null
+2025-10-05 12:31:22.947 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:31:22.949 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:31:22.958 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:31:23.157 +02:00 [INF] Executed ViewResult - view Index executed in 207.6471ms.
+2025-10-05 12:31:23.157 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 207.8762ms
+2025-10-05 12:31:23.157 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:31:23.157 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 210.4467ms
+2025-10-05 12:31:32.383 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 22
+2025-10-05 12:31:32.383 +02:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-10-05 12:31:32.383 +02:00 [INF] Executing RedirectResult, redirecting to /.
+2025-10-05 12:31:32.383 +02:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-10-05 12:31:32.383 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7131/set-language - 302 0 null 0.8113ms
+2025-10-05 12:31:32.384 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/ - application/x-www-form-urlencoded null
+2025-10-05 12:31:32.384 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:31:32.385 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:31:32.385 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:31:32.484 +02:00 [INF] Executed ViewResult - view Index executed in 99.3436ms.
+2025-10-05 12:31:32.484 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 99.5646ms
+2025-10-05 12:31:32.484 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:31:32.484 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 100.302ms
+2025-10-05 12:31:47.989 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:31:47.989 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:31:47.989 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:31:47.989 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:31:47.990 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.7517ms
+2025-10-05 12:31:58.818 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:31:58.818 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:31:58.818 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:31:58.818 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:31:58.819 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.7643ms
+2025-10-05 12:32:28.644 +02:00 [INF] Request starting HTTP/1.1 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 22
+2025-10-05 12:32:28.645 +02:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-10-05 12:32:28.645 +02:00 [INF] Executing RedirectResult, redirecting to /.
+2025-10-05 12:32:28.646 +02:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-10-05 12:32:28.648 +02:00 [INF] Request finished HTTP/1.1 POST https://localhost:7131/set-language - 302 0 null 4.2968ms
+2025-10-05 12:32:28.649 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/ - application/x-www-form-urlencoded null
+2025-10-05 12:32:28.652 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:32:28.652 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-05 12:32:28.652 +02:00 [INF] Executing ViewResult, running view Index.
+2025-10-05 12:32:28.750 +02:00 [INF] Executed ViewResult - view Index executed in 98.0213ms.
+2025-10-05 12:32:28.750 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 98.2557ms
+2025-10-05 12:32:28.750 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-05 12:32:28.750 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 101.0035ms
+2025-10-05 12:32:31.686 +02:00 [INF] Request starting HTTP/1.1 GET https://localhost:7131/debug-culture - null null
+2025-10-05 12:32:31.686 +02:00 [INF] Executing endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:32:31.686 +02:00 [INF] Writing value of type '<>f__AnonymousType0`3' as Json.
+2025-10-05 12:32:31.686 +02:00 [INF] Executed endpoint 'HTTP: GET /debug-culture'
+2025-10-05 12:32:31.686 +02:00 [INF] Request finished HTTP/1.1 GET https://localhost:7131/debug-culture - 200 null application/json; charset=utf-8 0.6664ms
+2025-10-05 12:52:35.459 +02:00 [INF] Application is shutting down...
