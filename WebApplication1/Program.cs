@@ -5,8 +5,7 @@ using Serilog;
 using System.Globalization;
 
 using WidgetsDemo.Services;
-// using WebApplication1.Service; // nech podle skutečného namespace
-// using WebApplication1;        // odkomentuj, pokud používáš SharedResource localizer (viz /i18n)
+using WebApplication1.Service; // nech podle skutečného namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,29 +110,6 @@ app.MapGet("/debug-culture", (HttpContext http) =>
     return Results.Json(new { culture, ui, haveCookie });
 });
 
-// (Volitelné) FE-friendly JSON s překlady (vyžaduje marker třídu SharedResource a @using WebApplication1)
-// Odkomentuj následující blok + using WebApplication1 nahoře, pokud chceš servírovat překlady jako JSON.
-/*
-app.MapGet("/i18n/{culture}", (string culture, IStringLocalizer<WebApplication1.SharedResource> L) =>
-{
-    var supported = new[] { "cs", "en" };
-    if (!supported.Contains(culture)) culture = "cs";
-
-    var prev = CultureInfo.CurrentUICulture;
-    try
-    {
-        CultureInfo.CurrentUICulture = new CultureInfo(culture);
-        // vrátí všechny klíče z SharedResource.*.resx (včetně fallbacků)
-        var dict = L.GetAllStrings(includeParentCultures: true)
-                    .ToDictionary(s => s.Name, s => s.Value);
-        return Results.Json(dict);
-    }
-    finally
-    {
-        CultureInfo.CurrentUICulture = prev;
-    }
-});
-*/
 
 app.MapControllerRoute(
     name: "default",
