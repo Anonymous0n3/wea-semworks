@@ -6,7 +6,7 @@ using System.Globalization;
 
 using WidgetsDemo.Services;
 using WebApplication1.Service; // nech podle skutečného namespace
-//Pak smazat tento koment
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ---- Logging (Serilog) ----
