@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DatabaseEmptyMessage" xml:space="preserve">
+    <value>Database is empty</value>
+  </data>
+  <data name="EnterNewTextLabel" xml:space="preserve">
+    <value>Enter new text</value>
+  </data>
+  <data name="HelloCouchDBTitle" xml:space="preserve">
+    <value>Hello CouchDB</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Save button</value>
+  </data>
+  <data name="TextHeader" xml:space="preserve">
+    <value>texteng</value>
   </data>
   <data name="TItle" xml:space="preserve">
     <value>My Application</value>

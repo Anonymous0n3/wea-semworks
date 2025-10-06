@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DatabaseEmptyMessage" xml:space="preserve">
+    <value>Databáze je prázdná</value>
+  </data>
+  <data name="EnterNewTextLabel" xml:space="preserve">
+    <value>Zadejte nový text</value>
+  </data>
+  <data name="HelloCouchDBTitle" xml:space="preserve">
+    <value>Ahoj CouchDB</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Domů</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Ukládací tlačítko</value>
+  </data>
+  <data name="TextHeader" xml:space="preserve">
+    <value>Textcsneutral</value>
   </data>
   <data name="TItle" xml:space="preserve">
     <value>Moje Aplikace</value>
