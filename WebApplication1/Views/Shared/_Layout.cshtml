@@ -47,7 +47,6 @@
             @RenderBody()
         </main>
         <div id="widgetContainer" class="mt-4">
-            @await Component.InvokeAsync("AppInfoWidget") <!-- výchozí widget -->
         </div>
     </div>
 
@@ -60,31 +59,76 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <select id="langSelect" class="form-select form-select-sm w-auto ms-auto">
-        <option value="cs">Čeština</option>
-        <option value="en">English</option>
-    </select>
     <script src="~/js/site.js"></script>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
         const widgetLinks = document.querySelectorAll('.widget-link');
         const container = document.getElementById('widgetContainer');
 
+        // 🔹 Načti uložené widgety z localStorage po reloadu
+        const savedWidgets = JSON.parse(localStorage.getItem('activeWidgets') || '[]');
+        savedWidgets.forEach(loadWidget);
+
+        // 🔹 Kliknutí na položku v menu
         widgetLinks.forEach(link => {
             link.addEventListener('click', async (e) => {
                 e.preventDefault();
                 const widgetName = link.getAttribute('data-widget');
-
-                try {
-                    const response = await fetch(`/Widget/Load?name=${widgetName}`);
-                    const html = await response.text();
-                    container.innerHTML = html;
-                } catch (err) {
-                    container.innerHTML = "<div class='alert alert-danger'>Nepodařilo se načíst widget.</div>";
-                }
+                loadWidget(widgetName);
             });
         });
+
+        // 🔹 Funkce pro načtení widgetu
+        async function loadWidget(widgetName) {
+            // Pokud už widget existuje, nepřidávej znovu
+            if (container.querySelector(`[data-widget-name="${widgetName}"]`)) return;
+
+            try {
+                const response = await fetch(`/Widget/Load?name=${widgetName}`);
+                const html = await response.text();
+
+                const widgetWrapper = document.createElement('div');
+                widgetWrapper.classList.add('widget-wrapper', 'mb-3');
+                widgetWrapper.setAttribute('data-widget-name', widgetName);
+                widgetWrapper.innerHTML = html;
+
+                // Tlačítko pro zavření
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = '×';
+                closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'float-end');
+                closeBtn.addEventListener('click', () => {
+                    widgetWrapper.remove();
+                    removeWidgetFromStorage(widgetName);
+                });
+                widgetWrapper.prepend(closeBtn);
+
+                container.appendChild(widgetWrapper);
+
+                addWidgetToStorage(widgetName);
+            } catch (err) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'alert alert-danger';
+                errorDiv.textContent = 'Nepodařilo se načíst widget.';
+                container.appendChild(errorDiv);
+            }
+        }
+
+        // 🔹 Uložení widgetů
+        function addWidgetToStorage(widgetName) {
+            const current = JSON.parse(localStorage.getItem('activeWidgets') || '[]');
+            if (!current.includes(widgetName)) {
+                current.push(widgetName);
+                localStorage.setItem('activeWidgets', JSON.stringify(current));
+            }
+        }
+
+        // 🔹 Odebrání widgetu ze storage
+        function removeWidgetFromStorage(widgetName) {
+            let current = JSON.parse(localStorage.getItem('activeWidgets') || '[]');
+            current = current.filter(w => w !== widgetName);
+            localStorage.setItem('activeWidgets', JSON.stringify(current));
+        }
     });
 
 

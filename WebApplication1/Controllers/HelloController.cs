@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
         {
             await _couch.EnsureDbExistsAsync();
             var allDocs = await _couch.GetAllDocumentsAsync();
-            return View(allDocs);
+            return View("~/Views/Home/Index.cshtml", allDocs);
         }
 
         [HttpPost]
