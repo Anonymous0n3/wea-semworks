@@ -130,12 +130,42 @@
     <value>Home</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
-    <value>Save button</value>
+    <value>Save</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App Version</value>
   </data>
   <data name="TextHeader" xml:space="preserve">
     <value>texteng</value>
   </data>
   <data name="TItle" xml:space="preserve">
     <value>My Application</value>
+  </data>
+  <data name="LastDeployment" xml:space="preserve">
+    <value>Last Deployment</value>
+  </data>
+  <data name="CPUUsage" xml:space="preserve">
+    <value>CPU Usage</value>
+  </data>
+  <data name="MemoryUsage" xml:space="preserve">
+    <value>Memory Usage</value>
+  </data>
+  <data name="ProcessCount" xml:space="preserve">
+    <value>Running Process Count</value>
+  </data>
+  <data name="APIStat" xml:space="preserve">
+    <value>API Statuses</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>Not Implemented</value>
+  </data>
+  <data name="ViewLogs" xml:space="preserve">
+    <value>View Logs</value>
+  </data>
+  <data name="AppInfo" xml:space="preserve">
+    <value>App Status</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
   </data>
 </root>

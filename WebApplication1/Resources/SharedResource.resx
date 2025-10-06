@@ -130,12 +130,42 @@
     <value>Domů</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
-    <value>Ukládací tlačítko</value>
+    <value>Uložit</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Verze aplikace</value>
   </data>
   <data name="TextHeader" xml:space="preserve">
     <value>Textcsneutral</value>
   </data>
   <data name="TItle" xml:space="preserve">
     <value>Moje Aplikace</value>
+  </data>
+  <data name="LastDeployment" xml:space="preserve">
+    <value>Poslední Nasazení</value>
+  </data>
+  <data name="CPUUsage" xml:space="preserve">
+    <value>Využití CPU</value>
+  </data>
+  <data name="MemoryUsage" xml:space="preserve">
+    <value>Využítí Paměti</value>
+  </data>
+  <data name="ProcessCount" xml:space="preserve">
+    <value>Počet Běžících Procesů</value>
+  </data>
+  <data name="APIStat" xml:space="preserve">
+    <value>Stavy API</value>
+  </data>
+  <data name="WIP" xml:space="preserve">
+    <value>Není Implementováno</value>
+  </data>
+  <data name="ViewLogs" xml:space="preserve">
+    <value>Zobrazit logy</value>
+  </data>
+  <data name="AppInfo" xml:space="preserve">
+    <value>Stav Aplikace</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Soukromí</value>
   </data>
 </root>
