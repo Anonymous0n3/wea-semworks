@@ -1,11 +1,47 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Localization;
+﻿using DotNetEnv;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Globalization;
-
+using WebApplication1.Service;
 using WidgetsDemo.Services;
-using WebApplication1.Service; // nech podle skutečného namespace
+
+//Loading from .env file
+DotNetEnv.Env.Load();
+
+var weatherService = new WeatherService();
+
+// --- 1) Current Weather ---
+Console.WriteLine("=== Aktuální počasí ===");
+var current = await weatherService.GetCurrentWeatherAsync("Prague");
+Console.WriteLine($"Město: {current.Location.Name}");
+Console.WriteLine($"Teplota: {current.Current.TempC:F1}°C");
+Console.WriteLine($"Podmínky: {current.Current.Condition.Text}");
+Console.WriteLine($"Vlhkost: {current.Current.Humidity}%");
+Console.WriteLine($"Vítr: {current.Current.WindKph} kph, směr {current.Current.WindDir}");
+Console.WriteLine($"UV index: {current.Current.Uv}");
+Console.WriteLine($"Rosný bod: {current.Current.DewPoint:F1}°C");
+Console.WriteLine($"US EPA index kvality ovzduší: {current.Current.AirQuality?.UsEpaIndex}\n");
+
+// --- 2) Forecast ---
+Console.WriteLine("=== Předpověď počasí na 3 dny ===");
+var forecast = await weatherService.GetForecastAsync("Prague", 3);
+foreach (var day in forecast.Forecast.Forecastday)
+{
+    Console.WriteLine($"{day.Date}: {day.Day.Condition.Text}, max {day.Day.MaxtempC}°C, min {day.Day.MintempC}°C, srážky {day.Day.DailyChanceOfRain}%");
+    Console.WriteLine($"UV index: {day.Day.Uv}, US EPA index: {day.Day.AirQuality?.UsEpaIndex}");
+}
+Console.WriteLine();
+
+// --- 3) Search Locations ---
+Console.WriteLine("=== Hledání lokací ===");
+var locations = await weatherService.SearchLocationAsync("Prague");
+foreach (var loc in locations)
+{
+    Console.WriteLine($"{loc.Name}, {loc.Region}, {loc.Country} (Lat: {loc.Lat}, Lon: {loc.Lon})");
+}
+
+Console.WriteLine("\nHotovo!");
 
 var builder = WebApplication.CreateBuilder(args);
 
