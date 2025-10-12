@@ -1,0 +1,47 @@
+﻿@model YourProject.ViewComponents.WeatherViewModel
+@using System.Globalization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
+
+<div class="card shadow-sm p-3 mb-3 position-relative" id="weatherWidget">
+    <h5>@Localizer["Weather"]</h5>
+
+    <div class="mb-3">
+        <input type="text" id="weatherLocationInput" class="form-control" placeholder="@Localizer["Enter location"]..." />
+    </div>
+
+    <div class="d-flex align-items-center mb-3">
+        <img src="@Model.ConditionIcon" alt="@Model.ConditionText" class="me-2" style="width:48px;height:48px;" />
+        <div>
+            <h2 id="temperatureValue">@Model.TemperatureC°C</h2>
+            <small>@Model.ConditionText</small>
+        </div>
+        <div class="ms-auto">
+            <button class="btn btn-sm btn-outline-secondary" id="toggleUnit">°C / °F</button>
+        </div>
+    </div>
+
+    <ul class="list-unstyled small mb-3">
+        <li>@Localizer["Humidity"]: <strong>@Model.Humidity %</strong></li>
+        <li>@Localizer["Wind"]: <strong>@Model.WindKph km/h @Model.WindDir</strong></li>
+        <li>@Localizer["UV Index"]: <strong>@Model.UvIndex</strong></li>
+        <li>@Localizer["Dew Point"]: <strong>@Model.DewPoint.ToString("0.0")°C</strong></li>
+        <li>
+            @Localizer["Air Quality"]:
+            <span class="badge bg-info" title="@Model.AirQualityLevel">@Model.AirQualityIndex</span>
+        </li>
+    </ul>
+
+    <partial name="_WeatherForecastPanel" model="Model.Forecast" />
+</div>
+
+<script>
+    document.getElementById("toggleUnit").addEventListener("click", () => {
+        const temp = document.getElementById("temperatureValue");
+        if (temp.textContent.includes("°C")) {
+            temp.textContent = "@Model.TemperatureF°F";
+        } else {
+            temp.textContent = "@Model.TemperatureC°C";
+        }
+    });
+</script>
