@@ -1,0 +1,46 @@
+﻿@model List<WebApplication1.Models.ForecastDayViewModel>
+@{
+    var locationName = ViewData["LocationName"]?.ToString() ?? "Unknown";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Předpověď počasí - @locationName</h4>
+    </div>
+    <div class="card-body">
+        <form id="forecastLocationForm" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="location" class="form-control" placeholder="Zadejte město..." />
+                <button type="submit" class="btn btn-primary">Načíst</button>
+            </div>
+        </form>
+
+        <div class="d-flex flex-wrap justify-content-around">
+            @foreach (var day in Model)
+            {
+                <div class="card text-center m-2 p-3" style="width: 10rem;">
+                    <div><strong>@day.Date</strong></div>
+                    <img src="@day.ConditionIcon" alt="@day.ConditionText" width="64" height="64" />
+                    <div>@day.ConditionText</div>
+                    <div><strong>@day.MaxTempC°C / @day.MinTempC°C</strong></div>
+                    <div>💧 @day.ChanceOfRain% déšť</div>
+                    <div>🌞 UV: @day.Uv</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('#forecastLocationForm')?.addEventListener('submit', async e => {
+        e.preventDefault();
+        const input = e.target.querySelector('input[name="location"]');
+        const location = input.value;
+        const widget = e.target.closest('.widget-wrapper');
+        if (widget) {
+            const widgetName = widget.dataset.widgetName;
+            const event = new CustomEvent('reloadWidget', { detail: { widgetName, location } });
+            document.dispatchEvent(event);
+        }
+    });
+</script>

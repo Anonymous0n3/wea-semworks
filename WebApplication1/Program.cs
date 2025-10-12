@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Localization;
+﻿using DotNetEnv;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Globalization;
-
+using WebApplication1.Service;
 using WidgetsDemo.Services;
-using WebApplication1.Service; // nech podle skutečného namespace
+
+//Loading from .env file
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<WeatherService>();
 
 // ---- Logging (Serilog) ----
 var logger = new LoggerConfiguration()

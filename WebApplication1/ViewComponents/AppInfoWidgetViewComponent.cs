@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Globalization;
+using WebApplication1.Service;
 
 namespace YourProject.ViewComponents
 {
     public class AppInfoWidgetViewComponent : ViewComponent
     {
+        private readonly WeatherService _weatherService;
+        public AppInfoWidgetViewComponent()
+        {
+            _weatherService = new WeatherService();
+        }
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var model = new AppInfoViewModel
@@ -17,6 +23,10 @@ namespace YourProject.ViewComponents
                 ProcessCount = GetProcessCount(),
                 ApiStatuses = new List<string>()
             };
+
+            // --- Health Check Weather API ---
+            bool weatherApiOk = await _weatherService.HealthCheckAsync();
+            model.ApiStatuses.Add($"Weather API: {(weatherApiOk ? "✅ Dostupné" : "❌ Nedostupné")}");
 
             return View(model);
         }
