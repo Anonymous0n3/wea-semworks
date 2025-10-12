@@ -45,6 +45,8 @@ Console.WriteLine("\nHotovo!");
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<WeatherService>();
+
 // ---- Logging (Serilog) ----
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
