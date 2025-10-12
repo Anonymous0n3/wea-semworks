@@ -1,12 +1,12 @@
-﻿@model WebApplication1.ViewComponents.WeatherViewModel
+﻿@model WebApplication1.Models.CurrentWeatherViewModel
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 <div class="card shadow-sm p-3 mb-3" id="weatherWidget">
     <h5>@Localizer["Weather for"] @Model.LocationName</h5>
 
-    <!-- Formulář pro zadání lokace -->
-    <form method="get" id="locationForm" class="mb-3" action="">
+    <!-- Formulář pro změnu lokace -->
+    <form id="locationForm" class="mb-3">
         <div class="input-group">
             <input type="text" name="location" class="form-control" placeholder="@Localizer["Enter location"]" value="@Model.LocationName" />
             <button type="submit" class="btn btn-primary">@Localizer["Update"]</button>
@@ -15,7 +15,7 @@
 
     <div class="d-flex align-items-center mb-3">
         <img src="@Model.ConditionIcon" alt="@Model.ConditionText" style="width:48px;height:48px;" />
-        <h2 class="ms-2">@Model.TemperatureC°C</h2>
+        <h2 class="ms-2" data-celsius="@Model.TempC" data-fahrenheit="@Model.TempF">@Model.TempC°C</h2>
         <div class="ms-auto">
             <button type="button" class="btn btn-sm btn-outline-secondary" id="toggleUnit">°C / °F</button>
         </div>
@@ -25,22 +25,8 @@
     <ul class="list-unstyled small">
         <li>@Localizer["Humidity"]: <strong>@Model.Humidity %</strong></li>
         <li>@Localizer["Wind"]: <strong>@Model.WindKph km/h @Model.WindDir</strong></li>
-        <li>@Localizer["UV Index"]: <strong>@Model.UvIndex</strong></li>
+        <li>@Localizer["UV Index"]: <strong>@Model.Uv</strong></li>
         <li>@Localizer["Dew Point"]: <strong>@Model.DewPoint.ToString("0.0")°C</strong></li>
-        <li>
-            @Localizer["Air Quality"]:
-            <span class="badge bg-info" title="@Model.AirQualityLevel">@Model.AirQualityIndex</span>
-        </li>
+        <li>@Localizer["Air Quality"]: <span class="badge bg-info" title="@Model.AirQualityLevel">@Model.AirQualityIndex</span></li>
     </ul>
 </div>
-
-<script>
-    document.getElementById("toggleUnit").addEventListener("click", () => {
-        const temp = document.querySelector("#weatherWidget h2");
-        if (temp.textContent.includes("°C")) {
-            temp.textContent = "@Model.TemperatureF°F";
-        } else {
-            temp.textContent = "@Model.TemperatureC°C";
-        }
-    });
-</script>
