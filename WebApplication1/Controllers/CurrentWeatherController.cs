@@ -8,12 +8,12 @@ namespace WebApplication1.Controllers
     {
         private readonly WeatherService _weatherService;
 
-        public CurrentWeatherController()
+        // ✅ správně – přes konstruktor injektujeme službu
+        public CurrentWeatherController(WeatherService weatherService)
         {
-            _weatherService = new WeatherService();
+            _weatherService = weatherService;
         }
 
-        // Akce pro zobrazení aktuálního počasí
         public async Task<IActionResult> Index(string location = "Prague")
         {
             var current = await _weatherService.GetCurrentWeatherAsync(location);
@@ -35,7 +35,25 @@ namespace WebApplication1.Controllers
                 UsEpaIndex = current.Current.AirQuality?.UsEpaIndex
             };
 
-            return View(model); // Views/CurrentWeather/Index.cshtml
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return Json(new List<object>());
+
+            var results = await _weatherService.SearchLocationAsync(query);
+
+            var simplified = results.Select(r => new
+            {
+                name = r.Name,
+                region = r.Region,
+                country = r.Country
+            });
+
+            return Json(simplified);
         }
     }
 }

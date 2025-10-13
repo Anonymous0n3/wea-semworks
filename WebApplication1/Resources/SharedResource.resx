@@ -168,4 +168,28 @@
   <data name="Privacy" xml:space="preserve">
     <value>Soukromí</value>
   </data>
+  <data name="Weather for" xml:space="preserve">
+    <value>Počasí v</value>
+  </data>
+  <data name="Enter location" xml:space="preserve">
+    <value>Zadejte lokaci</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Humidity" xml:space="preserve">
+    <value>Vlhkost</value>
+  </data>
+  <data name="Wind" xml:space="preserve">
+    <value>Vítr</value>
+  </data>
+  <data name="UV Index" xml:space="preserve">
+    <value>UV Index</value>
+  </data>
+  <data name="Dew Point" xml:space="preserve">
+    <value>Bod rosení</value>
+  </data>
+  <data name="Air Quality" xml:space="preserve">
+    <value>Kvalita vzduchu</value>
+  </data>
 </root>

@@ -68,117 +68,127 @@
     <script src="~/js/site.js"></script>
 </body>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const container = document.getElementById('widgetContainer');
-    const activeWidgets = new Map(); // uložíme wrappery podle názvu widgetu
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('widgetContainer');
+        const activeWidgets = new Map();
 
-    // 🔹 Načtení widgetu
-    async function loadWidget(widgetName, location = '') {
-        try {
-            const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
-            const html = await response.text();
-
-            let wrapper = activeWidgets.get(widgetName);
-            const isNew = !wrapper;
-
-            // Pokud widget ještě není, vytvoříme ho
-            if (!wrapper) {
-                wrapper = document.createElement('div');
-                wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
-                wrapper.dataset.widgetName = widgetName;
-
-                container.appendChild(wrapper);
-                activeWidgets.set(widgetName, wrapper);
-            }
-
-            // Přepíšeme obsah widgetu novým HTML
-            wrapper.innerHTML = html;
-
-            // Přidáme tlačítko × na odstranění widgetu
-            addCloseButton(wrapper, widgetName);
-
-            // Přidáme eventy pro interakce (lokace, toggle °C/°F)
-            attachInteractions(wrapper, widgetName);
-
-            // Animace při přidání
-            if (isNew) {
-                wrapper.style.opacity = "0";
-                wrapper.style.transition = "opacity 0.3s ease";
-                requestAnimationFrame(() => (wrapper.style.opacity = "1"));
-            }
-
-        } catch (error) {
-            console.error("Chyba při načítání widgetu:", error);
+        // 🔹 Načtení uložených widgetů z localStorage
+        const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
+        if (savedWidgets.length > 0) {
+            savedWidgets.forEach(w => loadWidget(w.name, w.location));
         }
-    }
 
-    // 🔹 Přidání interakcí uvnitř widgetu
-    function attachInteractions(wrapper, widgetName) {
-        // Toggle °C / °F jen pro CurrentWeather
-        const toggleBtn = wrapper.querySelector('#toggleUnit');
-        toggleBtn?.addEventListener('click', () => {
-            const tempEl = wrapper.querySelector('h2');
-            if (!tempEl) return;
-            if (tempEl.textContent.includes('°C')) {
-                tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-            } else {
-                tempEl.textContent = tempEl.dataset.celsius + '°C';
+        // 🔹 Uložení seznamu aktivních widgetů do localStorage
+        function saveWidgetState() {
+            const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
+                name,
+                location: wrapper.dataset.location || ''
+            }));
+            localStorage.setItem('openWidgets', JSON.stringify(data));
+        }
+
+        // 🔹 Načtení widgetu
+        async function loadWidget(widgetName, location = '') {
+            try {
+                const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
+                const html = await response.text();
+
+                let wrapper = activeWidgets.get(widgetName);
+                const isNew = !wrapper;
+
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
+                    wrapper.dataset.widgetName = widgetName;
+                    container.appendChild(wrapper);
+                    activeWidgets.set(widgetName, wrapper);
+                }
+
+                wrapper.dataset.location = location;
+                wrapper.innerHTML = html;
+                addCloseButton(wrapper, widgetName);
+                attachInteractions(wrapper, widgetName);
+
+                if (isNew) {
+                    wrapper.style.opacity = "0";
+                    wrapper.style.transition = "opacity 0.3s ease";
+                    requestAnimationFrame(() => (wrapper.style.opacity = "1"));
+                }
+
+                // 💾 Uložíme stav po načtení
+                saveWidgetState();
+
+            } catch (error) {
+                console.error("Chyba při načítání widgetu:", error);
             }
-        });
+        }
 
-        // CurrentWeather formulář
-        const form = wrapper.querySelector('#locationForm');
-        form?.addEventListener('submit', async e => {
-            e.preventDefault();
-            const input = form.querySelector('input[name="location"]');
-            const newLocation = input.value;
-            await loadWidget(widgetName, newLocation);
-        });
+        // 🔹 Přidání interakcí uvnitř widgetu
+        function attachInteractions(wrapper, widgetName) {
+            const toggleBtn = wrapper.querySelector('#toggleUnit');
+            toggleBtn?.addEventListener('click', () => {
+                const tempEl = wrapper.querySelector('h2');
+                if (!tempEl) return;
+                if (tempEl.textContent.includes('°C')) {
+                    tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
+                } else {
+                    tempEl.textContent = tempEl.dataset.celsius + '°C';
+                }
+            });
 
-        // ForecastWeather formulář
-        const forecastForm = wrapper.querySelector('#forecastLocationForm');
-        forecastForm?.addEventListener('submit', async e => {
-            e.preventDefault();
-            const input = forecastForm.querySelector('input[name="location"]');
-            const newLocation = input.value;
-            await loadWidget(widgetName, newLocation);
-        });
-    }
+            // CurrentWeather formulář
+            const form = wrapper.querySelector('#locationForm');
+            form?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const input = form.querySelector('input[name="location"]');
+                const newLocation = input.value;
+                await loadWidget(widgetName, newLocation);
+            });
 
-    // 🔹 Tlačítko × pro odstranění widgetu
-    function addCloseButton(wrapper, widgetName) {
-        // Pokud už tlačítko existuje, neduplikujeme
-        if (wrapper.querySelector('.close-widget-btn')) return;
+            // ForecastWeather formulář
+            const forecastForm = wrapper.querySelector('#forecastLocationForm');
+            forecastForm?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const input = forecastForm.querySelector('input[name="location"]');
+                const newLocation = input.value;
+                await loadWidget(widgetName, newLocation);
+            });
+        }
 
-        const closeBtn = document.createElement('button');
-        closeBtn.textContent = '×';
-        closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
-        closeBtn.style.position = "absolute";
-        closeBtn.style.top = "5px";
-        closeBtn.style.right = "5px";
+        // 🔹 Tlačítko × pro odstranění widgetu
+        function addCloseButton(wrapper, widgetName) {
+            if (wrapper.querySelector('.close-widget-btn')) return;
 
-        closeBtn.addEventListener('click', () => {
-            wrapper.style.transition = "opacity 0.3s ease";
-            wrapper.style.opacity = "0";
-            setTimeout(() => {
-                wrapper.remove();
-                activeWidgets.delete(widgetName);
-            }, 300);
-        });
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '×';
+            closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
+            closeBtn.style.position = "absolute";
+            closeBtn.style.top = "5px";
+            closeBtn.style.right = "5px";
 
-        wrapper.appendChild(closeBtn);
-    }
+            closeBtn.addEventListener('click', () => {
+                wrapper.style.transition = "opacity 0.3s ease";
+                wrapper.style.opacity = "0";
+                setTimeout(() => {
+                    wrapper.remove();
+                    activeWidgets.delete(widgetName);
+                    saveWidgetState(); // 💾 Uložíme po odstranění
+                }, 300);
+            });
 
-    // 🔹 Kliknutí na položky v menu
-    const widgetLinks = document.querySelectorAll('.widget-link');
-    widgetLinks.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            const widgetName = link.getAttribute('data-widget');
-            loadWidget(widgetName);
+            wrapper.appendChild(closeBtn);
+        }
+
+        // 🔹 Kliknutí na položky v menu
+        const widgetLinks = document.querySelectorAll('.widget-link');
+        widgetLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const widgetName = link.getAttribute('data-widget');
+                loadWidget(widgetName);
+            });
         });
     });
-});
 </script>
 
 

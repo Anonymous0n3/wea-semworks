@@ -47,12 +47,29 @@ namespace WebApplication1.Service
             return JsonSerializer.Deserialize<ForecastResponse>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
-        // --- Search locations ---
+        // --- Search locations / autocomplete ---
         public async Task<List<SearchLocation>> SearchLocationAsync(string query)
         {
-            string url = $"{_baseUrl}/search.json?key={_apiKey}&q={query}";
-            var response = await _httpClient.GetStringAsync(url);
-            return JsonSerializer.Deserialize<List<SearchLocation>>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<SearchLocation>();
+
+            try
+            {
+                string url = $"{_baseUrl}/search.json?key={_apiKey}&q={Uri.EscapeDataString(query)}";
+                var response = await _httpClient.GetStringAsync(url);
+
+                var locations = JsonSerializer.Deserialize<List<SearchLocation>>(response, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return locations ?? new List<SearchLocation>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"SearchLocationAsync error: {ex.Message}");
+                return new List<SearchLocation>();
+            }
         }
 
         // --- Výpočet rosného bodu ---
@@ -117,6 +134,30 @@ namespace WebApplication1.Service
 
         [JsonPropertyName("day")]
         public Day Day { get; set; }
+
+        [JsonPropertyName("hour")]
+        public List<Hour> Hourly { get; set; }   // ← přidáno
+    }
+
+    public class Hour
+    {
+        [JsonPropertyName("time")]
+        public string Time { get; set; }
+
+        [JsonPropertyName("temp_c")]
+        public double TempC { get; set; }
+
+        [JsonPropertyName("temp_f")]
+        public double TempF { get; set; }
+
+        [JsonPropertyName("condition")]
+        public Condition Condition { get; set; }
+
+        [JsonPropertyName("chance_of_rain")]
+        public double ChanceOfRain { get; set; }
+
+        [JsonPropertyName("uv")]
+        public double Uv { get; set; }
     }
 
     public class Day
@@ -235,6 +276,9 @@ namespace WebApplication1.Service
 
     public class SearchLocation
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -249,5 +293,8 @@ namespace WebApplication1.Service
 
         [JsonPropertyName("lon")]
         public double Lon { get; set; }
+
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
     }
 }

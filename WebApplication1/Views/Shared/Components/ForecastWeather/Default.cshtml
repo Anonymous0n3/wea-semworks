@@ -1,12 +1,10 @@
-﻿@model List<WebApplication1.Models.ForecastDayViewModel>
-@{
-    var locationName = ViewData["LocationName"]?.ToString() ?? "Unknown";
-}
+﻿@model WebApplication1.Models.ForecastWeatherViewModel
 
-<div class="card shadow-sm">
+<div class="card shadow-sm" id="forecastWidget">
     <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">Předpověď počasí - @locationName</h4>
+        <h4 class="mb-0">Předpověď počasí - @Model.LocationName</h4>
     </div>
+
     <div class="card-body">
         <form id="forecastLocationForm" class="mb-3">
             <div class="input-group">
@@ -15,32 +13,55 @@
             </div>
         </form>
 
-        <div class="d-flex flex-wrap justify-content-around">
-            @foreach (var day in Model)
+        <!-- Denní přehled -->
+        <div class="d-flex flex-wrap justify-content-around mb-4">
+            @foreach (var day in Model.ForecastDays)
             {
                 <div class="card text-center m-2 p-3" style="width: 10rem;">
                     <div><strong>@day.Date</strong></div>
                     <img src="@day.ConditionIcon" alt="@day.ConditionText" width="64" height="64" />
                     <div>@day.ConditionText</div>
                     <div><strong>@day.MaxTempC°C / @day.MinTempC°C</strong></div>
+                    <div><strong>@((day.MaxTempC * 9 / 5) + 32)°F / @((day.MinTempC * 9 / 5) + 32)°F</strong></div>
                     <div>💧 @day.ChanceOfRain% déšť</div>
                     <div>🌞 UV: @day.Uv</div>
                 </div>
             }
         </div>
+
+        <!-- Hodinové přehledy (po 2 hodinách) -->
+        <h5>Hodinová teplota (po 2 hodinách)</h5>
+
+        @foreach (var day in Model.ForecastDays)
+        {
+            <div class="mt-3">
+                <h6 class="fw-bold">@day.Date</h6>
+                <div class="d-flex flex-wrap">
+                    @for (int i = 0; i < day.Hourly.Count; i += 2)
+                    {
+                        var hour = day.Hourly[i];
+                        <div class="card text-center m-2 p-2" style="width: 8rem;">
+                            <div><strong>@hour.Hour</strong></div>
+                            <div>@hour.TempC°C / @hour.TempF°F</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>
 
-<script>
-    document.querySelector('#forecastLocationForm')?.addEventListener('submit', async e => {
-        e.preventDefault();
-        const input = e.target.querySelector('input[name="location"]');
-        const location = input.value;
-        const widget = e.target.closest('.widget-wrapper');
-        if (widget) {
-            const widgetName = widget.dataset.widgetName;
-            const event = new CustomEvent('reloadWidget', { detail: { widgetName, location } });
-            document.dispatchEvent(event);
-        }
-    });
-</script>
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // AJAX načtení nové lokace
+            document.getElementById('forecastLocationForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const location = e.target.querySelector('input[name="location"]').value;
+                const response = await fetch(`/ForecastWeather?location=${encodeURIComponent(location)}`);
+                const html = await response.text();
+                document.getElementById('forecastWidget').outerHTML = html;
+            });
+        });
+    </script>
+}
