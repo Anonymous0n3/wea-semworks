@@ -6,11 +6,36 @@
     </div>
 
     <div class="card-body">
-        <form id="forecastLocationForm" class="mb-3">
+        <form id="forecastLocationForm"
+              class="mb-3 position-relative"
+              autocomplete="off"
+              style="overflow: visible;"
+              data-api="@Url.Content("~/api/locations")">
+
+            <!-- honeypot prohlížeče (odvede autofill mimo náš input) -->
+            <input type="text" autocomplete="username" tabindex="-1" aria-hidden="true"
+                   style="position:absolute; left:-9999px; top:-9999px; height:0; width:0; opacity:0;">
+            <input type="password" autocomplete="new-password" tabindex="-1" aria-hidden="true"
+                   style="position:absolute; left:-9999px; top:-9999px; height:0; width:0; opacity:0;">
+
             <div class="input-group">
-                <input type="text" name="location" class="form-control" placeholder="Zadejte město..." />
+                <!-- PONECHÁVÁME name="location" kvůli tvému původnímu submitu -->
+                <input type="text"
+                       id="forecastLocationInput"
+                       name="location"
+                       class="form-control"
+                       placeholder="Zadejte město..."
+                       data-role="location-input"
+                       autocomplete="off"
+                       autocapitalize="off"
+                       autocorrect="off"
+                       spellcheck="false" />
                 <button type="submit" class="btn btn-primary">Načíst</button>
             </div>
+
+            <!-- Dropdown pro našeptávání -->
+            <ul class="list-group position-absolute w-100 bg-white border rounded location-suggestions"
+                style="z-index:2000; max-height: 250px; overflow-y: auto; display:none;"></ul>
         </form>
 
         <!-- Denní přehled -->
@@ -31,7 +56,6 @@
 
         <!-- Hodinové přehledy (po 2 hodinách) -->
         <h5>Hodinová teplota (po 2 hodinách)</h5>
-
         @foreach (var day in Model.ForecastDays)
         {
             <div class="mt-3">
@@ -54,10 +78,11 @@
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // AJAX načtení nové lokace
-            document.getElementById('forecastLocationForm').addEventListener('submit', async (e) => {
+            // AJAX načtení nové lokace (původní chování)
+            const form = document.getElementById('forecastLocationForm');
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const location = e.target.querySelector('input[name="location"]').value;
+                const location = form.querySelector('input[name="location"]').value;
                 const response = await fetch(`/ForecastWeather?location=${encodeURIComponent(location)}`);
                 const html = await response.text();
                 document.getElementById('forecastWidget').outerHTML = html;
