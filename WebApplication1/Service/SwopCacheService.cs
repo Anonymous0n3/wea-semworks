@@ -59,7 +59,7 @@ namespace WebApplication1.Service
             if (point != null)
                 _cache.Set(key, point, ttl);
             else
-                _cache.Set(key, null, ttl); // aby se nepokusil stále znovu dotazovat (můžeš použít sentinel)
+                _cache.Set(key, point, new MemoryCacheEntryOptions().SetAbsoluteExpiration(ttl));
 
             return point;
         }
