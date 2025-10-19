@@ -10,6 +10,15 @@ using WidgetsDemo.Services;
 DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Použij environment variable BACKEND_BASE_URL pro Docker, fallback na localhost
+var backendUrl = Environment.GetEnvironmentVariable("BACKEND_BASE_URL") ?? "http://localhost:8080";
+
+builder.Services.AddHttpClient("BackendClient", client =>
+{
+    client.BaseAddress = new Uri(backendUrl);
+});
+
 builder.Services.AddTransient<WeatherService>();
 // ---- Logging (Serilog) ----
 var logger = new LoggerConfiguration()

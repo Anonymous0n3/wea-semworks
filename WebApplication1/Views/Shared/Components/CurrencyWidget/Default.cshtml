@@ -1,4 +1,4 @@
-﻿@model List<WebApplication1.Models.Currency>
+﻿@model List<WebApplication1.Views.Shared.Components.CurrencyWidget.Currency>
 
 @{
     var baseCur = ViewData["BaseCurrency"]?.ToString() ?? "EUR";
@@ -22,7 +22,7 @@
                         @foreach (var c in Model)
                         {
                             <option value="@c.Id" selected="@(c.Id == baseCur)">
-                                @c.Id - @c.Name
+                                @c.Id
                             </option>
                         }
                     </select>
@@ -33,7 +33,7 @@
                         @foreach (var c in Model)
                         {
                             <option value="@c.Id" selected="@(c.Id == quoteCur)">
-                                @c.Id - @c.Name
+                                @c.Id
                             </option>
                         }
                     </select>
@@ -57,24 +57,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const history = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
-        history.Select(h => new { timestamp = h.Date, rate = h.Rate })
-        ));
+                    history.Select(h => new { timestamp = h.Date, rate = h.Rate })
+            ));
 
-        const ctx = document.getElementById('currencyChart');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: history.map(h => new Date(h.timestamp).toLocaleDateString()),
-                datasets: [{
-                    label: '@baseCur → @quoteCur',
-                    data: history.map(h => h.rate),
-                    borderWidth: 2,
-                    borderColor: 'green',
-                    tension: 0.3
-                }]
-            },
-            options: { scales: { y: { beginAtZero: false } } }
-        });
+    const ctx = document.getElementById('currencyChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: history.map(h => new Date(h.timestamp).toLocaleDateString()),
+            datasets: [{
+                label: '@baseCur → @quoteCur',
+                data: history.map(h => h.rate),
+                borderWidth: 2,
+                borderColor: 'green',
+                tension: 0.3
+            }]
+        },
+        options: { scales: { y: { beginAtZero: false } } }
+    });
 
         document.getElementById('currencyForm').addEventListener('submit', async (e) => {
             e.preventDefault();

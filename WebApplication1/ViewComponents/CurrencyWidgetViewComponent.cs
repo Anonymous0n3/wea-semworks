@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Json;
-using WebApplication1.Models;
 using System.Text.Json;
+using WebApplication1.Models;
 
 namespace WebApplication1.Views.Shared.Components.CurrencyWidget
 {
@@ -18,36 +17,29 @@ namespace WebApplication1.Views.Shared.Components.CurrencyWidget
         {
             var client = _factory.CreateClient();
 
-            // 🪙 1️⃣ Načti seznam měn z CouchDB (přes tvůj controller)
-            var currencies = await client.GetFromJsonAsync<List<Currency>>("https://localhost:5001/api/currencies")
-                              ?? new List<Currency>();
+            // Použij přímo podporované měny
+            var currencies = SupportedEuropeanCurrencyHelper.ToIsoList()
+                               .Select(c => new Currency { Id = c, Name = c }) // Id a Name stejné
+                               .ToList();
 
-            // 📊 2️⃣ Zavolej GraphQL endpoint (Swop API přes tvůj backend)
-            var req = new
-            {
-                BaseCurrency = baseCurrency,
-                QuoteCurrency = quoteCurrency
-            };
+            // Zavolej backend widget endpoint
+            var req = new { BaseCurrency = baseCurrency, QuoteCurrency = quoteCurrency };
+            var resp = await client.PostAsJsonAsync("/api/swop/widget", req);
 
-            var resp = await client.PostAsJsonAsync("https://localhost:5001/api/swop/widget", req);
-
-            // defaultní hodnoty
-            decimal rate = 0;
-            decimal volatility = 0;
+            decimal rate = 0, volatility = 0;
             List<(DateTime Date, decimal Rate)> history = new();
 
             if (resp.IsSuccessStatusCode)
             {
                 var json = await resp.Content.ReadAsStringAsync();
-                var doc = JsonDocument.Parse(json);
-                var root = doc.RootElement;
+                var root = JsonDocument.Parse(json).RootElement;
 
                 rate = root.GetProperty("CurrentRate").GetDecimal();
                 volatility = root.GetProperty("Volatility").GetDecimal();
 
                 foreach (var item in root.GetProperty("Historical").EnumerateArray())
                 {
-                    var t = DateTime.Parse(item.GetProperty("Timestamp").GetString() ?? DateTime.Now.ToString());
+                    var t = DateTime.Parse(item.GetProperty("Timestamp").GetString() ?? DateTime.UtcNow.ToString());
                     var r = item.GetProperty("Rate").GetDecimal();
                     history.Add((t, r));
                 }
@@ -61,5 +53,12 @@ namespace WebApplication1.Views.Shared.Components.CurrencyWidget
 
             return View("Default", currencies);
         }
+    }
+
+    // Jednoduchý model pro View
+    public class Currency
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 }

@@ -29,11 +29,12 @@ namespace WebApplication1.Service
             var today = DateTime.UtcNow.Date;
             var key = LatestKey(baseIso, quoteIso, today);
 
-            if (_cache.TryGetValue<decimal>(key, out var cached)) return cached;
+            if (_cache.TryGetValue<decimal>(key, out var cached))
+                return cached;
 
             var rate = await _swopClient.GetLatestRateAsync(baseIso, quoteIso);
 
-            // expirace do půlnoci UTC (nebo lokálně pokud chceš)
+            // expirace do půlnoci UTC
             var expiresAt = DateTime.UtcNow.Date.AddDays(1);
             var ttl = expiresAt - DateTime.UtcNow;
 
@@ -47,19 +48,23 @@ namespace WebApplication1.Service
             var d = date.Date;
             var key = HistKey(baseIso, quoteIso, d);
 
-            if (_cache.TryGetValue<HistoricalPoint>(key, out var cached)) return cached;
+            if (_cache.TryGetValue<HistoricalPoint>(key, out var cached))
+                return cached;
 
             var list = await _swopClient.GetHistoricalRatesAsync(baseIso, quoteIso, HistoricalInterval.Week);
-            // Pozn: SwopClient implementaci máme tak, že umí vrátit per-day přes loop, ale tady můžeme volat a pak vybrat požadovaný date
             var point = list.FirstOrDefault(p => p.Timestamp.Date == d);
 
-            // cacheovat per-day do dalšího dne
+            // expirace pro historická data: pokud datum v minulosti, cache dlouhodobě (rok)
             var expiresAt = d.AddDays(1);
             var ttl = expiresAt - DateTime.UtcNow;
+
+            if (ttl <= TimeSpan.Zero)
+                ttl = TimeSpan.FromDays(365); // historická data jsou neměnná
+
             if (point != null)
                 _cache.Set(key, point, ttl);
             else
-                _cache.Set(key, point, new MemoryCacheEntryOptions().SetAbsoluteExpiration(ttl)); // aby se nepokusil stále znovu dotazovat (můžeš použít sentinel)
+                _cache.Set(key, point, ttl); // sentinel pro neexistující data, aby se nepokoušel stále dotazovat
 
             return point;
         }
