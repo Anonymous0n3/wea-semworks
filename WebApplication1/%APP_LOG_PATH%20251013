@@ -692,3 +692,159 @@ System.InvalidOperationException: The model item passed into the ViewDataDiction
 2025-10-13 10:28:56.997 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 82.0635ms
 2025-10-13 10:28:56.997 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
 2025-10-13 10:28:56.997 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - 200 null text/html; charset=utf-8 87.0335ms
+2025-10-13 10:29:58.012 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-13 10:29:58.034 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:29:58.034 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-13 10:29:58.034 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-13 10:29:58.043 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 8.6113ms.
+2025-10-13 10:29:58.043 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 8.8868ms
+2025-10-13 10:29:58.043 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:29:58.045 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 34.2316ms
+2025-10-13 10:29:58.091 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-13 10:29:58.092 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 10:29:58.094 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 2.4283ms
+2025-10-13 10:29:58.110 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - null null
+2025-10-13 10:29:58.111 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:29:58.112 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - null null
+2025-10-13 10:29:58.112 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:29:58.112 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:29:58.114 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:29:58.115 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:29:58.115 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:29:58.118 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.1004ms
+2025-10-13 10:29:58.183 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 70.9564ms
+2025-10-13 10:29:58.183 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:29:58.183 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - 200 null text/html; charset=utf-8 73.5713ms
+2025-10-13 10:29:58.279 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 163.7594ms
+2025-10-13 10:29:58.279 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:29:58.279 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - 200 null text/html; charset=utf-8 168.3723ms
+2025-10-13 10:30:04.488 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:30:04.489 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:04.489 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:30:04.490 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:30:04.588 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 98.9094ms
+2025-10-13 10:30:04.588 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:04.588 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 101.0719ms
+2025-10-13 10:30:13.915 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:30:13.915 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:13.916 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:30:13.916 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:30:14.124 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 208.4466ms
+2025-10-13 10:30:14.124 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:14.124 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 210.6767ms
+2025-10-13 10:30:54.774 +02:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 10:30:55.033 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-13 10:30:55.034 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-13 10:30:55.091 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 10:30:55.091 +02:00 [INF] Hosting environment: Development
+2025-10-13 10:30:55.091 +02:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-13 10:30:55.532 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-13 10:30:55.731 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:30:55.762 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-13 10:30:55.778 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-13 10:30:55.966 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 191.1805ms.
+2025-10-13 10:30:55.972 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 209.7583ms
+2025-10-13 10:30:55.973 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:30:55.981 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 455.5949ms
+2025-10-13 10:30:56.148 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 10:30:56.149 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-13 10:30:56.156 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 8.738ms
+2025-10-13 10:30:56.225 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 75.5673ms
+2025-10-13 10:30:57.454 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:30:57.454 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:30:57.457 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:57.457 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:57.463 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:30:57.463 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:30:57.482 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:30:57.482 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:30:57.667 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 203.5986ms
+2025-10-13 10:30:57.668 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:57.668 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 214.2414ms
+2025-10-13 10:30:57.772 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 308.6428ms
+2025-10-13 10:30:57.772 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:30:57.773 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 319.0157ms
+2025-10-13 10:31:21.233 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-13 10:31:21.238 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:31:21.238 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-13 10:31:21.238 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-13 10:31:21.250 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 11.5013ms.
+2025-10-13 10:31:21.250 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 11.8465ms
+2025-10-13 10:31:21.252 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:31:21.254 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 21.465ms
+2025-10-13 10:31:21.293 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-13 10:31:21.301 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 10:31:21.303 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 2.3838ms
+2025-10-13 10:31:21.311 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:31:21.313 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:31:21.315 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:21.317 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:21.318 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:31:21.318 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:31:21.319 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:31:21.319 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:31:21.328 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.2291ms
+2025-10-13 10:31:21.394 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 75.5444ms
+2025-10-13 10:31:21.394 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:21.394 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 83.449ms
+2025-10-13 10:31:21.481 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 163.0146ms
+2025-10-13 10:31:21.481 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:21.481 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 168.7547ms
+2025-10-13 10:31:36.843 +02:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 10:31:37.289 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-13 10:31:37.290 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-13 10:31:37.435 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 10:31:37.436 +02:00 [INF] Hosting environment: Development
+2025-10-13 10:31:37.436 +02:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-13 10:31:38.121 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-13 10:31:38.458 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:31:38.502 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-13 10:31:38.526 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-13 10:31:38.867 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 341.7506ms.
+2025-10-13 10:31:38.875 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 371.1951ms
+2025-10-13 10:31:38.876 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:31:38.894 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 795.9868ms
+2025-10-13 10:31:39.093 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 10:31:39.093 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-13 10:31:39.101 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 8.0359ms
+2025-10-13 10:31:39.142 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 48.6121ms
+2025-10-13 10:31:40.792 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:31:40.792 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:31:40.796 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:40.796 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:40.804 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:31:40.804 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:31:40.821 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:31:40.821 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:31:40.923 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 119.2262ms
+2025-10-13 10:31:40.924 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:40.924 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 132.8536ms
+2025-10-13 10:31:41.038 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 234.1649ms
+2025-10-13 10:31:41.038 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:31:41.039 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 247.794ms
+2025-10-13 10:33:10.915 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-13 10:33:10.932 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:33:10.933 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-13 10:33:10.935 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-13 10:33:10.951 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 18.1002ms.
+2025-10-13 10:33:10.952 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 18.7604ms
+2025-10-13 10:33:10.952 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-13 10:33:10.952 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 37.8194ms
+2025-10-13 10:33:10.980 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-13 10:33:10.990 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 10:33:11.016 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 26.5186ms
+2025-10-13 10:33:11.038 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:33:11.047 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - null null
+2025-10-13 10:33:11.053 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:33:11.053 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:33:11.053 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:33:11.054 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-13 10:33:11.056 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-13 10:33:11.056 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-13 10:33:11.149 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 169.7662ms
+2025-10-13 10:33:11.203 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 148.9509ms
+2025-10-13 10:33:11.203 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:33:11.203 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 165.1119ms
+2025-10-13 10:33:11.326 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 272.6158ms
+2025-10-13 10:33:11.327 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-13 10:33:11.327 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location=Berl%C3%ADn - 200 null text/html; charset=utf-8 280.5959ms

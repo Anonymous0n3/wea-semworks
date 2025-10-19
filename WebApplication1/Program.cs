@@ -20,6 +20,10 @@ builder.Host.UseSerilog(logger);
 // ---- Localization services ----
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<SwopCacheService>();
+
+
 // MVC + Razor lokalizace (view + DataAnnotations)
 builder.Services
     .AddControllersWithViews()
