@@ -1,67 +1,104 @@
-﻿@model WebApplication1.Models.ForecastWeatherViewModel
+﻿@model IReadOnlyList<string>
 
-<div class="card shadow-sm" id="forecastWidget">
-    <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">Předpověď počasí - @Model.LocationName</h4>
+@{
+    var baseCur = (ViewData["BaseCurrency"] as string) ?? "EUR";
+    var quoteCur = (ViewData["QuoteCurrency"] as string) ?? "USD";
+    var rate = (decimal)(ViewData["Rate"] ?? 0m);
+    var vol = (decimal)(ViewData["Volatility"] ?? 0m);
+    var history = ViewData["History"] as List<(DateTime Date, decimal Rate)> ?? new();
+    var error = ViewData["Error"]?.ToString();
+}
+
+<div class="card shadow-sm" id="currencyWidget">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Měnový kurz</h5>
+        <span>@baseCur → @quoteCur : <strong>@rate.ToString("0.#####")</strong></span>
     </div>
 
     <div class="card-body">
-        <form id="forecastLocationForm" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="location" class="form-control" placeholder="Zadejte město..." />
-                <button type="submit" class="btn btn-primary">Načíst</button>
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="alert alert-danger">@error</div>
+        }
+
+        <form id="currencyForm" class="mb-3">
+            <div class="row g-2 align-items-center">
+                <div class="col-md-4">
+                    <select name="baseCurrency" class="form-select">
+                        @foreach (var c in Model)
+                        {
+                            <option value="@c" selected="@(string.Equals(c, baseCur, StringComparison.OrdinalIgnoreCase))">
+                                @c
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <select name="quoteCurrency" class="form-select">
+                        @foreach (var c in Model)
+                        {
+                            <option value="@c" selected="@(string.Equals(c, quoteCur, StringComparison.OrdinalIgnoreCase))">
+                                @c
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success w-100">Zobrazit aktuální kurz</button>
+                </div>
             </div>
         </form>
 
-        <!-- Denní přehled -->
-        <div class="d-flex flex-wrap justify-content-around mb-4">
-            @foreach (var day in Model.ForecastDays)
-            {
-                <div class="card text-center m-2 p-3" style="width: 10rem;">
-                    <div><strong>@day.Date</strong></div>
-                    <img src="@day.ConditionIcon" alt="@day.ConditionText" width="64" height="64" />
-                    <div>@day.ConditionText</div>
-                    <div><strong>@day.MaxTempC°C / @day.MinTempC°C</strong></div>
-                    <div><strong>@((day.MaxTempC * 9 / 5) + 32)°F / @((day.MinTempC * 9 / 5) + 32)°F</strong></div>
-                    <div>💧 @day.ChanceOfRain% déšť</div>
-                    <div>🌞 UV: @day.Uv</div>
-                </div>
-            }
-        </div>
+        <p class="mt-3 mb-3">
+            📈 Volatilita (3 dny): <strong>@vol.ToString("0.####") %</strong>
+        </p>
 
-        <!-- Hodinové přehledy -->
-        <h5>Hodinová teplota</h5>
-
-        @foreach (var day in Model.ForecastDays)
-        {
-            <div class="mt-3">
-                <h6 class="fw-bold">@day.Date</h6>
-                <div class="d-flex flex-wrap">
-                    @for (int i = 0; i < day.Hourly.Count; i ++)
-                    {
-                        var hour = day.Hourly[i];
-                        <div class="card text-center m-2 p-2" style="width: 8rem;">
-                            <div><strong>@hour.Hour</strong></div>
-                            <div>@hour.TempC°C / @hour.TempF°F</div>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
+        <canvas id="currencyChart" height="120"></canvas>
     </div>
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // AJAX načtení nové lokace
-            document.getElementById('forecastLocationForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const location = e.target.querySelector('input[name="location"]').value;
-                const response = await fetch(`/ForecastWeather?location=${encodeURIComponent(location)}`);
-                const html = await response.text();
-                document.getElementById('forecastWidget').outerHTML = html;
-            });
+        const history = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    history.Select(h => new { timestamp = h.Date.ToString("yyyy-MM-dd"), rate = h.Rate })
+            ));
+
+    const ctx = document.getElementById('currencyChart');
+    if (history.length > 0) {
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: history.map(h => new Date(h.timestamp).toLocaleDateString()),
+                datasets: [{
+                    label: '@baseCur → @quoteCur',
+                    data: history.map(h => h.rate),
+                    borderWidth: 2,
+                    borderColor: 'green',
+                    tension: 0.3
+                }]
+            },
+            options: { scales: { y: { beginAtZero: false } } }
+        });
+    } else {
+        ctx.parentNode.insertAdjacentHTML('beforeend', '<div class="text-muted">Žádná historická data k dispozici.</div>');
+    }
+
+        // AJAX reload komponenty přes nový kontroler endpoint
+        document.getElementById('currencyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const params = new URLSearchParams(new FormData(e.target));
+            // použijeme nově přidaný endpoint CurrencyWidget
+            const res = await fetch(`/CurrencyWidget?${params.toString()}`, { method: 'GET' });
+            if (!res.ok) {
+                const txt = await res.text();
+                console.error('Chyba při načítání widgetu', res.status, txt);
+                return;
+            }
+            const html = await res.text();
+            document.getElementById('currencyWidget').outerHTML = html;
         });
     </script>
 }
