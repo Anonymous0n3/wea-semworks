@@ -2,8 +2,7 @@
 {
     public enum SupportedEuropeanCurrency
     {
-        GBP, ALL, AMD, AZN, BYN, BAM, BGN, CZK, DKK, GEL, HUF, ISK,
-        CHF, MDL, MKD, NOK, PLN, RON, RUB, RSD, SEK, TRY, UAH
+        EUR, BGN, CZK, DKK, HUF, PLN, RON, SEK, CHF
     }
 
     public static class SupportedEuropeanCurrencyHelper

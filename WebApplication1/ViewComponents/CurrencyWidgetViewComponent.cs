@@ -26,59 +26,52 @@ namespace WebApplication1.Views.Shared.Components.CurrencyWidget
             if (query.ContainsKey("quoteCurrency"))
                 quoteCurrency = query["quoteCurrency"].ToString().ToUpperInvariant();
 
-            // Seznam podporovaných měn (enum)
             var currencies = SupportedEuropeanCurrencyHelper.ToIsoList();
 
-            // 1) Aktuální kurz (pokud chybí, záložní hodnota)
-            decimal currentRate;
+            decimal currentRate = 0m;
             try
             {
                 currentRate = await _swop.GetLatestRateAsync(baseCurrency, quoteCurrency);
-                if (currentRate == 0)
+                if (currentRate == 0m)
                 {
-                    currentRate = Math.Round((decimal)(0.5 + new Random().NextDouble() * 1.5), 4);
+                    Console.WriteLine($"[CurrencyWidget] Chybná hodnota kurzu pro {baseCurrency} → {quoteCurrency}: data chybí nebo účet neumožňuje přístup.");
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                currentRate = Math.Round((decimal)(0.5 + new Random().NextDouble() * 1.5), 4);
+                Console.WriteLine($"[CurrencyWidget] Chyba při načítání aktuálního kurzu {baseCurrency} → {quoteCurrency}: {ex.Message}");
             }
 
-
-            // 2) Historie posledních 3 dní (včetně z cache)
             var today = DateTime.UtcNow.Date;
             var history = new List<(DateTime Date, decimal Rate)>();
+
+            // Pouze poslední 3 dny
             for (int i = 3; i >= 1; i--)
             {
                 var day = today.AddDays(-i);
-                HistoricalPoint? h = null;
+                decimal dayRate = 0m;
                 try
                 {
-                    h = await _cache.GetOrFetchHistoricalDateAsync(baseCurrency, quoteCurrency, day);
+                    var h = await _cache.GetOrFetchHistoricalDateAsync(baseCurrency, quoteCurrency, day);
+                    if (h?.Rate != null && h.Timestamp.Date == day)
+                    {
+                        dayRate = h.Rate;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[CurrencyWidget] Chybná historická data pro {baseCurrency} → {quoteCurrency} ({day:yyyy-MM-dd}): data chybí nebo účet neumožňuje přístup.");
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    h = null;
-                }
-
-                decimal dayRate;
-                if (h?.Rate != null && h.Timestamp.Date == day)
-                    dayRate = h.Rate;
-                else
-                {
-                    // fallback: drobná náhodná odchylka ±5%
-                    dayRate = Math.Round(currentRate * (1 - 0.05m + (decimal)new Random().NextDouble() * 0.1m), 4);
+                    Console.WriteLine($"[CurrencyWidget] Výjimka při načítání historického kurzu {baseCurrency} → {quoteCurrency} ({day:yyyy-MM-dd}): {ex.Message}");
                 }
 
                 history.Add((day, dayRate));
             }
 
-            // 3) Procentní rozdíly a volatilita (std.dev) — oproti aktuálnímu kurzu
-            var diffs = history
-                .Where(p => p.Rate != 0m)
-                .Select(p => (currentRate - p.Rate) / p.Rate * 100m)
-                .ToList();
-
+            // Volatilita – ignoruje nulové hodnoty
+            var diffs = history.Where(p => p.Rate != 0m).Select(p => currentRate != 0m ? (currentRate - p.Rate) / p.Rate * 100m : 0m).ToList();
             decimal volatility = 0m;
             if (diffs.Count > 0)
             {
@@ -88,15 +81,15 @@ namespace WebApplication1.Views.Shared.Components.CurrencyWidget
                 volatility = Math.Round(volatility, 4);
             }
 
-            // 4) Předání do view
             ViewData["BaseCurrency"] = baseCurrency;
             ViewData["QuoteCurrency"] = quoteCurrency;
             ViewData["Rate"] = currentRate;
             ViewData["Volatility"] = volatility;
             ViewData["History"] = history;
 
-            // Model pro view = seznam ISO kódů (IReadOnlyList<string>)
             return View("Default", currencies);
         }
+
+
     }
 }

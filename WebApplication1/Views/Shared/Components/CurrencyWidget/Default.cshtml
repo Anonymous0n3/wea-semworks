@@ -6,6 +6,7 @@
     var rate = (decimal)(ViewData["Rate"] ?? 0m);
     var volatility = (decimal)(ViewData["Volatility"] ?? 0m);
     var history = ViewData["History"] as List<(DateTime Date, decimal Rate)> ?? new();
+    var orderedHistory = history.OrderBy(h => h.Date).ToList();
 }
 
 <div class="currency-widget card shadow-sm p-4 rounded-3 bg-light">
@@ -19,6 +20,13 @@
         <small class="text-muted">
             Volatilita za poslední 3 dny: <strong>@volatility&nbsp;%</strong>
         </small>
+    </div>
+
+    <hr />
+
+    <!-- 📈 Graf vývoje kurzu -->
+    <div class="chart-container mb-4">
+        <canvas id="rateChart"></canvas>
     </div>
 
     <hr />
@@ -86,8 +94,6 @@
 
             <button type="submit" class="btn btn-primary">Zobrazit aktuální kurz</button>
         </form>
-
-
     </div>
 </div>
 
@@ -96,4 +102,68 @@
         max-width: 650px;
         margin: 0 auto;
     }
+
+    .chart-container {
+        position: relative;
+        height: 250px;
+        width: 100%;
+    }
 </style>
+
+@section Scripts {
+    <!-- 📊 Chart.js z CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- Data z Razor modelu ---
+            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))));
+            const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)));
+
+            // --- Vykreslení grafu ---
+            const ctx = document.getElementById('rateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Kurz @baseCurrency → @quoteCurrency',
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Kurz'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Datum'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
