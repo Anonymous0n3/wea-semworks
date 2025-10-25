@@ -10,11 +10,10 @@
     <title>@ViewData["Title"] - WebApplication1</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,29 +30,37 @@
                         </li>
                     </ul>
 
-                    <!-- 🔽 Dropdown s widgety -->
-                    <div class="dropdown">
-                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            Widgety
+                    <div class="d-flex align-items-center">
+                        <!-- Widget dropdown -->
+                        <div class="dropdown me-2">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                Widgety
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="widgetMenu">
+                                <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>
+                                <li><a class="dropdown-item widget-link" data-widget="CurrentWeather" href="#">Current Weather</a></li>
+                                <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
+                                <li><a class="dropdown-item widget-link" data-widget="HelloWidget" href="#">Hello CouchDB</a></li>
+                                <li><a class="dropdown-item widget-link" data-widget="StatsWidget" href="#">Statistiky</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Login button -->
+                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Přihlásit se
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="widgetMenu">
-                            <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="CurrentWeather" href="#">Current Weather</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="HelloWidget" href="#">Hello CouchDB</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="StatsWidget" href="#">Statistiky</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-        <div id="widgetContainer" class="mt-4">
-        </div>
+
+        <div id="widgetContainer" class="mt-4"></div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -61,138 +68,241 @@
             &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Přihlášení</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Heslo</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div id="loginError" class="text-danger mb-2"></div>
+                        <button type="submit" class="btn btn-primary w-100">Přihlásit se</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-    <script src="~/js/site.js"></script>
-</body>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('widgetContainer');
-        const activeWidgets = new Map();
+    @RenderSection("Scripts", required: false)
 
-        // 🔹 Načtení uložených widgetů z localStorage
-        const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
-        if (savedWidgets.length > 0) {
-            savedWidgets.forEach(w => loadWidget(w.name, w.location));
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('widgetContainer');
+            const activeWidgets = new Map();
 
-        // 🔹 Uložení seznamu aktivních widgetů do localStorage
-        function saveWidgetState() {
-            const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
-                name,
-                location: wrapper.dataset.location || ''
-            }));
-            localStorage.setItem('openWidgets', JSON.stringify(data));
-        }
-
-        // 🔹 Načtení widgetu
-        async function loadWidget(widgetName, location = '') {
+            // -----------------------------
+            // Načtení uložených widgetů z localStorage
+            // -----------------------------
+            let savedWidgets = [];
             try {
-                const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
-                const html = await response.text();
-
-                let wrapper = activeWidgets.get(widgetName);
-                const isNew = !wrapper;
-
-                if (!wrapper) {
-                    wrapper = document.createElement('div');
-                    wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
-                    wrapper.dataset.widgetName = widgetName;
-                    container.appendChild(wrapper);
-                    activeWidgets.set(widgetName, wrapper);
-                }
-
-                wrapper.dataset.location = location;
-                wrapper.innerHTML = html;
-                addCloseButton(wrapper, widgetName);
-                attachInteractions(wrapper, widgetName);
-
-                if (isNew) {
-                    wrapper.style.opacity = "0";
-                    wrapper.style.transition = "opacity 0.3s ease";
-                    requestAnimationFrame(() => (wrapper.style.opacity = "1"));
-                }
-
-                // 💾 Uložíme stav po načtení
-                saveWidgetState();
-
-            } catch (error) {
-                console.error("Chyba při načítání widgetu:", error);
+                savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
+                if (!Array.isArray(savedWidgets)) savedWidgets = [];
+            } catch {
+                savedWidgets = [];
             }
-        }
+            savedWidgets.forEach(w => loadWidget(w.name, w.location));
 
-        // 🔹 Přidání interakcí uvnitř widgetu
-        function attachInteractions(wrapper, widgetName) {
-            const toggleBtn = wrapper.querySelector('#toggleUnit');
-            toggleBtn?.addEventListener('click', () => {
-                const tempEl = wrapper.querySelector('h2');
-                if (!tempEl) return;
-                if (tempEl.textContent.includes('°C')) {
-                    tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-                } else {
-                    tempEl.textContent = tempEl.dataset.celsius + '°C';
+            // -----------------------------
+            // Funkce pro uložení widgetů
+            // -----------------------------
+            async function saveWidgetState() {
+                // Připrav JSON pole widgetů
+                const widgets = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
+                    name,
+                    location: wrapper.dataset.location || ''
+                }));
+
+                // Ulož do localStorage (vždy platné JSON pole, i když prázdné)
+                localStorage.setItem('openWidgets', JSON.stringify(widgets || []));
+
+                // Pokud není přihlášený uživatel, CouchDB nevoláme
+                const token = localStorage.getItem('jwtToken');
+                if (!token) return;
+
+                try {
+                    const res = await fetch("/api/auth/widgets", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        // Pokud prázdné, stejně pošli platné JSON []
+                        body: JSON.stringify(widgets || [])
+                    });
+
+                    if (!res.ok) {
+                        const text = await res.text();
+                        console.warn("⚠️ Nepodařilo se uložit widgety na server:", res.status, text);
+                    } else {
+                        console.log("✅ Widgety úspěšně uloženy do CouchDB (" + widgets.length + ")");
+                    }
+                } catch (err) {
+                    console.error("❌ Chyba při ukládání widgetů:", err);
                 }
+            }
+
+            // -----------------------------
+            // Funkce pro načtení widgetu
+            // -----------------------------
+            async function loadWidget(widgetName, location = '') {
+                try {
+                    const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
+                    const html = await response.text();
+
+                    let wrapper = activeWidgets.get(widgetName);
+                    const isNew = !wrapper;
+
+                    if (!wrapper) {
+                        wrapper = document.createElement('div');
+                        wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
+                        wrapper.dataset.widgetName = widgetName;
+                        container.appendChild(wrapper);
+                        activeWidgets.set(widgetName, wrapper);
+                    }
+
+                    wrapper.dataset.location = location;
+                    wrapper.innerHTML = html;
+                    addCloseButton(wrapper, widgetName);
+                    attachInteractions(wrapper, widgetName);
+
+                    if (isNew) {
+                        wrapper.style.opacity = "0";
+                        wrapper.style.transition = "opacity 0.3s ease";
+                        requestAnimationFrame(() => (wrapper.style.opacity = "1"));
+                    }
+
+                    // Ulož změny po načtení
+                    saveWidgetState();
+
+                } catch (error) {
+                    console.error("Chyba při načítání widgetu:", error);
+                }
+            }
+
+            // -----------------------------
+            // Přidání tlačítka × pro odstranění widgetu
+            // -----------------------------
+            function addCloseButton(wrapper, widgetName) {
+                if (wrapper.querySelector('.close-widget-btn')) return;
+
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = '×';
+                closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
+                closeBtn.style.position = "absolute";
+                closeBtn.style.top = "5px";
+                closeBtn.style.right = "5px";
+
+                closeBtn.addEventListener('click', () => {
+                    wrapper.style.transition = "opacity 0.3s ease";
+                    wrapper.style.opacity = "0";
+                    setTimeout(() => {
+                        wrapper.remove();
+                        activeWidgets.delete(widgetName);
+                        saveWidgetState(); // ulož změny při odstranění
+                    }, 300);
+                });
+
+                wrapper.appendChild(closeBtn);
+            }
+
+            // -----------------------------
+            // Přidání interakcí uvnitř widgetu
+            // -----------------------------
+            function attachInteractions(wrapper, widgetName) {
+                const toggleBtn = wrapper.querySelector('#toggleUnit');
+                toggleBtn?.addEventListener('click', () => {
+                    const tempEl = wrapper.querySelector('h2');
+                    if (!tempEl) return;
+                    if (tempEl.textContent.includes('°C')) {
+                        tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
+                    } else {
+                        tempEl.textContent = tempEl.dataset.celsius + '°C';
+                    }
+                });
+
+                const form = wrapper.querySelector('#locationForm');
+                form?.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const input = form.querySelector('input[name="location"]');
+                    await loadWidget(widgetName, input.value);
+                });
+
+                const forecastForm = wrapper.querySelector('#forecastLocationForm');
+                forecastForm?.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const input = forecastForm.querySelector('input[name="location"]');
+                    await loadWidget(widgetName, input.value);
+                });
+            }
+
+            // -----------------------------
+            // Kliknutí na položky v menu
+            // -----------------------------
+            const widgetLinks = document.querySelectorAll('.widget-link');
+            widgetLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const widgetName = link.getAttribute('data-widget');
+                    loadWidget(widgetName);
+                });
             });
 
-            // CurrentWeather formulář
-            const form = wrapper.querySelector('#locationForm');
-            form?.addEventListener('submit', async e => {
+            // -----------------------------
+            // Auto-uložení při zavření nebo skrytí stránky
+            // -----------------------------
+            window.addEventListener('unload', saveWidgetState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveWidgetState();
+            });
+
+            // -----------------------------
+            // Login AJAX
+            // -----------------------------
+            const loginForm = document.getElementById('loginForm');
+            const loginError = document.getElementById('loginError');
+
+            loginForm?.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const input = form.querySelector('input[name="location"]');
-                const newLocation = input.value;
-                await loadWidget(widgetName, newLocation);
-            });
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
 
-            // ForecastWeather formulář
-            const forecastForm = wrapper.querySelector('#forecastLocationForm');
-            forecastForm?.addEventListener('submit', async e => {
-                e.preventDefault();
-                const input = forecastForm.querySelector('input[name="location"]');
-                const newLocation = input.value;
-                await loadWidget(widgetName, newLocation);
-            });
-        }
-
-        // 🔹 Tlačítko × pro odstranění widgetu
-        function addCloseButton(wrapper, widgetName) {
-            if (wrapper.querySelector('.close-widget-btn')) return;
-
-            const closeBtn = document.createElement('button');
-            closeBtn.textContent = '×';
-            closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
-            closeBtn.style.position = "absolute";
-            closeBtn.style.top = "5px";
-            closeBtn.style.right = "5px";
-
-            closeBtn.addEventListener('click', () => {
-                wrapper.style.transition = "opacity 0.3s ease";
-                wrapper.style.opacity = "0";
-                setTimeout(() => {
-                    wrapper.remove();
-                    activeWidgets.delete(widgetName);
-                    saveWidgetState(); // 💾 Uložíme po odstranění
-                }, 300);
-            });
-
-            wrapper.appendChild(closeBtn);
-        }
-
-        // 🔹 Kliknutí na položky v menu
-        const widgetLinks = document.querySelectorAll('.widget-link');
-        widgetLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const widgetName = link.getAttribute('data-widget');
-                loadWidget(widgetName);
+                try {
+                    const resp = await fetch('/api/Auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await resp.json();
+                    if (!resp.ok) {
+                        loginError.textContent = data.message || "Chyba přihlášení";
+                        return;
+                    }
+                    loginError.textContent = "";
+                    localStorage.setItem('jwtToken', data.token);
+                    const modalEl = document.getElementById('loginModal');
+                    bootstrap.Modal.getInstance(modalEl)?.hide();
+                } catch (err) {
+                    console.error(err);
+                    loginError.textContent = "Nepodařilo se přihlásit.";
+                }
             });
         });
-    });
-</script>
+    </script>
 
-
-
-
-
+</body>
 </html>
