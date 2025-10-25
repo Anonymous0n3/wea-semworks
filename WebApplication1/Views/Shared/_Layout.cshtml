@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
@@ -52,8 +55,7 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-        <div id="widgetContainer" class="mt-4">
-        </div>
+        <div id="widgetContainer" class="mt-4"></div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -61,139 +63,181 @@
             &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/weather-autocomplete.js" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script src="~/js/site.js"></script>
-</body>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const container = document.getElementById('widgetContainer');
-        const activeWidgets = new Map();
 
-        // 🔹 Načtení uložených widgetů z localStorage
-        const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
-        if (savedWidgets.length > 0) {
-            savedWidgets.forEach(w => loadWidget(w.name, w.location));
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('widgetContainer');
+            const activeWidgets = new Map();
 
-        // 🔹 Uložení seznamu aktivních widgetů do localStorage
-        function saveWidgetState() {
-            const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
-                name,
-                location: wrapper.dataset.location || ''
-            }));
-            localStorage.setItem('openWidgets', JSON.stringify(data));
-        }
+            // Map pro uložení instancí grafů
+            const chartMap = new Map();
 
-        // 🔹 Načtení widgetu
-        async function loadWidget(widgetName, location = '') {
-            try {
-                const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
-                const html = await response.text();
-
-                let wrapper = activeWidgets.get(widgetName);
-                const isNew = !wrapper;
-
-                if (!wrapper) {
-                    wrapper = document.createElement('div');
-                    wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
-                    wrapper.dataset.widgetName = widgetName;
-                    container.appendChild(wrapper);
-                    activeWidgets.set(widgetName, wrapper);
-                }
-
-                wrapper.dataset.location = location;
-                wrapper.innerHTML = html;
-                addCloseButton(wrapper, widgetName);
-                attachInteractions(wrapper, widgetName);
-
-                if (isNew) {
-                    wrapper.style.opacity = "0";
-                    wrapper.style.transition = "opacity 0.3s ease";
-                    requestAnimationFrame(() => (wrapper.style.opacity = "1"));
-                }
-
-                // 💾 Uložíme stav po načtení
-                saveWidgetState();
-
-            } catch (error) {
-                console.error("Chyba při načítání widgetu:", error);
+            // 🔹 Načtení uložených widgetů z localStorage
+            const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
+            if (savedWidgets.length > 0) {
+                savedWidgets.forEach(w => loadWidget(w.name, w.location));
             }
-        }
 
-        // 🔹 Přidání interakcí uvnitř widgetu
-        function attachInteractions(wrapper, widgetName) {
-            const toggleBtn = wrapper.querySelector('#toggleUnit');
-            toggleBtn?.addEventListener('click', () => {
-                const tempEl = wrapper.querySelector('h2');
-                if (!tempEl) return;
-                if (tempEl.textContent.includes('°C')) {
-                    tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-                } else {
-                    tempEl.textContent = tempEl.dataset.celsius + '°C';
+            // 🔹 Uložení seznamu aktivních widgetů do localStorage
+            function saveWidgetState() {
+                const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
+                    name,
+                    location: wrapper.dataset.location || ''
+                }));
+                localStorage.setItem('openWidgets', JSON.stringify(data));
+            }
+
+            // 🔹 Funkce pro vykreslení ForecastWeather grafů
+            function renderForecastCharts(wrapper) {
+                const charts = wrapper.querySelectorAll('.temperatureChart');
+                charts.forEach(canvas => {
+                    // znič starou instanci grafu
+                    if (chartMap.has(canvas)) {
+                        chartMap.get(canvas).destroy();
+                    }
+
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+
+                    const labels = JSON.parse(canvas.dataset.labels);
+                    const values = JSON.parse(canvas.dataset.values);
+
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Teplota (°C)',
+                                data: values,
+                                borderColor: 'rgba(75,192,192,1)',
+                                backgroundColor: 'rgba(75,192,192,0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: { title: { display: true, text: 'Čas' } },
+                                y: { title: { display: true, text: 'Teplota (°C)' } }
+                            }
+                        }
+                    });
+
+                    chartMap.set(canvas, chart);
+                });
+            }
+
+            // 🔹 Načtení widgetu
+            async function loadWidget(widgetName, location = '') {
+                try {
+                    const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
+                    const html = await response.text();
+
+                    let wrapper = activeWidgets.get(widgetName);
+                    const isNew = !wrapper;
+
+                    if (!wrapper) {
+                        wrapper = document.createElement('div');
+                        wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
+                        wrapper.dataset.widgetName = widgetName;
+                        container.appendChild(wrapper);
+                        activeWidgets.set(widgetName, wrapper);
+                    }
+
+                    wrapper.dataset.location = location;
+                    wrapper.innerHTML = html;
+                    addCloseButton(wrapper, widgetName);
+                    attachInteractions(wrapper, widgetName);
+
+                    // pokud je ForecastWeather, vykresli grafy
+                    if (widgetName === "ForecastWeather") {
+                        renderForecastCharts(wrapper);
+                    }
+
+                    if (isNew) {
+                        wrapper.style.opacity = "0";
+                        wrapper.style.transition = "opacity 0.3s ease";
+                        requestAnimationFrame(() => (wrapper.style.opacity = "1"));
+                    }
+
+                    saveWidgetState();
+                } catch (error) {
+                    console.error("Chyba při načítání widgetu:", error);
                 }
-            });
+            }
 
-            // CurrentWeather formulář
-            const form = wrapper.querySelector('#locationForm');
-            form?.addEventListener('submit', async e => {
-                e.preventDefault();
-                const input = form.querySelector('input[name="location"]');
-                const newLocation = input.value;
-                await loadWidget(widgetName, newLocation);
-            });
+            // 🔹 Přidání interakcí uvnitř widgetu
+            function attachInteractions(wrapper, widgetName) {
+                const toggleBtn = wrapper.querySelector('#toggleUnit');
+                toggleBtn?.addEventListener('click', () => {
+                    const tempEl = wrapper.querySelector('h2');
+                    if (!tempEl) return;
+                    if (tempEl.textContent.includes('°C')) {
+                        tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
+                    } else {
+                        tempEl.textContent = tempEl.dataset.celsius + '°C';
+                    }
+                });
 
-            // ForecastWeather formulář
-            const forecastForm = wrapper.querySelector('#forecastLocationForm');
-            forecastForm?.addEventListener('submit', async e => {
-                e.preventDefault();
-                const input = forecastForm.querySelector('input[name="location"]');
-                const newLocation = input.value;
-                await loadWidget(widgetName, newLocation);
-            });
-        }
+                const form = wrapper.querySelector('#locationForm');
+                form?.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const input = form.querySelector('input[name="location"]');
+                    const newLocation = input.value;
+                    await loadWidget(widgetName, newLocation);
+                });
 
-        // 🔹 Tlačítko × pro odstranění widgetu
-        function addCloseButton(wrapper, widgetName) {
-            if (wrapper.querySelector('.close-widget-btn')) return;
+                const forecastForm = wrapper.querySelector('#forecastLocationForm');
+                forecastForm?.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const input = forecastForm.querySelector('input[name="location"]');
+                    const newLocation = input.value;
+                    await loadWidget(widgetName, newLocation);
+                });
+            }
 
-            const closeBtn = document.createElement('button');
-            closeBtn.textContent = '×';
-            closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
-            closeBtn.style.position = "absolute";
-            closeBtn.style.top = "5px";
-            closeBtn.style.right = "5px";
+            // 🔹 Tlačítko × pro odstranění widgetu
+            function addCloseButton(wrapper, widgetName) {
+                if (wrapper.querySelector('.close-widget-btn')) return;
 
-            closeBtn.addEventListener('click', () => {
-                wrapper.style.transition = "opacity 0.3s ease";
-                wrapper.style.opacity = "0";
-                setTimeout(() => {
-                    wrapper.remove();
-                    activeWidgets.delete(widgetName);
-                    saveWidgetState(); // 💾 Uložíme po odstranění
-                }, 300);
-            });
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = '×';
+                closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
+                closeBtn.style.position = "absolute";
+                closeBtn.style.top = "5px";
+                closeBtn.style.right = "5px";
 
-            wrapper.appendChild(closeBtn);
-        }
+                closeBtn.addEventListener('click', () => {
+                    wrapper.style.transition = "opacity 0.3s ease";
+                    wrapper.style.opacity = "0";
+                    setTimeout(() => {
+                        wrapper.remove();
+                        activeWidgets.delete(widgetName);
+                        saveWidgetState();
+                    }, 300);
+                });
 
-        // 🔹 Kliknutí na položky v menu
-        const widgetLinks = document.querySelectorAll('.widget-link');
-        widgetLinks.forEach(link => {
-            link.addEventListener('click', e => {
-                e.preventDefault();
-                const widgetName = link.getAttribute('data-widget');
-                loadWidget(widgetName);
+                wrapper.appendChild(closeBtn);
+            }
+
+            // 🔹 Kliknutí na položky v menu
+            const widgetLinks = document.querySelectorAll('.widget-link');
+            widgetLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const widgetName = link.getAttribute('data-widget');
+                    loadWidget(widgetName);
+                });
             });
         });
-    });
-</script>
-
-
-
-
-
+    </script>
+</body>
 </html>
