@@ -7,6 +7,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using BCrypt.Net;
 using WebApplication1.Models;
+using WebApplication1.Models.Data;
 
 namespace WebApplication1.Service
 {
