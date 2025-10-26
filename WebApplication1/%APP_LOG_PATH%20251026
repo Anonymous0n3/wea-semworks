@@ -1659,3 +1659,174 @@ System.InvalidOperationException: The model item passed into the ViewDataDiction
 2025-10-26 13:26:08.994 +01:00 [INF] Executed action WebApplication1.Controllers.LocationsController.Get (WebApplication1) in 37.5757ms
 2025-10-26 13:26:08.994 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.LocationsController.Get (WebApplication1)'
 2025-10-26 13:26:08.994 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/api/locations?q=ber - 200 null application/json; charset=utf-8 38.5613ms
+2025-10-26 13:37:46.690 +01:00 [INF] Start processing HTTP request GET http://couchdb:5984/helloworld
+2025-10-26 13:37:46.713 +01:00 [INF] Sending HTTP request GET http://couchdb:5984/helloworld
+2025-10-26 13:37:49.654 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 13:37:49.825 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 13:37:49.825 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 13:37:49.879 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 13:37:49.880 +01:00 [INF] Hosting environment: Development
+2025-10-26 13:37:49.880 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 13:37:50.727 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 13:37:50.929 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 13:37:50.947 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 13:37:50.957 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 13:37:51.106 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 151.4797ms.
+2025-10-26 13:37:51.111 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 163.2415ms
+2025-10-26 13:37:51.112 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 13:37:51.125 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 411.9455ms
+2025-10-26 13:37:51.158 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 13:37:51.158 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 13:37:51.158 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=Z-h_n3NZ3lzJ5r08u6XHrGZO4d0ADGjJi93VXLyF29U - null null
+2025-10-26 13:37:51.204 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 46.9499ms
+2025-10-26 13:37:51.205 +01:00 [INF] The file /js/site.js was not modified
+2025-10-26 13:37:51.206 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=Z-h_n3NZ3lzJ5r08u6XHrGZO4d0ADGjJi93VXLyF29U - 304 null text/javascript 48.3712ms
+2025-10-26 13:37:51.209 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/weather-autocomplete.js - null null
+2025-10-26 13:37:51.210 +01:00 [INF] The file /js/weather-autocomplete.js was not modified
+2025-10-26 13:37:51.210 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/weather-autocomplete.js - 304 null text/javascript 1.6157ms
+2025-10-26 13:37:51.210 +01:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-26 13:37:51.210 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 52.8205ms
+2025-10-26 13:37:51.213 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 13:37:51.266 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 54.2606ms
+2025-10-26 13:37:53.585 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather - null null
+2025-10-26 13:37:53.589 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:37:53.596 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 13:37:53.612 +01:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-26 13:37:53.876 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 280.6313ms
+2025-10-26 13:37:53.877 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:37:53.877 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather - 200 null text/html; charset=utf-8 292.085ms
+2025-10-26 13:37:56.337 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/api/locations?q=ber - null null
+2025-10-26 13:37:56.340 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.LocationsController.Get (WebApplication1)'
+2025-10-26 13:37:56.346 +01:00 [INF] Route matched with {action = "Get", controller = "Locations"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Get(System.String) on controller WebApplication1.Controllers.LocationsController (WebApplication1).
+2025-10-26 13:37:56.409 +01:00 [INF] Executing JsonResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[WebApplication1.Service.SearchLocation, WebApplication1, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null],[<>f__AnonymousType8`7[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], WebApplication1, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-26 13:37:56.415 +01:00 [INF] Executed action WebApplication1.Controllers.LocationsController.Get (WebApplication1) in 68.5256ms
+2025-10-26 13:37:56.415 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.LocationsController.Get (WebApplication1)'
+2025-10-26 13:37:56.415 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/api/locations?q=ber - 200 null application/json; charset=utf-8 78.2214ms
+2025-10-26 13:37:59.523 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - null null
+2025-10-26 13:37:59.523 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:37:59.524 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 13:37:59.524 +01:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-26 13:37:59.707 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 183.7148ms
+2025-10-26 13:37:59.707 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:37:59.708 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget - 200 null text/html; charset=utf-8 185.4454ms
+2025-10-26 13:38:02.290 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather - null null
+2025-10-26 13:38:02.290 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:38:02.290 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 13:38:02.291 +01:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-26 13:38:02.417 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 126.9694ms
+2025-10-26 13:38:02.418 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:38:02.418 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather - 200 null text/html; charset=utf-8 128.8069ms
+2025-10-26 13:38:05.182 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/api/locations?q=ber - null null
+2025-10-26 13:38:05.183 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.LocationsController.Get (WebApplication1)'
+2025-10-26 13:38:05.183 +01:00 [INF] Route matched with {action = "Get", controller = "Locations"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Get(System.String) on controller WebApplication1.Controllers.LocationsController (WebApplication1).
+2025-10-26 13:38:05.221 +01:00 [INF] Executing JsonResult, writing value of type 'System.Linq.Enumerable+SelectListIterator`2[[WebApplication1.Service.SearchLocation, WebApplication1, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null],[<>f__AnonymousType8`7[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Double, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], WebApplication1, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-26 13:38:05.222 +01:00 [INF] Executed action WebApplication1.Controllers.LocationsController.Get (WebApplication1) in 38.3062ms
+2025-10-26 13:38:05.222 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.LocationsController.Get (WebApplication1)'
+2025-10-26 13:38:05.222 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/api/locations?q=ber - 200 null application/json; charset=utf-8 40.548ms
+2025-10-26 13:38:08.141 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 13:38:08.142 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:38:08.142 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 13:38:08.142 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 13:38:08.155 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.156 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.245 +01:00 [INF] Received HTTP response headers after 87.4447ms - 200
+2025-10-26 13:38:08.245 +01:00 [INF] End processing HTTP request after 89.3807ms - 200
+2025-10-26 13:38:08.258 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.258 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.291 +01:00 [INF] Received HTTP response headers after 32.2543ms - 200
+2025-10-26 13:38:08.291 +01:00 [INF] End processing HTTP request after 32.5389ms - 200
+2025-10-26 13:38:08.295 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.296 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.330 +01:00 [INF] Received HTTP response headers after 34.3144ms - 200
+2025-10-26 13:38:08.330 +01:00 [INF] End processing HTTP request after 34.6135ms - 200
+2025-10-26 13:38:08.330 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.330 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.360 +01:00 [INF] Received HTTP response headers after 29.3643ms - 200
+2025-10-26 13:38:08.360 +01:00 [INF] End processing HTTP request after 29.5836ms - 200
+2025-10-26 13:38:08.361 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.361 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.394 +01:00 [INF] Received HTTP response headers after 33.4313ms - 200
+2025-10-26 13:38:08.394 +01:00 [INF] End processing HTTP request after 33.662ms - 200
+2025-10-26 13:38:08.395 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.395 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.425 +01:00 [INF] Received HTTP response headers after 30.4284ms - 200
+2025-10-26 13:38:08.425 +01:00 [INF] End processing HTTP request after 30.6346ms - 200
+2025-10-26 13:38:08.426 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.426 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.461 +01:00 [INF] Received HTTP response headers after 34.9941ms - 200
+2025-10-26 13:38:08.461 +01:00 [INF] End processing HTTP request after 35.2451ms - 200
+2025-10-26 13:38:08.461 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.461 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.491 +01:00 [INF] Received HTTP response headers after 30.0023ms - 200
+2025-10-26 13:38:08.491 +01:00 [INF] End processing HTTP request after 30.211ms - 200
+2025-10-26 13:38:08.492 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.492 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.529 +01:00 [INF] Received HTTP response headers after 36.8784ms - 200
+2025-10-26 13:38:08.529 +01:00 [INF] End processing HTTP request after 37.1231ms - 200
+2025-10-26 13:38:08.554 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.554 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.588 +01:00 [INF] Received HTTP response headers after 34.5119ms - 200
+2025-10-26 13:38:08.589 +01:00 [INF] End processing HTTP request after 34.9144ms - 200
+2025-10-26 13:38:08.589 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.589 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.626 +01:00 [INF] Received HTTP response headers after 36.9718ms - 200
+2025-10-26 13:38:08.626 +01:00 [INF] End processing HTTP request after 37.1705ms - 200
+2025-10-26 13:38:08.627 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.627 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.657 +01:00 [INF] Received HTTP response headers after 30.0292ms - 200
+2025-10-26 13:38:08.657 +01:00 [INF] End processing HTTP request after 30.1903ms - 200
+2025-10-26 13:38:08.657 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.657 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.693 +01:00 [INF] Received HTTP response headers after 35.6346ms - 200
+2025-10-26 13:38:08.693 +01:00 [INF] End processing HTTP request after 35.7867ms - 200
+2025-10-26 13:38:08.694 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.694 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.724 +01:00 [INF] Received HTTP response headers after 30.2169ms - 200
+2025-10-26 13:38:08.724 +01:00 [INF] End processing HTTP request after 30.4047ms - 200
+2025-10-26 13:38:08.725 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.725 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.758 +01:00 [INF] Received HTTP response headers after 33.4988ms - 200
+2025-10-26 13:38:08.759 +01:00 [INF] End processing HTTP request after 33.676ms - 200
+2025-10-26 13:38:08.759 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.759 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.791 +01:00 [INF] Received HTTP response headers after 31.6026ms - 200
+2025-10-26 13:38:08.791 +01:00 [INF] End processing HTTP request after 31.7737ms - 200
+2025-10-26 13:38:08.792 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.792 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.845 +01:00 [INF] Received HTTP response headers after 52.1971ms - 200
+2025-10-26 13:38:08.845 +01:00 [INF] End processing HTTP request after 52.4287ms - 200
+2025-10-26 13:38:08.859 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.859 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.890 +01:00 [INF] Received HTTP response headers after 30.5687ms - 200
+2025-10-26 13:38:08.890 +01:00 [INF] End processing HTTP request after 30.8253ms - 200
+2025-10-26 13:38:08.891 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.891 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.927 +01:00 [INF] Received HTTP response headers after 36.2893ms - 200
+2025-10-26 13:38:08.927 +01:00 [INF] End processing HTTP request after 36.4901ms - 200
+2025-10-26 13:38:08.928 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.928 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.958 +01:00 [INF] Received HTTP response headers after 29.7377ms - 200
+2025-10-26 13:38:08.958 +01:00 [INF] End processing HTTP request after 29.9547ms - 200
+2025-10-26 13:38:08.959 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.959 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.991 +01:00 [INF] Received HTTP response headers after 31.5445ms - 200
+2025-10-26 13:38:08.991 +01:00 [INF] End processing HTTP request after 31.7535ms - 200
+2025-10-26 13:38:08.996 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:08.996 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.026 +01:00 [INF] Received HTTP response headers after 30.3699ms - 200
+2025-10-26 13:38:09.026 +01:00 [INF] End processing HTTP request after 30.6978ms - 200
+2025-10-26 13:38:09.027 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.027 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.060 +01:00 [INF] Received HTTP response headers after 33.3864ms - 200
+2025-10-26 13:38:09.061 +01:00 [INF] End processing HTTP request after 33.6211ms - 200
+2025-10-26 13:38:09.061 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.061 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.089 +01:00 [INF] Received HTTP response headers after 28.1414ms - 200
+2025-10-26 13:38:09.089 +01:00 [INF] End processing HTTP request after 28.3417ms - 200
+2025-10-26 13:38:09.090 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.090 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 13:38:09.122 +01:00 [INF] Received HTTP response headers after 31.7465ms - 200
+2025-10-26 13:38:09.122 +01:00 [INF] End processing HTTP request after 31.9538ms - 200
+2025-10-26 13:38:09.201 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1059.0133ms
+2025-10-26 13:38:09.201 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 13:38:09.201 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1060.3394ms

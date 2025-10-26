@@ -192,7 +192,7 @@ namespace WebApplication1.Controllers
             var ok = await _couch.SaveUserWidgetsAsync(email, widgets);
             //await _couch.TestSaveUserWidgetsAsync();
             if (!ok)
-            //if (true)
+                //if (true)
                 return BadRequest(new { message = "Could not save widgets" });
 
             return Ok(new { message = "Widgets saved" });

@@ -21,10 +21,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Index()
         {
             await _couch.EnsureDbExistsAsync();
-
-            // Použití generické metody pro HelloDoc
-            var allDocs = await _couch.GetAllDocumentsAsync<HelloDoc>();
-
+            var allDocs = await _couch.GetAllDocumentsAsync();
             return View("~/Views/Home/Index.cshtml", allDocs);
         }
 

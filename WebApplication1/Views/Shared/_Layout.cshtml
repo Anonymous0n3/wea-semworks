@@ -73,62 +73,57 @@
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
-            const chartMap = new Map(); // map pro instance grafů
+            const chartMap = new Map(); // Chart.js instance cache
 
-            // Načtení widgetů z localStorage
-            const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
+            // -----------------------------
+            // Načtení uložených widgetů
+            // -----------------------------
+            let savedWidgets = [];
+            try {
+                savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
+                if (!Array.isArray(savedWidgets)) savedWidgets = [];
+            } catch {
+                savedWidgets = [];
+            }
             savedWidgets.forEach(w => loadWidget(w.name, w.location));
 
-            function saveWidgetState() {
-                const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
+            // -----------------------------
+            // Uložení widgetů do localStorage + CouchDB
+            // -----------------------------
+            async function saveWidgetState() {
+                const widgets = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
                     name,
                     location: wrapper.dataset.location || ''
                 }));
-                localStorage.setItem('openWidgets', JSON.stringify(data));
-            }
 
-            // Inicializace CurrencyWidget grafu
-            function initCurrencyWidget(wrapper) {
-                const canvas = wrapper.querySelector("#rateChart");
-                if (!canvas) return;
+                localStorage.setItem('openWidgets', JSON.stringify(widgets || []));
 
-                const labels = JSON.parse(canvas.dataset.labels || '[]');
-                const data = JSON.parse(canvas.dataset.rates || '[]');
-                const label = canvas.dataset.label || '';
+                const token = localStorage.getItem('jwtToken');
+                if (!token) return;
 
-                if (!labels.length || !data.length) return;
-
-                const ctx = canvas.getContext("2d");
-                new Chart(ctx, {
-                    type: 'line',
-                    data: { labels, datasets: [{ label, data, fill: false, borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.2)', tension: 0.3, borderWidth: 2, pointRadius: 4, pointHoverRadius: 6, pointBackgroundColor: 'rgba(54,162,235,1)' }] },
-                    options: { responsive: true, plugins: { legend: { display: true, position: 'bottom' } } }
-                });
-            }
-
-            // Funkce pro vykreslení ForecastWeather grafů
-            function renderForecastCharts(wrapper) {
-                const charts = wrapper.querySelectorAll('.temperatureChart');
-                charts.forEach(canvas => {
-                    if (chartMap.has(canvas)) chartMap.get(canvas).destroy();
-
-                    const ctx = canvas.getContext('2d');
-                    if (!ctx) return;
-
-                    const labels = JSON.parse(canvas.dataset.labels);
-                    const values = JSON.parse(canvas.dataset.values);
-
-                    const chart = new Chart(ctx, {
-                        type: 'line',
-                        data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, borderColor: 'rgba(75,192,192,1)', backgroundColor: 'rgba(75,192,192,0.2)', fill: true, tension: 0.4 }] },
-                        options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Čas' } }, y: { title: { display: true, text: 'Teplota (°C)' } } } }
+                try {
+                    const res = await fetch("/api/auth/widgets", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body: JSON.stringify(widgets || [])
                     });
-
-                    chartMap.set(canvas, chart);
-                });
+                    if (!res.ok) {
+                        const text = await res.text();
+                        console.warn("⚠️ Nepodařilo se uložit widgety na server:", res.status, text);
+                    } else {
+                        console.log("✅ Widgety uloženy na server:", widgets.length);
+                    }
+                } catch (err) {
+                    console.error("❌ Chyba při ukládání widgetů:", err);
+                }
             }
 
+            // -----------------------------
             // Načtení widgetu
+            // -----------------------------
             async function loadWidget(widgetName, location = '') {
                 try {
                     let url = `/Widget/Load?name=${widgetName}`;
@@ -155,6 +150,7 @@
 
                     wrapper.dataset.location = location;
                     wrapper.innerHTML = html;
+
                     addCloseButton(wrapper, widgetName);
                     attachInteractions(wrapper, widgetName);
 
@@ -173,15 +169,96 @@
                 }
             }
 
+            // -----------------------------
+            // Grafy – ForecastWeather
+            // -----------------------------
+            function renderForecastCharts(wrapper) {
+                const charts = wrapper.querySelectorAll('.temperatureChart');
+                charts.forEach(canvas => {
+                    if (chartMap.has(canvas)) chartMap.get(canvas).destroy();
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+
+                    const labels = JSON.parse(canvas.dataset.labels);
+                    const values = JSON.parse(canvas.dataset.values);
+
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Teplota (°C)',
+                                data: values,
+                                borderColor: 'rgba(75,192,192,1)',
+                                backgroundColor: 'rgba(75,192,192,0.2)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: { title: { display: true, text: 'Čas' } },
+                                y: { title: { display: true, text: 'Teplota (°C)' } }
+                            }
+                        }
+                    });
+                    chartMap.set(canvas, chart);
+                });
+            }
+
+            // -----------------------------
+            // Graf – CurrencyWidget
+            // -----------------------------
+            function initCurrencyWidget(wrapper) {
+                const canvas = wrapper.querySelector("#rateChart");
+                if (!canvas) return;
+
+                const labels = JSON.parse(canvas.dataset.labels || '[]');
+                const data = JSON.parse(canvas.dataset.rates || '[]');
+                const label = canvas.dataset.label || '';
+
+                if (!labels.length || !data.length) return;
+
+                const ctx = canvas.getContext("2d");
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label,
+                            data,
+                            fill: false,
+                            borderColor: 'rgba(54,162,235,1)',
+                            backgroundColor: 'rgba(54,162,235,0.2)',
+                            tension: 0.3,
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: 'rgba(54,162,235,1)'
+                        }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: true, position: 'bottom' } } }
+                });
+            }
+
+            // -----------------------------
+            // Interakce widgetů
+            // -----------------------------
             function attachInteractions(wrapper, widgetName) {
+                // Přepínání °C/°F
                 const toggleBtn = wrapper.querySelector('#toggleUnit');
                 toggleBtn?.addEventListener('click', () => {
                     const tempEl = wrapper.querySelector('h2');
                     if (!tempEl) return;
-                    if (tempEl.textContent.includes('°C')) tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-                    else tempEl.textContent = tempEl.dataset.celsius + '°C';
+                    if (tempEl.textContent.includes('°C'))
+                        tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
+                    else
+                        tempEl.textContent = tempEl.dataset.celsius + '°C';
                 });
 
+                // Weather formuláře
                 const form = wrapper.querySelector('#locationForm');
                 form?.addEventListener('submit', async e => {
                     e.preventDefault();
@@ -217,6 +294,9 @@
                 }
             }
 
+            // -----------------------------
+            // Tlačítko zavření widgetu
+            // -----------------------------
             function addCloseButton(wrapper, widgetName) {
                 if (wrapper.querySelector('.close-widget-btn')) return;
 
@@ -240,12 +320,55 @@
                 wrapper.appendChild(closeBtn);
             }
 
+            // -----------------------------
+            // Kliknutí na menu odkazy
+            // -----------------------------
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
                     const widgetName = link.getAttribute('data-widget');
                     loadWidget(widgetName);
                 });
+            });
+
+            // -----------------------------
+            // Auto-save při zavření stránky
+            // -----------------------------
+            window.addEventListener('unload', saveWidgetState);
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') saveWidgetState();
+            });
+
+            // -----------------------------
+            // Login AJAX
+            // -----------------------------
+            const loginForm = document.getElementById('loginForm');
+            const loginError = document.getElementById('loginError');
+
+            loginForm?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                try {
+                    const resp = await fetch('/api/Auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await resp.json();
+                    if (!resp.ok) {
+                        loginError.textContent = data.message || "Chyba přihlášení";
+                        return;
+                    }
+                    loginError.textContent = "";
+                    localStorage.setItem('jwtToken', data.token);
+                    const modalEl = document.getElementById('loginModal');
+                    bootstrap.Modal.getInstance(modalEl)?.hide();
+                } catch (err) {
+                    console.error(err);
+                    loginError.textContent = "Nepodařilo se přihlásit.";
+                }
             });
         });
     </script>
