@@ -1,0 +1,1273 @@
+2025-10-26 11:06:02.040 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:06:02.245 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:06:02.246 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:06:02.286 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:06:02.287 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:06:02.287 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:06:03.050 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:06:03.224 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:06:03.247 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:06:03.257 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:06:03.390 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 133.8063ms.
+2025-10-26 11:06:03.394 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 146.4576ms
+2025-10-26 11:06:03.394 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:06:03.399 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 360.2453ms
+2025-10-26 11:06:03.440 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:06:03.440 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:06:03.440 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-26 11:06:03.440 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:06:03.455 +01:00 [INF] The file /js/site.js was not modified
+2025-10-26 11:06:03.457 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 17.8805ms
+2025-10-26 11:06:03.457 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 304 null text/javascript 17.8487ms
+2025-10-26 11:06:03.466 +01:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-26 11:06:03.466 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 26.6313ms
+2025-10-26 11:06:03.524 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 83.7521ms
+2025-10-26 11:06:04.103 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:06:04.105 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:04.113 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:06:04.127 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:06:04.152 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.155 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.306 +01:00 [INF] Received HTTP response headers after 149.0596ms - 200
+2025-10-26 11:06:04.306 +01:00 [INF] End processing HTTP request after 154.979ms - 200
+2025-10-26 11:06:04.318 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.319 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.365 +01:00 [INF] Received HTTP response headers after 46.4031ms - 200
+2025-10-26 11:06:04.365 +01:00 [INF] End processing HTTP request after 46.7269ms - 200
+2025-10-26 11:06:04.373 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.374 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.410 +01:00 [INF] Received HTTP response headers after 36.7636ms - 200
+2025-10-26 11:06:04.410 +01:00 [INF] End processing HTTP request after 37.076ms - 200
+2025-10-26 11:06:04.417 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.417 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.799 +01:00 [INF] Received HTTP response headers after 381.4068ms - 200
+2025-10-26 11:06:04.799 +01:00 [INF] End processing HTTP request after 381.908ms - 200
+2025-10-26 11:06:04.800 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.800 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.838 +01:00 [INF] Received HTTP response headers after 37.2407ms - 200
+2025-10-26 11:06:04.838 +01:00 [INF] End processing HTTP request after 37.4761ms - 200
+2025-10-26 11:06:04.839 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.839 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.872 +01:00 [INF] Received HTTP response headers after 32.7759ms - 200
+2025-10-26 11:06:04.872 +01:00 [INF] End processing HTTP request after 33.2954ms - 200
+2025-10-26 11:06:04.873 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.873 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.906 +01:00 [INF] Received HTTP response headers after 33.1959ms - 200
+2025-10-26 11:06:04.906 +01:00 [INF] End processing HTTP request after 33.4308ms - 200
+2025-10-26 11:06:04.906 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.906 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.940 +01:00 [INF] Received HTTP response headers after 33.881ms - 200
+2025-10-26 11:06:04.940 +01:00 [INF] End processing HTTP request after 34.1406ms - 200
+2025-10-26 11:06:04.942 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.942 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:04.976 +01:00 [INF] Received HTTP response headers after 33.6134ms - 200
+2025-10-26 11:06:04.976 +01:00 [INF] End processing HTTP request after 33.8641ms - 200
+2025-10-26 11:06:05.024 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.024 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.066 +01:00 [INF] Received HTTP response headers after 42.0632ms - 200
+2025-10-26 11:06:05.067 +01:00 [INF] End processing HTTP request after 42.351ms - 200
+2025-10-26 11:06:05.067 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.067 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.100 +01:00 [INF] Received HTTP response headers after 32.3518ms - 200
+2025-10-26 11:06:05.100 +01:00 [INF] End processing HTTP request after 32.7029ms - 200
+2025-10-26 11:06:05.100 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.100 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.132 +01:00 [INF] Received HTTP response headers after 31.5587ms - 200
+2025-10-26 11:06:05.132 +01:00 [INF] End processing HTTP request after 31.8215ms - 200
+2025-10-26 11:06:05.133 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.133 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.165 +01:00 [INF] Received HTTP response headers after 31.9272ms - 200
+2025-10-26 11:06:05.165 +01:00 [INF] End processing HTTP request after 32.1211ms - 200
+2025-10-26 11:06:05.165 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.165 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.199 +01:00 [INF] Received HTTP response headers after 33.3182ms - 200
+2025-10-26 11:06:05.199 +01:00 [INF] End processing HTTP request after 33.5337ms - 200
+2025-10-26 11:06:05.200 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.200 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.232 +01:00 [INF] Received HTTP response headers after 32.0341ms - 200
+2025-10-26 11:06:05.232 +01:00 [INF] End processing HTTP request after 32.662ms - 200
+2025-10-26 11:06:05.232 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.232 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.267 +01:00 [INF] Received HTTP response headers after 34.1222ms - 200
+2025-10-26 11:06:05.267 +01:00 [INF] End processing HTTP request after 34.3358ms - 200
+2025-10-26 11:06:05.267 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.267 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.299 +01:00 [INF] Received HTTP response headers after 31.4608ms - 200
+2025-10-26 11:06:05.299 +01:00 [INF] End processing HTTP request after 31.7631ms - 200
+2025-10-26 11:06:05.329 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.329 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.362 +01:00 [INF] Received HTTP response headers after 33.0648ms - 200
+2025-10-26 11:06:05.362 +01:00 [INF] End processing HTTP request after 33.2687ms - 200
+2025-10-26 11:06:05.363 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.363 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.394 +01:00 [INF] Received HTTP response headers after 31.3248ms - 200
+2025-10-26 11:06:05.394 +01:00 [INF] End processing HTTP request after 31.4916ms - 200
+2025-10-26 11:06:05.395 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.395 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.441 +01:00 [INF] Received HTTP response headers after 46.3666ms - 200
+2025-10-26 11:06:05.442 +01:00 [INF] End processing HTTP request after 46.5404ms - 200
+2025-10-26 11:06:05.442 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.442 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.474 +01:00 [INF] Received HTTP response headers after 31.585ms - 200
+2025-10-26 11:06:05.474 +01:00 [INF] End processing HTTP request after 31.7914ms - 200
+2025-10-26 11:06:05.474 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.474 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.507 +01:00 [INF] Received HTTP response headers after 33.3371ms - 200
+2025-10-26 11:06:05.508 +01:00 [INF] End processing HTTP request after 33.4657ms - 200
+2025-10-26 11:06:05.508 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.508 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.541 +01:00 [INF] Received HTTP response headers after 33.4793ms - 200
+2025-10-26 11:06:05.542 +01:00 [INF] End processing HTTP request after 33.639ms - 200
+2025-10-26 11:06:05.542 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.542 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.575 +01:00 [INF] Received HTTP response headers after 32.567ms - 200
+2025-10-26 11:06:05.575 +01:00 [INF] End processing HTTP request after 32.7202ms - 200
+2025-10-26 11:06:05.575 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.575 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:05.607 +01:00 [INF] Received HTTP response headers after 31.0587ms - 200
+2025-10-26 11:06:05.607 +01:00 [INF] End processing HTTP request after 31.208ms - 200
+2025-10-26 11:06:05.685 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1572.6175ms
+2025-10-26 11:06:05.686 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:05.686 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1583.1105ms
+2025-10-26 11:06:14.198 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=BGN&quoteCurrency=SEK - null null
+2025-10-26 11:06:14.200 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:14.200 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:06:14.200 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:06:14.201 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.201 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.233 +01:00 [INF] Received HTTP response headers after 31.9941ms - 200
+2025-10-26 11:06:14.233 +01:00 [INF] End processing HTTP request after 32.1376ms - 200
+2025-10-26 11:06:14.277 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.277 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.307 +01:00 [INF] Received HTTP response headers after 30.0122ms - 200
+2025-10-26 11:06:14.307 +01:00 [INF] End processing HTTP request after 30.2415ms - 200
+2025-10-26 11:06:14.308 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.308 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.350 +01:00 [INF] Received HTTP response headers after 41.6618ms - 200
+2025-10-26 11:06:14.350 +01:00 [INF] End processing HTTP request after 41.9124ms - 200
+2025-10-26 11:06:14.352 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.352 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.382 +01:00 [INF] Received HTTP response headers after 30.0188ms - 200
+2025-10-26 11:06:14.382 +01:00 [INF] End processing HTTP request after 30.248ms - 200
+2025-10-26 11:06:14.383 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.383 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.413 +01:00 [INF] Received HTTP response headers after 29.9305ms - 200
+2025-10-26 11:06:14.413 +01:00 [INF] End processing HTTP request after 30.1219ms - 200
+2025-10-26 11:06:14.414 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.414 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.446 +01:00 [INF] Received HTTP response headers after 32.3914ms - 200
+2025-10-26 11:06:14.446 +01:00 [INF] End processing HTTP request after 32.576ms - 200
+2025-10-26 11:06:14.447 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.447 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.480 +01:00 [INF] Received HTTP response headers after 32.5591ms - 200
+2025-10-26 11:06:14.480 +01:00 [INF] End processing HTTP request after 32.7496ms - 200
+2025-10-26 11:06:14.481 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.481 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.510 +01:00 [INF] Received HTTP response headers after 29.6086ms - 200
+2025-10-26 11:06:14.511 +01:00 [INF] End processing HTTP request after 29.8076ms - 200
+2025-10-26 11:06:14.511 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.511 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.542 +01:00 [INF] Received HTTP response headers after 30.4022ms - 200
+2025-10-26 11:06:14.542 +01:00 [INF] End processing HTTP request after 30.5867ms - 200
+2025-10-26 11:06:14.592 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.593 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.623 +01:00 [INF] Received HTTP response headers after 30.8555ms - 200
+2025-10-26 11:06:14.624 +01:00 [INF] End processing HTTP request after 31.1196ms - 200
+2025-10-26 11:06:14.624 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.624 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.654 +01:00 [INF] Received HTTP response headers after 29.4985ms - 200
+2025-10-26 11:06:14.654 +01:00 [INF] End processing HTTP request after 29.7094ms - 200
+2025-10-26 11:06:14.654 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.654 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.683 +01:00 [INF] Received HTTP response headers after 28.7329ms - 200
+2025-10-26 11:06:14.683 +01:00 [INF] End processing HTTP request after 28.9698ms - 200
+2025-10-26 11:06:14.684 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.684 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.714 +01:00 [INF] Received HTTP response headers after 30.3575ms - 200
+2025-10-26 11:06:14.714 +01:00 [INF] End processing HTTP request after 30.5517ms - 200
+2025-10-26 11:06:14.715 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.715 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.744 +01:00 [INF] Received HTTP response headers after 28.6324ms - 200
+2025-10-26 11:06:14.744 +01:00 [INF] End processing HTTP request after 28.8573ms - 200
+2025-10-26 11:06:14.744 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.744 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.774 +01:00 [INF] Received HTTP response headers after 29.6641ms - 200
+2025-10-26 11:06:14.774 +01:00 [INF] End processing HTTP request after 29.8512ms - 200
+2025-10-26 11:06:14.774 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.775 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.803 +01:00 [INF] Received HTTP response headers after 27.9655ms - 200
+2025-10-26 11:06:14.803 +01:00 [INF] End processing HTTP request after 28.1596ms - 200
+2025-10-26 11:06:14.803 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.803 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.833 +01:00 [INF] Received HTTP response headers after 29.9956ms - 200
+2025-10-26 11:06:14.833 +01:00 [INF] End processing HTTP request after 30.174ms - 200
+2025-10-26 11:06:14.880 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.880 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.909 +01:00 [INF] Received HTTP response headers after 29.0659ms - 200
+2025-10-26 11:06:14.909 +01:00 [INF] End processing HTTP request after 29.2986ms - 200
+2025-10-26 11:06:14.909 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.909 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.941 +01:00 [INF] Received HTTP response headers after 31.4376ms - 200
+2025-10-26 11:06:14.941 +01:00 [INF] End processing HTTP request after 31.639ms - 200
+2025-10-26 11:06:14.941 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.942 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.970 +01:00 [INF] Received HTTP response headers after 28.0049ms - 200
+2025-10-26 11:06:14.970 +01:00 [INF] End processing HTTP request after 28.2301ms - 200
+2025-10-26 11:06:14.970 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.970 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.999 +01:00 [INF] Received HTTP response headers after 28.5528ms - 200
+2025-10-26 11:06:14.999 +01:00 [INF] End processing HTTP request after 28.7271ms - 200
+2025-10-26 11:06:14.999 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:14.999 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.027 +01:00 [INF] Received HTTP response headers after 28.126ms - 200
+2025-10-26 11:06:15.028 +01:00 [INF] End processing HTTP request after 28.3218ms - 200
+2025-10-26 11:06:15.028 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.028 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.062 +01:00 [INF] Received HTTP response headers after 34.1389ms - 200
+2025-10-26 11:06:15.062 +01:00 [INF] End processing HTTP request after 34.3299ms - 200
+2025-10-26 11:06:15.063 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.063 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.094 +01:00 [INF] Received HTTP response headers after 31.0382ms - 200
+2025-10-26 11:06:15.094 +01:00 [INF] End processing HTTP request after 31.2448ms - 200
+2025-10-26 11:06:15.094 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.095 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:15.122 +01:00 [INF] Received HTTP response headers after 27.7878ms - 200
+2025-10-26 11:06:15.122 +01:00 [INF] End processing HTTP request after 27.969ms - 200
+2025-10-26 11:06:15.176 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 976.0989ms
+2025-10-26 11:06:15.176 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:15.176 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=BGN&quoteCurrency=SEK - 200 null text/html; charset=utf-8 978.2876ms
+2025-10-26 11:06:38.916 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=CZK&quoteCurrency=EUR - null null
+2025-10-26 11:06:38.917 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:38.917 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:06:38.921 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:06:38.923 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:38.923 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:38.960 +01:00 [INF] Received HTTP response headers after 37.2177ms - 200
+2025-10-26 11:06:38.960 +01:00 [INF] End processing HTTP request after 39.1086ms - 200
+2025-10-26 11:06:39.015 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.015 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.043 +01:00 [INF] Received HTTP response headers after 28.0954ms - 200
+2025-10-26 11:06:39.043 +01:00 [INF] End processing HTTP request after 28.3937ms - 200
+2025-10-26 11:06:39.044 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.044 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.077 +01:00 [INF] Received HTTP response headers after 32.3548ms - 200
+2025-10-26 11:06:39.077 +01:00 [INF] End processing HTTP request after 32.5154ms - 200
+2025-10-26 11:06:39.079 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.079 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.108 +01:00 [INF] Received HTTP response headers after 29.662ms - 200
+2025-10-26 11:06:39.109 +01:00 [INF] End processing HTTP request after 29.8496ms - 200
+2025-10-26 11:06:39.110 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.110 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.142 +01:00 [INF] Received HTTP response headers after 31.5726ms - 200
+2025-10-26 11:06:39.142 +01:00 [INF] End processing HTTP request after 31.7525ms - 200
+2025-10-26 11:06:39.144 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.144 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.178 +01:00 [INF] Received HTTP response headers after 33.6115ms - 200
+2025-10-26 11:06:39.178 +01:00 [INF] End processing HTTP request after 33.7708ms - 200
+2025-10-26 11:06:39.180 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.180 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.212 +01:00 [INF] Received HTTP response headers after 32.3529ms - 200
+2025-10-26 11:06:39.212 +01:00 [INF] End processing HTTP request after 32.5684ms - 200
+2025-10-26 11:06:39.213 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.213 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.245 +01:00 [INF] Received HTTP response headers after 32.442ms - 200
+2025-10-26 11:06:39.245 +01:00 [INF] End processing HTTP request after 32.7172ms - 200
+2025-10-26 11:06:39.246 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.246 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.277 +01:00 [INF] Received HTTP response headers after 31.4286ms - 200
+2025-10-26 11:06:39.277 +01:00 [INF] End processing HTTP request after 31.5698ms - 200
+2025-10-26 11:06:39.322 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.322 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.353 +01:00 [INF] Received HTTP response headers after 31.1893ms - 200
+2025-10-26 11:06:39.353 +01:00 [INF] End processing HTTP request after 31.3947ms - 200
+2025-10-26 11:06:39.354 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.354 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.385 +01:00 [INF] Received HTTP response headers after 30.8253ms - 200
+2025-10-26 11:06:39.385 +01:00 [INF] End processing HTTP request after 31.0336ms - 200
+2025-10-26 11:06:39.386 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.386 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.418 +01:00 [INF] Received HTTP response headers after 31.4855ms - 200
+2025-10-26 11:06:39.418 +01:00 [INF] End processing HTTP request after 31.7474ms - 200
+2025-10-26 11:06:39.422 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.423 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.452 +01:00 [INF] Received HTTP response headers after 29.7313ms - 200
+2025-10-26 11:06:39.452 +01:00 [INF] End processing HTTP request after 29.9269ms - 200
+2025-10-26 11:06:39.454 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.454 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.483 +01:00 [INF] Received HTTP response headers after 28.7437ms - 200
+2025-10-26 11:06:39.483 +01:00 [INF] End processing HTTP request after 28.9013ms - 200
+2025-10-26 11:06:39.501 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.501 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.533 +01:00 [INF] Received HTTP response headers after 31.9132ms - 200
+2025-10-26 11:06:39.533 +01:00 [INF] End processing HTTP request after 32.0851ms - 200
+2025-10-26 11:06:39.534 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.534 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.562 +01:00 [INF] Received HTTP response headers after 28.0906ms - 200
+2025-10-26 11:06:39.562 +01:00 [INF] End processing HTTP request after 28.4178ms - 200
+2025-10-26 11:06:39.563 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.563 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.598 +01:00 [INF] Received HTTP response headers after 35.245ms - 200
+2025-10-26 11:06:39.598 +01:00 [INF] End processing HTTP request after 35.3901ms - 200
+2025-10-26 11:06:39.622 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.622 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.652 +01:00 [INF] Received HTTP response headers after 30.1392ms - 200
+2025-10-26 11:06:39.652 +01:00 [INF] End processing HTTP request after 30.2744ms - 200
+2025-10-26 11:06:39.652 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.652 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.681 +01:00 [INF] Received HTTP response headers after 28.178ms - 200
+2025-10-26 11:06:39.681 +01:00 [INF] End processing HTTP request after 28.3032ms - 200
+2025-10-26 11:06:39.682 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.682 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.710 +01:00 [INF] Received HTTP response headers after 27.6337ms - 200
+2025-10-26 11:06:39.710 +01:00 [INF] End processing HTTP request after 27.7873ms - 200
+2025-10-26 11:06:39.710 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.710 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.739 +01:00 [INF] Received HTTP response headers after 28.9089ms - 200
+2025-10-26 11:06:39.739 +01:00 [INF] End processing HTTP request after 29.0409ms - 200
+2025-10-26 11:06:39.740 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.740 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.767 +01:00 [INF] Received HTTP response headers after 27.462ms - 200
+2025-10-26 11:06:39.767 +01:00 [INF] End processing HTTP request after 27.654ms - 200
+2025-10-26 11:06:39.767 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.768 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.797 +01:00 [INF] Received HTTP response headers after 29.7146ms - 200
+2025-10-26 11:06:39.797 +01:00 [INF] End processing HTTP request after 29.9078ms - 200
+2025-10-26 11:06:39.799 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.799 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.826 +01:00 [INF] Received HTTP response headers after 26.4484ms - 200
+2025-10-26 11:06:39.826 +01:00 [INF] End processing HTTP request after 26.656ms - 200
+2025-10-26 11:06:39.828 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.828 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:06:39.860 +01:00 [INF] Received HTTP response headers after 32.7407ms - 200
+2025-10-26 11:06:39.860 +01:00 [INF] End processing HTTP request after 32.9541ms - 200
+2025-10-26 11:06:39.901 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 983.612ms
+2025-10-26 11:06:39.901 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:06:39.901 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=CZK&quoteCurrency=EUR - 200 null text/html; charset=utf-8 985.0762ms
+2025-10-26 11:07:16.386 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:07:16.387 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:07:16.387 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 0.7646ms
+2025-10-26 11:07:16.434 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - null null
+2025-10-26 11:07:16.437 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css.map - null null
+2025-10-26 11:07:16.472 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map'
+2025-10-26 11:07:16.473 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map - 200 327261 text/plain 38.4298ms
+2025-10-26 11:07:16.474 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css.map'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map'
+2025-10-26 11:07:16.475 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css.map - 200 449111 text/plain 37.9723ms
+2025-10-26 11:08:18.833 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:08:18.873 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:08:18.873 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:08:18.873 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:08:18.895 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 22.2341ms.
+2025-10-26 11:08:18.895 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 22.5271ms
+2025-10-26 11:08:18.896 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:08:18.896 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 63.9109ms
+2025-10-26 11:08:18.948 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-26 11:08:18.948 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-26 11:08:18.949 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:08:18.949 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-26 11:08:18.959 +01:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-26 11:08:18.960 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 10.0942ms
+2025-10-26 11:08:18.960 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-26 11:08:18.960 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-26 11:08:18.960 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:08:18.960 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:08:18.964 +01:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-26 11:08:18.966 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 200 875 text/javascript 6.6177ms
+2025-10-26 11:08:18.966 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 6.0643ms
+2025-10-26 11:08:18.968 +01:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\css\site.css'
+2025-10-26 11:08:18.968 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 200 362 text/css 19.9847ms
+2025-10-26 11:08:19.001 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-10-26 11:08:19.001 +01:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-10-26 11:08:19.003 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 200 89503 text/javascript 52.8954ms
+2025-10-26 11:08:19.003 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78474 text/javascript 43.1134ms
+2025-10-26 11:08:19.007 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-10-26 11:08:19.007 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 200 162726 text/css 59.2656ms
+2025-10-26 11:08:19.012 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 52.2391ms
+2025-10-26 11:08:19.977 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/favicon.ico - null null
+2025-10-26 11:08:19.982 +01:00 [INF] Sending file. Request path: '/favicon.ico'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\favicon.ico'
+2025-10-26 11:08:19.982 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/favicon.ico - 200 5430 image/x-icon 5.003ms
+2025-10-26 11:08:59.369 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:08:59.717 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:08:59.717 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:08:59.801 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:08:59.801 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:08:59.801 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:09:00.451 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:09:00.618 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:09:00.640 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:09:00.651 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:09:00.806 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 156.9234ms.
+2025-10-26 11:09:00.811 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 169.7984ms
+2025-10-26 11:09:00.811 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:09:00.819 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 379.7548ms
+2025-10-26 11:09:00.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:09:00.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:09:00.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:09:00.865 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 7.5039ms
+2025-10-26 11:09:00.865 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:09:00.867 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 9.1206ms
+2025-10-26 11:09:00.909 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 51.337ms
+2025-10-26 11:09:01.575 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=CZK&quoteCurrency=EUR - null null
+2025-10-26 11:09:01.578 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:09:01.584 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:09:01.599 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:09:01.629 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.633 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.722 +01:00 [INF] Received HTTP response headers after 87.7078ms - 200
+2025-10-26 11:09:01.723 +01:00 [INF] End processing HTTP request after 97.0263ms - 200
+2025-10-26 11:09:01.819 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.819 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.871 +01:00 [INF] Received HTTP response headers after 51.8825ms - 200
+2025-10-26 11:09:01.872 +01:00 [INF] End processing HTTP request after 52.4067ms - 200
+2025-10-26 11:09:01.874 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.874 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.932 +01:00 [INF] Received HTTP response headers after 57.8875ms - 200
+2025-10-26 11:09:01.932 +01:00 [INF] End processing HTTP request after 58.3096ms - 200
+2025-10-26 11:09:01.933 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:01.933 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.025 +01:00 [INF] Received HTTP response headers after 91.5094ms - 200
+2025-10-26 11:09:02.025 +01:00 [INF] End processing HTTP request after 91.8557ms - 200
+2025-10-26 11:09:02.026 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.026 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.073 +01:00 [INF] Received HTTP response headers after 46.4797ms - 200
+2025-10-26 11:09:02.073 +01:00 [INF] End processing HTTP request after 46.8085ms - 200
+2025-10-26 11:09:02.076 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.076 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.155 +01:00 [INF] Received HTTP response headers after 78.2598ms - 200
+2025-10-26 11:09:02.155 +01:00 [INF] End processing HTTP request after 78.6778ms - 200
+2025-10-26 11:09:02.156 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.156 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.194 +01:00 [INF] Received HTTP response headers after 38.0255ms - 200
+2025-10-26 11:09:02.194 +01:00 [INF] End processing HTTP request after 38.3303ms - 200
+2025-10-26 11:09:02.207 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.208 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.288 +01:00 [INF] Received HTTP response headers after 79.8687ms - 200
+2025-10-26 11:09:02.288 +01:00 [INF] End processing HTTP request after 80.1863ms - 200
+2025-10-26 11:09:02.302 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.302 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.355 +01:00 [INF] Received HTTP response headers after 52.7622ms - 200
+2025-10-26 11:09:02.355 +01:00 [INF] End processing HTTP request after 53.1414ms - 200
+2025-10-26 11:09:02.395 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.395 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.464 +01:00 [INF] Received HTTP response headers after 68.5348ms - 200
+2025-10-26 11:09:02.464 +01:00 [INF] End processing HTTP request after 68.8869ms - 200
+2025-10-26 11:09:02.465 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.465 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.503 +01:00 [INF] Received HTTP response headers after 38.3475ms - 200
+2025-10-26 11:09:02.503 +01:00 [INF] End processing HTTP request after 38.6311ms - 200
+2025-10-26 11:09:02.505 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.505 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.650 +01:00 [INF] Received HTTP response headers after 145.3763ms - 200
+2025-10-26 11:09:02.650 +01:00 [INF] End processing HTTP request after 145.6857ms - 200
+2025-10-26 11:09:02.651 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.651 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.685 +01:00 [INF] Received HTTP response headers after 33.7149ms - 200
+2025-10-26 11:09:02.686 +01:00 [INF] End processing HTTP request after 34.91ms - 200
+2025-10-26 11:09:02.690 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.690 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.750 +01:00 [INF] Received HTTP response headers after 59.8074ms - 200
+2025-10-26 11:09:02.750 +01:00 [INF] End processing HTTP request after 60.0838ms - 200
+2025-10-26 11:09:02.755 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.755 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.786 +01:00 [INF] Received HTTP response headers after 30.8478ms - 200
+2025-10-26 11:09:02.786 +01:00 [INF] End processing HTTP request after 31.1453ms - 200
+2025-10-26 11:09:02.786 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.786 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.839 +01:00 [INF] Received HTTP response headers after 52.2976ms - 200
+2025-10-26 11:09:02.839 +01:00 [INF] End processing HTTP request after 52.5888ms - 200
+2025-10-26 11:09:02.840 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.840 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.870 +01:00 [INF] Received HTTP response headers after 30.4256ms - 200
+2025-10-26 11:09:02.871 +01:00 [INF] End processing HTTP request after 30.7446ms - 200
+2025-10-26 11:09:02.908 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.908 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.945 +01:00 [INF] Received HTTP response headers after 37.0168ms - 200
+2025-10-26 11:09:02.946 +01:00 [INF] End processing HTTP request after 37.379ms - 200
+2025-10-26 11:09:02.946 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.946 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.977 +01:00 [INF] Received HTTP response headers after 30.4858ms - 200
+2025-10-26 11:09:02.977 +01:00 [INF] End processing HTTP request after 30.7959ms - 200
+2025-10-26 11:09:02.978 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:02.978 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.032 +01:00 [INF] Received HTTP response headers after 54.6652ms - 200
+2025-10-26 11:09:03.033 +01:00 [INF] End processing HTTP request after 54.9821ms - 200
+2025-10-26 11:09:03.034 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.034 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.076 +01:00 [INF] Received HTTP response headers after 42.8362ms - 200
+2025-10-26 11:09:03.077 +01:00 [INF] End processing HTTP request after 43.1281ms - 200
+2025-10-26 11:09:03.077 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.077 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.114 +01:00 [INF] Received HTTP response headers after 36.1237ms - 200
+2025-10-26 11:09:03.114 +01:00 [INF] End processing HTTP request after 36.4972ms - 200
+2025-10-26 11:09:03.114 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.114 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.147 +01:00 [INF] Received HTTP response headers after 32.7347ms - 200
+2025-10-26 11:09:03.147 +01:00 [INF] End processing HTTP request after 33.0397ms - 200
+2025-10-26 11:09:03.148 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.148 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.226 +01:00 [INF] Received HTTP response headers after 77.7994ms - 200
+2025-10-26 11:09:03.226 +01:00 [INF] End processing HTTP request after 78.1815ms - 200
+2025-10-26 11:09:03.227 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.227 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:03.257 +01:00 [INF] Received HTTP response headers after 30.2567ms - 200
+2025-10-26 11:09:03.257 +01:00 [INF] End processing HTTP request after 30.6036ms - 200
+2025-10-26 11:09:03.363 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1779.7174ms
+2025-10-26 11:09:03.364 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:09:03.364 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=CZK&quoteCurrency=EUR - 200 null text/html; charset=utf-8 1789.5977ms
+2025-10-26 11:09:14.247 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:09:14.249 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:09:14.249 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:09:14.250 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:09:14.251 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.251 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.287 +01:00 [INF] Received HTTP response headers after 36.4234ms - 200
+2025-10-26 11:09:14.287 +01:00 [INF] End processing HTTP request after 36.73ms - 200
+2025-10-26 11:09:14.290 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.290 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.319 +01:00 [INF] Received HTTP response headers after 29.7154ms - 200
+2025-10-26 11:09:14.320 +01:00 [INF] End processing HTTP request after 30.0584ms - 200
+2025-10-26 11:09:14.329 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.329 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.362 +01:00 [INF] Received HTTP response headers after 33.5991ms - 200
+2025-10-26 11:09:14.363 +01:00 [INF] End processing HTTP request after 33.9289ms - 200
+2025-10-26 11:09:14.363 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.363 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.396 +01:00 [INF] Received HTTP response headers after 32.3025ms - 200
+2025-10-26 11:09:14.396 +01:00 [INF] End processing HTTP request after 32.6493ms - 200
+2025-10-26 11:09:14.396 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.396 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.419 +01:00 [INF] Received HTTP response headers after 22.4902ms - 200
+2025-10-26 11:09:14.419 +01:00 [INF] End processing HTTP request after 22.7531ms - 200
+2025-10-26 11:09:14.419 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.420 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.443 +01:00 [INF] Received HTTP response headers after 23.102ms - 200
+2025-10-26 11:09:14.443 +01:00 [INF] End processing HTTP request after 23.3878ms - 200
+2025-10-26 11:09:14.443 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.444 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.466 +01:00 [INF] Received HTTP response headers after 22.1224ms - 200
+2025-10-26 11:09:14.466 +01:00 [INF] End processing HTTP request after 22.4389ms - 200
+2025-10-26 11:09:14.466 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.467 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.490 +01:00 [INF] Received HTTP response headers after 22.9274ms - 200
+2025-10-26 11:09:14.490 +01:00 [INF] End processing HTTP request after 23.392ms - 200
+2025-10-26 11:09:14.490 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.490 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.512 +01:00 [INF] Received HTTP response headers after 21.7295ms - 200
+2025-10-26 11:09:14.512 +01:00 [INF] End processing HTTP request after 21.9858ms - 200
+2025-10-26 11:09:14.581 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.581 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.611 +01:00 [INF] Received HTTP response headers after 29.3892ms - 200
+2025-10-26 11:09:14.611 +01:00 [INF] End processing HTTP request after 29.6881ms - 200
+2025-10-26 11:09:14.612 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.612 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.635 +01:00 [INF] Received HTTP response headers after 23.6554ms - 200
+2025-10-26 11:09:14.635 +01:00 [INF] End processing HTTP request after 23.9137ms - 200
+2025-10-26 11:09:14.636 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.636 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.657 +01:00 [INF] Received HTTP response headers after 21.3002ms - 200
+2025-10-26 11:09:14.657 +01:00 [INF] End processing HTTP request after 21.5391ms - 200
+2025-10-26 11:09:14.658 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.658 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.680 +01:00 [INF] Received HTTP response headers after 21.6457ms - 200
+2025-10-26 11:09:14.680 +01:00 [INF] End processing HTTP request after 21.8566ms - 200
+2025-10-26 11:09:14.680 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.680 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.701 +01:00 [INF] Received HTTP response headers after 21.2612ms - 200
+2025-10-26 11:09:14.702 +01:00 [INF] End processing HTTP request after 21.4709ms - 200
+2025-10-26 11:09:14.702 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.702 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.724 +01:00 [INF] Received HTTP response headers after 21.8388ms - 200
+2025-10-26 11:09:14.724 +01:00 [INF] End processing HTTP request after 22.0992ms - 200
+2025-10-26 11:09:14.724 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.724 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.747 +01:00 [INF] Received HTTP response headers after 22.0417ms - 200
+2025-10-26 11:09:14.747 +01:00 [INF] End processing HTTP request after 22.244ms - 200
+2025-10-26 11:09:14.747 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.747 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.770 +01:00 [INF] Received HTTP response headers after 22.3583ms - 200
+2025-10-26 11:09:14.770 +01:00 [INF] End processing HTTP request after 22.6371ms - 200
+2025-10-26 11:09:14.823 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.823 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.845 +01:00 [INF] Received HTTP response headers after 22.1969ms - 200
+2025-10-26 11:09:14.845 +01:00 [INF] End processing HTTP request after 22.4847ms - 200
+2025-10-26 11:09:14.845 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.845 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.868 +01:00 [INF] Received HTTP response headers after 22.3136ms - 200
+2025-10-26 11:09:14.868 +01:00 [INF] End processing HTTP request after 22.5899ms - 200
+2025-10-26 11:09:14.868 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.868 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.891 +01:00 [INF] Received HTTP response headers after 22.6117ms - 200
+2025-10-26 11:09:14.891 +01:00 [INF] End processing HTTP request after 22.8236ms - 200
+2025-10-26 11:09:14.892 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.892 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.914 +01:00 [INF] Received HTTP response headers after 21.8831ms - 200
+2025-10-26 11:09:14.914 +01:00 [INF] End processing HTTP request after 22.0877ms - 200
+2025-10-26 11:09:14.914 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.914 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.936 +01:00 [INF] Received HTTP response headers after 21.5176ms - 200
+2025-10-26 11:09:14.936 +01:00 [INF] End processing HTTP request after 21.748ms - 200
+2025-10-26 11:09:14.936 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.936 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.959 +01:00 [INF] Received HTTP response headers after 22.1144ms - 200
+2025-10-26 11:09:14.959 +01:00 [INF] End processing HTTP request after 22.3586ms - 200
+2025-10-26 11:09:14.959 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.959 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.981 +01:00 [INF] Received HTTP response headers after 21.3307ms - 200
+2025-10-26 11:09:14.981 +01:00 [INF] End processing HTTP request after 21.5662ms - 200
+2025-10-26 11:09:14.981 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:14.981 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:09:15.005 +01:00 [INF] Received HTTP response headers after 23.2981ms - 200
+2025-10-26 11:09:15.005 +01:00 [INF] End processing HTTP request after 23.5487ms - 200
+2025-10-26 11:09:15.062 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 812.2289ms
+2025-10-26 11:09:15.062 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:09:15.062 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 814.654ms
+2025-10-26 11:12:34.815 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:12:34.993 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:12:34.994 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:12:35.036 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:12:35.036 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:12:35.036 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:12:35.426 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:12:35.585 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:12:35.605 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:12:35.615 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:12:35.750 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 136.1003ms.
+2025-10-26 11:12:35.753 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 147.4995ms
+2025-10-26 11:12:35.754 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:12:35.762 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 347.7583ms
+2025-10-26 11:12:35.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:12:35.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:12:35.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:12:35.871 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 13.6775ms
+2025-10-26 11:12:35.873 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:12:35.877 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 19.4985ms
+2025-10-26 11:12:35.911 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 52.9111ms
+2025-10-26 11:12:36.485 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:12:36.488 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:12:36.494 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:12:36.509 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:12:36.538 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.541 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.627 +01:00 [INF] Received HTTP response headers after 83.664ms - 200
+2025-10-26 11:12:36.628 +01:00 [INF] End processing HTTP request after 93.3875ms - 200
+2025-10-26 11:12:36.644 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.644 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.679 +01:00 [INF] Received HTTP response headers after 34.5709ms - 200
+2025-10-26 11:12:36.679 +01:00 [INF] End processing HTTP request after 34.9676ms - 200
+2025-10-26 11:12:36.688 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.688 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.726 +01:00 [INF] Received HTTP response headers after 38.1671ms - 200
+2025-10-26 11:12:36.726 +01:00 [INF] End processing HTTP request after 38.6531ms - 200
+2025-10-26 11:12:36.728 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.729 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.762 +01:00 [INF] Received HTTP response headers after 33.0322ms - 200
+2025-10-26 11:12:36.762 +01:00 [INF] End processing HTTP request after 34.1423ms - 200
+2025-10-26 11:12:36.763 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.763 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.794 +01:00 [INF] Received HTTP response headers after 30.6024ms - 200
+2025-10-26 11:12:36.794 +01:00 [INF] End processing HTTP request after 31.0928ms - 200
+2025-10-26 11:12:36.795 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.796 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.832 +01:00 [INF] Received HTTP response headers after 36.1126ms - 200
+2025-10-26 11:12:36.832 +01:00 [INF] End processing HTTP request after 36.8945ms - 200
+2025-10-26 11:12:36.833 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.833 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.864 +01:00 [INF] Received HTTP response headers after 31.1296ms - 200
+2025-10-26 11:12:36.865 +01:00 [INF] End processing HTTP request after 31.6121ms - 200
+2025-10-26 11:12:36.865 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.865 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.898 +01:00 [INF] Received HTTP response headers after 32.9766ms - 200
+2025-10-26 11:12:36.899 +01:00 [INF] End processing HTTP request after 33.315ms - 200
+2025-10-26 11:12:36.900 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.900 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.931 +01:00 [INF] Received HTTP response headers after 30.6054ms - 200
+2025-10-26 11:12:36.931 +01:00 [INF] End processing HTTP request after 31.1208ms - 200
+2025-10-26 11:12:36.972 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:36.972 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.006 +01:00 [INF] Received HTTP response headers after 33.7135ms - 200
+2025-10-26 11:12:37.006 +01:00 [INF] End processing HTTP request after 34.0048ms - 200
+2025-10-26 11:12:37.006 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.006 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.038 +01:00 [INF] Received HTTP response headers after 31.3889ms - 200
+2025-10-26 11:12:37.038 +01:00 [INF] End processing HTTP request after 31.808ms - 200
+2025-10-26 11:12:37.040 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.040 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.072 +01:00 [INF] Received HTTP response headers after 32.2839ms - 200
+2025-10-26 11:12:37.072 +01:00 [INF] End processing HTTP request after 32.6708ms - 200
+2025-10-26 11:12:37.073 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.073 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.103 +01:00 [INF] Received HTTP response headers after 30.6126ms - 200
+2025-10-26 11:12:37.104 +01:00 [INF] End processing HTTP request after 30.8871ms - 200
+2025-10-26 11:12:37.105 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.105 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.138 +01:00 [INF] Received HTTP response headers after 33.3056ms - 200
+2025-10-26 11:12:37.138 +01:00 [INF] End processing HTTP request after 33.56ms - 200
+2025-10-26 11:12:37.139 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.139 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.169 +01:00 [INF] Received HTTP response headers after 30.4236ms - 200
+2025-10-26 11:12:37.169 +01:00 [INF] End processing HTTP request after 30.7819ms - 200
+2025-10-26 11:12:37.170 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.170 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.203 +01:00 [INF] Received HTTP response headers after 32.4654ms - 200
+2025-10-26 11:12:37.203 +01:00 [INF] End processing HTTP request after 32.6606ms - 200
+2025-10-26 11:12:37.203 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.203 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.236 +01:00 [INF] Received HTTP response headers after 32.1516ms - 200
+2025-10-26 11:12:37.236 +01:00 [INF] End processing HTTP request after 32.3498ms - 200
+2025-10-26 11:12:37.264 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.264 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.295 +01:00 [INF] Received HTTP response headers after 30.9966ms - 200
+2025-10-26 11:12:37.295 +01:00 [INF] End processing HTTP request after 31.2899ms - 200
+2025-10-26 11:12:37.307 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.307 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.340 +01:00 [INF] Received HTTP response headers after 33.0299ms - 200
+2025-10-26 11:12:37.340 +01:00 [INF] End processing HTTP request after 33.3386ms - 200
+2025-10-26 11:12:37.345 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.345 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.380 +01:00 [INF] Received HTTP response headers after 34.0479ms - 200
+2025-10-26 11:12:37.380 +01:00 [INF] End processing HTTP request after 34.6591ms - 200
+2025-10-26 11:12:37.388 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.388 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.424 +01:00 [INF] Received HTTP response headers after 36.0066ms - 200
+2025-10-26 11:12:37.424 +01:00 [INF] End processing HTTP request after 36.3714ms - 200
+2025-10-26 11:12:37.424 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.425 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.461 +01:00 [INF] Received HTTP response headers after 36.2285ms - 200
+2025-10-26 11:12:37.461 +01:00 [INF] End processing HTTP request after 36.5262ms - 200
+2025-10-26 11:12:37.462 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.462 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.491 +01:00 [INF] Received HTTP response headers after 29.0825ms - 200
+2025-10-26 11:12:37.491 +01:00 [INF] End processing HTTP request after 29.4648ms - 200
+2025-10-26 11:12:37.491 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.492 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.522 +01:00 [INF] Received HTTP response headers after 30.2006ms - 200
+2025-10-26 11:12:37.522 +01:00 [INF] End processing HTTP request after 30.5006ms - 200
+2025-10-26 11:12:37.522 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.523 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:12:37.550 +01:00 [INF] Received HTTP response headers after 27.4315ms - 200
+2025-10-26 11:12:37.550 +01:00 [INF] End processing HTTP request after 27.7465ms - 200
+2025-10-26 11:12:37.672 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1177.4866ms
+2025-10-26 11:12:37.672 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:12:37.672 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1188.0442ms
+2025-10-26 11:13:28.200 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:13:28.352 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:13:28.352 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:13:28.390 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:13:28.390 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:13:28.390 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:13:28.995 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:13:29.134 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:13:29.154 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:13:29.165 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:13:29.303 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 140.992ms.
+2025-10-26 11:13:29.307 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 152.5771ms
+2025-10-26 11:13:29.308 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:13:29.315 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 330.3836ms
+2025-10-26 11:13:29.394 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:13:29.394 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:13:29.394 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:13:29.403 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 8.6343ms
+2025-10-26 11:13:29.404 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:13:29.405 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 10.6725ms
+2025-10-26 11:13:29.442 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 47.4365ms
+2025-10-26 11:13:30.075 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:13:30.078 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:13:30.083 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:13:30.094 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:13:30.124 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.126 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.207 +01:00 [INF] Received HTTP response headers after 79.5889ms - 200
+2025-10-26 11:13:30.207 +01:00 [INF] End processing HTTP request after 85.853ms - 200
+2025-10-26 11:13:30.217 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.217 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.256 +01:00 [INF] Received HTTP response headers after 38.979ms - 200
+2025-10-26 11:13:30.256 +01:00 [INF] End processing HTTP request after 39.2306ms - 200
+2025-10-26 11:13:30.263 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.263 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.295 +01:00 [INF] Received HTTP response headers after 32.2847ms - 200
+2025-10-26 11:13:30.295 +01:00 [INF] End processing HTTP request after 32.5938ms - 200
+2025-10-26 11:13:30.296 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.296 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.329 +01:00 [INF] Received HTTP response headers after 32.7917ms - 200
+2025-10-26 11:13:30.329 +01:00 [INF] End processing HTTP request after 33.2406ms - 200
+2025-10-26 11:13:30.330 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.330 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.361 +01:00 [INF] Received HTTP response headers after 30.6193ms - 200
+2025-10-26 11:13:30.361 +01:00 [INF] End processing HTTP request after 31.0303ms - 200
+2025-10-26 11:13:30.361 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.362 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.402 +01:00 [INF] Received HTTP response headers after 40.1229ms - 200
+2025-10-26 11:13:30.402 +01:00 [INF] End processing HTTP request after 40.3394ms - 200
+2025-10-26 11:13:30.403 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.403 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.442 +01:00 [INF] Received HTTP response headers after 38.331ms - 200
+2025-10-26 11:13:30.442 +01:00 [INF] End processing HTTP request after 38.6443ms - 200
+2025-10-26 11:13:30.443 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.443 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.476 +01:00 [INF] Received HTTP response headers after 33.5111ms - 200
+2025-10-26 11:13:30.477 +01:00 [INF] End processing HTTP request after 33.7764ms - 200
+2025-10-26 11:13:30.477 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.477 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.507 +01:00 [INF] Received HTTP response headers after 29.9529ms - 200
+2025-10-26 11:13:30.507 +01:00 [INF] End processing HTTP request after 30.1631ms - 200
+2025-10-26 11:13:30.549 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.549 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.583 +01:00 [INF] Received HTTP response headers after 34.4362ms - 200
+2025-10-26 11:13:30.583 +01:00 [INF] End processing HTTP request after 34.7184ms - 200
+2025-10-26 11:13:30.584 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.584 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.620 +01:00 [INF] Received HTTP response headers after 35.8061ms - 200
+2025-10-26 11:13:30.620 +01:00 [INF] End processing HTTP request after 36.1177ms - 200
+2025-10-26 11:13:30.621 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.621 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.654 +01:00 [INF] Received HTTP response headers after 33.0895ms - 200
+2025-10-26 11:13:30.655 +01:00 [INF] End processing HTTP request after 33.3637ms - 200
+2025-10-26 11:13:30.656 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.656 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.685 +01:00 [INF] Received HTTP response headers after 29.1819ms - 200
+2025-10-26 11:13:30.686 +01:00 [INF] End processing HTTP request after 29.4525ms - 200
+2025-10-26 11:13:30.687 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.687 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.720 +01:00 [INF] Received HTTP response headers after 32.3277ms - 200
+2025-10-26 11:13:30.720 +01:00 [INF] End processing HTTP request after 32.5403ms - 200
+2025-10-26 11:13:30.722 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.722 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.767 +01:00 [INF] Received HTTP response headers after 45.1687ms - 200
+2025-10-26 11:13:30.767 +01:00 [INF] End processing HTTP request after 45.4128ms - 200
+2025-10-26 11:13:30.768 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.768 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.802 +01:00 [INF] Received HTTP response headers after 33.8501ms - 200
+2025-10-26 11:13:30.802 +01:00 [INF] End processing HTTP request after 34.1107ms - 200
+2025-10-26 11:13:30.802 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.802 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.833 +01:00 [INF] Received HTTP response headers after 30.8737ms - 200
+2025-10-26 11:13:30.833 +01:00 [INF] End processing HTTP request after 31.131ms - 200
+2025-10-26 11:13:30.861 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.861 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.893 +01:00 [INF] Received HTTP response headers after 31.3769ms - 200
+2025-10-26 11:13:30.893 +01:00 [INF] End processing HTTP request after 31.6388ms - 200
+2025-10-26 11:13:30.893 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.893 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.924 +01:00 [INF] Received HTTP response headers after 30.7462ms - 200
+2025-10-26 11:13:30.924 +01:00 [INF] End processing HTTP request after 31.129ms - 200
+2025-10-26 11:13:30.925 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.925 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.959 +01:00 [INF] Received HTTP response headers after 33.3927ms - 200
+2025-10-26 11:13:30.959 +01:00 [INF] End processing HTTP request after 33.7881ms - 200
+2025-10-26 11:13:30.959 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.959 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.990 +01:00 [INF] Received HTTP response headers after 30.6593ms - 200
+2025-10-26 11:13:30.990 +01:00 [INF] End processing HTTP request after 31.1295ms - 200
+2025-10-26 11:13:30.991 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:30.991 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.022 +01:00 [INF] Received HTTP response headers after 31.4985ms - 200
+2025-10-26 11:13:31.023 +01:00 [INF] End processing HTTP request after 31.755ms - 200
+2025-10-26 11:13:31.023 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.023 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.054 +01:00 [INF] Received HTTP response headers after 30.1127ms - 200
+2025-10-26 11:13:31.054 +01:00 [INF] End processing HTTP request after 30.4942ms - 200
+2025-10-26 11:13:31.054 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.054 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.085 +01:00 [INF] Received HTTP response headers after 31.1736ms - 200
+2025-10-26 11:13:31.085 +01:00 [INF] End processing HTTP request after 31.4367ms - 200
+2025-10-26 11:13:31.086 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.086 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:13:31.116 +01:00 [INF] Received HTTP response headers after 30.229ms - 200
+2025-10-26 11:13:31.116 +01:00 [INF] End processing HTTP request after 30.45ms - 200
+2025-10-26 11:13:31.202 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1118.9886ms
+2025-10-26 11:13:31.202 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:13:31.203 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1128.1131ms
+2025-10-26 11:15:08.322 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:15:08.322 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:15:08.323 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 1.0333ms
+2025-10-26 11:17:06.565 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:17:06.728 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:17:06.728 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:17:06.767 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:17:06.768 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:17:06.768 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:17:07.325 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:17:07.498 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:17:07.517 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:17:07.532 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:17:07.679 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 147.9726ms.
+2025-10-26 11:17:07.685 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 167.0348ms
+2025-10-26 11:17:07.686 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:17:07.695 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 381.7861ms
+2025-10-26 11:17:07.772 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:17:07.772 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:17:07.772 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:17:07.777 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 5.3477ms
+2025-10-26 11:17:07.778 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:17:07.778 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 6.601ms
+2025-10-26 11:17:07.819 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 47.4949ms
+2025-10-26 11:17:08.429 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:17:08.432 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:17:08.439 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:17:08.454 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:17:08.484 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.487 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.572 +01:00 [INF] Received HTTP response headers after 83.4708ms - 200
+2025-10-26 11:17:08.572 +01:00 [INF] End processing HTTP request after 91.9999ms - 200
+2025-10-26 11:17:08.585 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.585 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.622 +01:00 [INF] Received HTTP response headers after 36.4225ms - 200
+2025-10-26 11:17:08.622 +01:00 [INF] End processing HTTP request after 36.7029ms - 200
+2025-10-26 11:17:08.630 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.630 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.658 +01:00 [INF] Received HTTP response headers after 28.6576ms - 200
+2025-10-26 11:17:08.658 +01:00 [INF] End processing HTTP request after 28.9495ms - 200
+2025-10-26 11:17:08.659 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.659 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.692 +01:00 [INF] Received HTTP response headers after 32.6805ms - 200
+2025-10-26 11:17:08.692 +01:00 [INF] End processing HTTP request after 33.0856ms - 200
+2025-10-26 11:17:08.693 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.693 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.730 +01:00 [INF] Received HTTP response headers after 36.595ms - 200
+2025-10-26 11:17:08.730 +01:00 [INF] End processing HTTP request after 36.8923ms - 200
+2025-10-26 11:17:08.731 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.731 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.764 +01:00 [INF] Received HTTP response headers after 32.5597ms - 200
+2025-10-26 11:17:08.764 +01:00 [INF] End processing HTTP request after 32.7762ms - 200
+2025-10-26 11:17:08.764 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.764 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.792 +01:00 [INF] Received HTTP response headers after 27.8223ms - 200
+2025-10-26 11:17:08.792 +01:00 [INF] End processing HTTP request after 28.0452ms - 200
+2025-10-26 11:17:08.793 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.793 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.825 +01:00 [INF] Received HTTP response headers after 31.4482ms - 200
+2025-10-26 11:17:08.825 +01:00 [INF] End processing HTTP request after 31.6291ms - 200
+2025-10-26 11:17:08.825 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.826 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.855 +01:00 [INF] Received HTTP response headers after 29.4382ms - 200
+2025-10-26 11:17:08.855 +01:00 [INF] End processing HTTP request after 29.6326ms - 200
+2025-10-26 11:17:08.856 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.856 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.889 +01:00 [INF] Received HTTP response headers after 32.9016ms - 200
+2025-10-26 11:17:08.889 +01:00 [INF] End processing HTTP request after 33.1027ms - 200
+2025-10-26 11:17:08.890 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.890 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.918 +01:00 [INF] Received HTTP response headers after 28.2583ms - 200
+2025-10-26 11:17:08.918 +01:00 [INF] End processing HTTP request after 28.4727ms - 200
+2025-10-26 11:17:08.919 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.919 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.950 +01:00 [INF] Received HTTP response headers after 31.0085ms - 200
+2025-10-26 11:17:08.950 +01:00 [INF] End processing HTTP request after 31.4094ms - 200
+2025-10-26 11:17:08.951 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.951 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.980 +01:00 [INF] Received HTTP response headers after 28.7996ms - 200
+2025-10-26 11:17:08.980 +01:00 [INF] End processing HTTP request after 29.0826ms - 200
+2025-10-26 11:17:08.980 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:08.980 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.012 +01:00 [INF] Received HTTP response headers after 31.4182ms - 200
+2025-10-26 11:17:09.012 +01:00 [INF] End processing HTTP request after 31.6552ms - 200
+2025-10-26 11:17:09.012 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.012 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.046 +01:00 [INF] Received HTTP response headers after 33.7433ms - 200
+2025-10-26 11:17:09.046 +01:00 [INF] End processing HTTP request after 34.0005ms - 200
+2025-10-26 11:17:09.047 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.047 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.091 +01:00 [INF] Received HTTP response headers after 43.7356ms - 200
+2025-10-26 11:17:09.091 +01:00 [INF] End processing HTTP request after 44.039ms - 200
+2025-10-26 11:17:09.092 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.092 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.124 +01:00 [INF] Received HTTP response headers after 32.3656ms - 200
+2025-10-26 11:17:09.125 +01:00 [INF] End processing HTTP request after 32.6811ms - 200
+2025-10-26 11:17:09.136 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.137 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.167 +01:00 [INF] Received HTTP response headers after 30.2058ms - 200
+2025-10-26 11:17:09.167 +01:00 [INF] End processing HTTP request after 30.5487ms - 200
+2025-10-26 11:17:09.176 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.176 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.208 +01:00 [INF] Received HTTP response headers after 32.2269ms - 200
+2025-10-26 11:17:09.208 +01:00 [INF] End processing HTTP request after 32.5215ms - 200
+2025-10-26 11:17:09.212 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.212 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.245 +01:00 [INF] Received HTTP response headers after 32.4967ms - 200
+2025-10-26 11:17:09.245 +01:00 [INF] End processing HTTP request after 32.8568ms - 200
+2025-10-26 11:17:09.246 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.246 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.280 +01:00 [INF] Received HTTP response headers after 34.1688ms - 200
+2025-10-26 11:17:09.280 +01:00 [INF] End processing HTTP request after 34.4774ms - 200
+2025-10-26 11:17:09.281 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.281 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.310 +01:00 [INF] Received HTTP response headers after 29.6838ms - 200
+2025-10-26 11:17:09.310 +01:00 [INF] End processing HTTP request after 29.9547ms - 200
+2025-10-26 11:17:09.311 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.311 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.343 +01:00 [INF] Received HTTP response headers after 32.3061ms - 200
+2025-10-26 11:17:09.344 +01:00 [INF] End processing HTTP request after 32.542ms - 200
+2025-10-26 11:17:09.344 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.344 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.375 +01:00 [INF] Received HTTP response headers after 30.5351ms - 200
+2025-10-26 11:17:09.375 +01:00 [INF] End processing HTTP request after 30.8016ms - 200
+2025-10-26 11:17:09.376 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.376 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:09.407 +01:00 [INF] Received HTTP response headers after 31.1168ms - 200
+2025-10-26 11:17:09.407 +01:00 [INF] End processing HTTP request after 31.4504ms - 200
+2025-10-26 11:17:09.495 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1056.037ms
+2025-10-26 11:17:09.495 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:17:09.496 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1066.913ms
+2025-10-26 11:17:29.519 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:17:29.521 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:17:29.521 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:17:29.522 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:17:29.523 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:29.523 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:17:29.558 +01:00 [INF] Received HTTP response headers after 34.705ms - 200
+2025-10-26 11:17:29.558 +01:00 [INF] End processing HTTP request after 35.0371ms - 200
+2025-10-26 11:17:29.560 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 38.9465ms
+2025-10-26 11:17:29.561 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:17:29.561 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 42.3474ms
+2025-10-26 11:19:40.732 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:19:40.913 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:19:40.914 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:19:40.982 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:19:40.982 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:19:40.982 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:19:41.446 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:19:41.609 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:19:41.628 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:19:41.639 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:19:41.789 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 150.5365ms.
+2025-10-26 11:19:41.795 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 164.6399ms
+2025-10-26 11:19:41.796 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:19:41.803 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 368.6176ms
+2025-10-26 11:19:41.883 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:19:41.883 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:19:41.883 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-26 11:19:41.889 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 6.8371ms
+2025-10-26 11:19:41.889 +01:00 [INF] The file /WebApplication1.styles.css was not modified
+2025-10-26 11:19:41.892 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 304 null text/css 9.7182ms
+2025-10-26 11:19:41.940 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 57.3675ms
+2025-10-26 11:19:42.619 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:19:42.621 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:19:42.628 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:19:42.642 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:19:42.673 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.676 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.782 +01:00 [INF] Received HTTP response headers after 104.5093ms - 200
+2025-10-26 11:19:42.782 +01:00 [INF] End processing HTTP request after 112.6413ms - 200
+2025-10-26 11:19:42.794 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.794 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.826 +01:00 [INF] Received HTTP response headers after 32.0884ms - 200
+2025-10-26 11:19:42.826 +01:00 [INF] End processing HTTP request after 32.3835ms - 200
+2025-10-26 11:19:42.834 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.834 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.882 +01:00 [INF] Received HTTP response headers after 48.0249ms - 200
+2025-10-26 11:19:42.882 +01:00 [INF] End processing HTTP request after 48.3743ms - 200
+2025-10-26 11:19:42.883 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.883 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.914 +01:00 [INF] Received HTTP response headers after 31.1111ms - 200
+2025-10-26 11:19:42.914 +01:00 [INF] End processing HTTP request after 31.3833ms - 200
+2025-10-26 11:19:42.914 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.915 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.949 +01:00 [INF] Received HTTP response headers after 34.5756ms - 200
+2025-10-26 11:19:42.949 +01:00 [INF] End processing HTTP request after 34.817ms - 200
+2025-10-26 11:19:42.950 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.950 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.985 +01:00 [INF] Received HTTP response headers after 35.0773ms - 200
+2025-10-26 11:19:42.985 +01:00 [INF] End processing HTTP request after 35.4227ms - 200
+2025-10-26 11:19:42.986 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:42.986 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.027 +01:00 [INF] Received HTTP response headers after 41.2177ms - 200
+2025-10-26 11:19:43.028 +01:00 [INF] End processing HTTP request after 41.5043ms - 200
+2025-10-26 11:19:43.028 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.028 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.061 +01:00 [INF] Received HTTP response headers after 32.1825ms - 200
+2025-10-26 11:19:43.061 +01:00 [INF] End processing HTTP request after 32.4869ms - 200
+2025-10-26 11:19:43.061 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.061 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.098 +01:00 [INF] Received HTTP response headers after 36.6649ms - 200
+2025-10-26 11:19:43.098 +01:00 [INF] End processing HTTP request after 36.9581ms - 200
+2025-10-26 11:19:43.109 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.109 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.143 +01:00 [INF] Received HTTP response headers after 34.2831ms - 200
+2025-10-26 11:19:43.143 +01:00 [INF] End processing HTTP request after 34.6059ms - 200
+2025-10-26 11:19:43.144 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.144 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.196 +01:00 [INF] Received HTTP response headers after 52.288ms - 200
+2025-10-26 11:19:43.196 +01:00 [INF] End processing HTTP request after 52.6244ms - 200
+2025-10-26 11:19:43.197 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.197 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.226 +01:00 [INF] Received HTTP response headers after 29.3791ms - 200
+2025-10-26 11:19:43.226 +01:00 [INF] End processing HTTP request after 29.6851ms - 200
+2025-10-26 11:19:43.227 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.227 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.257 +01:00 [INF] Received HTTP response headers after 29.6613ms - 200
+2025-10-26 11:19:43.257 +01:00 [INF] End processing HTTP request after 29.9727ms - 200
+2025-10-26 11:19:43.258 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.258 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.288 +01:00 [INF] Received HTTP response headers after 29.6443ms - 200
+2025-10-26 11:19:43.288 +01:00 [INF] End processing HTTP request after 30.0654ms - 200
+2025-10-26 11:19:43.288 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.288 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.318 +01:00 [INF] Received HTTP response headers after 29.8348ms - 200
+2025-10-26 11:19:43.318 +01:00 [INF] End processing HTTP request after 30.1388ms - 200
+2025-10-26 11:19:43.319 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.319 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.349 +01:00 [INF] Received HTTP response headers after 29.698ms - 200
+2025-10-26 11:19:43.349 +01:00 [INF] End processing HTTP request after 30.1883ms - 200
+2025-10-26 11:19:43.349 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.350 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.381 +01:00 [INF] Received HTTP response headers after 31.2706ms - 200
+2025-10-26 11:19:43.381 +01:00 [INF] End processing HTTP request after 31.6214ms - 200
+2025-10-26 11:19:43.382 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.382 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.412 +01:00 [INF] Received HTTP response headers after 29.877ms - 200
+2025-10-26 11:19:43.412 +01:00 [INF] End processing HTTP request after 30.1766ms - 200
+2025-10-26 11:19:43.412 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.413 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.444 +01:00 [INF] Received HTTP response headers after 31.2268ms - 200
+2025-10-26 11:19:43.444 +01:00 [INF] End processing HTTP request after 31.6958ms - 200
+2025-10-26 11:19:43.445 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.445 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.475 +01:00 [INF] Received HTTP response headers after 30.0309ms - 200
+2025-10-26 11:19:43.475 +01:00 [INF] End processing HTTP request after 30.368ms - 200
+2025-10-26 11:19:43.476 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.476 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.506 +01:00 [INF] Received HTTP response headers after 30.3011ms - 200
+2025-10-26 11:19:43.506 +01:00 [INF] End processing HTTP request after 30.6552ms - 200
+2025-10-26 11:19:43.507 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.507 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.538 +01:00 [INF] Received HTTP response headers after 31.3423ms - 200
+2025-10-26 11:19:43.539 +01:00 [INF] End processing HTTP request after 31.6432ms - 200
+2025-10-26 11:19:43.539 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.539 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.593 +01:00 [INF] Received HTTP response headers after 53.5583ms - 200
+2025-10-26 11:19:43.593 +01:00 [INF] End processing HTTP request after 53.8661ms - 200
+2025-10-26 11:19:43.594 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.594 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.624 +01:00 [INF] Received HTTP response headers after 29.8741ms - 200
+2025-10-26 11:19:43.624 +01:00 [INF] End processing HTTP request after 30.2004ms - 200
+2025-10-26 11:19:43.624 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.624 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:19:43.717 +01:00 [INF] Received HTTP response headers after 92.5196ms - 200
+2025-10-26 11:19:43.717 +01:00 [INF] End processing HTTP request after 92.8025ms - 200
+2025-10-26 11:19:43.806 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1177.8433ms
+2025-10-26 11:19:43.806 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:19:43.807 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1188.2489ms
+2025-10-26 11:20:55.907 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-26 11:20:56.071 +01:00 [INF] Now listening on: https://localhost:7131
+2025-10-26 11:20:56.071 +01:00 [INF] Now listening on: http://localhost:5255
+2025-10-26 11:20:56.113 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-26 11:20:56.114 +01:00 [INF] Hosting environment: Development
+2025-10-26 11:20:56.114 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-26 11:20:56.616 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-26 11:20:56.771 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:20:56.791 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-26 11:20:56.800 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-26 11:20:56.937 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 138.9185ms.
+2025-10-26 11:20:56.940 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 149.2488ms
+2025-10-26 11:20:56.941 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-26 11:20:56.949 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 346.4656ms
+2025-10-26 11:20:57.053 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-26 11:20:57.053 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-26 11:20:57.058 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 5.4123ms
+2025-10-26 11:20:57.100 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 47.2215ms
+2025-10-26 11:20:57.723 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - null null
+2025-10-26 11:20:57.725 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:20:57.733 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-26 11:20:57.746 +01:00 [INF] Executing ViewComponentResult, running CurrencyWidget.
+2025-10-26 11:20:57.777 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.779 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.872 +01:00 [INF] Received HTTP response headers after 91.4703ms - 200
+2025-10-26 11:20:57.872 +01:00 [INF] End processing HTTP request after 99.105ms - 200
+2025-10-26 11:20:57.886 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.886 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.921 +01:00 [INF] Received HTTP response headers after 34.088ms - 200
+2025-10-26 11:20:57.921 +01:00 [INF] End processing HTTP request after 34.468ms - 200
+2025-10-26 11:20:57.929 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.929 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.964 +01:00 [INF] Received HTTP response headers after 34.3969ms - 200
+2025-10-26 11:20:57.964 +01:00 [INF] End processing HTTP request after 34.6959ms - 200
+2025-10-26 11:20:57.964 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.964 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.998 +01:00 [INF] Received HTTP response headers after 33.8038ms - 200
+2025-10-26 11:20:57.998 +01:00 [INF] End processing HTTP request after 34.1047ms - 200
+2025-10-26 11:20:57.999 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:57.999 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.033 +01:00 [INF] Received HTTP response headers after 34.3054ms - 200
+2025-10-26 11:20:58.033 +01:00 [INF] End processing HTTP request after 34.6111ms - 200
+2025-10-26 11:20:58.034 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.034 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.067 +01:00 [INF] Received HTTP response headers after 33.329ms - 200
+2025-10-26 11:20:58.068 +01:00 [INF] End processing HTTP request after 34.1734ms - 200
+2025-10-26 11:20:58.069 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.069 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.106 +01:00 [INF] Received HTTP response headers after 37.4305ms - 200
+2025-10-26 11:20:58.106 +01:00 [INF] End processing HTTP request after 37.749ms - 200
+2025-10-26 11:20:58.107 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.107 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.141 +01:00 [INF] Received HTTP response headers after 34.122ms - 200
+2025-10-26 11:20:58.141 +01:00 [INF] End processing HTTP request after 34.4512ms - 200
+2025-10-26 11:20:58.148 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.148 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.185 +01:00 [INF] Received HTTP response headers after 36.7187ms - 200
+2025-10-26 11:20:58.185 +01:00 [INF] End processing HTTP request after 37.0791ms - 200
+2025-10-26 11:20:58.186 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.186 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.218 +01:00 [INF] Received HTTP response headers after 31.9914ms - 200
+2025-10-26 11:20:58.219 +01:00 [INF] End processing HTTP request after 32.305ms - 200
+2025-10-26 11:20:58.219 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.219 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.269 +01:00 [INF] Received HTTP response headers after 49.4805ms - 200
+2025-10-26 11:20:58.269 +01:00 [INF] End processing HTTP request after 49.8025ms - 200
+2025-10-26 11:20:58.270 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.270 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.303 +01:00 [INF] Received HTTP response headers after 32.9147ms - 200
+2025-10-26 11:20:58.303 +01:00 [INF] End processing HTTP request after 33.2217ms - 200
+2025-10-26 11:20:58.303 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.303 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.341 +01:00 [INF] Received HTTP response headers after 37.8326ms - 200
+2025-10-26 11:20:58.342 +01:00 [INF] End processing HTTP request after 38.1455ms - 200
+2025-10-26 11:20:58.342 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.342 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.375 +01:00 [INF] Received HTTP response headers after 32.9528ms - 200
+2025-10-26 11:20:58.375 +01:00 [INF] End processing HTTP request after 33.2785ms - 200
+2025-10-26 11:20:58.376 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.376 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.411 +01:00 [INF] Received HTTP response headers after 35.2374ms - 200
+2025-10-26 11:20:58.411 +01:00 [INF] End processing HTTP request after 35.5618ms - 200
+2025-10-26 11:20:58.412 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.412 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.446 +01:00 [INF] Received HTTP response headers after 33.6801ms - 200
+2025-10-26 11:20:58.446 +01:00 [INF] End processing HTTP request after 33.9989ms - 200
+2025-10-26 11:20:58.446 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.446 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.482 +01:00 [INF] Received HTTP response headers after 35.2797ms - 200
+2025-10-26 11:20:58.482 +01:00 [INF] End processing HTTP request after 35.5838ms - 200
+2025-10-26 11:20:58.482 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.483 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.513 +01:00 [INF] Received HTTP response headers after 30.3144ms - 200
+2025-10-26 11:20:58.513 +01:00 [INF] End processing HTTP request after 30.6237ms - 200
+2025-10-26 11:20:58.514 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.514 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.548 +01:00 [INF] Received HTTP response headers after 34.583ms - 200
+2025-10-26 11:20:58.549 +01:00 [INF] End processing HTTP request after 34.8989ms - 200
+2025-10-26 11:20:58.549 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.549 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.581 +01:00 [INF] Received HTTP response headers after 31.9771ms - 200
+2025-10-26 11:20:58.581 +01:00 [INF] End processing HTTP request after 32.2831ms - 200
+2025-10-26 11:20:58.582 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.582 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.613 +01:00 [INF] Received HTTP response headers after 30.6729ms - 200
+2025-10-26 11:20:58.613 +01:00 [INF] End processing HTTP request after 31.0868ms - 200
+2025-10-26 11:20:58.614 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.614 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.645 +01:00 [INF] Received HTTP response headers after 30.9066ms - 200
+2025-10-26 11:20:58.645 +01:00 [INF] End processing HTTP request after 31.2845ms - 200
+2025-10-26 11:20:58.648 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.648 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.680 +01:00 [INF] Received HTTP response headers after 32.1294ms - 200
+2025-10-26 11:20:58.680 +01:00 [INF] End processing HTTP request after 32.4544ms - 200
+2025-10-26 11:20:58.681 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.681 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.712 +01:00 [INF] Received HTTP response headers after 30.9278ms - 200
+2025-10-26 11:20:58.712 +01:00 [INF] End processing HTTP request after 31.2098ms - 200
+2025-10-26 11:20:58.712 +01:00 [INF] Start processing HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.713 +01:00 [INF] Sending HTTP request POST https://swop.cx/graphql
+2025-10-26 11:20:58.745 +01:00 [INF] Received HTTP response headers after 32.442ms - 200
+2025-10-26 11:20:58.745 +01:00 [INF] End processing HTTP request after 32.7401ms - 200
+2025-10-26 11:20:58.842 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 1108.9759ms
+2025-10-26 11:20:58.842 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-26 11:20:58.842 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrencyWidget&baseCurrency=EUR&quoteCurrency=USD - 200 null text/html; charset=utf-8 1120.0869ms

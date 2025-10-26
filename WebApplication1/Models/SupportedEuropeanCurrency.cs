@@ -2,7 +2,7 @@
 {
     public enum SupportedEuropeanCurrency
     {
-        EUR, BGN, CZK, DKK, HUF, PLN, RON, SEK, CHF
+        EUR, BGN, CZK, DKK, HUF, PLN, RON, SEK, CHF, USD
     }
 
     public static class SupportedEuropeanCurrencyHelper
