@@ -1,0 +1,25 @@
+﻿@{
+    var code = (string)Model.code;
+    var returnUrl = (string)Model.returnUrl ?? "/";
+}
+
+<script>
+    (async function() {
+        try {
+            const res = await fetch("/api/auth/google/exchange", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: "@code" })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data?.message || "Google login failed");
+
+            localStorage.setItem("jwtToken", data.token);
+            window.location.href = "@returnUrl"; // přesměrování zpět na dashboard
+        } catch (err) {
+            console.error(err);
+            alert("Google login failed: " + err.message);
+            window.location.href = "@returnUrl";
+        }
+    })();
+</script>
