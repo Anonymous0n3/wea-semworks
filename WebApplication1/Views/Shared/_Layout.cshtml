@@ -20,8 +20,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -35,7 +34,6 @@
                         </li>
                     </ul>
 
-                    <!-- 🔽 Dropdown s widgety -->
                     <div class="dropdown">
                         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Widgety
@@ -56,7 +54,6 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-
         <div id="widgetContainer" class="mt-4"></div>
     </div>
 
@@ -66,10 +63,8 @@
         </div>
     </footer>
 
-    <!-- 📚 Skripty -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/weather-autocomplete.js" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
@@ -78,17 +73,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
+            const chartMap = new Map(); // map pro instance grafů
 
-            // Map pro uložení instancí grafů
-            const chartMap = new Map();
-
-            // 🔹 Načtení uložených widgetů z localStorage
+            // Načtení widgetů z localStorage
             const savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
-            if (savedWidgets.length > 0) {
-                savedWidgets.forEach(w => loadWidget(w.name, w.location));
-            }
+            savedWidgets.forEach(w => loadWidget(w.name, w.location));
 
-            // 🔹 Uložení seznamu aktivních widgetů do localStorage
             function saveWidgetState() {
                 const data = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
                     name,
@@ -97,14 +87,30 @@
                 localStorage.setItem('openWidgets', JSON.stringify(data));
             }
 
-            // 🔹 Funkce pro vykreslení ForecastWeather grafů
+            // Inicializace CurrencyWidget grafu
+            function initCurrencyWidget(wrapper) {
+                const canvas = wrapper.querySelector("#rateChart");
+                if (!canvas) return;
+
+                const labels = JSON.parse(canvas.dataset.labels || '[]');
+                const data = JSON.parse(canvas.dataset.rates || '[]');
+                const label = canvas.dataset.label || '';
+
+                if (!labels.length || !data.length) return;
+
+                const ctx = canvas.getContext("2d");
+                new Chart(ctx, {
+                    type: 'line',
+                    data: { labels, datasets: [{ label, data, fill: false, borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.2)', tension: 0.3, borderWidth: 2, pointRadius: 4, pointHoverRadius: 6, pointBackgroundColor: 'rgba(54,162,235,1)' }] },
+                    options: { responsive: true, plugins: { legend: { display: true, position: 'bottom' } } }
+                });
+            }
+
+            // Funkce pro vykreslení ForecastWeather grafů
             function renderForecastCharts(wrapper) {
                 const charts = wrapper.querySelectorAll('.temperatureChart');
                 charts.forEach(canvas => {
-                    // znič starou instanci grafu
-                    if (chartMap.has(canvas)) {
-                        chartMap.get(canvas).destroy();
-                    }
+                    if (chartMap.has(canvas)) chartMap.get(canvas).destroy();
 
                     const ctx = canvas.getContext('2d');
                     if (!ctx) return;
@@ -114,77 +120,15 @@
 
                     const chart = new Chart(ctx, {
                         type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Teplota (°C)',
-                                data: values,
-                                borderColor: 'rgba(75,192,192,1)',
-                                backgroundColor: 'rgba(75,192,192,0.2)',
-                                fill: true,
-                                tension: 0.4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: { title: { display: true, text: 'Čas' } },
-                                y: { title: { display: true, text: 'Teplota (°C)' } }
-                            }
-                        }
+                        data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, borderColor: 'rgba(75,192,192,1)', backgroundColor: 'rgba(75,192,192,0.2)', fill: true, tension: 0.4 }] },
+                        options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Čas' } }, y: { title: { display: true, text: 'Teplota (°C)' } } } }
                     });
 
                     chartMap.set(canvas, chart);
                 });
             }
 
-            // 🔹 Načtení widgetu
-            async function loadWidget(widgetName, location = '') {
-                try {
-                    const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
-                    const html = await response.text();
-            // 🔹 Inicializace grafu v CurrencyWidgetu
-            function initCurrencyWidget(wrapper) {
-                const canvas = wrapper.querySelector('#rateChart');
-                if (!canvas) return;
-
-                const labels = JSON.parse(canvas.dataset.labels || '[]');
-                const data = JSON.parse(canvas.dataset.rates || '[]');
-                const label = canvas.dataset.label || '';
-
-                if (!labels.length || !data.length) return;
-
-                const ctx = canvas.getContext('2d');
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels,
-                        datasets: [{
-                            label,
-                            data,
-                            fill: false,
-                            borderColor: 'rgba(54,162,235,1)',
-                            backgroundColor: 'rgba(54,162,235,0.2)',
-                            tension: 0.3,
-                            borderWidth: 2,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            pointBackgroundColor: 'rgba(54,162,235,1)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: true, position: 'bottom' } },
-                        scales: {
-                            x: { title: { display: true, text: 'Datum' } },
-                            y: { title: { display: true, text: 'Kurz' } }
-                        }
-                    }
-                });
-            }
-
-            // 🔹 Načtení widgetu přes AJAX
+            // Načtení widgetu
             async function loadWidget(widgetName, location = '') {
                 try {
                     let url = `/Widget/Load?name=${widgetName}`;
@@ -193,9 +137,7 @@
                         const quote = localStorage.getItem("quoteCurrency") || "USD";
                         url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
                     }
-                    if (location) {
-                        url += `&location=${encodeURIComponent(location)}`;
-                    }
+                    if (location) url += `&location=${encodeURIComponent(location)}`;
 
                     const response = await fetch(url);
                     const html = await response.text();
@@ -216,10 +158,8 @@
                     addCloseButton(wrapper, widgetName);
                     attachInteractions(wrapper, widgetName);
 
-                    // pokud je ForecastWeather, vykresli grafy
-                    if (widgetName === "ForecastWeather") {
-                        renderForecastCharts(wrapper);
-                    }
+                    if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
+                    if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
 
                     if (isNew) {
                         wrapper.style.opacity = "0";
@@ -228,68 +168,55 @@
                     }
 
                     saveWidgetState();
-
                 } catch (error) {
                     console.error("Chyba při načítání widgetu:", error);
                 }
             }
 
-            // 🔹 Interakce uvnitř widgetů
             function attachInteractions(wrapper, widgetName) {
-                // Weather – přepínání °C/°F
                 const toggleBtn = wrapper.querySelector('#toggleUnit');
                 toggleBtn?.addEventListener('click', () => {
                     const tempEl = wrapper.querySelector('h2');
                     if (!tempEl) return;
-                    if (tempEl.textContent.includes('°C')) {
-                        tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-                    } else {
-                        tempEl.textContent = tempEl.dataset.celsius + '°C';
-                    }
+                    if (tempEl.textContent.includes('°C')) tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
+                    else tempEl.textContent = tempEl.dataset.celsius + '°C';
                 });
 
-                // Formulář pro měnu
-                if (widgetName === "CurrencyWidget") {
-                    const currencyForm = wrapper.querySelector('#currencyForm');
-                    const baseSelect = wrapper.querySelector('#baseCurrency');
-                    const quoteSelect = wrapper.querySelector('#quoteCurrency');
-
-                    // Uložené hodnoty z localStorage
-                    const savedBase = localStorage.getItem("baseCurrency");
-                    const savedQuote = localStorage.getItem("quoteCurrency");
-
-                    if (savedBase && baseSelect?.querySelector(`option[value="${savedBase}"]`)) {
-                        baseSelect.value = savedBase;
-                    }
-
-                    if (savedQuote && quoteSelect?.querySelector(`option[value="${savedQuote}"]`)) {
-                        quoteSelect.value = savedQuote;
-                    }
-
-                    // Odeslání formuláře
-                    currencyForm?.addEventListener("submit", async e => {
-                        e.preventDefault();
-                        const base = baseSelect.value;
-                        const quote = quoteSelect.value;
-                        localStorage.setItem("baseCurrency", base);
-                        localStorage.setItem("quoteCurrency", quote);
-                        await loadWidget(widgetName);
-                    });
+                const form = wrapper.querySelector('#locationForm');
+                form?.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const input = form.querySelector('input[name="location"]');
+                    await loadWidget(widgetName, input.value);
+                });
 
                 const forecastForm = wrapper.querySelector('#forecastLocationForm');
                 forecastForm?.addEventListener('submit', async e => {
                     e.preventDefault();
                     const input = forecastForm.querySelector('input[name="location"]');
-                    const newLocation = input.value;
-                    await loadWidget(widgetName, newLocation);
+                    await loadWidget(widgetName, input.value);
                 });
-            }
-                    // 🟢 Inicializace grafu po vložení
-                    initCurrencyWidget(wrapper);
+
+                // CurrencyWidget formulář
+                if (widgetName === "CurrencyWidget") {
+                    const currencyForm = wrapper.querySelector('#currencyForm');
+                    const baseSelect = wrapper.querySelector('#baseCurrency');
+                    const quoteSelect = wrapper.querySelector('#quoteCurrency');
+
+                    const savedBase = localStorage.getItem("baseCurrency");
+                    const savedQuote = localStorage.getItem("quoteCurrency");
+
+                    if (savedBase && baseSelect?.querySelector(`option[value="${savedBase}"]`)) baseSelect.value = savedBase;
+                    if (savedQuote && quoteSelect?.querySelector(`option[value="${savedQuote}"]`)) quoteSelect.value = savedQuote;
+
+                    currencyForm?.addEventListener("submit", async e => {
+                        e.preventDefault();
+                        localStorage.setItem("baseCurrency", baseSelect.value);
+                        localStorage.setItem("quoteCurrency", quoteSelect.value);
+                        await loadWidget(widgetName);
+                    });
                 }
             }
 
-            // 🔹 Zavírací tlačítko widgetu
             function addCloseButton(wrapper, widgetName) {
                 if (wrapper.querySelector('.close-widget-btn')) return;
 
@@ -313,7 +240,6 @@
                 wrapper.appendChild(closeBtn);
             }
 
-            // 🔹 Kliknutí na položky v menu
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
