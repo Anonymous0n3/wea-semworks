@@ -14,7 +14,7 @@ namespace WebApplication1.Service
     public class CouchDbService
     {
         private readonly HttpClient _client;
-        private readonly string _dbName = "helloworld";
+        private readonly string _dbName = "swopdb";
         private readonly string _couchBase;
         private readonly JsonSerializerOptions _jsonOptions;
         private readonly JwtOptions _jwtOptions;
@@ -22,8 +22,7 @@ namespace WebApplication1.Service
         public CouchDbService(HttpClient client, JwtOptions jwtOptions, IConfiguration config)
         {
             _client = client;
-            _jwtOptions = jwtOptions;
-            _couchBase = config["COUCHDB_URL"] ?? "http://couchdb:5984";
+            _couchBase = config["COUCHDB_URL"] ?? "http://localhost:5984";
 
             _jsonOptions = new JsonSerializerOptions
             {
@@ -40,16 +39,46 @@ namespace WebApplication1.Service
                 _client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
             }
+
+            // Automatická inicializace databáze měn
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var seedCurrencies = new List<Currency>
+                    {
+                        new Currency { Id = "EUR", Name = "Euro" },
+                        new Currency { Id = "USD", Name = "US Dollar" },
+                        new Currency { Id = "GBP", Name = "British Pound" },
+                        new Currency { Id = "CHF", Name = "Swiss Franc" },
+                        new Currency { Id = "JPY", Name = "Japanese Yen" },
+                        new Currency { Id = "AUD", Name = "Australian Dollar" },
+                        new Currency { Id = "CAD", Name = "Canadian Dollar" },
+                        new Currency { Id = "CNY", Name = "Chinese Yuan" },
+                        new Currency { Id = "SEK", Name = "Swedish Krona" },
+                        new Currency { Id = "NZD", Name = "New Zealand Dollar" },
+                        new Currency { Id = "NOK", Name = "Norwegian Krone" },
+                        new Currency { Id = "MXN", Name = "Mexican Peso" },
+                        new Currency { Id = "SGD", Name = "Singapore Dollar" },
+                        new Currency { Id = "HKD", Name = "Hong Kong Dollar" },
+                        new Currency { Id = "KRW", Name = "South Korean Won" },
+                        new Currency { Id = "TRY", Name = "Turkish Lira" },
+                        new Currency { Id = "RUB", Name = "Russian Ruble" },
+                        new Currency { Id = "INR", Name = "Indian Rupee" },
+                        new Currency { Id = "BRL", Name = "Brazilian Real" },
+                        new Currency { Id = "ZAR", Name = "South African Rand" }
+                    };
+
+                    await EnsureCurrenciesDbAndSeedAsync(seedCurrencies);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Chyba při inicializaci databáze měn: {ex.Message}");
+                }
+            });
         }
 
-        public string GenerateJwtForExistingUser(UserDoc user)
-        {
-            return GenerateJwtToken(user);
-        }
-
-        // ---------------------------
-        // CouchDB základní operace
-        // ---------------------------
+        // --- Původní metody ---
         public async Task EnsureDbExistsAsync()
         {
             var dbUri = $"{_couchBase}/{_dbName}";
@@ -71,9 +100,35 @@ namespace WebApplication1.Service
             }
         }
 
-        public async Task<HttpResponseMessage> GetDocumentAsync(string id)
+        public async Task<List<Currency>> GetAllCurrenciesAsync()
         {
-            return await _client.GetAsync($"{_couchBase}/{_dbName}/{id}");
+            var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
+            resp.EnsureSuccessStatusCode();
+
+            var json = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            var list = new List<Currency>();
+            foreach (var row in doc.RootElement.GetProperty("rows").EnumerateArray())
+            {
+                if (row.TryGetProperty("doc", out var d))
+                {
+                    var item = JsonSerializer.Deserialize<Currency>(d.GetRawText(), _jsonOptions);
+                    if (item != null) list.Add(item);
+                }
+            }
+            return list;
+        }
+
+        public async Task<Currency?> GetCurrencyAsync(string isoCode)
+        {
+            var id = Uri.EscapeDataString(isoCode.ToUpperInvariant());
+            var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/{id}");
+            if (!resp.IsSuccessStatusCode) return null;
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var cur = JsonSerializer.Deserialize<Currency>(json, _jsonOptions);
+            return cur;
         }
 
         public async Task<HttpResponseMessage> PostDocumentAsync<T>(T doc)
@@ -83,7 +138,7 @@ namespace WebApplication1.Service
             return await _client.PostAsync($"{_couchBase}/{_dbName}", content);
         }
 
-        public async Task<List<HelloDoc>> GetAllDocumentsAsync()
+        public async Task<List<T>> GetAllDocumentsAsync<T>()
         {
             var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
             resp.EnsureSuccessStatusCode();
@@ -91,284 +146,86 @@ namespace WebApplication1.Service
             var json = await resp.Content.ReadAsStringAsync();
             using var doc = JsonDocument.Parse(json);
 
-            var list = new List<HelloDoc>();
+            var list = new List<T>();
             foreach (var row in doc.RootElement.GetProperty("rows").EnumerateArray())
             {
                 if (row.TryGetProperty("doc", out var d))
                 {
-                    var item = JsonSerializer.Deserialize<HelloDoc>(d.GetRawText(), _jsonOptions);
+                    var item = JsonSerializer.Deserialize<T>(d.GetRawText(), _jsonOptions);
                     if (item != null) list.Add(item);
                 }
             }
             return list;
         }
 
-        // ---------------------------
-        // Autentizace a registrace
-        // ---------------------------
-        public async Task<UserDoc?> GetUserByEmailAsync(string email)
+        public async Task SeedCurrenciesAsync(List<Currency> currencies)
         {
-            var encodedId = Uri.EscapeDataString(email);
-            var url = $"{_couchBase}/{_dbName}/{encodedId}";
-            Console.WriteLine($"[CouchDB] GET user by email: {email}, URL: {url}");
+            var existing = await GetAllCurrenciesAsync();
+            if (existing.Count > 0) return; // již seedováno
 
-            try
+            foreach (var c in currencies)
             {
-                var resp = await _client.GetAsync(url);
-                var json = await resp.Content.ReadAsStringAsync();
-
-                Console.WriteLine($"[CouchDB] Response status: {resp.StatusCode}");
-                Console.WriteLine($"[CouchDB] Response body: {json}");
-
-                if (!resp.IsSuccessStatusCode)
-                    return null;
-
-                var user = JsonSerializer.Deserialize<UserDoc>(json, _jsonOptions);
-                Console.WriteLine($"[CouchDB] Uživatelský dokument nalezen: {user != null}");
-                return user;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[CouchDB] Chyba při GET user: {ex.Message}");
-                return null;
-            }
-        }
-
-        public async Task<bool> RegisterUserAsync(string name, string email, string password)
-        {
-            Console.WriteLine($"[Auth] Registruji uživatele: {email}");
-
-            var existing = await GetUserByEmailAsync(email);
-            if (existing != null)
-            {
-                Console.WriteLine($"[Auth] Uživatel {email} již existuje.");
-                return false;
-            }
-
-            var hash = BCrypt.Net.BCrypt.HashPassword(password);
-
-            var user = new UserDoc
-            {
-                _id = email,
-                Type = "user",
-                Name = name,
-                Email = email,
-                PasswordHash = hash,
-                DashboardStateJson = "[]"
-            };
-
-            var encodedId = Uri.EscapeDataString(user._id);
-            var json = JsonSerializer.Serialize(user, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var putUrl = $"{_couchBase}/{_dbName}/{encodedId}";
-
-            var resp = await _client.PutAsync(putUrl, content);
-            var result = await resp.Content.ReadAsStringAsync();
-            Console.WriteLine($"[CouchDB] PUT result: {resp.StatusCode} | {result}");
-
-            if (!resp.IsSuccessStatusCode)
-                return false;
-
-            using var doc = JsonDocument.Parse(result);
-            if (doc.RootElement.TryGetProperty("rev", out var rev))
-                user._rev = rev.GetString();
-
-            return true;
-        }
-
-        public async Task<string?> LoginUserAsync(string email, string password)
-        {
-            var user = await GetUserByEmailAsync(email);
-            if (user == null)
-            {
-                Console.WriteLine($"[Auth] Login failed – user {email} not found.");
-                return null;
-            }
-
-            var ok = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-            if (!ok)
-            {
-                Console.WriteLine($"[Auth] Login failed – invalid password for {email}.");
-                return null;
-            }
-
-            Console.WriteLine($"[Auth] Login success for {email}");
-            return GenerateJwtToken(user);
-        }
-
-        private string GenerateJwtToken(UserDoc user)
-        {
-            if (string.IsNullOrEmpty(_jwtOptions.Key))
-                throw new InvalidOperationException("JWT Key není nastavený v .env nebo appsettings.json");
-
-            var keyBytes = Encoding.UTF8.GetBytes(_jwtOptions.Key);
-            var key = new SymmetricSecurityKey(keyBytes);
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            };
-
-            var expireMinutes = _jwtOptions.ExpireMinutes > 0 ? _jwtOptions.ExpireMinutes : 60;
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                audience: _jwtOptions.Audience,
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(expireMinutes),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        // ---------------------------
-        // Widgety
-        // ---------------------------
-        public async Task<List<UserWidgetState>> GetUserWidgetsAsync(string email)
-        {
-            var user = await GetUserByEmailAsync(email);
-            if (user == null) return new List<UserWidgetState>();
-
-            try
-            {
-                if (string.IsNullOrWhiteSpace(user.DashboardStateJson))
-                    return new List<UserWidgetState>();
-
-                var json = user.DashboardStateJson.Trim();
-
-                // pokud CouchDB vrátila JSON jako string "[{...}]", zkusíme nejdřív rozbalit
-                if (json.StartsWith("\"") && json.EndsWith("\""))
-                {
-                    json = JsonSerializer.Deserialize<string>(json) ?? "[]";
-                }
-
-                return JsonSerializer.Deserialize<List<UserWidgetState>>(json, _jsonOptions)
-                       ?? new List<UserWidgetState>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Widgets] Chyba při deserializaci DashboardStateJson: {ex.Message}");
-                return new List<UserWidgetState>();
-            }
-        }
-
-        public async Task<bool> SaveUserWidgetsAsync(string email, List<UserWidgetState> widgets)
-        {
-            if (widgets == null)
-                widgets = new List<UserWidgetState>();
-
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
-
-            async Task<bool> PutWithRevAsync(UserDoc userDoc)
-            {
-                var encodedId = Uri.EscapeDataString(userDoc._id);
-                var url = $"{_couchBase}/{_dbName}/{encodedId}";
-
-                var json = JsonSerializer.Serialize(userDoc, jsonOptions);
+                var json = JsonSerializer.Serialize(c, _jsonOptions);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _client.PutAsync(url, content);
-                var responseBody = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine($"[CouchDB] PUT result: {response.StatusCode} | {responseBody}");
-
-                if (response.IsSuccessStatusCode)
+                var res = await _client.PutAsync($"{_couchBase}/{_dbName}/{c.Id}", content);
+                if (!res.IsSuccessStatusCode)
                 {
-                    using var doc = JsonDocument.Parse(responseBody);
-                    if (doc.RootElement.TryGetProperty("rev", out var revEl))
-                        userDoc._rev = revEl.GetString();
-                    return true;
+                    var body = await res.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Seed error for {c.Id}: {res.StatusCode} {body}");
                 }
-
-                return false;
             }
-
-            // 1️⃣ Načti aktuální dokument
-            var user = await GetUserByEmailAsync(email);
-            if (user == null)
-            {
-                Console.WriteLine($"[CouchDB] User {email} not found.");
-                return false;
-            }
-
-            // 2️⃣ Aktualizuj data widgetů
-            user.DashboardStateJson = JsonSerializer.Serialize(widgets, jsonOptions);
-            user.OpenWidgets = widgets;
-
-            // 3️⃣ Zkus první PUT
-            var success = await PutWithRevAsync(user);
-            if (success)
-            {
-                Console.WriteLine("[CouchDB] Widgety úspěšně uloženy.");
-                return true;
-            }
-
-            // 4️⃣ Pokud konflikt – načti nejnovější rev a zkus znovu
-            Console.WriteLine("[CouchDB] Conflict detected – retrying with fresh _rev...");
-            var freshUser = await GetUserByEmailAsync(email);
-            if (freshUser == null)
-            {
-                Console.WriteLine("[CouchDB] Retry failed – user not found.");
-                return false;
-            }
-
-            freshUser.DashboardStateJson = JsonSerializer.Serialize(widgets, jsonOptions);
-            freshUser.OpenWidgets = widgets;
-
-            var retrySuccess = await PutWithRevAsync(freshUser);
-            if (retrySuccess)
-            {
-                Console.WriteLine("[CouchDB] Retry succeeded – widgety uloženy.");
-                return true;
-            }
-
-            Console.WriteLine("[CouchDB] Retry failed – document still in conflict.");
-            return false;
         }
 
-        public async Task TestSaveUserWidgetsAsync()
+        // --- Nová metoda pro automatické zajištění DB měn a seedování ---
+        public async Task EnsureCurrenciesDbAndSeedAsync(List<Currency> seedCurrencies)
         {
-            string testEmail = "vojtech.zmolik@tul.cz";
+            var dbName = "currenciesdb";
+            var dbUri = $"{_couchBase}/{dbName}";
 
-            // 1️⃣ Připrav testovací widgety
-            var widgets = new List<UserWidgetState>
-    {
-        new UserWidgetState { Name = "ForecastWeather", Location = "Prague" },
-        new UserWidgetState { Name = "NewsFeed", Location = "Global" }
-    };
-
-            // 2️⃣ Ulož widgety
-            bool saved = await SaveUserWidgetsAsync(testEmail, widgets);
-            Console.WriteLine($"[Test] SaveUserWidgetsAsync result: {saved}");
-
-            if (!saved)
+            // 1) Zkontrolovat existenci DB
+            var head = await _client.GetAsync(dbUri);
+            if (head.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                Console.WriteLine("[Test] Ukládání widgetů selhalo!");
+                var create = await _client.PutAsync(dbUri, null);
+                if (!create.IsSuccessStatusCode)
+                {
+                    var error = await create.Content.ReadAsStringAsync();
+                    throw new Exception($"Nepodařilo se vytvořit databázi '{dbName}': {create.StatusCode} {error}");
+                }
+                Console.WriteLine($"Databáze '{dbName}' byla vytvořena.");
+            }
+            else if (!head.IsSuccessStatusCode)
+            {
+                var error = await head.Content.ReadAsStringAsync();
+                throw new Exception($"Kontrola databáze '{dbName}' selhala: {head.StatusCode} {error}");
+            }
+
+            // 2) Zkontrolovat, zda jsou v DB dokumenty
+            var resp = await _client.GetAsync($"{dbUri}/_all_docs?limit=1");
+            resp.EnsureSuccessStatusCode();
+            var json = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+            var totalRows = doc.RootElement.GetProperty("total_rows").GetInt32();
+
+            if (totalRows > 0)
+            {
+                Console.WriteLine($"Databáze '{dbName}' již obsahuje data, seed se neprovádí.");
                 return;
             }
 
-            // 3️⃣ Načti widgety z CouchDB
-            var loadedWidgets = await GetUserWidgetsAsync(testEmail);
-            Console.WriteLine($"[Test] Načteno {loadedWidgets.Count} widgetů");
-
-            foreach (var w in loadedWidgets)
+            // 3) Nasypat seed data
+            foreach (var c in seedCurrencies)
             {
-                Console.WriteLine($"[Test] Widget: Name={w.Name}, Location={w.Location}");
+                var content = new StringContent(JsonSerializer.Serialize(c, _jsonOptions), Encoding.UTF8, "application/json");
+                var putResp = await _client.PutAsync($"{dbUri}/{Uri.EscapeDataString(c.Id)}", content);
+                if (!putResp.IsSuccessStatusCode)
+                {
+                    var body = await putResp.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Seed error for {c.Id}: {putResp.StatusCode} {body}");
+                }
             }
 
-            // 4️⃣ Kontrola, jestli jsou všechny widgety uložené správně
-            bool allMatch = widgets.All(w => loadedWidgets.Any(lw => lw.Name == w.Name && lw.Location == w.Location));
-            Console.WriteLine($"[Test] Všechny widgety uloženy správně: {allMatch}");
+            Console.WriteLine($"Seed dat pro databázi '{dbName}' dokončen.");
         }
-
-
     }
 }

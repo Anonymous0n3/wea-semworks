@@ -1,0 +1,173 @@
+﻿@model IReadOnlyList<string>
+
+@{
+    var baseCurrency = ViewData["BaseCurrency"] as string ?? "EUR";
+    var quoteCurrency = ViewData["QuoteCurrency"] as string ?? "USD";
+    var rate = (decimal)(ViewData["Rate"] ?? 0m);
+    var volatility = (decimal)(ViewData["Volatility"] ?? 0m);
+    var history = ViewData["History"] as List<(DateTime Date, decimal Rate)> ?? new();
+    var orderedHistory = history.OrderBy(h => h.Date).ToList();
+}
+
+<div class="currency-widget card shadow-sm p-4 rounded-3 bg-light">
+    <h3 class="mb-3 text-center">
+        Kurz: @baseCurrency → @quoteCurrency
+    </h3>
+
+    <div class="current-rate text-center mb-4">
+        <h4>Aktuální kurz</h4>
+        <p class="fs-3 fw-bold text-primary">@rate</p>
+        <small class="text-muted">
+            Volatilita za poslední 3 dny: <strong>@volatility&nbsp;%</strong>
+        </small>
+    </div>
+
+    <hr />
+
+    <!-- 📈 Graf vývoje kurzu -->
+    <div class="chart-container mb-4">
+        <canvas id="rateChart"
+                data-label="Kurz @baseCurrency → @quoteCurrency"
+                data-labels='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))))'
+                data-rates='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)))'>
+        </canvas>
+    </div>
+
+    <hr />
+
+    <div class="history mt-3">
+        <h5>Historie za poslední 3 dny</h5>
+        <table class="table table-striped table-sm mt-2">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Kurz</th>
+                    <th>Změna oproti aktuálnímu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var point in history.OrderByDescending(h => h.Date))
+                {
+                    var diffPercent = point.Rate == 0 ? 0 : (rate - point.Rate) / point.Rate * 100m;
+                    var diffClass = diffPercent >= 0 ? "text-success" : "text-danger";
+                    <tr>
+                        <td>@point.Date.ToString("dd.MM.yyyy")</td>
+                        <td>@point.Rate</td>
+                        <td class="@diffClass">
+                            @(diffPercent >= 0 ? "+" : "")@Math.Round(diffPercent, 2) %
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <hr />
+
+    <div class="text-center mt-4">
+        <form id="currencyForm" class="d-inline-block">
+            <label for="baseCurrency" class="form-label me-2">Základní měna:</label>
+            <select id="baseCurrency" name="baseCurrency" class="form-select d-inline-block w-auto me-3">
+                @foreach (var c in Model)
+                {
+                    if (c == ViewBag.BaseCurrency)
+                    {
+                        <option value="@c" selected>@c</option>
+                    }
+                    else
+                    {
+                        <option value="@c">@c</option>
+                    }
+                }
+            </select>
+
+            <label for="quoteCurrency" class="form-label me-2">Cílová měna:</label>
+            <select id="quoteCurrency" name="quoteCurrency" class="form-select d-inline-block w-auto me-3">
+                @foreach (var c in Model)
+                {
+                    if (c == ViewBag.QuoteCurrency)
+                    {
+                        <option value="@c" selected>@c</option>
+                    }
+                    else
+                    {
+                        <option value="@c">@c</option>
+                    }
+                }
+            </select>
+
+            <button type="submit" class="btn btn-primary">Zobrazit aktuální kurz</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .currency-widget {
+        max-width: 650px;
+        margin: 0 auto;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 250px;
+        width: 100%;
+    }
+</style>
+
+@section Scripts {
+    <!-- 📊 Chart.js z CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- Data z Razor modelu ---
+            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))));
+            const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)));
+
+            // --- Vykreslení grafu ---
+            const ctx = document.getElementById('rateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Kurz @baseCurrency → @quoteCurrency',
+                        data: data,
+                        fill: false,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        tension: 0.3,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Kurz'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Datum'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
