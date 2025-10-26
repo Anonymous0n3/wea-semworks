@@ -1,8 +1,18 @@
-﻿@model WebApplication1.Models.ForecastWeatherViewModel
+﻿@model IReadOnlyList<string>
 
-<div class="card shadow-sm" id="forecastWidget">
-    <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">Předpověď počasí - @Model.LocationName</h4>
+@{
+    var baseCur = (ViewData["BaseCurrency"] as string) ?? "EUR";
+    var quoteCur = (ViewData["QuoteCurrency"] as string) ?? "USD";
+    var rate = (decimal)(ViewData["Rate"] ?? 0m);
+    var vol = (decimal)(ViewData["Volatility"] ?? 0m);
+    var history = ViewData["History"] as List<(DateTime Date, decimal Rate)> ?? new();
+    var error = ViewData["Error"]?.ToString();
+}
+
+<div class="card shadow-sm" id="currencyWidget">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Měnový kurz</h5>
+        <span>@baseCur → @quoteCur : <strong>@rate.ToString("0.#####")</strong></span>
     </div>
 
     <div class="card-body">

@@ -1,0 +1,81 @@
+2025-10-19 17:08:42.394 +02:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-19 17:08:42.627 +02:00 [INF] Now listening on: https://localhost:7131
+2025-10-19 17:08:42.628 +02:00 [INF] Now listening on: http://localhost:5255
+2025-10-19 17:08:42.682 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-19 17:08:42.682 +02:00 [INF] Hosting environment: Development
+2025-10-19 17:08:42.682 +02:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-10-19 17:08:43.900 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-10-19 17:08:44.153 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-19 17:08:44.183 +02:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-10-19 17:08:44.200 +02:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-10-19 17:08:44.480 +02:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 279.2681ms.
+2025-10-19 17:08:44.489 +02:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 304.3508ms
+2025-10-19 17:08:44.490 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-10-19 17:08:44.503 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 615.9431ms
+2025-10-19 17:08:44.601 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-10-19 17:08:44.601 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-10-19 17:08:44.601 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-10-19 17:08:44.602 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-10-19 17:08:44.602 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-10-19 17:08:44.608 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - null null
+2025-10-19 17:08:44.617 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js - null null
+2025-10-19 17:08:44.628 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-19 17:08:44.638 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-10-19 17:08:44.669 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 42.9346ms
+2025-10-19 17:08:44.686 +02:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-10-19 17:08:44.686 +02:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\css\site.css'
+2025-10-19 17:08:44.686 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-19 17:08:44.686 +02:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-10-19 17:08:44.686 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 85.5637ms
+2025-10-19 17:08:44.686 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 200 362 text/css 85.8834ms
+2025-10-19 17:08:44.686 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=sapx9Wz6l5y0OJ8qtJK6u-MwjI2s1Q9MuqKoyo5a0DU - 200 875 text/javascript 81.7264ms
+2025-10-19 17:08:44.686 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js - 200 875 text/javascript 71.8295ms
+2025-10-19 17:08:44.707 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-10-19 17:08:44.708 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78474 text/javascript 106.2467ms
+2025-10-19 17:08:44.709 +02:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-10-19 17:08:44.711 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 200 162726 text/css 110.1844ms
+2025-10-19 17:08:44.716 +02:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-10-19 17:08:44.716 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 200 89503 text/javascript 115.5073ms
+2025-10-19 17:08:44.770 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 132.9882ms
+2025-10-19 17:08:45.626 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - null null
+2025-10-19 17:08:45.627 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget&location= - null null
+2025-10-19 17:08:45.630 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.630 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.637 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:45.637 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:45.639 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - null null
+2025-10-19 17:08:45.640 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.641 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:45.654 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-19 17:08:45.654 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-19 17:08:45.654 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-19 17:08:45.916 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 277.9832ms
+2025-10-19 17:08:45.916 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.916 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget&location= - 200 null text/html; charset=utf-8 290.002ms
+2025-10-19 17:08:45.921 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 283.6337ms
+2025-10-19 17:08:45.921 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.921 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - 200 null text/html; charset=utf-8 295.6594ms
+2025-10-19 17:08:45.982 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 340.9154ms
+2025-10-19 17:08:45.982 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:45.982 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - 200 null text/html; charset=utf-8 343.2295ms
+2025-10-19 17:08:53.582 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget&location= - null null
+2025-10-19 17:08:53.583 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:53.583 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:53.583 +02:00 [INF] Executing ViewComponentResult, running AppInfoWidget.
+2025-10-19 17:08:53.713 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 129.878ms
+2025-10-19 17:08:53.713 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:53.713 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=AppInfoWidget&location= - 200 null text/html; charset=utf-8 131.0434ms
+2025-10-19 17:08:56.501 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - null null
+2025-10-19 17:08:56.501 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:56.501 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:56.502 +02:00 [INF] Executing ViewComponentResult, running CurrentWeather.
+2025-10-19 17:08:56.567 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 65.7046ms
+2025-10-19 17:08:56.567 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:56.568 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CurrentWeather&location= - 200 null text/html; charset=utf-8 67.4599ms
+2025-10-19 17:08:59.874 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - null null
+2025-10-19 17:08:59.874 +02:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:59.874 +02:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-10-19 17:08:59.875 +02:00 [INF] Executing ViewComponentResult, running ForecastWeather.
+2025-10-19 17:08:59.974 +02:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 99.5266ms
+2025-10-19 17:08:59.974 +02:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-10-19 17:08:59.974 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=ForecastWeather&location= - 200 null text/html; charset=utf-8 101.36ms
