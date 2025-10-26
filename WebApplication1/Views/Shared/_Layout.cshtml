@@ -20,7 +20,8 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -43,18 +44,19 @@
                             <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="CurrentWeather" href="#">Current Weather</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="HelloWidget" href="#">Hello CouchDB</a></li>
-                            <li><a class="dropdown-item widget-link" data-widget="StatsWidget" href="#">Statistiky</a></li>
+                            <li><a class="dropdown-item widget-link" data-widget="CurrencyWidget" href="#">Currency Widget</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+
         <div id="widgetContainer" class="mt-4"></div>
     </div>
 
@@ -64,8 +66,10 @@
         </div>
     </footer>
 
+    <!-- 📚 Skripty -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/weather-autocomplete.js" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
@@ -140,6 +144,61 @@
                 try {
                     const response = await fetch(`/Widget/Load?name=${widgetName}&location=${encodeURIComponent(location)}`);
                     const html = await response.text();
+            // 🔹 Inicializace grafu v CurrencyWidgetu
+            function initCurrencyWidget(wrapper) {
+                const canvas = wrapper.querySelector('#rateChart');
+                if (!canvas) return;
+
+                const labels = JSON.parse(canvas.dataset.labels || '[]');
+                const data = JSON.parse(canvas.dataset.rates || '[]');
+                const label = canvas.dataset.label || '';
+
+                if (!labels.length || !data.length) return;
+
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels,
+                        datasets: [{
+                            label,
+                            data,
+                            fill: false,
+                            borderColor: 'rgba(54,162,235,1)',
+                            backgroundColor: 'rgba(54,162,235,0.2)',
+                            tension: 0.3,
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: 'rgba(54,162,235,1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: true, position: 'bottom' } },
+                        scales: {
+                            x: { title: { display: true, text: 'Datum' } },
+                            y: { title: { display: true, text: 'Kurz' } }
+                        }
+                    }
+                });
+            }
+
+            // 🔹 Načtení widgetu přes AJAX
+            async function loadWidget(widgetName, location = '') {
+                try {
+                    let url = `/Widget/Load?name=${widgetName}`;
+                    if (widgetName === "CurrencyWidget") {
+                        const base = localStorage.getItem("baseCurrency") || "EUR";
+                        const quote = localStorage.getItem("quoteCurrency") || "USD";
+                        url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
+                    }
+                    if (location) {
+                        url += `&location=${encodeURIComponent(location)}`;
+                    }
+
+                    const response = await fetch(url);
+                    const html = await response.text();
 
                     let wrapper = activeWidgets.get(widgetName);
                     const isNew = !wrapper;
@@ -169,13 +228,15 @@
                     }
 
                     saveWidgetState();
+
                 } catch (error) {
                     console.error("Chyba při načítání widgetu:", error);
                 }
             }
 
-            // 🔹 Přidání interakcí uvnitř widgetu
+            // 🔹 Interakce uvnitř widgetů
             function attachInteractions(wrapper, widgetName) {
+                // Weather – přepínání °C/°F
                 const toggleBtn = wrapper.querySelector('#toggleUnit');
                 toggleBtn?.addEventListener('click', () => {
                     const tempEl = wrapper.querySelector('h2');
@@ -187,13 +248,33 @@
                     }
                 });
 
-                const form = wrapper.querySelector('#locationForm');
-                form?.addEventListener('submit', async e => {
-                    e.preventDefault();
-                    const input = form.querySelector('input[name="location"]');
-                    const newLocation = input.value;
-                    await loadWidget(widgetName, newLocation);
-                });
+                // Formulář pro měnu
+                if (widgetName === "CurrencyWidget") {
+                    const currencyForm = wrapper.querySelector('#currencyForm');
+                    const baseSelect = wrapper.querySelector('#baseCurrency');
+                    const quoteSelect = wrapper.querySelector('#quoteCurrency');
+
+                    // Uložené hodnoty z localStorage
+                    const savedBase = localStorage.getItem("baseCurrency");
+                    const savedQuote = localStorage.getItem("quoteCurrency");
+
+                    if (savedBase && baseSelect?.querySelector(`option[value="${savedBase}"]`)) {
+                        baseSelect.value = savedBase;
+                    }
+
+                    if (savedQuote && quoteSelect?.querySelector(`option[value="${savedQuote}"]`)) {
+                        quoteSelect.value = savedQuote;
+                    }
+
+                    // Odeslání formuláře
+                    currencyForm?.addEventListener("submit", async e => {
+                        e.preventDefault();
+                        const base = baseSelect.value;
+                        const quote = quoteSelect.value;
+                        localStorage.setItem("baseCurrency", base);
+                        localStorage.setItem("quoteCurrency", quote);
+                        await loadWidget(widgetName);
+                    });
 
                 const forecastForm = wrapper.querySelector('#forecastLocationForm');
                 forecastForm?.addEventListener('submit', async e => {
@@ -203,8 +284,12 @@
                     await loadWidget(widgetName, newLocation);
                 });
             }
+                    // 🟢 Inicializace grafu po vložení
+                    initCurrencyWidget(wrapper);
+                }
+            }
 
-            // 🔹 Tlačítko × pro odstranění widgetu
+            // 🔹 Zavírací tlačítko widgetu
             function addCloseButton(wrapper, widgetName) {
                 if (wrapper.querySelector('.close-widget-btn')) return;
 
@@ -229,8 +314,7 @@
             }
 
             // 🔹 Kliknutí na položky v menu
-            const widgetLinks = document.querySelectorAll('.widget-link');
-            widgetLinks.forEach(link => {
+            document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
                     const widgetName = link.getAttribute('data-widget');

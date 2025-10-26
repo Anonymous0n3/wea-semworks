@@ -28,5 +28,13 @@ namespace WebApplication1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public IActionResult CurrencyWidget(string baseCurrency = "EUR", string quoteCurrency = "USD")
+        {
+            // pøepošle parametry zpìt na Index, kde se komponenta znovu vykreslí s novými daty
+            return RedirectToAction("Index", new { baseCurrency, quoteCurrency });
+        }
+
     }
 }
