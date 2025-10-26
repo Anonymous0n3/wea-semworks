@@ -47,19 +47,33 @@ namespace WebApplication1.Service
             var d = date.Date;
             var key = HistKey(baseIso, quoteIso, d);
 
-            if (_cache.TryGetValue<HistoricalPoint>(key, out var cached)) return cached;
+            if (_cache.TryGetValue<HistoricalPoint>(key, out var cached))
+                return cached;
 
             var list = await _swopClient.GetHistoricalRatesAsync(baseIso, quoteIso, HistoricalInterval.Week);
-            // Pozn: SwopClient implementaci máme tak, že umí vrátit per-day přes loop, ale tady můžeme volat a pak vybrat požadovaný date
             var point = list.FirstOrDefault(p => p.Timestamp.Date == d);
 
-            // cacheovat per-day do dalšího dne
+            // Pokud je požadovaný den v minulosti → cacheujeme např. 7 dní
+            TimeSpan ttl;
             var expiresAt = d.AddDays(1);
-            var ttl = expiresAt - DateTime.UtcNow;
-            if (point != null)
-                _cache.Set(key, point, ttl);
+            var diff = expiresAt - DateTime.UtcNow;
+
+            if (diff > TimeSpan.Zero)
+                ttl = diff; // budoucí nebo dnešní den
             else
-                _cache.Set(key, point, new MemoryCacheEntryOptions().SetAbsoluteExpiration(ttl));
+                ttl = TimeSpan.FromDays(7); // minulý den – statické historické data
+
+            if (point != null)
+            {
+                _cache.Set(key, point, ttl);
+            }
+            else
+            {
+                _cache.Set(key, point, new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = ttl
+                });
+            }
 
             return point;
         }

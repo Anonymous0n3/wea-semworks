@@ -26,7 +26,11 @@
 
     <!-- 📈 Graf vývoje kurzu -->
     <div class="chart-container mb-4">
-        <canvas id="rateChart"></canvas>
+        <canvas id="rateChart"
+                data-label="Kurz @baseCurrency → @quoteCurrency"
+                data-labels='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))))'
+                data-rates='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)))'>
+        </canvas>
     </div>
 
     <hr />
