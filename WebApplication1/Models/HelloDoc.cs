@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebApplication1.Models.Data
+namespace WebApplication1.Models
 {
     public class HelloDoc
     {

@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
@@ -35,24 +35,10 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex align-items-center">
-                        <!-- Widget dropdown -->
-                        <div class="dropdown me-2">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                Widgety
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="widgetMenu">
-                                <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>
-                                <li><a class="dropdown-item widget-link" data-widget="CurrentWeather" href="#">Current Weather</a></li>
-                                <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
-                                <li><a class="dropdown-item widget-link" data-widget="HelloWidget" href="#">Hello CouchDB</a></li>
-                                <li><a class="dropdown-item widget-link" data-widget="StatsWidget" href="#">Statistiky</a></li>
-                            </ul>
-                        </div>
-
-                        <!-- Login button -->
-                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#loginModal">
-                            Přihlásit se
+                    <!-- 🔽 Dropdown s widgety -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            Widgety
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="widgetMenu">
                             <li><a class="dropdown-item widget-link" data-widget="AppInfoWidget" href="#">App Info</a></li>

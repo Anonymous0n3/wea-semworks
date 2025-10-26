@@ -1,13 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using BCrypt.Net;
 using WebApplication1.Models;
-using WebApplication1.Models.Data;
 
 namespace WebApplication1.Service
 {
@@ -16,19 +10,12 @@ namespace WebApplication1.Service
         private readonly HttpClient _client;
         private readonly string _dbName = "swopdb";
         private readonly string _couchBase;
-        private readonly JsonSerializerOptions _jsonOptions;
-        private readonly JwtOptions _jwtOptions;
+        private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-        public CouchDbService(HttpClient client, JwtOptions jwtOptions, IConfiguration config)
+        public CouchDbService(HttpClient client, IConfiguration config)
         {
             _client = client;
             _couchBase = config["COUCHDB_URL"] ?? "http://localhost:5984";
-
-            _jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
 
             var user = config["COUCHDB_USER"] ?? "admin";
             var pass = config["COUCHDB_PASSWORD"] ?? "adminpassword";
@@ -133,8 +120,7 @@ namespace WebApplication1.Service
 
         public async Task<HttpResponseMessage> PostDocumentAsync<T>(T doc)
         {
-            var json = JsonSerializer.Serialize(doc, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(doc), Encoding.UTF8, "application/json");
             return await _client.PostAsync($"{_couchBase}/{_dbName}", content);
         }
 
