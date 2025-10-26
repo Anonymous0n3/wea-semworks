@@ -119,6 +119,8 @@ app.MapGet("/debug-culture", (HttpContext http) =>
     return Results.Json(new { culture, ui, haveCookie });
 });
 
+app.MapControllers();
+
 // ---- Default controller route ----
 app.MapControllerRoute(
     name: "default",

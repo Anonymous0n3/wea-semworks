@@ -5,14 +5,29 @@
 <div class="card shadow-sm p-3 mb-3" id="weatherWidget">
     <h5>@Localizer["Weather for"] @Model.LocationName</h5>
 
-    <form id="locationForm" class="mb-3 position-relative" autocomplete="off">
+    <!-- overflow: visible, ať dropdown nic neschová -->
+    <form id="locationForm"
+          class="mb-3 position-relative"
+          autocomplete="off"
+          style="overflow: visible;"
+          data-api="@Url.Content("~/api/locations")">
+
+
         <div class="input-group">
-            <input type="text" id="locationInput" name="location" class="form-control" placeholder="Enter location" value="" />
+            <input type="text"
+                   id="locationInput"
+                   name="location"
+                   class="form-control"
+                   placeholder="Enter location"
+                   value=""
+                   autocomplete="off" />
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
+
         <!-- Dropdown pro návrhy -->
-        <ul id="locationSuggestions" class="list-group position-absolute w-100 bg-white border rounded"
-            style="z-index:2000; max-height: 250px; overflow-y: auto;"></ul>
+        <ul id="locationSuggestions"
+            class="list-group position-absolute w-100 bg-white border rounded"
+            style="z-index:2000; max-height: 250px; overflow-y: auto; display:none;"></ul>
     </form>
 
     <div class="d-flex align-items-center mb-3">
@@ -33,75 +48,5 @@
     </ul>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.getElementById('locationInput');
-        const suggestions = document.getElementById('locationSuggestions');
-        if (!input || !suggestions) {
-            console.warn("WeatherWidget: nenalezen input nebo suggestions element.");
-            return;
-        }
-
-        console.log("WeatherWidget: script spuštěn.");
-        let debounceTimer;
-
-        input.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            const query = input.value.trim();
-
-            if (query.length < 2) {
-                suggestions.style.display = 'none';
-                suggestions.innerHTML = '';
-                return;
-            }
-
-            debounceTimer = setTimeout(async () => {
-                try {
-                    console.log("🔍 Hledám lokace pro:", query);
-                    const response = await fetch(`/CurrentWeather/Search?query=${encodeURIComponent(query)}`);
-                    if (!response.ok) {
-                        console.error("❌ Chybná odpověď z API", response.status);
-                        return;
-                    }
-
-                    const locations = await response.json();
-                    console.log("✅ Lokace z API:", locations);
-
-                    suggestions.innerHTML = '';
-
-                    if (!locations || locations.length === 0) {
-                        suggestions.style.display = 'none';
-                        return;
-                    }
-
-                    locations.forEach(loc => {
-                        const li = document.createElement('li');
-                        li.className = 'list-group-item list-group-item-action';
-                        li.textContent = `${loc.name}, ${loc.region}, ${loc.country}`;
-                        li.addEventListener('click', () => {
-                            input.value = loc.name;
-                            suggestions.style.display = 'none';
-                        });
-                        suggestions.appendChild(li);
-                    });
-
-                    suggestions.style.display = 'block';
-                } catch (err) {
-                    console.error("⚠️ Autocomplete error:", err);
-                }
-            }, 400);
-        });
-
-        // Klik mimo suggestions schová nabídku
-        document.addEventListener('click', (e) => {
-            if (!suggestions.contains(e.target) && e.target !== input) {
-                suggestions.style.display = 'none';
-            }
-        });
-    });
-</script>
-
-
-
-
-
+<!-- Externí skript (defer) -->
+<script src="~/js/weather-autocomplete.js" defer></script>
