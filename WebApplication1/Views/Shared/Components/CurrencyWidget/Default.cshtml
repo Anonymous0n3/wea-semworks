@@ -18,13 +18,13 @@
         <h4>Aktuální kurz</h4>
         <p class="fs-3 fw-bold text-primary">@rate</p>
         <small class="text-muted">
-            Volatilita za poslední 3 dny: <strong>@volatility&nbsp;%</strong>
+            Volatilita za poslední 3 dny: <strong id="cw-vola">@volatility&nbsp;%</strong>
         </small>
     </div>
 
     <hr />
 
-    <!-- 📈 Graf vývoje kurzu -->
+    <!-- 📈 Graf vývoje kurzu (vždy vůči USD) -->
     <div class="chart-container mb-4">
         <canvas id="rateChart"></canvas>
     </div>
@@ -41,19 +41,8 @@
                     <th>Změna oproti aktuálnímu</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var point in history.OrderByDescending(h => h.Date))
-                {
-                    var diffPercent = point.Rate == 0 ? 0 : (rate - point.Rate) / point.Rate * 100m;
-                    var diffClass = diffPercent >= 0 ? "text-success" : "text-danger";
-                    <tr>
-                        <td>@point.Date.ToString("dd.MM.yyyy")</td>
-                        <td>@point.Rate</td>
-                        <td class="@diffClass">
-                            @(diffPercent >= 0 ? "+" : "")@Math.Round(diffPercent, 2) %
-                        </td>
-                    </tr>
-                }
+            <tbody id="cw-last3">
+                <tr><td colspan="3" class="text-muted">Načítám…</td></tr>
             </tbody>
         </table>
     </div>
@@ -66,14 +55,7 @@
             <select id="baseCurrency" name="baseCurrency" class="form-select d-inline-block w-auto me-3">
                 @foreach (var c in Model)
                 {
-                    if (c == ViewBag.BaseCurrency)
-                    {
-                        <option value="@c" selected>@c</option>
-                    }
-                    else
-                    {
-                        <option value="@c">@c</option>
-                    }
+                    <option value="@c" selected="@(c == ViewBag.BaseCurrency)">@c</option>
                 }
             </select>
 
@@ -81,89 +63,122 @@
             <select id="quoteCurrency" name="quoteCurrency" class="form-select d-inline-block w-auto me-3">
                 @foreach (var c in Model)
                 {
-                    if (c == ViewBag.QuoteCurrency)
-                    {
-                        <option value="@c" selected>@c</option>
-                    }
-                    else
-                    {
-                        <option value="@c">@c</option>
-                    }
+                    <option value="@c" selected="@(c == ViewBag.QuoteCurrency)">@c</option>
                 }
             </select>
 
             <button type="submit" class="btn btn-primary">Zobrazit aktuální kurz</button>
         </form>
+        <div class="form-text mt-2">Graf historie je vždy vůči USD. Pro graf se používá <strong>cílová měna</strong>.</div>
     </div>
 </div>
 
 <style>
-    .currency-widget {
-        max-width: 650px;
-        margin: 0 auto;
-    }
-
-    .chart-container {
-        position: relative;
-        height: 250px;
-        width: 100%;
-    }
+    .currency-widget { max-width: 650px; margin: 0 auto; }
+    .chart-container { position: relative; height: 250px; width: 100%; }
 </style>
 
 @section Scripts {
-    <!-- 📊 Chart.js z CDN -->
+    <!-- Chart.js z CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // --- Data z Razor modelu ---
-            const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))));
-            const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)));
+            const $ = s => document.querySelector(s);
+            const quoteSelect = $("#quoteCurrency");
+            const tableBody = $("#cw-last3");
+            const volaSpan = $("#cw-vola");
 
-            // --- Vykreslení grafu ---
-            const ctx = document.getElementById('rateChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Kurz @baseCurrency → @quoteCurrency',
-                        data: data,
-                        fill: false,
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        tension: 0.3,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            title: {
-                                display: true,
-                                text: 'Kurz'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Datum'
-                            }
-                        }
+            let chart;
+
+            function renderChart(labels, data, labelText) {
+                const ctx = document.getElementById('rateChart').getContext('2d');
+                if (chart) chart.destroy();
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: labelText,
+                            data: data,
+                            fill: false,
+                            tension: 0.3,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: false, title: { display: true, text: 'Kurz' } },
+                            x: { title: { display: true, text: 'Datum' } }
+                        },
+                        plugins: { legend: { display: true, position: 'bottom' } }
                     }
+                });
+            }
+
+            function renderLast3(points, current) {
+                tableBody.innerHTML = "";
+                const last = points.slice(-3).reverse();
+
+                if (last.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3" class="text-muted">Žádná data</td></tr>';
+                    volaSpan.textContent = '0 %';
+                    return;
                 }
-            });
+
+                const max = Math.max(...last.map(p => p.rate));
+                const min = Math.min(...last.map(p => p.rate));
+                const vola = current ? ((max - min) / current * 100) : 0;
+                volaSpan.textContent = (isFinite(vola) ? vola.toFixed(2) : '0') + ' %';
+
+                last.forEach(p => {
+                    const diffPct = current ? ((p.rate - current) / current * 100) : 0;
+                    const cls = diffPct >= 0 ? 'text-success' : 'text-danger';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${p.date}</td>
+                        <td>${p.rate}</td>
+                        <td class="${cls}">${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(2)} %</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+
+            async function loadHistory() {
+                const code = (quoteSelect.value || 'USD').toUpperCase();
+                tableBody.innerHTML = '<tr><td colspan="3" class="text-muted">Načítám…</td></tr>';
+
+                try {
+                    const r = await fetch(`/api/swop/history?code=${encodeURIComponent(code)}&period=week`, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (!r.ok) throw new Error(await r.text());
+                    const points = await r.json();
+
+                    if (!Array.isArray(points) || points.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="3" class="text-muted">Žádná data</td></tr>';
+                        renderChart([], [], `Kurz ${code} → USD`);
+                        volaSpan.textContent = '0 %';
+                        return;
+                    }
+
+                    const labels = points.map(p => p.date);
+                    const data = points.map(p => p.rate);
+                    const current = data[data.length - 1];
+
+                    renderChart(labels, data, `Kurz ${code} → USD`);
+                    renderLast3(points, current);
+                } catch (e) {
+                    console.error(e);
+                    tableBody.innerHTML = '<tr><td colspan="3" class="text-danger">Chyba při načítání historie.</td></tr>';
+                }
+            }
+
+            // init
+            loadHistory().catch(() => {});
+            quoteSelect.addEventListener('change', loadHistory);
         });
     </script>
 }

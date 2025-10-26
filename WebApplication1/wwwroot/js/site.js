@@ -5,20 +5,33 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     const langSelect = document.getElementById("langSelect");
-    const storedLang = localStorage.getItem("preferredLang");
+
+    // Když tu prvek vůbec není (třeba na dashboardu), prostě skončíme
+    if (!langSelect) return;
+
+    // Bezpečné čtení/zápis do localStorage (když je zakázaný, ať to nespadne)
+    const getLS = (k) => {
+        try { return window.localStorage.getItem(k); } catch { return null; }
+    };
+    const setLS = (k, v) => {
+        try { window.localStorage.setItem(k, v); } catch { /* ignore */ }
+    };
+
+    const storedLang = getLS("preferredLang");
 
     if (storedLang) {
         langSelect.value = storedLang;
     } else {
-        const browserLang = navigator.language.startsWith("en") ? "en" : "cs";
+        const navLang = (navigator.language || navigator.userLanguage || "cs").toLowerCase();
+        const browserLang = navLang.startsWith("en") ? "en" : "cs";
         langSelect.value = browserLang;
-        localStorage.setItem("preferredLang", browserLang);
+        setLS("preferredLang", browserLang);
     }
 
     langSelect.addEventListener("change", function () {
-        localStorage.setItem("preferredLang", this.value);
-        window.location.href = `/${this.value}`;
+        const val = this.value || "cs";
+        setLS("preferredLang", val);
+        // přesměrování na /cs nebo /en
+        window.location.href = `/${val}`;
     });
 });
-
-
