@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using WebApplication1.Models;
+using WebApplication1.Models.Data;
 using WebApplication1.Service;
 
 namespace WebApplication1.Controllers
