@@ -1,8 +1,10 @@
 ﻿@model WebApplication1.Models.ForecastWeatherViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 <div class="card shadow-sm" id="forecastWidget">
     <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">Předpověď počasí - @Model.LocationName</h4>
+        <h4 class="mb-0">@Localizer["Předpověď počasí"] - @Model.LocationName</h4>
     </div>
 
     <div class="card-body">
@@ -45,13 +47,13 @@
                     <img src="@day.ConditionIcon" alt="@day.ConditionText" width="64" height="64" />
                     <div>@day.ConditionText</div>
                     <div><strong>@day.MaxTempC°C / @day.MinTempC°C</strong></div>
-                    <div>💧 @day.ChanceOfRain% déšť</div>
+                    <div>💧 @day.ChanceOfRain% @Localizer["déšť"]</div>
                 </div>
             }
         </div>
 
         <!-- Hodinové grafy -->
-        <h5>Hodinová teplota (po 2 hodinách)</h5>
+        <h5>@Localizer["Hodinová teplota (po 2 hodinách)"]</h5>
         @foreach (var day in Model.ForecastDays)
         {
             <div class="mt-3">

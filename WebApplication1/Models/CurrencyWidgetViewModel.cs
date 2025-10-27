@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using WebApplication1.Service;
-using WebApplication1.Models;
+using WebApplication1.Models.Data;
 
 namespace WebApplication1.Models
 {

@@ -1,4 +1,6 @@
 ﻿@model IReadOnlyList<string>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 @{
     var baseCurrency = ViewData["BaseCurrency"] as string ?? "EUR";
@@ -15,10 +17,10 @@
     </h3>
 
     <div class="current-rate text-center mb-4">
-        <h4>Aktuální kurz</h4>
+        <h4>@Localizer["AktKurz"]</h4>
         <p class="fs-3 fw-bold text-primary">@rate</p>
         <small class="text-muted">
-            Volatilita za poslední 3 dny: <strong>@volatility&nbsp;%</strong>
+            @Localizer["Volat3Days"] <strong>@volatility&nbsp;%</strong>
         </small>
     </div>
 
@@ -36,13 +38,13 @@
     <hr />
 
     <div class="history mt-3">
-        <h5>Historie za poslední 3 dny</h5>
+        <h5>@Localizer["History3Days"]</h5>
         <table class="table table-striped table-sm mt-2">
             <thead>
                 <tr>
-                    <th>Datum</th>
-                    <th>Kurz</th>
-                    <th>Změna oproti aktuálnímu</th>
+                    <th>@Localizer["Datum"]</th>
+                    <th>@Localizer["Kurz"]</th>
+                    <th>@Localizer["Change"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,7 +83,7 @@
                 }
             </select>
 
-            <label for="quoteCurrency" class="form-label me-2">Cílová měna:</label>
+            <label for="quoteCurrency" class="form-label me-2">@Localizer["Quote"]:</label>
             <select id="quoteCurrency" name="quoteCurrency" class="form-select d-inline-block w-auto me-3">
                 @foreach (var c in Model)
                 {
@@ -96,7 +98,7 @@
                 }
             </select>
 
-            <button type="submit" class="btn btn-primary">Zobrazit aktuální kurz</button>
+            <button type="submit" class="btn btn-primary">@Localizer["ActKurz"]</button>
         </form>
     </div>
 </div>

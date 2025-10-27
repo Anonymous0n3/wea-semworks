@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Service
+﻿using WebApplication1.Service;
+
+namespace WebApplication1.Models.Data
 {
     public class WidgetQuoteDto
     {

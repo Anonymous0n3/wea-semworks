@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Models;
+using WebApplication1.Models.Data;
 using WebApplication1.Service;
 
 namespace WebApplication1.Views.Shared.Components.CurrencyWidget

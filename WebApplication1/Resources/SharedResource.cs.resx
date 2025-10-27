@@ -192,4 +192,52 @@
   <data name="Air Quality" xml:space="preserve">
     <value>Kvalita vzduchu</value>
   </data>
+  <data name="CJ" xml:space="preserve">
+    <value>Čeština</value>
+  </data>
+  <data name="AJ" xml:space="preserve">
+    <value>Angličtina</value>
+  </data>
+  <data name="LoginGoogle" xml:space="preserve">
+    <value>Přihlášení GOOGLE</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Registrovat</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="AktKurz" xml:space="preserve">
+    <value>Aktuální Kurz</value>
+  </data>
+  <data name="Volat3Days" xml:space="preserve">
+    <value>Volatilita za 3 dny</value>
+  </data>
+  <data name="History3Days" xml:space="preserve">
+    <value>Historie za 3 dny</value>
+  </data>
+  <data name="Datum" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="Kurz" xml:space="preserve">
+    <value>Kurz</value>
+  </data>
+  <data name="change" xml:space="preserve">
+    <value>Změna oproti aktuálnímu</value>
+  </data>
+  <data name="Quote" xml:space="preserve">
+    <value>Nabídka měny</value>
+  </data>
+  <data name="ActKurz" xml:space="preserve">
+    <value>Aktuální kurz</value>
+  </data>
+  <data name="Předpověď počasí" xml:space="preserve">
+    <value>Předpověď počasí</value>
+  </data>
+  <data name="déšť" xml:space="preserve">
+    <value>déšť</value>
+  </data>
+  <data name="Hodinová teplota (po 2 hodinách)" xml:space="preserve">
+    <value>Hodinová teplota (po 2 hodinách)</value>
+  </data>
 </root>

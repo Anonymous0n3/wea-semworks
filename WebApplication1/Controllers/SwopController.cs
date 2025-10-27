@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Service;
-using WebApplication1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Models.Data;
 
 namespace WebApplication1.Controllers
 {

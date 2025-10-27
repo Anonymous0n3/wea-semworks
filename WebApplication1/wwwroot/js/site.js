@@ -33,6 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem(LS_KEY, val);
         // Pokud používáš route typu /set-language (POST) s cookie, tenhle redirect klidně smaž.
         // Tady nechávám jednoduchou variantu s prefixem v URL:
-        window.location.href = `/${val}`;
+        window.location.href = `/`;
     });
 });
