@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "webapplication1": "StartDebugging"
-      }
+      },
+      "httpPort": 8003
     }
   }
 }
