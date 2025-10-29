@@ -13,8 +13,9 @@
 
 <div class="container mt-4">
 
-    <!-- Jazykový přepínač -->
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end mb-3 align-items-center">
+        <button id="logoutButton" class="btn btn-warning btn-sm me-3" style="display:none;">@Localizer["Logout"]</button>
+
         <form method="post" action="/set-language" class="d-inline">
             <input type="hidden" name="returnUrl" value="@returnUrl" />
             <select name="culture" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
@@ -61,7 +62,6 @@
 
     <hr class="my-4" />
 
-    <!-- Přihlášení / Registrace -->
     <div id="authForms">
         <h3>@Localizer["Login"] / @Localizer["Register"]</h3>
         <div class="row">
@@ -113,6 +113,9 @@
             const activeWidgets = new Map();
             const token = localStorage.getItem('jwtToken');
 
+            // PŘIDANÁ REFERENCE NA TLAČÍTKO LOGOUT
+            const logoutButton = document.getElementById('logoutButton');
+
             // ---------------- JWT Expiration & Auto Logout ----------------
             function getJwtExpiration(token) {
                 if (!token) return null;
@@ -125,13 +128,23 @@
                 }
             }
 
+            // FUNKCE LOGOUT JE PŘESUNUTA NA VRCHOL SCOPE, ABY BYLA PŘÍSTUPNÁ TLAČÍTKU
             function logoutUser() {
                 localStorage.removeItem("jwtToken");
                 // případně vyčistit stav widgetů
                 activeWidgets.clear();
                 widgetContainer.innerHTML = "";
                 authForms.style.display = 'block';
+
+                // SKRYTÍ TLAČÍTKA LOGOUT
+                if (logoutButton) logoutButton.style.display = 'none';
+
                 window.location.href = "/"; // přesměrování na login
+            }
+
+            // PŘIDÁN EVENT LISTENER PRO TLAČÍTKO LOGOUT
+            if (logoutButton) {
+                logoutButton.addEventListener('click', logoutUser);
             }
 
             function scheduleLogoutOnTokenExpiry() {
@@ -155,11 +168,13 @@
             // ---------------- Inicializace ----------------
             if (token) {
                 authForms.style.display = 'none';
+                // ZOBRAZENÍ TLAČÍTKA LOGOUT PŘI PŘIHLÁŠENÍ
+                if (logoutButton) logoutButton.style.display = 'block';
                 loadSavedWidgets();
             }
 
             // ---------------- Login ----------------
-            document.getElementById("loginForm").addEventListener("submit", async function(e) {
+            document.getElementById("loginForm").addEventListener("submit", async function (e) {
                 e.preventDefault();
                 const email = document.getElementById("loginEmail").value;
                 const password = document.getElementById("loginPassword").value;
@@ -179,6 +194,10 @@
 
                     localStorage.setItem("jwtToken", data.token);
                     scheduleLogoutOnTokenExpiry(); // naplánovat odhlášení
+
+                    // ZOBRAZENÍ TLAČÍTKA LOGOUT PO ÚSPĚŠNÉM PŘIHLÁŠENÍ
+                    if (logoutButton) logoutButton.style.display = 'block';
+
                     window.location.href = "/";
                 } catch (err) {
                     console.error(err);
@@ -187,7 +206,7 @@
             });
 
             // ---------------- Register ----------------
-            document.getElementById("registerForm").addEventListener("submit", async function(e) {
+            document.getElementById("registerForm").addEventListener("submit", async function (e) {
                 e.preventDefault();
                 const name = document.getElementById("regName").value;
                 const email = document.getElementById("regEmail").value;
@@ -245,6 +264,10 @@
 
                         localStorage.setItem("jwtToken", data.token);
                         scheduleLogoutOnTokenExpiry(); // naplánovat odhlášení
+
+                        // ZOBRAZENÍ TLAČÍTKA LOGOUT PO ÚSPĚŠNÉM PŘIHLÁŠENÍ
+                        if (logoutButton) logoutButton.style.display = 'block';
+
                         window.history.replaceState({}, document.title, window.location.pathname);
                         window.location.href = "/";
                     } catch (err) {

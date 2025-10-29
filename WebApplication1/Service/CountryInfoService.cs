@@ -39,6 +39,18 @@ namespace WebApplication1.Service
             var phoneTask = _client.CountryIntPhoneCodeAsync(isoCode);
             var flagTask = _client.CountryFlagAsync(isoCode);
 
+            var flagUrl = flagTask.Result.Body.CountryFlagResult;
+
+            // ********** ZDE JE NEJLEPŠÍ MÍSTO PRO OPRAVU **********
+            if (!string.IsNullOrEmpty(flagUrl) && flagUrl.StartsWith("http://"))
+            {
+                // Převedeme na Protocol-Relative URL
+                flagUrl = flagUrl.Replace("http://", "");
+            }
+
+            var isoLower = isoCode.ToLowerInvariant();
+            var newFlagUrl = $"https://flagcdn.com/160x120/{isoLower}.png";
+
             await Task.WhenAll(capitalTask, currencyTask, phoneTask, flagTask);
 
             return new CountryInfoModel
@@ -48,7 +60,8 @@ namespace WebApplication1.Service
                 CapitalCity = capitalTask.Result.Body.CapitalCityResult,
                 Currency = $"{currencyTask.Result.Body.CountryCurrencyResult.sName} ({currencyTask.Result.Body.CountryCurrencyResult.sISOCode})",
                 PhoneCode = "+" + phoneTask.Result.Body.CountryIntPhoneCodeResult,
-                FlagUrl = flagTask.Result.Body.CountryFlagResult
+                //FlagUrl = flagTask.Result.Body.CountryFlagResult
+                FlagUrl = newFlagUrl
             };
         }
     }
