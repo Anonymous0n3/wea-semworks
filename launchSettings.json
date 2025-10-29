@@ -6,7 +6,8 @@
       "serviceActions": {
         "webapplication1": "StartDebugging"
       },
-      "httpPort": 8003
+      //"httpPort": 8003,
+      "httpsPort": 8003
     }
   }
 }
