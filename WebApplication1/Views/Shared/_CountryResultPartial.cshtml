@@ -1,0 +1,14 @@
+﻿@model WebApplication1.Models.CountryInfoModel
+
+@if (Model != null)
+{
+    <h4>@Model.Name (@Model.IsoCode)</h4>
+    <img src="@Model.FlagUrl" alt="Flag of @Model.Name" class="mb-2" style="height:30px;">
+    <p><strong>Capital:</strong> @Model.CapitalCity</p>
+    <p><strong>Currency:</strong> @Model.Currency</p>
+    <p><strong>Phone code:</strong> @Model.PhoneCode</p>
+}
+else
+{
+    <p class="text-muted">Select a country to see details.</p>
+}

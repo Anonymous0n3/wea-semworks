@@ -43,6 +43,7 @@
                             <li><a class="dropdown-item widget-link" data-widget="CurrentWeather" href="#">Current Weather</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="CurrencyWidget" href="#">Currency Widget</a></li>
+                            <li><a class="dropdown-item widget-link" data-widget="CountryInfoWidget" href="#">Country Widget</a></li>
                         </ul>
                     </div>
                 </div>
@@ -67,6 +68,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/weather-autocomplete.js" defer></script>
+    <script src="~/js/country-widget.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
@@ -156,7 +159,11 @@
 
                     if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
                     if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
-
+                            if (widgetName === "CountryInfoWidget") {
+            // přidej unikátní ID, pokud ještě není
+            if (!wrapper.id) wrapper.id = `countryWidget_${Date.now()}`;
+            initCountryWidget(wrapper.id);
+        }
                     if (isNew) {
                         wrapper.style.opacity = "0";
                         wrapper.style.transition = "opacity 0.3s ease";
@@ -371,6 +378,10 @@
                 }
             });
         });
+
+        window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(await Context.RequestServices
+                .GetService<WebApplication1.Service.CountryInfoService>()
+                .GetAllCountriesAsync()));
     </script>
 </body>
 </html>

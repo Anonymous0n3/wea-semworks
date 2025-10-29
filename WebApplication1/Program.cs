@@ -34,6 +34,7 @@ builder.Services.AddTransient<WeatherService>();
 builder.Services.AddSingleton<SystemMetricsService>();
 builder.Services.AddHttpClient(); // základní HttpClient
 builder.Services.AddSingleton<CouchDbService>();
+builder.Services.AddSingleton<CountryInfoService>();
 
 builder.Services.AddSingleton<ISwopClient>(sp =>
 {
