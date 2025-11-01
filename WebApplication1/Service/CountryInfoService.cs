@@ -1,5 +1,6 @@
 ﻿using ServiceReference1;
 using System.Collections.Concurrent;
+using WebApplication1.Controllers;
 using WebApplication1.Models;
 
 namespace WebApplication1.Service
@@ -8,12 +9,14 @@ namespace WebApplication1.Service
     {
         private readonly CountryInfoServiceSoapTypeClient _client;
         private static ConcurrentDictionary<string, string> _countriesCache = new();
+        private readonly ILogger<CountryInfoService> _logger;
 
-        public CountryInfoService()
+        public CountryInfoService(ILogger<CountryInfoService> logger)
         {
             _client = new CountryInfoServiceSoapTypeClient(
                 CountryInfoServiceSoapTypeClient.EndpointConfiguration.CountryInfoServiceSoap12
             );
+            _logger = logger;
         }
 
         public async Task<IDictionary<string, string>> GetAllCountriesAsync()

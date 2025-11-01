@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>

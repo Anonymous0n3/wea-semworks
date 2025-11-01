@@ -9,10 +9,12 @@ namespace WebApplication1.Controllers
     public class CurrenciesController : ControllerBase
     {
         private readonly CouchDbService _couch;
+        private readonly ILogger<CurrenciesController> _logger;
 
-        public CurrenciesController(CouchDbService couch)
+        public CurrenciesController(CouchDbService couch, ILogger<CurrenciesController> logger)
         {
             _couch = couch;
+            _logger = logger;
         }
     }
 }

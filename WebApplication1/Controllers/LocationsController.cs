@@ -11,10 +11,12 @@ namespace WebApplication1.Controllers
     public class LocationsController : Controller
     {
         private readonly WeatherService _weatherService;
+        private readonly ILogger<LocationsController> _logger;
 
-        public LocationsController(WeatherService weatherService)
+        public LocationsController(WeatherService weatherService, ILogger<LocationsController> logger)
         {
             _weatherService = weatherService ?? throw new ArgumentNullException(nameof(weatherService));
+            _logger = logger;
         }
 
         /// <summary>

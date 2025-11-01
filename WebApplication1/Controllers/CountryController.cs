@@ -7,10 +7,12 @@ namespace WebApplication1.Controllers
     public class CountryController : Controller
     {
         private readonly CountryInfoService _service;
+        private readonly ILogger<CountryController> _logger;
 
-        public CountryController(CountryInfoService service)
+        public CountryController(CountryInfoService service, ILogger<CountryController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpGet]

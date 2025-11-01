@@ -9,9 +9,9 @@ namespace WebApplication1.ViewComponents
     {
         private readonly WeatherService _weatherService;
 
-        public ForecastWeatherViewComponent()
+        public ForecastWeatherViewComponent(WeatherService weatherService)
         {
-            _weatherService = new WeatherService();
+            _weatherService = weatherService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string? location)

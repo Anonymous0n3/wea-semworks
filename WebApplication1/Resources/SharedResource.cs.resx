@@ -240,4 +240,13 @@
   <data name="Hodinová teplota (po 2 hodinách)" xml:space="preserve">
     <value>Hodinová teplota (po 2 hodinách)</value>
   </data>
+  <data name="Select a country to see details" xml:space="preserve">
+    <value>Vyber stát pro zobrazení detailů</value>
+  </data>
+  <data name="Failed to load country details" xml:space="preserve">
+    <value>Nepodařilo se načíst data státu</value>
+  </data>
+  <data name="Error fetching country details" xml:space="preserve">
+    <value>Chyba při načítání dat o státu</value>
+  </data>
 </root>

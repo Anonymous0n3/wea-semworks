@@ -8,7 +8,7 @@
     ViewData["Title"] = "Dashboard";
     var currentLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
-    var googleRedirectUri = Configuration["GOOGLE_REDIRECTURI"]; // URI registrované v Google Console
+    var googleRedirectUri = Configuration["GOOGLE_REDIRECTURI"];
 }
 
 <div class="container mt-4">
@@ -77,7 +77,6 @@
                     <div id="loginError" class="text-danger mb-2"></div>
                     <button type="submit" class="btn btn-success">@Localizer["Login"]</button>
                 </form>
-
                 <button id="googleLoginBtn" class="btn btn-danger mt-2">@Localizer["LoginGoogle"]</button>
             </div>
 
@@ -104,178 +103,13 @@
 </div>
 
 <script src="~/js/country-widget.js"></script>
+<script src="~/js/login_register.js"></script>
 
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const authForms = document.getElementById('authForms');
             const widgetContainer = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
-            const token = localStorage.getItem('jwtToken');
-
-            // PŘIDANÁ REFERENCE NA TLAČÍTKO LOGOUT
-            const logoutButton = document.getElementById('logoutButton');
-
-            // ---------------- JWT Expiration & Auto Logout ----------------
-            function getJwtExpiration(token) {
-                if (!token) return null;
-                try {
-                    const payload = JSON.parse(atob(token.split('.')[1]));
-                    return payload.exp ? payload.exp * 1000 : null; // převod na ms
-                } catch (err) {
-                    console.error("Invalid JWT token", err);
-                    return null;
-                }
-            }
-
-            // FUNKCE LOGOUT JE PŘESUNUTA NA VRCHOL SCOPE, ABY BYLA PŘÍSTUPNÁ TLAČÍTKU
-            function logoutUser() {
-                localStorage.removeItem("jwtToken");
-                // případně vyčistit stav widgetů
-                activeWidgets.clear();
-                widgetContainer.innerHTML = "";
-                authForms.style.display = 'block';
-
-                // SKRYTÍ TLAČÍTKA LOGOUT
-                if (logoutButton) logoutButton.style.display = 'none';
-
-                window.location.href = "/"; // přesměrování na login
-            }
-
-            // PŘIDÁN EVENT LISTENER PRO TLAČÍTKO LOGOUT
-            if (logoutButton) {
-                logoutButton.addEventListener('click', logoutUser);
-            }
-
-            function scheduleLogoutOnTokenExpiry() {
-                const token = localStorage.getItem("jwtToken");
-                const exp = getJwtExpiration(token);
-
-                if (!exp) return;
-
-                const now = Date.now();
-                const timeout = exp - now;
-
-                if (timeout <= 0) {
-                    logoutUser();
-                } else {
-                    setTimeout(logoutUser, timeout);
-                }
-            }
-
-            scheduleLogoutOnTokenExpiry(); // spustit při načtení
-
-            // ---------------- Inicializace ----------------
-            if (token) {
-                authForms.style.display = 'none';
-                // ZOBRAZENÍ TLAČÍTKA LOGOUT PŘI PŘIHLÁŠENÍ
-                if (logoutButton) logoutButton.style.display = 'block';
-                loadSavedWidgets();
-            }
-
-            // ---------------- Login ----------------
-            document.getElementById("loginForm").addEventListener("submit", async function (e) {
-                e.preventDefault();
-                const email = document.getElementById("loginEmail").value;
-                const password = document.getElementById("loginPassword").value;
-                const loginError = document.getElementById("loginError");
-
-                try {
-                    const res = await fetch("/api/auth/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password })
-                    });
-                    const data = await res.json();
-                    if (!res.ok) {
-                        loginError.textContent = data?.message || "Login failed";
-                        return;
-                    }
-
-                    localStorage.setItem("jwtToken", data.token);
-                    scheduleLogoutOnTokenExpiry(); // naplánovat odhlášení
-
-                    // ZOBRAZENÍ TLAČÍTKA LOGOUT PO ÚSPĚŠNÉM PŘIHLÁŠENÍ
-                    if (logoutButton) logoutButton.style.display = 'block';
-
-                    window.location.href = "/";
-                } catch (err) {
-                    console.error(err);
-                    loginError.textContent = "Login failed";
-                }
-            });
-
-            // ---------------- Register ----------------
-            document.getElementById("registerForm").addEventListener("submit", async function (e) {
-                e.preventDefault();
-                const name = document.getElementById("regName").value;
-                const email = document.getElementById("regEmail").value;
-                const password = document.getElementById("regPassword").value;
-                const registerError = document.getElementById("registerError");
-
-                try {
-                    const res = await fetch("/api/auth/register", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ name, email, password })
-                    });
-                    const data = await res.json();
-                    if (!res.ok) {
-                        registerError.textContent = data?.message || "Registration failed";
-                        return;
-                    }
-
-                    alert("Registration successful! You can now login.");
-                    document.getElementById("registerForm").reset();
-                } catch (err) {
-                    console.error(err);
-                    registerError.textContent = "Registration failed";
-                }
-            });
-
-            // ---------------- Google Login ----------------
-            const googleBtn = document.getElementById("googleLoginBtn");
-            googleBtn?.addEventListener("click", () => {
-                const clientId = "@Configuration["GOOGLE_CLIENTID"]";
-                const redirectUri = "@googleRedirectUri";
-                const scope = encodeURIComponent("openid email profile");
-                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth` +
-                    `?client_id=${clientId}` +
-                    `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-                    `&response_type=code&scope=${scope}` +
-                    `&access_type=offline&prompt=select_account`;
-
-                window.location.href = authUrl;
-            });
-
-            // ---------------- Po návratu z Google OAuth ----------------
-            const params = new URLSearchParams(window.location.search);
-            const code = params.get("code");
-            if (code) {
-                (async () => {
-                    try {
-                        const res = await fetch("/api/auth/google/exchange", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ code })
-                        });
-                        const data = await res.json();
-                        if (!res.ok) throw new Error(data?.message || "Google login failed");
-
-                        localStorage.setItem("jwtToken", data.token);
-                        scheduleLogoutOnTokenExpiry(); // naplánovat odhlášení
-
-                        // ZOBRAZENÍ TLAČÍTKA LOGOUT PO ÚSPĚŠNÉM PŘIHLÁŠENÍ
-                        if (logoutButton) logoutButton.style.display = 'block';
-
-                        window.history.replaceState({}, document.title, window.location.pathname);
-                        window.location.href = "/";
-                    } catch (err) {
-                        console.error("Google login failed:", err);
-                        alert("Google login failed: " + err.message);
-                    }
-                })();
-            }
 
             // ---------------- Widgety ----------------
             async function loadSavedWidgets() {
@@ -334,6 +168,11 @@
                     activeWidgets.delete(widgetName);
                 });
                 wrapper.appendChild(btn);
+            }
+
+            // pokud je uživatel přihlášen, načteme widgety
+            if (localStorage.getItem("jwtToken")) {
+                loadSavedWidgets();
             }
         });
     </script>

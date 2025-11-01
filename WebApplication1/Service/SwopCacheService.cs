@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using WebApplication1.Controllers;
+using WebApplication1.Models;
 
 namespace WebApplication1.Service
 {
@@ -7,11 +9,13 @@ namespace WebApplication1.Service
         private readonly IMemoryCache _cache;
         private readonly ISwopClient _swopClient;
         private readonly TimeSpan _oneDay = TimeSpan.FromDays(1);
+        private readonly ILogger<SwopCacheService> _logger;
 
-        public SwopCacheService(IMemoryCache cache, ISwopClient swopClient)
+        public SwopCacheService(IMemoryCache cache, ISwopClient swopClient, ILogger<SwopCacheService> logger)
         {
             _cache = cache;
             _swopClient = swopClient;
+            _logger = logger;
         }
 
         // key examples:

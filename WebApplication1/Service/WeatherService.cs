@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DotNetEnv;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using DotNetEnv;
+using WebApplication1.Controllers;
 
 
 namespace WebApplication1.Service
@@ -14,14 +15,16 @@ namespace WebApplication1.Service
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly string _baseUrl;
+        private readonly ILogger<WeatherService> _logger;
 
-        public WeatherService()
+        public WeatherService(ILogger<WeatherService> logger)
         {
             Env.Load(); // načte .env soubor
             _apiKey = Env.GetString("WEATHER_API_KEY") ?? throw new ArgumentNullException("WEATHER_API_KEY chybí v .env");
             _baseUrl = Env.GetString("WEATHER_API_BASEURL") ?? "http://api.weatherapi.com/v1";
 
             _httpClient = new HttpClient();
+            _logger = logger;
         }
 
         // --- Current weather ---
@@ -68,7 +71,7 @@ namespace WebApplication1.Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SearchLocationAsync error: {ex.Message}");
+                _logger.LogError($"SearchLocationAsync error: {ex.Message}");
                 return new List<SearchLocation>();
             }
         }

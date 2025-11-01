@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WebApplication1.Service
+namespace WebApplication1.Models
 {
     public class HistoricalPoint
     {

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Service;
 using WidgetsDemo.Services;
@@ -23,8 +24,12 @@ var builder = WebApplication.CreateBuilder(args);
 // ---- Logging (Serilog) ----
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .WriteTo.File("/app/logs/log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 14)
     .CreateLogger();
+
 builder.Host.UseSerilog(logger);
+
 
 // ---- Služby ----
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -35,12 +40,18 @@ builder.Services.AddSingleton<SystemMetricsService>();
 builder.Services.AddHttpClient(); // základní HttpClient
 builder.Services.AddSingleton<CouchDbService>();
 builder.Services.AddSingleton<CountryInfoService>();
+builder.Services.AddHttpClient<WeatherService>();
+builder.Services.AddHttpClient<ForecastWeatherController>();
+builder.Services.AddTransient<ForecastWeatherController>();
+
+    
 
 builder.Services.AddSingleton<ISwopClient>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
     var factory = sp.GetRequiredService<IHttpClientFactory>();
-    return new SwopClient(config, factory);
+    var logger = sp.GetRequiredService<ILogger<SwopClient>>();
+    return new SwopClient(config, factory, logger);
 });
 
 // ---- MVC + Razor lokalizace ----

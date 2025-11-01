@@ -7,11 +7,11 @@ namespace WebApplication1.Controllers
     public class CurrentWeatherController : Controller
     {
         private readonly WeatherService _weatherService;
-
-        // ✅ správně – přes konstruktor injektujeme službu
-        public CurrentWeatherController(WeatherService weatherService)
+        private readonly ILogger<CurrentWeatherController> _logger;
+        public CurrentWeatherController(WeatherService weatherService, ILogger<CurrentWeatherController> logger)
         {
             _weatherService = weatherService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(string location = "Prague")

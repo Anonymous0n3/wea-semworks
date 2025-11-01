@@ -1,4 +1,6 @@
 ﻿@model WebApplication1.Models.CountryInfoModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 @if (Model != null)
 {
@@ -10,5 +12,5 @@
 }
 else
 {
-    <p class="text-muted">Select a country to see details.</p>
+    <p class="text-muted">@Localizer["Select a country to see details"].</p>
 }

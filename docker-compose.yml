@@ -16,13 +16,13 @@ services:
     depends_on:
       - couchdb
     volumes:
-      - webapp-logs:/var/log/webapp
+      - /home/cerny/logs/sk04:/var/log/webapp
 
   couchdb:
     image: couchdb:3.3
     restart: always
     ports:
-      - "5984:5984"
+      - "5987:5984"
     environment:
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=adminpassword

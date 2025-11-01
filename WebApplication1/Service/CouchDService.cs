@@ -1,11 +1,12 @@
-﻿using System.Net.Http.Headers;
+﻿using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using BCrypt.Net;
+using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Models.Data;
 
@@ -18,12 +19,14 @@ namespace WebApplication1.Service
         private readonly string _couchBase;
         private readonly JsonSerializerOptions _jsonOptions;
         private readonly JwtOptions _jwtOptions;
+        private readonly ILogger<CouchDbService> _logger;
 
-        public CouchDbService(HttpClient client, JwtOptions jwtOptions, IConfiguration config)
+        public CouchDbService(HttpClient client, JwtOptions jwtOptions, IConfiguration config, ILogger<CouchDbService> logger)
         {
             _client = client;
             _jwtOptions = jwtOptions;
-            _couchBase = config["COUCHDB_URL"] ?? "http://couchdb:5984";
+            _couchBase = config["COUCHDB_URL"] ?? "http://couchdb:5987";
+            _logger = logger;
 
             _jsonOptions = new JsonSerializerOptions
             {
@@ -110,38 +113,38 @@ namespace WebApplication1.Service
         {
             var encodedId = Uri.EscapeDataString(email);
             var url = $"{_couchBase}/{_dbName}/{encodedId}";
-            Console.WriteLine($"[CouchDB] GET user by email: {email}, URL: {url}");
+            _logger.LogInformation($"[CouchDB] GET user by email: {email}, URL: {url}");
 
             try
             {
                 var resp = await _client.GetAsync(url);
                 var json = await resp.Content.ReadAsStringAsync();
 
-                Console.WriteLine($"[CouchDB] Response status: {resp.StatusCode}");
-                Console.WriteLine($"[CouchDB] Response body: {json}");
+                _logger.LogInformation($"[CouchDB] Response status: {resp.StatusCode}");
+                _logger.LogInformation($"[CouchDB] Response body: {json}");
 
                 if (!resp.IsSuccessStatusCode)
                     return null;
 
                 var user = JsonSerializer.Deserialize<UserDoc>(json, _jsonOptions);
-                Console.WriteLine($"[CouchDB] Uživatelský dokument nalezen: {user != null}");
+                _logger.LogInformation($"[CouchDB] User document found: {user != null}");
                 return user;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[CouchDB] Chyba při GET user: {ex.Message}");
+                _logger.LogError($"[CouchDB] Chyba při GET user: {ex.Message}");
                 return null;
             }
         }
 
         public async Task<bool> RegisterUserAsync(string name, string email, string password)
         {
-            Console.WriteLine($"[Auth] Registruji uživatele: {email}");
+            _logger.LogInformation($"[Auth] Registruji uživatele: {email}");
 
             var existing = await GetUserByEmailAsync(email);
             if (existing != null)
             {
-                Console.WriteLine($"[Auth] Uživatel {email} již existuje.");
+                _logger.LogInformation($"[Auth] Uživatel {email} již existuje.");
                 return false;
             }
 
@@ -164,7 +167,7 @@ namespace WebApplication1.Service
 
             var resp = await _client.PutAsync(putUrl, content);
             var result = await resp.Content.ReadAsStringAsync();
-            Console.WriteLine($"[CouchDB] PUT result: {resp.StatusCode} | {result}");
+            _logger.LogInformation($"[CouchDB] PUT result: {resp.StatusCode} | {result}");
 
             if (!resp.IsSuccessStatusCode)
                 return false;
@@ -181,18 +184,18 @@ namespace WebApplication1.Service
             var user = await GetUserByEmailAsync(email);
             if (user == null)
             {
-                Console.WriteLine($"[Auth] Login failed – user {email} not found.");
+                _logger.LogInformation($"[Auth] Login failed – user {email} not found.");
                 return null;
             }
 
             var ok = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
             if (!ok)
             {
-                Console.WriteLine($"[Auth] Login failed – invalid password for {email}.");
+                _logger.LogInformation($"[Auth] Login failed – invalid password for {email}.");
                 return null;
             }
 
-            Console.WriteLine($"[Auth] Login success for {email}");
+            _logger.LogInformation($"[Auth] Login success for {email}");
             return GenerateJwtToken(user);
         }
 
@@ -251,7 +254,7 @@ namespace WebApplication1.Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Widgets] Chyba při deserializaci DashboardStateJson: {ex.Message}");
+                _logger.LogInformation($"[Widgets] Chyba při deserializaci DashboardStateJson: {ex.Message}");
                 return new List<UserWidgetState>();
             }
         }
@@ -278,7 +281,7 @@ namespace WebApplication1.Service
                 var response = await _client.PutAsync(url, content);
                 var responseBody = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine($"[CouchDB] PUT result: {response.StatusCode} | {responseBody}");
+                _logger.LogInformation($"[CouchDB] PUT result: {response.StatusCode} | {responseBody}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -295,7 +298,7 @@ namespace WebApplication1.Service
             var user = await GetUserByEmailAsync(email);
             if (user == null)
             {
-                Console.WriteLine($"[CouchDB] User {email} not found.");
+                _logger.LogInformation($"[CouchDB] User {email} not found.");
                 return false;
             }
 
@@ -307,16 +310,16 @@ namespace WebApplication1.Service
             var success = await PutWithRevAsync(user);
             if (success)
             {
-                Console.WriteLine("[CouchDB] Widgety úspěšně uloženy.");
+                _logger.LogInformation("[CouchDB] Widgety úspěšně uloženy.");
                 return true;
             }
 
             // 4️⃣ Pokud konflikt – načti nejnovější rev a zkus znovu
-            Console.WriteLine("[CouchDB] Conflict detected – retrying with fresh _rev...");
+            _logger.LogInformation("[CouchDB] Conflict detected – retrying with fresh _rev...");
             var freshUser = await GetUserByEmailAsync(email);
             if (freshUser == null)
             {
-                Console.WriteLine("[CouchDB] Retry failed – user not found.");
+                _logger.LogInformation("[CouchDB] Retry failed – user not found.");
                 return false;
             }
 
@@ -326,11 +329,11 @@ namespace WebApplication1.Service
             var retrySuccess = await PutWithRevAsync(freshUser);
             if (retrySuccess)
             {
-                Console.WriteLine("[CouchDB] Retry succeeded – widgety uloženy.");
+                _logger.LogInformation("[CouchDB] Retry succeeded – widgety uloženy.");
                 return true;
             }
 
-            Console.WriteLine("[CouchDB] Retry failed – document still in conflict.");
+            _logger.LogInformation("[CouchDB] Retry failed – document still in conflict.");
             return false;
         }
 
@@ -347,26 +350,26 @@ namespace WebApplication1.Service
 
             // 2️⃣ Ulož widgety
             bool saved = await SaveUserWidgetsAsync(testEmail, widgets);
-            Console.WriteLine($"[Test] SaveUserWidgetsAsync result: {saved}");
+            _logger.LogInformation($"[Test] SaveUserWidgetsAsync result: {saved}");
 
             if (!saved)
             {
-                Console.WriteLine("[Test] Ukládání widgetů selhalo!");
+                _logger.LogInformation("[Test] Ukládání widgetů selhalo!");
                 return;
             }
 
             // 3️⃣ Načti widgety z CouchDB
             var loadedWidgets = await GetUserWidgetsAsync(testEmail);
-            Console.WriteLine($"[Test] Načteno {loadedWidgets.Count} widgetů");
+            _logger.LogInformation($"[Test] Načteno {loadedWidgets.Count} widgetů");
 
             foreach (var w in loadedWidgets)
             {
-                Console.WriteLine($"[Test] Widget: Name={w.Name}, Location={w.Location}");
+                _logger.LogInformation($"[Test] Widget: Name={w.Name}, Location={w.Location}");
             }
 
             // 4️⃣ Kontrola, jestli jsou všechny widgety uložené správně
             bool allMatch = widgets.All(w => loadedWidgets.Any(lw => lw.Name == w.Name && lw.Location == w.Location));
-            Console.WriteLine($"[Test] Všechny widgety uloženy správně: {allMatch}");
+            _logger.LogInformation($"[Test] Všechny widgety uloženy správně: {allMatch}");
         }
 
 

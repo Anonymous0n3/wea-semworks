@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Models.Data;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -16,12 +17,14 @@ namespace WebApplication1.Controllers
         private readonly CouchDbService _couch;
         private readonly SwopCacheService _cache;
         private static readonly Random _rand = new Random();
+        private readonly ILogger<HelloController> _logger;
 
-        public SwopController(ISwopClient swop, CouchDbService couch, SwopCacheService cache)
+        public SwopController(ISwopClient swop, CouchDbService couch, SwopCacheService cache, ILogger<HelloController> logger)
         {
             _swop = swop;
             _couch = couch;
             _cache = cache;
+            _logger = logger;
         }
 
         /// <summary>

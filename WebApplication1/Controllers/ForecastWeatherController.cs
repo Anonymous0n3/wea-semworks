@@ -8,10 +8,12 @@ namespace WebApplication1.Controllers
     public class ForecastWeatherController : Controller
     {
         private readonly WeatherService _weatherService;
+        private readonly ILogger<ForecastWeatherController> _logger;
 
-        public ForecastWeatherController()
+        public ForecastWeatherController(WeatherService weatherService, ILogger<ForecastWeatherController> logger)
         {
-            _weatherService = new WeatherService();
+            _weatherService = weatherService;
+            _logger = logger;
         }
 
         // Akce pro zobrazení 3denní předpovědi

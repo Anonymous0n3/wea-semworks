@@ -1,6 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using WebApplication1.Controllers;
+using WebApplication1.Models;
 
 namespace WebApplication1.Service
 {
@@ -9,10 +11,12 @@ namespace WebApplication1.Service
     {
         private readonly HttpClient _http;
         private readonly JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
+        private readonly ILogger<SwopClient> _logger;
 
-        public SwopClient(IConfiguration config, IHttpClientFactory clientFactory)
+        public SwopClient(IConfiguration config, IHttpClientFactory clientFactory, ILogger<SwopClient> logger)
         {
             _http = clientFactory.CreateClient();
+            _logger = logger;
 
             var apiUrl = config["SWOP_API_URL"] ?? Environment.GetEnvironmentVariable("SWOP_API_URL");
             if (string.IsNullOrWhiteSpace(apiUrl))
@@ -50,8 +54,7 @@ namespace WebApplication1.Service
             resp.EnsureSuccessStatusCode();
 
             var json = await resp.Content.ReadAsStringAsync();
-            Console.WriteLine("RAW SWOP response (latest):");
-            Console.WriteLine(json);
+            _logger.LogInformation("RAW SWOP response (latest): \n" + json);
 
             using var doc = JsonDocument.Parse(json);
 
@@ -105,8 +108,7 @@ namespace WebApplication1.Service
                 resp.EnsureSuccessStatusCode();
 
                 var json = await resp.Content.ReadAsStringAsync();
-                Console.WriteLine($"RAW SWOP response (historical {date:yyyy-MM-dd}):");
-                Console.WriteLine(json);
+                _logger.LogInformation($"RAW SWOP response (historical {date:yyyy-MM-dd}): \n" + json);
 
                 using var doc = JsonDocument.Parse(json);
 
@@ -135,7 +137,7 @@ namespace WebApplication1.Service
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"Chyba při zpracování historického data {date:yyyy-MM-dd}: {ex.Message}");
+                        _logger.LogInformation($"Chyba při zpracování historického data {date:yyyy-MM-dd}: {ex.Message}");
                     }
                 }
             }

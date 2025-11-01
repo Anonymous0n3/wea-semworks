@@ -7,10 +7,11 @@ namespace WebApplication1.ViewComponents
     public class CountryInfoWidgetViewComponent : ViewComponent
     {
         private readonly CountryInfoService _service;
-
+        private readonly IDictionary<string, string> countries;
         public CountryInfoWidgetViewComponent(CountryInfoService service)
         {
             _service = service;
+            countries = _service.GetAllCountriesAsync().Result;
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace WebApplication1.ViewComponents
 
             var model = new CountryInfoViewModel
             {
-                Countries = await _service.GetAllCountriesAsync(),
+                Countries = countries,
                 SelectedCountry = modelCountry
             };
 

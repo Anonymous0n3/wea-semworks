@@ -8,9 +8,9 @@ namespace YourProject.ViewComponents
     public class AppInfoWidgetViewComponent : ViewComponent
     {
         private readonly WeatherService _weatherService;
-        public AppInfoWidgetViewComponent()
+        public AppInfoWidgetViewComponent(WeatherService weatherService)
         {
-            _weatherService = new WeatherService();
+            _weatherService = weatherService;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {

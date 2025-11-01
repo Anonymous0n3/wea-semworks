@@ -1,4 +1,6 @@
-﻿@model ErrorViewModel
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
+@model ErrorViewModel
 @{
     ViewData["Title"] = "Error";
 }

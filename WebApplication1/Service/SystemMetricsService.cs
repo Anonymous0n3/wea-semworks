@@ -1,9 +1,14 @@
 ﻿using System.Diagnostics;
+using WebApplication1.Controllers;
 
 namespace WidgetsDemo.Services
 {
     public class SystemMetricsService
     {
+        private readonly ILogger<SystemMetricsService> _logger; 
+        public SystemMetricsService(ILogger<SystemMetricsService> logger) { 
+            _logger = logger;
+        }   
         public double GetCpuUsage()
         {
             using var proc = Process.GetCurrentProcess();

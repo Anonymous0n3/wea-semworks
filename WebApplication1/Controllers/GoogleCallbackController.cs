@@ -9,10 +9,12 @@ namespace WebApplication1.Controllers
     public class GoogleCallbackController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<GoogleCallbackController> _logger;
 
-        public GoogleCallbackController(IConfiguration config)
+        public GoogleCallbackController(IConfiguration config, ILogger<GoogleCallbackController> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         [HttpGet("callback")]

@@ -15,11 +15,13 @@ namespace WebApplication1.Controllers
     {
         private readonly CouchDbService _couch;
         private readonly IConfiguration _config;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(CouchDbService couch, IConfiguration config)
+        public AuthController(CouchDbService couch, IConfiguration config, ILogger<AuthController> logger)
         {
             _couch = couch;
             _config = config;
+            _logger = logger;
         }
 
         // --------------------
@@ -35,10 +37,15 @@ namespace WebApplication1.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
+            _logger.LogInformation("[AuthControllerRegister] započnuta registrace");
             var ok = await _couch.RegisterUserAsync(dto.Name, dto.Email, dto.Password);
             if (!ok)
+            {
+                _logger.LogWarning("[AuthControllerRegister] registrace selhala - email již používán"); ;
                 return Conflict(new { message = "Email already in use" });
+            }
 
+            _logger.LogInformation("[AuthControllerRegister] registrace úspěšná");
             return Ok(new { message = "Registered" });
         }
 
@@ -48,10 +55,15 @@ namespace WebApplication1.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
+            _logger.LogInformation("[AuthControllerLogin] započat login");
             var token = await _couch.LoginUserAsync(dto.Email, dto.Password);
             if (token == null)
+            {
+                _logger.LogWarning("[AuthControllerLogin] login selhal - neplatné údaje");
                 return Unauthorized(new { message = "Invalid credentials" });
+            }
 
+            _logger.LogInformation("[AuthControllerLogin] login úspěšný");
             return Ok(new { token });
         }
 
@@ -63,8 +75,12 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GoogleExchange([FromBody] GoogleAuthDto dto)
         {
+            _logger.LogInformation("[GoogleOAuth] započata výměna tokenu");
             if (string.IsNullOrWhiteSpace(dto.Code))
+            {
+                _logger.LogWarning("[GoogleOAuth] chybí autorizační kód");
                 return BadRequest(new { message = "Missing authorization code" });
+            }
 
             // načti Google konfiguraci z .env
             var clientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENTID");
@@ -72,7 +88,10 @@ namespace WebApplication1.Controllers
             var redirectUri = Environment.GetEnvironmentVariable("GOOGLE_REDIRECTURI");
 
             if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(redirectUri))
+            {
+                _logger.LogError("[GoogleOAuth] chybí Google OAuth environmentální proměnné");
                 return StatusCode(500, new { message = "Google OAuth environment variables not set" });
+            }
 
             using var http = new HttpClient();
 
@@ -91,17 +110,23 @@ namespace WebApplication1.Controllers
 
             if (!tokenResp.IsSuccessStatusCode)
             {
-                Console.WriteLine($"[GoogleOAuth] ❌ Exchange failed: {tokenText}");
+                _logger.LogError($"[GoogleOAuth] výměna tokenu selhala: {tokenText}");
                 return BadRequest(new { message = "Google token exchange failed", details = tokenText });
             }
 
             using var tokenDoc = JsonDocument.Parse(tokenText);
             if (!tokenDoc.RootElement.TryGetProperty("id_token", out var idTokenEl))
+            {
+                _logger.LogError("[GoogleOAuth] chybí id_token v odpovědi Google");
                 return BadRequest(new { message = "Missing id_token in Google response" });
+            }
 
             var idToken = idTokenEl.GetString();
             if (string.IsNullOrEmpty(idToken))
+            {
+                _logger.LogError("[GoogleOAuth] neplatný id_token v odpovědi Google");
                 return BadRequest(new { message = "Invalid id_token in Google response" });
+            }
 
             // 2️⃣ Ověření id_token
             GoogleJsonWebSignature.Payload payload;
@@ -114,12 +139,15 @@ namespace WebApplication1.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[GoogleOAuth] ❌ Token validation failed: {ex.Message}");
+                _logger.LogError($"[GoogleOAuth] ověření tokenu selhalo: {ex.Message}");
                 return BadRequest(new { message = "Invalid Google token", error = ex.Message });
             }
 
             if (!payload.EmailVerified)
+            {
+                _logger.LogWarning("[GoogleOAuth] email Google účtu není ověřen");
                 return BadRequest(new { message = "Google account email not verified" });
+            }
 
             var email = payload.Email.ToLowerInvariant();
             var name = payload.Name ?? email.Split('@')[0];
@@ -128,17 +156,20 @@ namespace WebApplication1.Controllers
             var user = await _couch.GetUserByEmailAsync(email);
             if (user == null)
             {
-                Console.WriteLine($"[GoogleOAuth] 🆕 Creating new user {email}");
+                _logger.LogInformation($"[GoogleOAuth] 🆕 Vytváří se nový uživatel {email}");
                 var randomPass = Guid.NewGuid().ToString(); // placeholder, nikdy se nepoužije
                 var ok = await _couch.RegisterUserAsync(name, email, randomPass);
                 if (!ok)
+                {
+                    _logger.LogError("[GoogleOAuth] selhalo vytvoření nového uživatele");
                     return StatusCode(500, new { message = "Failed to create new user" });
+                }
 
                 user = await _couch.GetUserByEmailAsync(email);
             }
             else
             {
-                Console.WriteLine($"[GoogleOAuth] ✅ Existing user {email}");
+                _logger.LogInformation($"[GoogleOAuth] ✅ Existující uživatel {email}");
             }
 
             if (user == null)
@@ -168,14 +199,14 @@ namespace WebApplication1.Controllers
 
             if (string.IsNullOrEmpty(email))
             {
-                Console.WriteLine("[Widgets] ⚠️ Missing email claim. Claims:");
+                _logger.LogWarning("[AuthControllerWidgets] chybí email claim v JWT");
                 foreach (var c in User.Claims)
                     Console.WriteLine($"  - {c.Type} = {c.Value}");
 
                 return Unauthorized("Email claim missing");
             }
 
-            Console.WriteLine($"[Widgets] ✅ Authenticated email: {email}");
+            _logger.LogInformation($"[AuthControllerWidgets] ✅ Authenticated email: {email}");
 
             var widgets = await _couch.GetUserWidgetsAsync(email);
             return Ok(widgets);
@@ -192,9 +223,13 @@ namespace WebApplication1.Controllers
             var ok = await _couch.SaveUserWidgetsAsync(email, widgets);
             //await _couch.TestSaveUserWidgetsAsync();
             if (!ok)
+            {
                 //if (true)
+                _logger.LogError("[AuthControllerSaveWidgets] selhalo ukládání widgetů");
                 return BadRequest(new { message = "Could not save widgets" });
+            }
 
+            _logger.LogInformation("[AuthControllerSaveWidgets] widgety úspěšně uloženy");
             return Ok(new { message = "Widgets saved" });
         }
     }
