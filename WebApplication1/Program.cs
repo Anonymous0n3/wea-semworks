@@ -22,10 +22,17 @@ DotNetEnv.Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // ---- Logging (Serilog) ----
+var logPath = Environment.GetEnvironmentVariable("APP_LOG_PATH")
+              ?? "/app/logs/log.txt"; // fallback
+
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .WriteTo.Console()
-    .WriteTo.File("/app/logs/log-.txt", rollingInterval: RollingInterval.Day, retainedFileCountLimit: 14)
+    .WriteTo.File(
+        logPath,
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 14
+    )
     .CreateLogger();
 
 builder.Host.UseSerilog(logger);
