@@ -35,15 +35,12 @@ builder.Host.UseSerilog(logger);
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<SwopCacheService>();
-builder.Services.AddTransient<WeatherService>();
 builder.Services.AddSingleton<SystemMetricsService>();
 builder.Services.AddHttpClient(); // základní HttpClient
 builder.Services.AddSingleton<CouchDbService>();
 builder.Services.AddSingleton<CountryInfoService>();
-builder.Services.AddHttpClient<WeatherService>();
 builder.Services.AddHttpClient<ForecastWeatherController>();
-builder.Services.AddTransient<ForecastWeatherController>();
-
+builder.Services.AddHttpClient<WeatherService>();
     
 
 builder.Services.AddSingleton<ISwopClient>(sp =>
