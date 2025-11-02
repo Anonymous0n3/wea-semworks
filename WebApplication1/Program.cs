@@ -233,17 +233,34 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // ---- Ruční přepnutí jazyka (endpoint) ----
-app.MapPost("/set-language", async (HttpContext http) =>
+// Program.cs
+
+app.MapPost("/set-language", (HttpContext http) =>
 {
     var culture = http.Request.Form["culture"].ToString();
+    var returnUrl = http.Request.Form["returnUrl"].ToString();
+
     if (!string.IsNullOrEmpty(culture))
     {
         http.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture))
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true,
+                HttpOnly = false,
+                Secure = true 
+            }
         );
     }
-    await http.Response.WriteAsync("Language set");
+
+    // Bezpečný návrat: když returnUrl chybí nebo není relativní, pošli na "/"
+    if (string.IsNullOrEmpty(returnUrl) || returnUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+        return Results.Redirect("/");
+
+    return Results.LocalRedirect(returnUrl);
 });
+
 
 app.Run();
