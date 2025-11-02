@@ -249,4 +249,13 @@
   <data name="Error fetching country details" xml:space="preserve">
     <value>Error fetching country details</value>
   </data>
+  <data name="Country Info" xml:space="preserve">
+    <value>Country Info</value>
+  </data>
+  <data name="Capital" xml:space="preserve">
+    <value>Capital</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
 </root>

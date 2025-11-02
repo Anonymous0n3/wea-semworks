@@ -249,4 +249,13 @@
   <data name="Error fetching country details" xml:space="preserve">
     <value>Chyba při načítání dat o státu</value>
   </data>
+  <data name="Country Info" xml:space="preserve">
+    <value>Informace o zemi</value>
+  </data>
+  <data name="Capital" xml:space="preserve">
+    <value>Hlavní město</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Měna</value>
+  </data>
 </root>

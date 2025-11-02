@@ -3,7 +3,7 @@
 @inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 <div id="countryWidget_@Guid.NewGuid()" class="country-info-widget border rounded p-3 shadow-sm">
-    <h3 class="mb-3">🌍 Country Info</h3>
+    <h3 class="mb-3">🌍 @Localizer["Country Info"]</h3>
 
     <!-- Seznam zemí -->
     <div class="input-group mb-3">
@@ -23,13 +23,13 @@
         {
             <h4>@Model.SelectedCountry.Name (@Model.SelectedCountry.IsoCode)</h4>
             <img src="@Model.SelectedCountry.FlagUrl" alt="Flag of @Model.SelectedCountry.Name" class="mb-2" style="height:30px;">
-            <p><strong>Capital:</strong> @Model.SelectedCountry.CapitalCity</p>
-            <p><strong>Currency:</strong> @Model.SelectedCountry.Currency</p>
-            <p><strong>Phone code:</strong> @Model.SelectedCountry.PhoneCode</p>
+            <p><strong>@Localizer["Capital"]:</strong> @Model.SelectedCountry.CapitalCity</p>
+            <p><strong>@Localizer["Currency"]:</strong> @Model.SelectedCountry.Currency</p>
+            <p><strong>@Localizer["Phone code"]:</strong> @Model.SelectedCountry.PhoneCode</p>
         }
         else
         {
-            <p class="text-muted">Select a country to see details.</p>
+            <p class="text-muted"> @Localizer["Select a country to see details"].</p>
         }
     </div>
 </div>
