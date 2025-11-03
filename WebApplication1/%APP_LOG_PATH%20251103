@@ -1,0 +1,184 @@
+2025-11-03 08:52:02.731 +01:00 [INF] Start processing HTTP request GET http://couchdb:5987/helloworld
+2025-11-03 08:52:02.779 +01:00 [INF] Sending HTTP request GET http://couchdb:5987/helloworld
+2025-11-03 08:52:10.687 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-03 08:52:10.923 +01:00 [INF] Now listening on: https://localhost:7131
+2025-11-03 08:52:10.928 +01:00 [INF] Now listening on: http://localhost:5255
+2025-11-03 08:52:11.010 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-03 08:52:11.013 +01:00 [INF] Hosting environment: Development
+2025-11-03 08:52:11.015 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-11-03 08:52:11.654 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 08:52:12.113 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:52:12.144 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 08:52:12.171 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 08:52:13.999 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 1836.0454ms.
+2025-11-03 08:52:14.009 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 1857.4009ms
+2025-11-03 08:52:14.013 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:52:14.025 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 2386.122ms
+2025-11-03 08:52:14.051 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - null null
+2025-11-03 08:52:14.052 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/login_register.js - null null
+2025-11-03 08:52:14.052 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - null null
+2025-11-03 08:52:14.055 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - null null
+2025-11-03 08:52:14.060 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/country-widget.js - null null
+2025-11-03 08:52:14.068 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - null null
+2025-11-03 08:52:14.072 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - null null
+2025-11-03 08:52:14.083 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 08:52:14.089 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/site.js?v=7d45RZyTzRMjOm2p7Y01uf1AWSLesguLDjETaNYSjzc - null null
+2025-11-03 08:52:14.180 +01:00 [INF] Sending file. Request path: '/WebApplication1.styles.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\obj\Debug\net8.0\scopedcss\bundle\WebApplication1.styles.css'
+2025-11-03 08:52:14.183 +01:00 [INF] Sending file. Request path: '/js/country-widget.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\country-widget.js'
+2025-11-03 08:52:14.185 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2025-11-03 08:52:14.193 +01:00 [INF] Sending file. Request path: '/js/login_register.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\login_register.js'
+2025-11-03 08:52:14.198 +01:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\css\site.css'
+2025-11-03 08:52:14.200 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/country-widget.js - 200 3434 text/javascript 139.9844ms
+2025-11-03 08:52:14.204 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/WebApplication1.styles.css?v=Ejph5OspmnzpK2cukdzRSThxw067hcPq5OuD1ldyKsk - 200 1133 text/css 149.8644ms
+2025-11-03 08:52:14.207 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/login_register.js - 200 6953 text/javascript 154.3497ms
+2025-11-03 08:52:14.221 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 138.1905ms
+2025-11-03 08:52:14.230 +01:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\jquery\dist\jquery.min.js'
+2025-11-03 08:52:14.262 +01:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2025-11-03 08:52:14.264 +01:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\site.js'
+2025-11-03 08:52:14.266 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/jquery/dist/jquery.min.js - 200 89503 text/javascript 197.9691ms
+2025-11-03 08:52:14.268 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/site.js?v=7d45RZyTzRMjOm2p7Y01uf1AWSLesguLDjETaNYSjzc - 200 1429 text/javascript 180.9375ms
+2025-11-03 08:52:14.272 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/css/site.css?v=pAGv4ietcJNk_EwsQZ5BN9-K4MuNYS2a9wl4Jw-q9D0 - 200 362 text/css 220.706ms
+2025-11-03 08:52:14.275 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/css/bootstrap.min.css - 200 162726 text/css 224.3572ms
+2025-11-03 08:52:14.278 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/lib/bootstrap/dist/js/bootstrap.bundle.min.js - 200 78474 text/javascript 207.9355ms
+2025-11-03 08:52:14.344 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/js/weather-autocomplete.js - null null
+2025-11-03 08:52:14.351 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 08:52:14.359 +01:00 [INF] Sending file. Request path: '/js/weather-autocomplete.js'. Physical path: 'C:\Users\42077\Source\Repos\wea-semworks\WebApplication1\wwwroot\js\weather-autocomplete.js'
+2025-11-03 08:52:14.365 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/js/weather-autocomplete.js - 200 7243 text/javascript 20.7306ms
+2025-11-03 08:52:14.592 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 241.0495ms
+2025-11-03 08:52:15.287 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 08:52:15.300 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:52:15.314 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 08:52:15.354 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 08:52:15.495 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 175.6605ms
+2025-11-03 08:52:15.501 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:52:15.504 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 217.7992ms
+2025-11-03 08:57:44.790 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 24
+2025-11-03 08:57:44.835 +01:00 [INF] CORS policy execution successful.
+2025-11-03 08:57:44.850 +01:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-11-03 08:57:44.895 +01:00 [INF] Executing RedirectResult, redirecting to /.
+2025-11-03 08:57:44.898 +01:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-11-03 08:57:44.901 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7131/set-language - 302 0 null 111.8211ms
+2025-11-03 08:57:44.907 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 08:57:44.918 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:57:44.920 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 08:57:44.925 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 08:57:44.951 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 27.0433ms.
+2025-11-03 08:57:44.964 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 40.1399ms
+2025-11-03 08:57:44.968 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:57:44.969 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 08:57:44.974 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 08:57:44.975 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 68.2693ms
+2025-11-03 08:57:44.991 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 21.9641ms
+2025-11-03 08:57:45.000 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 08:57:45.035 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 61.2712ms
+2025-11-03 08:57:45.037 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:57:45.086 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 08:57:45.091 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 08:57:45.216 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 126.6529ms
+2025-11-03 08:57:45.220 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:57:45.223 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 223.4383ms
+2025-11-03 08:57:46.824 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 24
+2025-11-03 08:57:46.838 +01:00 [INF] CORS policy execution successful.
+2025-11-03 08:57:46.840 +01:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-11-03 08:57:46.844 +01:00 [INF] Executing RedirectResult, redirecting to /.
+2025-11-03 08:57:46.847 +01:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-11-03 08:57:46.852 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7131/set-language - 302 0 null 27.8198ms
+2025-11-03 08:57:46.858 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 08:57:46.876 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:57:46.878 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 08:57:46.882 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 08:57:46.895 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 12.9679ms.
+2025-11-03 08:57:46.902 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 19.3501ms
+2025-11-03 08:57:46.904 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 08:57:46.907 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 49.5266ms
+2025-11-03 08:57:46.909 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 08:57:46.912 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 08:57:46.929 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 17.48ms
+2025-11-03 08:57:46.937 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 08:57:46.955 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 46.1275ms
+2025-11-03 08:57:46.965 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:57:46.978 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 08:57:46.982 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 08:57:47.070 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 88.3515ms
+2025-11-03 08:57:47.075 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 08:57:47.079 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 141.5337ms
+2025-11-03 09:43:46.676 +01:00 [INF] Application is shutting down...
+2025-11-03 09:45:53.255 +01:00 [INF] Start processing HTTP request GET http://couchdb:5987/helloworld
+2025-11-03 09:45:53.408 +01:00 [INF] Sending HTTP request GET http://couchdb:5987/helloworld
+2025-11-03 09:46:01.415 +01:00 [INF] User profile is available. Using 'C:\Users\42077\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-03 09:46:01.848 +01:00 [INF] Now listening on: https://localhost:7131
+2025-11-03 09:46:01.857 +01:00 [INF] Now listening on: http://localhost:5255
+2025-11-03 09:46:02.014 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-03 09:46:02.018 +01:00 [INF] Hosting environment: Development
+2025-11-03 09:46:02.021 +01:00 [INF] Content root path: C:\Users\42077\Source\Repos\wea-semworks\WebApplication1
+2025-11-03 09:46:02.925 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 09:46:03.284 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:03.330 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 09:46:03.371 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 09:46:05.028 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 1668.5278ms.
+2025-11-03 09:46:05.041 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 1698.1908ms
+2025-11-03 09:46:05.047 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:05.066 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 2163.2506ms
+2025-11-03 09:46:05.080 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 09:46:05.092 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 09:46:05.100 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 20.0906ms
+2025-11-03 09:46:05.183 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 91.9901ms
+2025-11-03 09:46:06.507 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 09:46:06.536 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:06.558 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 09:46:06.615 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 09:46:06.789 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 219.9682ms
+2025-11-03 09:46:06.793 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:06.797 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 290.3759ms
+2025-11-03 09:46:11.428 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 24
+2025-11-03 09:46:11.463 +01:00 [INF] CORS policy execution successful.
+2025-11-03 09:46:11.473 +01:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-11-03 09:46:11.505 +01:00 [INF] Executing RedirectResult, redirecting to /.
+2025-11-03 09:46:11.510 +01:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-11-03 09:46:11.516 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7131/set-language - 302 0 null 88.4132ms
+2025-11-03 09:46:11.523 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 09:46:11.559 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:11.564 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 09:46:11.571 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 09:46:11.611 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 39.9947ms.
+2025-11-03 09:46:11.623 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 52.0599ms
+2025-11-03 09:46:11.630 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:11.636 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 114.9572ms
+2025-11-03 09:46:11.644 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 09:46:11.649 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 09:46:11.688 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 39.6844ms
+2025-11-03 09:46:11.699 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 09:46:11.722 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 79.6508ms
+2025-11-03 09:46:11.724 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:11.740 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 09:46:11.748 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 09:46:11.835 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 88.4035ms
+2025-11-03 09:46:11.840 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:11.844 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 145.7276ms
+2025-11-03 09:46:17.845 +01:00 [INF] Request starting HTTP/2 POST https://localhost:7131/set-language - application/x-www-form-urlencoded 24
+2025-11-03 09:46:17.871 +01:00 [INF] CORS policy execution successful.
+2025-11-03 09:46:17.876 +01:00 [INF] Executing endpoint 'HTTP: POST /set-language'
+2025-11-03 09:46:17.883 +01:00 [INF] Executing RedirectResult, redirecting to /.
+2025-11-03 09:46:17.889 +01:00 [INF] Executed endpoint 'HTTP: POST /set-language'
+2025-11-03 09:46:17.896 +01:00 [INF] Request finished HTTP/2 POST https://localhost:7131/set-language - 302 0 null 53.5056ms
+2025-11-03 09:46:17.902 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/ - null null
+2025-11-03 09:46:17.930 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:17.934 +01:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller WebApplication1.Controllers.HomeController (WebApplication1).
+2025-11-03 09:46:17.944 +01:00 [INF] Executing ViewResult, running view ~/Views/Home/Index.cshtml.
+2025-11-03 09:46:17.968 +01:00 [INF] Executed ViewResult - view ~/Views/Home/Index.cshtml executed in 24.1736ms.
+2025-11-03 09:46:17.977 +01:00 [INF] Executed action WebApplication1.Controllers.HomeController.Index (WebApplication1) in 32.8126ms
+2025-11-03 09:46:17.983 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.HomeController.Index (WebApplication1)'
+2025-11-03 09:46:17.989 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/ - 200 null text/html; charset=utf-8 87.5655ms
+2025-11-03 09:46:18.019 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_vs/browserLink - null null
+2025-11-03 09:46:18.019 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-03 09:46:18.054 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_framework/aspnetcore-browser-refresh.js - 200 16515 application/javascript; charset=utf-8 34.7353ms
+2025-11-03 09:46:18.065 +01:00 [INF] Request starting HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - null null
+2025-11-03 09:46:18.075 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/_vs/browserLink - 200 null text/javascript; charset=UTF-8 56.1861ms
+2025-11-03 09:46:18.096 +01:00 [INF] Executing endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:18.110 +01:00 [INF] Route matched with {action = "Load", controller = "Widget"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Load(System.String, System.String) on controller WebApplication1.Controllers.WidgetController (WebApplication1).
+2025-11-03 09:46:18.118 +01:00 [INF] Executing ViewComponentResult, running CountryInfoWidget.
+2025-11-03 09:46:18.202 +01:00 [INF] Executed action WebApplication1.Controllers.WidgetController.Load (WebApplication1) in 84.3523ms
+2025-11-03 09:46:18.207 +01:00 [INF] Executed endpoint 'WebApplication1.Controllers.WidgetController.Load (WebApplication1)'
+2025-11-03 09:46:18.210 +01:00 [INF] Request finished HTTP/2 GET https://localhost:7131/Widget/Load?name=CountryInfoWidget - 200 null text/html; charset=utf-8 146.5362ms
+2025-11-03 09:48:36.077 +01:00 [INF] Start processing HTTP request GET http://couchdb:5987/helloworld
+2025-11-03 09:48:36.189 +01:00 [INF] Sending HTTP request GET http://couchdb:5987/helloworld
