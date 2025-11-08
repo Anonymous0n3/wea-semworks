@@ -1,11 +1,17 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+﻿// news.js
+function initNewsWidget(wrapper) {
+    if (!wrapper) return;
 
+    const filter = wrapper.querySelector('#categoryFilter');
+    const newsList = wrapper.querySelector('#newsList');
+    const reloadBtn = wrapper.querySelector('#reloadNews');
+
+    if (!filter || !newsList || !reloadBtn) return;
+
+    // Funkce pro aplikaci filtru
     function applyFilter() {
-        const filter = document.getElementById('categoryFilter');
-        if (!filter) return;
-
         const selected = Array.from(filter.selectedOptions).map(o => o.value);
-        const listItems = document.querySelectorAll('#newsList li');
+        const listItems = newsList.querySelectorAll('li');
 
         listItems.forEach(li => {
             const category = li.dataset.category;
@@ -13,33 +19,20 @@
         });
     }
 
+    // Funkce pro reload widgetu
     function reloadNewsWidget() {
-        const container = document.querySelector('.news-widget');
-        if (!container) return;
-
-        fetch('/Widget/Load?name=NewsWidget')
-            .then(res => res.text())
-            .then(html => {
-                container.innerHTML = html;
-
-                // Znovu připoj listener pro filtr
-                const filter = container.querySelector('#categoryFilter');
-                if (filter) filter.addEventListener('change', applyFilter);
-
-                // Znovu připoj listener pro reload
-                const reloadBtn = container.querySelector('#reloadNews');
-                if (reloadBtn) reloadBtn.addEventListener('click', reloadNewsWidget);
-
-                // Filtruj podle aktuálního výběru
-                applyFilter();
-            })
-            .catch(err => console.error('Chyba při načítání widgetu:', err));
+        location.reload();
     }
 
-    // Inicializace listenerů při prvním načtení
-    const filter = document.getElementById('categoryFilter');
-    if (filter) filter.addEventListener('change', applyFilter);
+    // Připojení listenerů
+    filter.addEventListener('change', applyFilter);
+    reloadBtn.addEventListener('click', reloadNewsWidget);
 
-    const reloadBtn = document.getElementById('reloadNews');
-    if (reloadBtn) reloadBtn.addEventListener('click', reloadNewsWidget);
+    // Aplikovat filtr při inicializaci podle aktuálního výběru
+    applyFilter();
+}
+
+// Pokud chceš, můžeš rovnou inicializovat všechny existující widgety při načtení
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.news-widget').forEach(initNewsWidget);
 });

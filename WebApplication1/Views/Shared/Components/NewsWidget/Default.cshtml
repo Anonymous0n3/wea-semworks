@@ -1,11 +1,13 @@
 ﻿@model IEnumerable<WebApplication1.Models.NewsMessage>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 <div class="widget news-widget">
-    <h5>📰 News Feed</h5>
+    <h5>📰 @Localizer["News Feed"]</h5>
 
     <div class="mb-2 d-flex align-items-center">
         <div class="me-2">
-            <label for="categoryFilter" class="form-label mb-0">Filtr kategorií:</label>
+            <label for="categoryFilter" class="form-label mb-0">@Localizer["Filtr kategorií"]:</label>
             <select id="categoryFilter" class="form-select" multiple style="min-width:200px;">
                 @{
                     var categories = Model
@@ -20,9 +22,9 @@
                     <option value="@category">@category</option>
                 }
             </select>
-            <small class="text-muted">Držte Ctrl/Cmd pro vícenásobný výběr</small>
+            <small class="text-muted">@Localizer["Držte Ctrl/Cmd pro vícenásobný výběr"]</small>
         </div>
-        <button id="reloadNews" class="btn btn-sm btn-primary mt-4 ms-2">Filter</button>
+        <button id="reloadNews" class="btn btn-sm btn-primary mt-4 ms-2">@Localizer["Refresh"]</button>
     </div>
 
     <ul id="newsList" class="list-group">
