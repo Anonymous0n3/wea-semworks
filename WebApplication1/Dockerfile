@@ -6,6 +6,7 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+EXPOSE 8003
 
 
 # Tato fáze slouží k sestavení projektu služby.
