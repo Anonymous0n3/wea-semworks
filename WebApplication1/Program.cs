@@ -176,6 +176,12 @@ builder.Services.AddAuthentication(options =>
 // ---- Authorization ----
 builder.Services.AddAuthorization();
 
+// ---- MQTT ----
+builder.Services.AddSingleton<MqttNewsService>();
+builder.Services.AddHostedService<MqttBackgroundService>();
+builder.Services.AddSingleton<NewsRepository>();
+builder.Services.AddHostedService<NewsBackgroundJob>();
+
 // ---- Build app ----
 var app = builder.Build();
 

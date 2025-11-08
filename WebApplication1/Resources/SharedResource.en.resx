@@ -258,4 +258,16 @@
   <data name="Currency" xml:space="preserve">
     <value>Currency</value>
   </data>
+  <data name="Filtr kategorií" xml:space="preserve">
+    <value>Category filter</value>
+  </data>
+  <data name="Držte Ctrl/Cmd pro vícenásobný výběr" xml:space="preserve">
+    <value>Hold Ctrl/Cmd for multiple selection</value>
+  </data>
+  <data name="News Feed" xml:space="preserve">
+    <value>News Feed</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

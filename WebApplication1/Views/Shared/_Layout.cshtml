@@ -44,6 +44,7 @@
                             <li><a class="dropdown-item widget-link" data-widget="ForecastWeather" href="#">Forecast Weather</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="CurrencyWidget" href="#">Currency Widget</a></li>
                             <li><a class="dropdown-item widget-link" data-widget="CountryInfoWidget" href="#">Country Widget</a></li>
+                            <li><a class="dropdown-item widget-link" data-widget="NewsWidget" href="#">News Widget</a></li>
                         </ul>
                     </div>
                 </div>
@@ -69,6 +70,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/weather-autocomplete.js" defer></script>
     <script src="~/js/country-widget.js"></script>
+    <script src="~/js/news.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
@@ -159,6 +161,7 @@
 
                     if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
                     if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
+                    if (widgetName === "NewsWidget") initNewsWidget(wrapper);
                             if (widgetName === "CountryInfoWidget") {
             // přidej unikátní ID, pokud ještě není
             if (!wrapper.id) wrapper.id = `countryWidget_${Date.now()}`;

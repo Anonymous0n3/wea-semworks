@@ -258,4 +258,16 @@
   <data name="Currency" xml:space="preserve">
     <value>Měna</value>
   </data>
+  <data name="Filtr kategorií" xml:space="preserve">
+    <value>Filtr kategorií</value>
+  </data>
+  <data name="Držte Ctrl/Cmd pro vícenásobný výběr" xml:space="preserve">
+    <value>Držte Ctrl/Cmd pro vícenásobný výběr</value>
+  </data>
+  <data name="News Feed" xml:space="preserve">
+    <value>Zprávy</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Aktualizovat</value>
+  </data>
 </root>

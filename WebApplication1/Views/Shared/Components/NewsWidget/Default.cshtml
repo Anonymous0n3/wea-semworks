@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication1.Models.NewsMessage>
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
+
+<div class="widget news-widget">
+    <h5>📰 @Localizer["News Feed"]</h5>
+
+    <div class="mb-2 d-flex align-items-center">
+        <div class="me-2">
+            <label for="categoryFilter" class="form-label mb-0">@Localizer["Filtr kategorií"]:</label>
+            <select id="categoryFilter" class="form-select" multiple style="min-width:200px;">
+                @{
+                    var categories = Model
+                    .Select(n => n.Category)
+                    .Where(c => !string.IsNullOrEmpty(c))
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
+                }
+                @foreach (var category in categories)
+                {
+                    <option value="@category">@category</option>
+                }
+            </select>
+            <small class="text-muted">@Localizer["Držte Ctrl/Cmd pro vícenásobný výběr"]</small>
+        </div>
+        <button id="reloadNews" class="btn btn-sm btn-primary mt-4 ms-2">@Localizer["Refresh"]</button>
+    </div>
+
+    <ul id="newsList" class="list-group">
+        @foreach (var news in Model.OrderByDescending(n => DateTime.Parse(n.Date)))
+        {
+            <li class="list-group-item" data-category="@news.Category" data-date="@news.Date">
+                <div class="fw-bold">@news.Title</div>
+                <small class="text-muted">@news.Date</small>
+                <div>@news.ShortDescription</div>
+            </li>
+        }
+    </ul>
+</div>
+
+<style>
+    .news-widget ul {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+</style>
+
+<script src="~/js/news.js"></script>
