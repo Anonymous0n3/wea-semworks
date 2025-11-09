@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using WebApplication1.Service;
 using WebApplication1.Models;
 
@@ -7,20 +8,24 @@ namespace WebApplication1.ViewComponents
     public class CountryInfoWidgetViewComponent : ViewComponent
     {
         private readonly CountryInfoService _service;
-        private readonly IDictionary<string, string> countries;
-        public CountryInfoWidgetViewComponent(CountryInfoService service)
+        private readonly IMemoryCache _cache;
+
+        public CountryInfoWidgetViewComponent(CountryInfoService service, IMemoryCache cache)
         {
             _service = service;
-            countries = _service.GetAllCountriesAsync().Result;
+            _cache = cache;
         }
 
-        /// <summary>
-        /// Vrátí celý widget nebo jen fragment .country-result při AJAX requestu.
-        /// </summary>
-        /// <param name="isoCode">ISO kód země (default "CZ")</param>
         public async Task<IViewComponentResult> InvokeAsync(string isoCode = "CZ")
         {
-            // načti detaily země
+            // 🧠 Zkus načíst seznam států z cache
+            if (!_cache.TryGetValue("AllCountries", out IDictionary<string, string> countries))
+            {
+                countries = await _service.GetAllCountriesAsync();
+                _cache.Set("AllCountries", countries, TimeSpan.FromHours(12)); // držet 12h v paměti
+            }
+
+            // 📄 Načti detail konkrétní země
             var country = await _service.GetCountryDetailsAsync(isoCode);
 
             var modelCountry = new CountryInfoModel
@@ -39,13 +44,13 @@ namespace WebApplication1.ViewComponents
                 SelectedCountry = modelCountry
             };
 
-            // pokud jde o AJAX request, vrátíme jen .country-result partial
+            // AJAX = vracíme jen detail
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return View("_CountryResultPartial", modelCountry);
             }
 
-            // vrátíme celý widget
+            // klasický render = celý widget
             return View("CountryInfoWidget", model);
         }
     }

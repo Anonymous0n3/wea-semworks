@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Service;
 using WebApplication1.Models;
+using WebApplication1.Service;
 
 namespace WebApplication1.Controllers
 {
@@ -22,8 +22,7 @@ namespace WebApplication1.Controllers
                 return BadRequest("Missing ISO code");
 
             var country = await _service.GetCountryDetailsAsync(isoCode);
-
-            var modelcountry = new CountryInfoModel
+            var model = new CountryInfoModel
             {
                 IsoCode = country.IsoCode,
                 Name = country.Name,
@@ -33,20 +32,10 @@ namespace WebApplication1.Controllers
                 FlagUrl = country.FlagUrl
             };
 
-            var model = new CountryInfoViewModel
-            {
-                Countries = await _service.GetAllCountriesAsync(),
-                SelectedCountry = modelcountry
-            };
-
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                // vrátí jen HTML fragment pro AJAX
-                return PartialView("_CountryResultPartial", modelcountry);
-            }
+                return PartialView("_CountryResultPartial", model);
 
-            // vrátí celý widget
-            return View("CountryInfoWidget", model);
+            return ViewComponent("CountryInfoWidget", new { isoCode });
         }
     }
 }
