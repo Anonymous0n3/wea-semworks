@@ -13,7 +13,7 @@ services:
       - COUCHDB_PASSWORD=adminpassword
       - APP_LOG_PATH=/var/log/webapp/app.log
       - BACKEND_BASE_URL
-      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_URLS=http://+:8003
     env_file:
       - .env
     depends_on:
@@ -23,7 +23,6 @@ services:
 
   couchdb:
     image: couchdb:3.3
-    restart: always
     ports:
       - "5987:5984"
     environment:
