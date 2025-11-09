@@ -50,15 +50,18 @@ function initCountryWidget(widgetId) {
             });
 
             if (!resp.ok) {
-                resultContainer.innerHTML = `<p class="text-danger">@Localizer["Failed to load country details"].</p>`;
+                resultContainer.innerHTML = `<p class="text-danger">Failed to load country details.</p>`;
                 return;
             }
 
             const html = await resp.text();
             resultContainer.innerHTML = html;
+
+            // 🔹 Uložíme poslední vybranou zemi do localStorage
+            localStorage.setItem('selectedCountryIso', isoCode);
         } catch (err) {
             console.error(err);
-            resultContainer.innerHTML = `<p class="text-danger">@Localizer["Error fetching country details"].</p>`;
+            resultContainer.innerHTML = `<p class="text-danger">Error fetching country details.</p>`;
         }
     }
 
@@ -74,6 +77,16 @@ function initCountryWidget(widgetId) {
             searchBtn.click();
         }
     });
+
+    // 🔹 Při načtení widgetu obnovíme poslední zemi (pokud existuje)
+    const savedIso = localStorage.getItem('selectedCountryIso');
+    if (savedIso) {
+        fetchCountryDetails(savedIso);
+        // Aktualizujeme input, aby zobrazoval název
+        if (window.allCountries && window.allCountries[savedIso]) {
+            input.value = `${window.allCountries[savedIso]} (${savedIso})`;
+        }
+    }
 }
 
 // Inicializuje všechny widgety na stránce
