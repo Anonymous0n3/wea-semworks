@@ -21,20 +21,16 @@ namespace WebApplication1.Controllers
             if (string.IsNullOrEmpty(isoCode))
                 return BadRequest("Missing ISO code");
 
+            // Načteme jen detail vybrané země
             var country = await _service.GetCountryDetailsAsync(isoCode);
-            var model = new CountryInfoModel
-            {
-                IsoCode = country.IsoCode,
-                Name = country.Name,
-                CapitalCity = country.CapitalCity,
-                Currency = country.Currency,
-                PhoneCode = country.PhoneCode,
-                FlagUrl = country.FlagUrl
-            };
 
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                return PartialView("_CountryResultPartial", model);
+            {
+                // AJAX = jen partial view s detailem země
+                return PartialView("_CountryResultPartial", country);
+            }
 
+            // Normální render = ViewComponent, který načte jen vybranou zemi
             return ViewComponent("CountryInfoWidget", new { isoCode });
         }
     }

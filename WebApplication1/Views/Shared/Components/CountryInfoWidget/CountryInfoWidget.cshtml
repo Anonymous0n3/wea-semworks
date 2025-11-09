@@ -1,46 +1,29 @@
-﻿@model WebApplication1.Models.CountryInfoViewModel
+﻿@model WebApplication1.Models.CountryInfoModel
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 
 <div id="countryWidget_@Guid.NewGuid()" class="country-info-widget border rounded p-3 shadow-sm">
     <h3 class="mb-3">🌍 @Localizer["Country Info"]</h3>
 
-    <!-- Seznam zemí -->
+    <!-- Input pro vyhledávání -->
     <div class="input-group mb-3">
-        <input type="text" class="form-control input-country" placeholder="Search country..." list="countries" />
-        <datalist id="countries">
-            @foreach (var item in Model.Countries)
-            {
-                <option value="@item.Value (@item.Key)"></option>
-            }
-        </datalist>
+        <input type="text" class="form-control input-country" placeholder="Search country..." />
         <button class="btn btn-primary btn-search">Search</button>
     </div>
 
-    <!-- Výchozí text / detail země -->
+    <!-- Detail vybrané země -->
     <div class="country-result mt-4 text-start">
-        @if (Model.SelectedCountry != null)
+        @if (Model != null)
         {
-            <h4>@Model.SelectedCountry.Name (@Model.SelectedCountry.IsoCode)</h4>
-            <img src="@Model.SelectedCountry.FlagUrl" alt="Flag of @Model.SelectedCountry.Name" class="mb-2" style="height:30px;">
-            <p><strong>@Localizer["Capital"]:</strong> @Model.SelectedCountry.CapitalCity</p>
-            <p><strong>@Localizer["Currency"]:</strong> @Model.SelectedCountry.Currency</p>
-            <p><strong>@Localizer["Phone code"]:</strong> @Model.SelectedCountry.PhoneCode</p>
+            <h4>@Model.Name (@Model.IsoCode)</h4>
+            <img src="@Model.FlagUrl" alt="Flag of @Model.Name" class="mb-2" style="height:30px;">
+            <p><strong>@Localizer["Capital"]:</strong> @Model.CapitalCity</p>
+            <p><strong>@Localizer["Currency"]:</strong> @Model.Currency</p>
+            <p><strong>@Localizer["Phone code"]:</strong> @Model.PhoneCode</p>
         }
         else
         {
-            <p class="text-muted"> @Localizer["Select a country to see details"].</p>
+            <p class="text-muted">@Localizer["Select a country to see details"].</p>
         }
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const wrapper = document.querySelector('.country-info-widget:last-child');
-            if (wrapper) {
-                initCountryWidget(wrapper.id);
-            }
-        });
-    </script>
-}
