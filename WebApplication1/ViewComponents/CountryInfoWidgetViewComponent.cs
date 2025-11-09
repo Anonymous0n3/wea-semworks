@@ -18,33 +18,35 @@ namespace WebApplication1.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string isoCode = "CZ")
         {
-            // 🧠 Zkus načíst seznam států z cache
+            // Načti seznam států z cache
             if (!_cache.TryGetValue("AllCountries", out IDictionary<string, string> countries))
             {
                 countries = await _service.GetAllCountriesAsync();
-                _cache.Set("AllCountries", countries, TimeSpan.FromHours(12)); // držet 12h v paměti
+                _cache.Set("AllCountries", countries, TimeSpan.FromHours(12));
             }
 
-            // 📄 Načti detail konkrétní země
+            // Načti detail konkrétní země
             var country = await _service.GetCountryDetailsAsync(isoCode);
 
-            var modelCountry = new CountryInfoModel
+            // Pokud se nenašel, vytvoř fallback model
+            var modelCountry = country ?? new CountryInfoModel
             {
-                IsoCode = country.IsoCode,
-                Name = country.Name,
-                CapitalCity = country.CapitalCity,
-                Currency = country.Currency,
-                PhoneCode = country.PhoneCode,
-                FlagUrl = country.FlagUrl
+                IsoCode = isoCode,
+                Name = countries.ContainsKey(isoCode) ? countries[isoCode] : isoCode,
+                CapitalCity = "-",
+                Currency = "-",
+                PhoneCode = "-",
+                FlagUrl = ""
             };
 
+            // Celý model pro widget
             var model = new CountryInfoViewModel
             {
                 Countries = countries,
                 SelectedCountry = modelCountry
             };
 
-            // AJAX = vracíme jen detail
+            // AJAX volání = jen partial
             if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return View("_CountryResultPartial", modelCountry);

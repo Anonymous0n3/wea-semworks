@@ -1,6 +1,5 @@
 ﻿using ServiceReference1;
 using System.Collections.Concurrent;
-using WebApplication1.Controllers;
 using WebApplication1.Models;
 
 namespace WebApplication1.Service
@@ -42,29 +41,30 @@ namespace WebApplication1.Service
             var phoneTask = _client.CountryIntPhoneCodeAsync(isoCode);
             var flagTask = _client.CountryFlagAsync(isoCode);
 
-            var flagUrl = flagTask.Result.Body.CountryFlagResult;
+            await Task.WhenAll(capitalTask, currencyTask, phoneTask, flagTask);
 
-            // ********** ZDE JE NEJLEPŠÍ MÍSTO PRO OPRAVU **********
-            if (!string.IsNullOrEmpty(flagUrl) && flagUrl.StartsWith("http://"))
-            {
-                // Převedeme na Protocol-Relative URL
-                flagUrl = flagUrl.Replace("http://", "");
-            }
+            // bezpečné fallback hodnoty
+            var capital = capitalTask.Result?.Body?.CapitalCityResult ?? "-";
+
+            var currencyObj = currencyTask.Result?.Body?.CountryCurrencyResult;
+            var currency = currencyObj != null && !string.IsNullOrEmpty(currencyObj.sName)
+                ? $"{currencyObj.sName} ({currencyObj.sISOCode})"
+                : "-";
+
+            var phoneCode = phoneTask.Result?.Body?.CountryIntPhoneCodeResult;
+            var phone = !string.IsNullOrEmpty(phoneCode) ? $"+{phoneCode}" : "-";
 
             var isoLower = isoCode.ToLowerInvariant();
-            var newFlagUrl = $"https://flagcdn.com/160x120/{isoLower}.png";
-
-            await Task.WhenAll(capitalTask, currencyTask, phoneTask, flagTask);
+            var flagUrl = $"https://flagcdn.com/160x120/{isoLower}.png";
 
             return new CountryInfoModel
             {
                 IsoCode = isoCode,
                 Name = name,
-                CapitalCity = capitalTask.Result.Body.CapitalCityResult,
-                Currency = $"{currencyTask.Result.Body.CountryCurrencyResult.sName} ({currencyTask.Result.Body.CountryCurrencyResult.sISOCode})",
-                PhoneCode = "+" + phoneTask.Result.Body.CountryIntPhoneCodeResult,
-                //FlagUrl = flagTask.Result.Body.CountryFlagResult
-                FlagUrl = newFlagUrl
+                CapitalCity = capital,
+                Currency = currency,
+                PhoneCode = phone,
+                FlagUrl = flagUrl
             };
         }
     }
