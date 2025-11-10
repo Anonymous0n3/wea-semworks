@@ -8,7 +8,7 @@ services:
     ports:
       - "8003:8080"
     environment:
-      - COUCHDB_URL=http://couchdb:5984
+      - COUCHDB_URL=http://localhost:5984
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=adminpassword
       - APP_LOG_PATH=/var/log/webapp/app.log
