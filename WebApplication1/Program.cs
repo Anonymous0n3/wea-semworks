@@ -12,6 +12,7 @@ using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Service;
 using WidgetsDemo.Services;
+using Quartz;
 
 // ---- Načtení .env souboru ----
 DotNetEnv.Env.Load();
@@ -59,6 +60,28 @@ builder.Services
     .AddControllersWithViews()
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
+
+// ---- Quartz ----
+builder.Services.AddQuartz(q =>
+{
+    var jobKey = new JobKey("NewsQuartzJob");
+
+    q.AddJob<NewsQuartzJob>(opts => opts.WithIdentity(jobKey));
+
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("NewsQuartzTrigger")
+        .WithSimpleSchedule(x => x
+            .WithInterval(TimeSpan.FromHours(5))
+            .RepeatForever()
+        )
+    );
+});
+
+builder.Services.AddQuartzHostedService(options =>
+{
+    options.WaitForJobsToComplete = true;
+});
 
 // ---- Podporované kultury ----
 var supportedCultures = new[]
@@ -178,7 +201,6 @@ builder.Services.AddAuthorization();
 
 // ---- MQTT ----
 builder.Services.AddSingleton<MqttNewsService>();
-builder.Services.AddHostedService<MqttBackgroundService>();
 builder.Services.AddSingleton<NewsRepository>();
 builder.Services.AddHostedService<NewsBackgroundJob>();
 

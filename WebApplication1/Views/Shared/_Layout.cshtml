@@ -75,113 +75,162 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        function getWidgetKey(name, location) {
+            return name + "::" + (location || "");
+        }
+
+        function normalizeWidgetName(name) {
+            if (!name) return "";
+            return name
+                .split(/[^a-zA-Z0-9]/)
+                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                .join('');
+        }
+
+        async function fetchWidgetsFromCouchDB() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) return [];
+
+            try {
+                const resp = await fetch("/api/auth/widgets", {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if (!resp.ok) return [];
+
+                const data = await resp.json();
+                if (!Array.isArray(data)) return [];
+                return data
+                    .map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }))
+                    .filter(w => w.name);
+            } catch (err) {
+                console.error("❌ Chyba CouchDB:", err);
+                return [];
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
-            const chartMap = new Map(); // Chart.js instance cache
+            const chartMap = new Map();
+            const widgetLoadPromises = new Map();
+            const token = localStorage.getItem("jwtToken");
 
-            // -----------------------------
-            // Načtení uložených widgetů
-            // -----------------------------
-            let savedWidgets = [];
-            try {
-                savedWidgets = JSON.parse(localStorage.getItem('openWidgets') || '[]');
-                if (!Array.isArray(savedWidgets)) savedWidgets = [];
-            } catch {
-                savedWidgets = [];
+            // ------------------------
+            // 1️⃣ Načtení widgetů z localStorage
+            // ------------------------
+            const savedWidgets = JSON.parse(localStorage.getItem("openWidgets") || "[]");
+            for (const w of savedWidgets) {
+                const key = getWidgetKey(w.name, w.location);
+                if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
             }
-            savedWidgets.forEach(w => loadWidget(w.name, w.location));
 
-            // -----------------------------
-            // Uložení widgetů do localStorage + CouchDB
-            // -----------------------------
+            // ------------------------
+            // 2️⃣ Synchronizace s CouchDB
+            // ------------------------
+            if (token) {
+                const couchData = await fetchWidgetsFromCouchDB();
+                for (const w of couchData) {
+                    const key = getWidgetKey(w.name, w.location);
+                    if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
+                }
+                localStorage.setItem("openWidgets", JSON.stringify(couchData));
+            }
+
+            // ------------------------
+            // Funkce pro ukládání widgetů
+            // ------------------------
             async function saveWidgetState() {
-                const widgets = Array.from(activeWidgets.entries()).map(([name, wrapper]) => ({
-                    name,
-                    location: wrapper.dataset.location || ''
-                }));
+                const widgets = Array.from(activeWidgets.entries()).map(([key]) => {
+                    const [name, location] = key.split("::");
+                    return { name, location };
+                });
+                localStorage.setItem("openWidgets", JSON.stringify(widgets));
 
-                localStorage.setItem('openWidgets', JSON.stringify(widgets || []));
-
-                const token = localStorage.getItem('jwtToken');
                 if (!token) return;
-
                 try {
-                    const res = await fetch("/api/auth/widgets", {
+                    await fetch("/api/auth/widgets", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + token
                         },
-                        body: JSON.stringify(widgets || [])
+                        body: JSON.stringify(widgets)
                     });
-                    if (!res.ok) {
-                        const text = await res.text();
-                        console.warn("⚠️ Nepodařilo se uložit widgety na server:", res.status, text);
-                    } else {
-                        console.log("✅ Widgety uloženy na server:", widgets.length);
-                    }
                 } catch (err) {
-                    console.error("❌ Chyba při ukládání widgetů:", err);
+                    console.error("❌ Chyba ukládání na CouchDB:", err);
                 }
             }
 
-            // -----------------------------
-            // Načtení widgetu
-            // -----------------------------
+            // ------------------------
+            // Funkce pro načtení widgetu
+            // ------------------------
             async function loadWidget(widgetName, location = '') {
-                try {
-                    let url = `/Widget/Load?name=${widgetName}`;
-                    if (widgetName === "CurrencyWidget") {
-                        const base = localStorage.getItem("baseCurrency") || "EUR";
-                        const quote = localStorage.getItem("quoteCurrency") || "USD";
-                        url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
-                    }
-                    if (location) url += `&location=${encodeURIComponent(location)}`;
+                const key = getWidgetKey(widgetName, location);
 
-                    const response = await fetch(url);
-                    const html = await response.text();
+                if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
 
-                    let wrapper = activeWidgets.get(widgetName);
-                    const isNew = !wrapper;
+                let wrapper = activeWidgets.get(key);
+                const isNew = !wrapper;
 
-                    if (!wrapper) {
-                        wrapper = document.createElement('div');
-                        wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
-                        wrapper.dataset.widgetName = widgetName;
-                        container.appendChild(wrapper);
-                        activeWidgets.set(widgetName, wrapper);
-                    }
-
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
+                    wrapper.dataset.widgetKey = key;
                     wrapper.dataset.location = location;
-                    wrapper.innerHTML = html;
-
-                    addCloseButton(wrapper, widgetName);
-                    attachInteractions(wrapper, widgetName);
-
-                    if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
-                    if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
-                    if (widgetName === "NewsWidget") initNewsWidget(wrapper);
-                            if (widgetName === "CountryInfoWidget") {
-            // přidej unikátní ID, pokud ještě není
-            if (!wrapper.id) wrapper.id = `countryWidget_${Date.now()}`;
-            initCountryWidget(wrapper.id);
-        }
-                    if (isNew) {
-                        wrapper.style.opacity = "0";
-                        wrapper.style.transition = "opacity 0.3s ease";
-                        requestAnimationFrame(() => (wrapper.style.opacity = "1"));
-                    }
-
-                    saveWidgetState();
-                } catch (error) {
-                    console.error("Chyba při načítání widgetu:", error);
+                    container.appendChild(wrapper);
+                    activeWidgets.set(key, wrapper);
                 }
+
+                const promise = (async () => {
+                    try {
+                        if (isNew) {
+                            let url = `/Widget/Load?name=${widgetName}`;
+                            if (widgetName === "CurrencyWidget") {
+                                const base = localStorage.getItem("baseCurrency") || "EUR";
+                                const quote = localStorage.getItem("quoteCurrency") || "USD";
+                                url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
+                            }
+                            if (location) url += `&location=${encodeURIComponent(location)}`;
+
+                            const resp = await fetch(url);
+                            wrapper.innerHTML = await resp.text();
+                        }
+
+                        wrapper.dataset.location = location;
+
+                        addCloseButton(wrapper, widgetName, key);
+                        attachInteractions(wrapper, widgetName);
+
+                        if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
+                        if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
+                        if (widgetName === "NewsWidget") initNewsWidget(wrapper);
+                        if (widgetName === "CountryInfoWidget") {
+                            if (!wrapper.id) wrapper.id = `countryWidget_${Date.now()}`;
+                            initCountryWidget(wrapper.id);
+                        }
+
+                        if (isNew) {
+                            wrapper.style.opacity = "0";
+                            wrapper.style.transition = "opacity 0.3s ease";
+                            requestAnimationFrame(() => wrapper.style.opacity = "1");
+                        }
+
+                        await saveWidgetState();
+                    } catch (err) {
+                        console.error("Chyba při načítání widgetu:", err);
+                    } finally {
+                        widgetLoadPromises.delete(key);
+                    }
+                })();
+
+                widgetLoadPromises.set(key, promise);
+                return promise;
             }
 
-            // -----------------------------
-            // Grafy – ForecastWeather
-            // -----------------------------
+            // ------------------------
+            // Grafy a widgety
+            // ------------------------
             function renderForecastCharts(wrapper) {
                 const charts = wrapper.querySelectorAll('.temperatureChart');
                 charts.forEach(canvas => {
@@ -189,169 +238,108 @@
                     const ctx = canvas.getContext('2d');
                     if (!ctx) return;
 
-                    const labels = JSON.parse(canvas.dataset.labels);
-                    const values = JSON.parse(canvas.dataset.values);
+                    const labels = JSON.parse(canvas.dataset.labels || '[]');
+                    const values = JSON.parse(canvas.dataset.values || '[]');
 
                     const chart = new Chart(ctx, {
                         type: 'line',
-                        data: {
-                            labels,
-                            datasets: [{
-                                label: 'Teplota (°C)',
-                                data: values,
-                                borderColor: 'rgba(75,192,192,1)',
-                                backgroundColor: 'rgba(75,192,192,0.2)',
-                                fill: true,
-                                tension: 0.4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                x: { title: { display: true, text: 'Čas' } },
-                                y: { title: { display: true, text: 'Teplota (°C)' } }
-                            }
-                        }
+                        data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, borderColor: 'rgba(75,192,192,1)', backgroundColor: 'rgba(75,192,192,0.2)', fill: true, tension: 0.4 }] },
+                        options: { responsive: true, maintainAspectRatio: false }
                     });
                     chartMap.set(canvas, chart);
                 });
             }
 
-            // -----------------------------
-            // Graf – CurrencyWidget
-            // -----------------------------
             function initCurrencyWidget(wrapper) {
                 const canvas = wrapper.querySelector("#rateChart");
                 if (!canvas) return;
-
                 const labels = JSON.parse(canvas.dataset.labels || '[]');
                 const data = JSON.parse(canvas.dataset.rates || '[]');
                 const label = canvas.dataset.label || '';
-
                 if (!labels.length || !data.length) return;
 
-                const ctx = canvas.getContext("2d");
-                new Chart(ctx, {
+                new Chart(canvas.getContext("2d"), {
                     type: 'line',
-                    data: {
-                        labels,
-                        datasets: [{
-                            label,
-                            data,
-                            fill: false,
-                            borderColor: 'rgba(54,162,235,1)',
-                            backgroundColor: 'rgba(54,162,235,0.2)',
-                            tension: 0.3,
-                            borderWidth: 2,
-                            pointRadius: 4,
-                            pointHoverRadius: 6,
-                            pointBackgroundColor: 'rgba(54,162,235,1)'
-                        }]
-                    },
-                    options: { responsive: true, plugins: { legend: { display: true, position: 'bottom' } } }
+                    data: { labels, datasets: [{ label, data, fill: false, borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.2)', tension: 0.3 }] }
                 });
             }
 
-            // -----------------------------
-            // Interakce widgetů
-            // -----------------------------
             function attachInteractions(wrapper, widgetName) {
-                // Přepínání °C/°F
                 const toggleBtn = wrapper.querySelector('#toggleUnit');
                 toggleBtn?.addEventListener('click', () => {
                     const tempEl = wrapper.querySelector('h2');
                     if (!tempEl) return;
-                    if (tempEl.textContent.includes('°C'))
-                        tempEl.textContent = tempEl.dataset.fahrenheit + '°F';
-                    else
-                        tempEl.textContent = tempEl.dataset.celsius + '°C';
+                    tempEl.textContent = tempEl.textContent.includes('°C') ? tempEl.dataset.fahrenheit + '°F' : tempEl.dataset.celsius + '°C';
                 });
 
-                // Weather formuláře
                 const form = wrapper.querySelector('#locationForm');
                 form?.addEventListener('submit', async e => {
                     e.preventDefault();
-                    const input = form.querySelector('input[name="location"]');
-                    await loadWidget(widgetName, input.value);
+                    await loadWidget(widgetName, form.querySelector('input[name="location"]').value);
                 });
 
                 const forecastForm = wrapper.querySelector('#forecastLocationForm');
                 forecastForm?.addEventListener('submit', async e => {
                     e.preventDefault();
-                    const input = forecastForm.querySelector('input[name="location"]');
-                    await loadWidget(widgetName, input.value);
+                    await loadWidget(widgetName, forecastForm.querySelector('input[name="location"]').value);
                 });
 
-                // CurrencyWidget formulář
                 if (widgetName === "CurrencyWidget") {
                     const currencyForm = wrapper.querySelector('#currencyForm');
-                    const baseSelect = wrapper.querySelector('#baseCurrency');
-                    const quoteSelect = wrapper.querySelector('#quoteCurrency');
+                    const base = wrapper.querySelector('#baseCurrency');
+                    const quote = wrapper.querySelector('#quoteCurrency');
 
                     const savedBase = localStorage.getItem("baseCurrency");
                     const savedQuote = localStorage.getItem("quoteCurrency");
-
-                    if (savedBase && baseSelect?.querySelector(`option[value="${savedBase}"]`)) baseSelect.value = savedBase;
-                    if (savedQuote && quoteSelect?.querySelector(`option[value="${savedQuote}"]`)) quoteSelect.value = savedQuote;
+                    if (savedBase && base?.querySelector(`option[value="${savedBase}"]`)) base.value = savedBase;
+                    if (savedQuote && quote?.querySelector(`option[value="${savedQuote}"]`)) quote.value = savedQuote;
 
                     currencyForm?.addEventListener("submit", async e => {
                         e.preventDefault();
-                        localStorage.setItem("baseCurrency", baseSelect.value);
-                        localStorage.setItem("quoteCurrency", quoteSelect.value);
+                        localStorage.setItem("baseCurrency", base.value);
+                        localStorage.setItem("quoteCurrency", quote.value);
                         await loadWidget(widgetName);
                     });
                 }
             }
 
-            // -----------------------------
-            // Tlačítko zavření widgetu
-            // -----------------------------
-            function addCloseButton(wrapper, widgetName) {
+            function addCloseButton(wrapper, widgetName, key) {
                 if (wrapper.querySelector('.close-widget-btn')) return;
-
                 const closeBtn = document.createElement('button');
                 closeBtn.textContent = '×';
-                closeBtn.classList.add('btn', 'btn-sm', 'btn-danger', 'close-widget-btn');
+                closeBtn.classList.add('btn','btn-sm','btn-danger','close-widget-btn');
                 closeBtn.style.position = "absolute";
                 closeBtn.style.top = "5px";
                 closeBtn.style.right = "5px";
-
                 closeBtn.addEventListener('click', () => {
-                    wrapper.style.transition = "opacity 0.3s ease";
                     wrapper.style.opacity = "0";
                     setTimeout(() => {
                         wrapper.remove();
-                        activeWidgets.delete(widgetName);
+                        activeWidgets.delete(key);
                         saveWidgetState();
                     }, 300);
                 });
-
                 wrapper.appendChild(closeBtn);
             }
 
-            // -----------------------------
-            // Kliknutí na menu odkazy
-            // -----------------------------
+            // ------------------------
+            // Widget links
+            // ------------------------
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
-                    const widgetName = link.getAttribute('data-widget');
-                    loadWidget(widgetName);
+                    const name = normalizeWidgetName(link.getAttribute('data-widget'));
+                    const key = getWidgetKey(name, "");
+                    if (!activeWidgets.has(key)) loadWidget(name);
                 });
             });
 
-            // -----------------------------
-            // Auto-save při zavření stránky
-            // -----------------------------
             window.addEventListener('unload', saveWidgetState);
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') saveWidgetState();
-            });
+            document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveWidgetState(); });
 
-            // -----------------------------
-            // Login AJAX
-            // -----------------------------
+            // ------------------------
+            // Login
+            // ------------------------
             const loginForm = document.getElementById('loginForm');
             const loginError = document.getElementById('loginError');
 
@@ -373,18 +361,29 @@
                     }
                     loginError.textContent = "";
                     localStorage.setItem('jwtToken', data.token);
-                    const modalEl = document.getElementById('loginModal');
-                    bootstrap.Modal.getInstance(modalEl)?.hide();
-                } catch (err) {
-                    console.error(err);
+                    bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
+
+                    // Po přihlášení synchronizace s CouchDB
+                    const couchData = await fetchWidgetsFromCouchDB();
+                    for (const w of couchData) {
+                        const key = getWidgetKey(w.name, w.location);
+                        if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
+                    }
+                    localStorage.setItem("openWidgets", JSON.stringify(couchData));
+                } catch {
                     loginError.textContent = "Nepodařilo se přihlásit.";
                 }
             });
-        });
 
-        window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(await Context.RequestServices
-                .GetService<WebApplication1.Service.CountryInfoService>()
-                .GetAllCountriesAsync()));
+            // ------------------------
+            // Countries
+            // ------------------------
+            window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                                                await Context.RequestServices
+                                                                                                .GetService<WebApplication1.Service.CountryInfoService>()
+                                                                                                .GetAllCountriesAsync()
+                                                ));
+        });
     </script>
 </body>
 </html>

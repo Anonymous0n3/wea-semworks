@@ -157,7 +157,7 @@ namespace WebApplication1.Service
                 Name = name,
                 Email = email,
                 PasswordHash = hash,
-                DashboardStateJson = "[]"
+                OpenWidgets = new List<UserWidgetState>()   // <-- pouze tohle
             };
 
             var encodedId = Uri.EscapeDataString(user._id);
@@ -229,34 +229,15 @@ namespace WebApplication1.Service
         }
 
         // ---------------------------
-        // Widgety
+        // Widgety – OPRAVENÉ
         // ---------------------------
         public async Task<List<UserWidgetState>> GetUserWidgetsAsync(string email)
         {
             var user = await GetUserByEmailAsync(email);
-            if (user == null) return new List<UserWidgetState>();
-
-            try
-            {
-                if (string.IsNullOrWhiteSpace(user.DashboardStateJson))
-                    return new List<UserWidgetState>();
-
-                var json = user.DashboardStateJson.Trim();
-
-                // pokud CouchDB vrátila JSON jako string "[{...}]", zkusíme nejdřív rozbalit
-                if (json.StartsWith("\"") && json.EndsWith("\""))
-                {
-                    json = JsonSerializer.Deserialize<string>(json) ?? "[]";
-                }
-
-                return JsonSerializer.Deserialize<List<UserWidgetState>>(json, _jsonOptions)
-                       ?? new List<UserWidgetState>();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"[Widgets] Chyba při deserializaci DashboardStateJson: {ex.Message}");
+            if (user == null)
                 return new List<UserWidgetState>();
-            }
+
+            return user.OpenWidgets ?? new List<UserWidgetState>();
         }
 
         public async Task<bool> SaveUserWidgetsAsync(string email, List<UserWidgetState> widgets)
@@ -264,18 +245,12 @@ namespace WebApplication1.Service
             if (widgets == null)
                 widgets = new List<UserWidgetState>();
 
-            var jsonOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-            };
-
             async Task<bool> PutWithRevAsync(UserDoc userDoc)
             {
                 var encodedId = Uri.EscapeDataString(userDoc._id);
                 var url = $"{_couchBase}/{_dbName}/{encodedId}";
 
-                var json = JsonSerializer.Serialize(userDoc, jsonOptions);
+                var json = JsonSerializer.Serialize(userDoc, _jsonOptions);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _client.PutAsync(url, content);
@@ -288,67 +263,47 @@ namespace WebApplication1.Service
                     using var doc = JsonDocument.Parse(responseBody);
                     if (doc.RootElement.TryGetProperty("rev", out var revEl))
                         userDoc._rev = revEl.GetString();
+
                     return true;
                 }
 
                 return false;
             }
 
-            // 1️⃣ Načti aktuální dokument
+            // 1) Najdi usera
             var user = await GetUserByEmailAsync(email);
             if (user == null)
-            {
-                _logger.LogInformation($"[CouchDB] User {email} not found.");
                 return false;
-            }
 
-            // 2️⃣ Aktualizuj data widgetů
-            user.DashboardStateJson = JsonSerializer.Serialize(widgets, jsonOptions);
+            // 2) Ulož pouze OpenWidgets
             user.OpenWidgets = widgets;
 
-            // 3️⃣ Zkus první PUT
-            var success = await PutWithRevAsync(user);
-            if (success)
-            {
-                _logger.LogInformation("[CouchDB] Widgety úspěšně uloženy.");
+            // 3) Pokus o save
+            if (await PutWithRevAsync(user))
                 return true;
-            }
 
-            // 4️⃣ Pokud konflikt – načti nejnovější rev a zkus znovu
+            // 4) Pokud konflikt, načti čerstvou revizi a opakuj
             _logger.LogInformation("[CouchDB] Conflict detected – retrying with fresh _rev...");
             var freshUser = await GetUserByEmailAsync(email);
             if (freshUser == null)
-            {
-                _logger.LogInformation("[CouchDB] Retry failed – user not found.");
                 return false;
-            }
 
-            freshUser.DashboardStateJson = JsonSerializer.Serialize(widgets, jsonOptions);
             freshUser.OpenWidgets = widgets;
 
-            var retrySuccess = await PutWithRevAsync(freshUser);
-            if (retrySuccess)
-            {
-                _logger.LogInformation("[CouchDB] Retry succeeded – widgety uloženy.");
-                return true;
-            }
-
-            _logger.LogInformation("[CouchDB] Retry failed – document still in conflict.");
-            return false;
+            return await PutWithRevAsync(freshUser);
         }
 
+        // Testovací metoda nechána beze změn, jen používá nové uložení
         public async Task TestSaveUserWidgetsAsync()
         {
             string testEmail = "vojtech.zmolik@tul.cz";
 
-            // 1️⃣ Připrav testovací widgety
             var widgets = new List<UserWidgetState>
-    {
-        new UserWidgetState { Name = "ForecastWeather", Location = "Prague" },
-        new UserWidgetState { Name = "NewsFeed", Location = "Global" }
-    };
+            {
+                new UserWidgetState { Name = "ForecastWeather", Location = "Prague" },
+                new UserWidgetState { Name = "NewsFeed", Location = "Global" }
+            };
 
-            // 2️⃣ Ulož widgety
             bool saved = await SaveUserWidgetsAsync(testEmail, widgets);
             _logger.LogInformation($"[Test] SaveUserWidgetsAsync result: {saved}");
 
@@ -358,20 +313,14 @@ namespace WebApplication1.Service
                 return;
             }
 
-            // 3️⃣ Načti widgety z CouchDB
             var loadedWidgets = await GetUserWidgetsAsync(testEmail);
             _logger.LogInformation($"[Test] Načteno {loadedWidgets.Count} widgetů");
 
             foreach (var w in loadedWidgets)
-            {
                 _logger.LogInformation($"[Test] Widget: Name={w.Name}, Location={w.Location}");
-            }
 
-            // 4️⃣ Kontrola, jestli jsou všechny widgety uložené správně
             bool allMatch = widgets.All(w => loadedWidgets.Any(lw => lw.Name == w.Name && lw.Location == w.Location));
             _logger.LogInformation($"[Test] Všechny widgety uloženy správně: {allMatch}");
         }
-
-
     }
 }

@@ -32,14 +32,14 @@ namespace WebApplication1.Service
             {
                 _logger.LogWarning("[NewsBackgroundJob]  🕒 Background job running...");
 
-                foreach (var category in _categories)
-                {
-                    var news = _repository.GetRandomByCategory(category);
+                    var news = _repository.GetRandomByCategories(_categories);
                     if (news != null)
                     {
-                        await _mqttService.PublishNewsAsync(news);
+                    foreach (var item in news)
+                    {
+                        await _mqttService.PublishNewsAsync(item);
                     }
-                }
+                    }
 
                 _logger.LogWarning("[NewsBackgroundJob] ✅ News published, waiting 5 hours...");
                 await Task.Delay(TimeSpan.FromHours(5), stoppingToken);

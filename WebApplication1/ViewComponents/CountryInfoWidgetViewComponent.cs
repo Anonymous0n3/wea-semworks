@@ -5,6 +5,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.ViewComponents
 {
+    [ViewComponent(Name = "CountryInfoWidget")]
     public class CountryInfoWidgetViewComponent : ViewComponent
     {
         private readonly CountryInfoService _service;

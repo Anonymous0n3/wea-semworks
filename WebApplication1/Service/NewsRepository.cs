@@ -31,12 +31,26 @@ namespace WebApplication1.Service
                         ?? new List<NewsMessage>();
         }
 
-        public NewsMessage GetRandomByCategory(string category)
+        public List<NewsMessage> GetRandomByCategories(string[] categories)
         {
             var rnd = new Random();
-            var filtered = _allNews.Where(n => n.Category == category).ToList();
-            if (filtered.Count == 0) return null;
-            return filtered[rnd.Next(filtered.Count)];
+            var result = new List<NewsMessage>();
+
+            foreach (var category in categories)
+            {
+                var filtered = _allNews.Where(n => n.Category == category).ToList();
+                if (filtered.Count == 0)
+                {
+                    result.Add(null); // nebo vynechej, pokud nechceš null
+                    continue;
+                }
+
+                var randomNews = filtered[rnd.Next(filtered.Count)];
+                result.Add(randomNews);
+            }
+
+            return result;
         }
+
     }
 }
