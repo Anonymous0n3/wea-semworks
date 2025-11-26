@@ -74,41 +74,16 @@
 
     @await RenderSectionAsync("Scripts", required: false)
 
+    <!-- Inicializace dat ze serveru - mimo DOMContentLoaded -->
     <script>
-        function getWidgetKey(name, location) {
-            return name + "::" + (location || "");
-        }
+        window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                        await Context.RequestServices
+                                .GetService<WebApplication1.Service.CountryInfoService>()
+                                .GetAllCountriesAsync()
+                ));
+    </script>
 
-        function normalizeWidgetName(name) {
-            if (!name) return "";
-            return name
-                .split(/[^a-zA-Z0-9]/)
-                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-                .join('');
-        }
-
-        async function fetchWidgetsFromCouchDB() {
-            const token = localStorage.getItem('jwtToken');
-            if (!token) return [];
-
-            try {
-                const resp = await fetch("/api/auth/widgets", {
-                    method: "GET",
-                    headers: { "Authorization": "Bearer " + token }
-                });
-                if (!resp.ok) return [];
-
-                const data = await resp.json();
-                if (!Array.isArray(data)) return [];
-                return data
-                    .map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }))
-                    .filter(w => w.name);
-            } catch (err) {
-                console.error("❌ Chyba CouchDB:", err);
-                return [];
-            }
-        }
-
+    <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
@@ -117,32 +92,41 @@
             const token = localStorage.getItem("jwtToken");
 
             // ------------------------
-            // 1️⃣ Načtení widgetů z localStorage
+            // Helpers
             // ------------------------
-            const savedWidgets = JSON.parse(localStorage.getItem("openWidgets") || "[]");
-            for (const w of savedWidgets) {
-                const key = getWidgetKey(w.name, w.location);
-                if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
+            function getWidgetKey(name, location) {
+                return name + "::" + (location || "");
             }
 
-            // ------------------------
-            // 2️⃣ Synchronizace s CouchDB
-            // ------------------------
-            if (token) {
-                const couchData = await fetchWidgetsFromCouchDB();
-                for (const w of couchData) {
-                    const key = getWidgetKey(w.name, w.location);
-                    if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
+            function normalizeWidgetName(name) {
+                if (!name) return "";
+                return name
+                    .split(/[^a-zA-Z0-9]/)
+                    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                    .join('');
+            }
+
+            async function fetchWidgetsFromCouchDB() {
+                if (!token) return [];
+                try {
+                    const resp = await fetch("/api/auth/widgets", {
+                        method: "GET",
+                        headers: { "Authorization": "Bearer " + token }
+                    });
+                    if (!resp.ok) return [];
+                    const data = await resp.json();
+                    if (!Array.isArray(data)) return [];
+                    return data.map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "", raw: w }))
+                               .filter(w => w.name);
+                } catch (err) {
+                    console.error("❌ Chyba CouchDB:", err);
+                    return [];
                 }
-                localStorage.setItem("openWidgets", JSON.stringify(couchData));
             }
 
-            // ------------------------
-            // Funkce pro ukládání widgetů
-            // ------------------------
             async function saveWidgetState() {
-                const widgets = Array.from(activeWidgets.entries()).map(([key]) => {
-                    const [name, location] = key.split("::");
+                const widgets = Array.from(activeWidgets.keys()).map(k => {
+                    const [name, location] = k.split("::");
                     return { name, location };
                 });
                 localStorage.setItem("openWidgets", JSON.stringify(widgets));
@@ -163,24 +147,30 @@
             }
 
             // ------------------------
-            // Funkce pro načtení widgetu
+            // loadWidget
             // ------------------------
-            async function loadWidget(widgetName, location = '') {
+            async function loadWidget(widgetName, location = '', optionsRaw = null) {
                 const key = getWidgetKey(widgetName, location);
 
                 if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
 
-                let wrapper = activeWidgets.get(key);
-                const isNew = !wrapper;
+                let widgetObj = activeWidgets.get(key);
+                const isNew = !widgetObj;
 
-                if (!wrapper) {
-                    wrapper = document.createElement('div');
+                if (!widgetObj) {
+                    const wrapper = document.createElement('div');
                     wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
                     wrapper.dataset.widgetKey = key;
                     wrapper.dataset.location = location;
                     container.appendChild(wrapper);
-                    activeWidgets.set(key, wrapper);
+
+                    widgetObj = { wrapper, raw: optionsRaw || null };
+                    activeWidgets.set(key, widgetObj);
+                } else {
+                    if (optionsRaw) widgetObj.raw = optionsRaw;
                 }
+
+                const { wrapper } = widgetObj;
 
                 const promise = (async () => {
                     try {
@@ -200,14 +190,15 @@
                         wrapper.dataset.location = location;
 
                         addCloseButton(wrapper, widgetName, key);
-                        attachInteractions(wrapper, widgetName);
+                        attachInteractions(wrapper, widgetName, widgetObj.raw);
 
                         if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
                         if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
                         if (widgetName === "NewsWidget") initNewsWidget(wrapper);
                         if (widgetName === "CountryInfoWidget") {
-                            if (!wrapper.id) wrapper.id = `countryWidget_${Date.now()}`;
-                            initCountryWidget(wrapper.id);
+                            const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
+                            wrapper.id = wrapperId;
+                            initCountryWidget(wrapperId); // pracuje s existujícím wrapperem
                         }
 
                         if (isNew) {
@@ -237,13 +228,11 @@
                     if (chartMap.has(canvas)) chartMap.get(canvas).destroy();
                     const ctx = canvas.getContext('2d');
                     if (!ctx) return;
-
                     const labels = JSON.parse(canvas.dataset.labels || '[]');
                     const values = JSON.parse(canvas.dataset.values || '[]');
-
                     const chart = new Chart(ctx, {
                         type: 'line',
-                        data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, borderColor: 'rgba(75,192,192,1)', backgroundColor: 'rgba(75,192,192,0.2)', fill: true, tension: 0.4 }] },
+                        data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, fill: true, tension: 0.4 }] },
                         options: { responsive: true, maintainAspectRatio: false }
                     });
                     chartMap.set(canvas, chart);
@@ -257,49 +246,73 @@
                 const data = JSON.parse(canvas.dataset.rates || '[]');
                 const label = canvas.dataset.label || '';
                 if (!labels.length || !data.length) return;
-
                 new Chart(canvas.getContext("2d"), {
                     type: 'line',
-                    data: { labels, datasets: [{ label, data, fill: false, borderColor: 'rgba(54,162,235,1)', backgroundColor: 'rgba(54,162,235,0.2)', tension: 0.3 }] }
+                    data: { labels, datasets: [{ label, data, fill: false, tension: 0.3 }] }
                 });
             }
 
-            function attachInteractions(wrapper, widgetName) {
-                const toggleBtn = wrapper.querySelector('#toggleUnit');
-                toggleBtn?.addEventListener('click', () => {
-                    const tempEl = wrapper.querySelector('h2');
-                    if (!tempEl) return;
-                    tempEl.textContent = tempEl.textContent.includes('°C') ? tempEl.dataset.fahrenheit + '°F' : tempEl.dataset.celsius + '°C';
-                });
+            function attachInteractions(wrapper, widgetName, rawData = null) {
+                if (!wrapper.dataset.toggleInit) {
+                    const toggleBtn = wrapper.querySelector('#toggleUnit');
+                    toggleBtn?.addEventListener('click', () => {
+                        const tempEl = wrapper.querySelector('h2');
+                        if (!tempEl) return;
+                        tempEl.textContent = tempEl.textContent.includes('°C') ? tempEl.dataset.fahrenheit + '°F' : tempEl.dataset.celsius + '°C';
+                    });
+                    wrapper.dataset.toggleInit = "1";
+                }
 
-                const form = wrapper.querySelector('#locationForm');
-                form?.addEventListener('submit', async e => {
-                    e.preventDefault();
-                    await loadWidget(widgetName, form.querySelector('input[name="location"]').value);
-                });
+                if (!wrapper.dataset.locationFormInit) {
+                    const form = wrapper.querySelector('#locationForm');
+                    form?.addEventListener('submit', async e => {
+                        e.preventDefault();
+                        await loadWidget(widgetName, form.querySelector('input[name="location"]').value);
+                    });
+                    wrapper.dataset.locationFormInit = "1";
+                }
 
-                const forecastForm = wrapper.querySelector('#forecastLocationForm');
-                forecastForm?.addEventListener('submit', async e => {
-                    e.preventDefault();
-                    await loadWidget(widgetName, forecastForm.querySelector('input[name="location"]').value);
-                });
+                if (!wrapper.dataset.forecastFormInit) {
+                    const forecastForm = wrapper.querySelector('#forecastLocationForm');
+                    forecastForm?.addEventListener('submit', async e => {
+                        e.preventDefault();
+                        await loadWidget(widgetName, forecastForm.querySelector('input[name="location"]').value);
+                    });
+                    wrapper.dataset.forecastFormInit = "1";
+                }
 
                 if (widgetName === "CurrencyWidget") {
-                    const currencyForm = wrapper.querySelector('#currencyForm');
                     const base = wrapper.querySelector('#baseCurrency');
                     const quote = wrapper.querySelector('#quoteCurrency');
+                    if (rawData) {
+                        if (rawData.baseCurrency && base?.querySelector(`option[value="${rawData.baseCurrency}"]`)) base.value = rawData.baseCurrency;
+                        if (rawData.quoteCurrency && quote?.querySelector(`option[value="${rawData.quoteCurrency}"]`)) quote.value = rawData.quoteCurrency;
+                    } else {
+                        const savedBase = localStorage.getItem("baseCurrency");
+                        const savedQuote = localStorage.getItem("quoteCurrency");
+                        if (savedBase && base?.querySelector(`option[value="${savedBase}"]`)) base.value = savedBase;
+                        if (savedQuote && quote?.querySelector(`option[value="${savedQuote}"]`)) quote.value = savedQuote;
+                    }
 
-                    const savedBase = localStorage.getItem("baseCurrency");
-                    const savedQuote = localStorage.getItem("quoteCurrency");
-                    if (savedBase && base?.querySelector(`option[value="${savedBase}"]`)) base.value = savedBase;
-                    if (savedQuote && quote?.querySelector(`option[value="${savedQuote}"]`)) quote.value = savedQuote;
+                    if (!wrapper.dataset.currencyInit) {
+                        const currencyForm = wrapper.querySelector('#currencyForm');
+                        currencyForm?.addEventListener("submit", async e => {
+                            e.preventDefault();
+                            localStorage.setItem("baseCurrency", base.value);
+                            localStorage.setItem("quoteCurrency", quote.value);
+                            await loadWidget(widgetName);
+                        });
+                        wrapper.dataset.currencyInit = "1";
+                    }
+                }
 
-                    currencyForm?.addEventListener("submit", async e => {
-                        e.preventDefault();
-                        localStorage.setItem("baseCurrency", base.value);
-                        localStorage.setItem("quoteCurrency", quote.value);
-                        await loadWidget(widgetName);
-                    });
+                if (widgetName === "CountryInfoWidget") {
+                    const input = wrapper.querySelector('.input-country');
+                    const datalist = wrapper.querySelector('datalist');
+                    if (input && datalist && window.allCountries && Array.isArray(window.allCountries) && !datalist.dataset.populated) {
+                        datalist.innerHTML = window.allCountries.map(c => `<option value="${c.name}">`).join('');
+                        datalist.dataset.populated = "1";
+                    }
                 }
             }
 
@@ -323,8 +336,38 @@
             }
 
             // ------------------------
-            // Widget links
+            // Inicializace widgetů
             // ------------------------
+            const savedWidgetsRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
+            const savedWidgets = Array.from(
+                new Map(savedWidgetsRaw.map(w => [getWidgetKey(normalizeWidgetName(w.name), w.location || ""), w])).values()
+            ).map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }));
+
+            if (token) {
+                const couchData = await fetchWidgetsFromCouchDB();
+                const merged = Array.from(
+                    new Map([...savedWidgets.map(w => [getWidgetKey(w.name, w.location), w]), ...couchData.map(w => [getWidgetKey(w.name, w.location), w])])
+                    .values()
+                );
+
+                for (const w of merged) {
+                    const key = getWidgetKey(w.name, w.location);
+                    if (!activeWidgets.has(key)) {
+                        await loadWidget(w.name, w.location, w.raw);
+                    } else {
+                        const entry = activeWidgets.get(key);
+                        entry.raw = w.raw || entry.raw;
+                        attachInteractions(entry.wrapper, w.name, entry.raw);
+                    }
+                }
+
+                localStorage.setItem("openWidgets", JSON.stringify(merged.map(m => ({ name: m.name, location: m.location }))));
+            } else {
+                for (const w of savedWidgets) {
+                    await loadWidget(w.name, w.location);
+                }
+            }
+
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
@@ -363,27 +406,35 @@
                     localStorage.setItem('jwtToken', data.token);
                     bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
 
-                    // Po přihlášení synchronizace s CouchDB
                     const couchData = await fetchWidgetsFromCouchDB();
-                    for (const w of couchData) {
+                    const currentSaved = JSON.parse(localStorage.getItem("openWidgets") || "[]").map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }));
+                    const merged = Array.from(
+                        new Map([...currentSaved.map(w => [getWidgetKey(w.name, w.location), w]), ...couchData.map(w => [getWidgetKey(w.name, w.location), w])])
+                        .values()
+                    );
+
+                    for (const w of merged) {
                         const key = getWidgetKey(w.name, w.location);
-                        if (!activeWidgets.has(key)) await loadWidget(w.name, w.location);
+                        if (!activeWidgets.has(key)) {
+                            await loadWidget(w.name, w.location, w.raw);
+                        } else {
+                            const entry = activeWidgets.get(key);
+                            entry.raw = w.raw || entry.raw;
+                            attachInteractions(entry.wrapper, w.name, entry.raw);
+                        }
                     }
-                    localStorage.setItem("openWidgets", JSON.stringify(couchData));
-                } catch {
+
+                    localStorage.setItem("openWidgets", JSON.stringify(merged.map(m => ({ name: m.name, location: m.location }))));
+                } catch (err) {
+                    console.error(err);
                     loginError.textContent = "Nepodařilo se přihlásit.";
                 }
             });
-
-            // ------------------------
-            // Countries
-            // ------------------------
-            window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
-                                                                await Context.RequestServices
-                                                                                                .GetService<WebApplication1.Service.CountryInfoService>()
-                                                                                                .GetAllCountriesAsync()
-                                                ));
         });
     </script>
+
+
+
+
 </body>
 </html>
