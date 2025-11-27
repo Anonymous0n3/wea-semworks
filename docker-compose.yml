@@ -34,7 +34,7 @@ services:
 
   caddy:
     build:
-      context: ./caddy # Odkaz na složku s Caddy Dockerfile
+      context: ./caddy
     restart: always
     ports:
       # Expose HTTP port 84 (pro redirect) a HTTPS port 447
@@ -45,7 +45,7 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./self-signed-cert.pfx:/etc/caddy/self-signed-cert.pfx
     depends_on:
-      - webapplication1 # Caddy musí poèkat na backend
+      - webapplication1
       
 volumes:
   couchdb-data:
