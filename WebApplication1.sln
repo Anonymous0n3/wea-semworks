@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Položky řešení", "Položky řešení", "{73E6DEBC-5D85-E032-7380-14D1E53616C6}"
 	ProjectSection(SolutionItems) = preProject
 		Caddyfile = Caddyfile
+		caddy_config\Dockerfile = caddy_config\Dockerfile
 		wea.pfx = wea.pfx
 	EndProjectSection
 EndProject

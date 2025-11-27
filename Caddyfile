@@ -1,0 +1,21 @@
+# Doména, kterou Caddy poslouchá
+wea.nti.tul.cz:447 {
+    # Nastaví cestu pro hledání certifikátu (.pfx) a jeho heslo
+    tls /etc/caddy/self-signed-cert.pfx StrongPfxPassword
+
+    # Reverzní proxy: Pøepošle poadavky na backendovou slubu (webapplication1)
+    reverse_proxy /sk04-web* webapplication1:8080
+
+    # Zajišuje, e Caddy bude správnì pøedávat hlavièky, aby se aplikaèní server
+    # domníval, e komunikuje pøes HTTPS.
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-Proto https
+    header_up X-Forwarded-Port 447
+}
+
+# HTTP blok - automatické pøesmìrování
+# Poslouchá na HTTP portu 84 a pøesmìrovává na HTTPS (port 447)
+:84 {
+    redir https://wea.nti.tul.cz:447{uri}
+}
