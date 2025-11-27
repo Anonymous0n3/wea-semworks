@@ -208,6 +208,7 @@ builder.Services.AddHostedService<NewsBackgroundJob>();
 // ---- Build app ----
 var app = builder.Build();
 
+app.UsePathBase("/sk04-web");
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
