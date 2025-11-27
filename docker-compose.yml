@@ -36,8 +36,8 @@ services:
       - "84:84"
       - "447:447"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./self-signed-cert.pfx:/etc/caddy/self-signed-cert.pfx
+      - ./Caddyfile:/etc/caddy_config/Caddyfile
+      - ./wea.pfx:/etc/caddy_config/wea.pfx
     depends_on:
       - webapplication1
       
