@@ -1,16 +1,7 @@
-﻿# HTTP → HTTPS redirect
-:80 {
-    redir https://{host}{uri} 301
-}
-
-# HTTPS reverse proxy
-wea.nti.tul.cz:443 {
+﻿wea.nti.tul.cz:443 {
     tls /etc/caddy/certs/wea.crt /etc/caddy/certs/wea.key
 
-    # Přesměrování cesty /sk04-web na backend
-    handle_path /sk04-web* {
-        reverse_proxy webapplication1:8080
-    }
+    reverse_proxy /sk04-web* webapplication1:8080
 
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
