@@ -2,15 +2,13 @@ version: '3.8'
 
 services:
   caddy:
-    image: caddy:2.7.6-alpine # Doporuèená stabilní verze
+    image: caddy:2.7.6-alpine
     restart: always
     ports:
       - "84:84"
       - "447:447"
     volumes:
-      # Mapování Caddyfile
       - ./Caddyfile:/etc/caddy/Caddyfile
-      # Nové mapování pro certifikát a privátní klíè
       - ./wea.crt:/etc/caddy/wea.crt
       - ./wea.key:/etc/caddy/wea.key
     depends_on:
