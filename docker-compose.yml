@@ -1,12 +1,25 @@
 version: '3.8'
 
 services:
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/certs:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - appnet
+
   webapplication1:
     build:
       context: .
       dockerfile: WebApplication1/Dockerfile
-    ports:
-      - "8003:8080"
     environment:
       - COUCHDB_URL=http://couchdb:5984
       - COUCHDB_USER=admin
@@ -17,19 +30,28 @@ services:
     depends_on:
       - couchdb
     volumes:
-      - /home/cerny/logs/sk04:/var/log/webapp
+      - /home/cerny/logs/sk04:/var/log/webapp   # funguje na Windows i Linux
+    networks:
+      - appnet
 
   couchdb:
     image: couchdb:3.3
     ports:
-      - "5987:5984"
+      - "5987:5984"  # Admin port vystavený ven
     environment:
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=adminpassword
       - COUCHDB_SINGLE_NODE=true
     volumes:
       - couchdb-data:/opt/couchdb/data
+    networks:
+      - appnet
 
 volumes:
+  caddy_data:
+  caddy_config:
   couchdb-data:
-  webapp-logs:
+
+networks:
+  appnet:
+    driver: bridge

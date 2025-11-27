@@ -1,0 +1,18 @@
+# HTTP → HTTPS redirect
+:80 {
+    redir https://{host}{uri} 301
+}
+
+# HTTPS reverse proxy
+wea.nti.tul.cz:443 {
+    tls /etc/caddy/certs/wea.crt /etc/caddy/certs/wea.key
+
+    reverse_proxy webapplication1:8080
+
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy no-referrer
+    }
+}
