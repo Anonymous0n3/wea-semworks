@@ -8,9 +8,7 @@ services:
       - "84:84"
       - "447:447"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./wea.crt:/etc/caddy/wea.crt
-      - ./wea.key:/etc/caddy/wea.key
+      - ./caddy_config:/etc/caddy/
     depends_on:
       - webapplication1
       
