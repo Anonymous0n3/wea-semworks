@@ -30,14 +30,23 @@ services:
 
   caddy:
     build:
-      context: ./caddy
+      context: .
+      args:
+        DOCKERFILE_CONTENT: |
+          FROM caddy:latest AS builder
+          RUN apt update && apt install -y git
+          RUN xcaddy build \
+            --with github.com/caddy-dns/pkcs12
+          FROM caddy:latest
+          COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+    
     restart: always
     ports:
       - "84:84"
       - "447:447"
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy/wea.pfx:/etc/caddy/wea.pfx
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./wea.pfx:/etc/caddy/wea.pfx
     depends_on:
       - webapplication1
       

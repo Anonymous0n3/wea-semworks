@@ -1,7 +1,7 @@
 # Doména, kterou Caddy poslouchá
 wea.nti.tul.cz:447 {
     # Nastaví cestu pro hledání certifikátu (.pfx) a jeho heslo
-    tls /etc/caddy/wea.pfx StrongPfxPassword
+    tls ./wea.pfx StrongPfxPassword
 
     # Reverzní proxy: Pøepošle požadavky na backendovou službu (webapplication1)
     reverse_proxy /sk04-web* webapplication1:8080
