@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   caddy:
     image: caddy:2
@@ -30,14 +28,14 @@ services:
     depends_on:
       - couchdb
     volumes:
-      - /home/cerny/logs/sk04:/var/log/webapp   # funguje na Windows i Linux
+      - /home/cerny/logs/sk04:/var/log/webapp
     networks:
       - appnet
 
   couchdb:
     image: couchdb:3.3
     ports:
-      - "5987:5984"  # Admin port vystavený ven
+      - "5987:5984"
     environment:
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=adminpassword
