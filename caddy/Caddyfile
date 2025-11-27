@@ -1,7 +1,14 @@
-﻿wea.nti.tul.cz:443 {
+﻿:80 {
+    redir https://{host}{uri} 301
+}
+
+wea.nti.tul.cz:443 {
     tls /etc/caddy/certs/wea.crt /etc/caddy/certs/wea.key
 
-    reverse_proxy /sk04-web* webapplication1:8080
+    # PathBase middleware pro ASP.NET
+    handle_path /sk04-web* {
+        reverse_proxy webapplication1:8080
+    }
 
     header {
         Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"

@@ -1,19 +1,4 @@
 services:
-  caddy:
-    image: caddy:2
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./caddy/certs:/etc/caddy/certs:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    networks:
-      - appnet
-
   webapplication1:
     build:
       context: .
@@ -27,8 +12,31 @@ services:
       - ASPNETCORE_URLS=http://+:8080
     depends_on:
       - couchdb
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
     volumes:
       - /home/cerny/logs/sk04:/var/log/webapp
+    networks:
+      - appnet
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: unless-stopped
+    depends_on:
+      webapplication1:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/certs:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
     networks:
       - appnet
 
