@@ -1,11 +1,10 @@
-﻿:80 {
-    redir https://{host}{uri} 301
+﻿:84 {
+    redir https://{host}:447{uri} 301
 }
 
-wea.nti.tul.cz:443 {
+wea.nti.tul.cz:447 {
     tls /etc/caddy/certs/wea.crt /etc/caddy/certs/wea.key
 
-    # PathBase middleware pro ASP.NET
     handle_path /sk04-web* {
         reverse_proxy webapplication1:8080
     }
