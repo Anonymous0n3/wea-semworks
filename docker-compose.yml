@@ -5,9 +5,6 @@ services:
     build:
       context: .
       dockerfile: WebApplication1/Dockerfile
-    # !!! DÙLEŽITÉ: Odebíráme expose portù, aby nešlo proxy obejít !!!
-    # ports:
-    #   - "8003:8080"
     environment:
       - COUCHDB_URL=http://couchdb:5984
       - COUCHDB_USER=admin
@@ -22,7 +19,6 @@ services:
 
   couchdb:
     image: couchdb:3.3
-    # Zde stále zachováváme pøístup k administraci (port 5987)
     ports:
       - "5987:5984"
     environment:
@@ -37,11 +33,9 @@ services:
       context: ./caddy
     restart: always
     ports:
-      # Expose HTTP port 84 (pro redirect) a HTTPS port 447
       - "84:84"
       - "447:447"
     volumes:
-      # Pøipojení konfiguraèního souboru a certifikátu
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./self-signed-cert.pfx:/etc/caddy/self-signed-cert.pfx
     depends_on:
