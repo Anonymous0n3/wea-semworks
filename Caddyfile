@@ -1,15 +1,4 @@
-{
-    # Globální nastavení pro Caddy
-    pki
-    # Import self-signed certifikátu v PFX formátu
-    import_cert wea.pfx {
-        # ZDE VLOŽTE HESLO PRO PFX
-        password vaseskupinoveheslo_ZMENIT 
-    }
-}
-
 # --- 1. HTTP na HTTPS Redirect (Port 84) ---
-# Odchytává požadavky na HTTP portu 84
 :84 {
     # Automatické pøesmìrování na HTTPS port 447
     redir https://wea.nti.tul.cz:447{uri}
@@ -17,13 +6,10 @@
 
 
 # --- 2. HTTPS Reverse Proxy (Port 447) ---
-# Odchytává požadavky na HTTPS portu 447
 :447 {
-    # Použití self-signed certifikátu
-    tls /etc/caddy/wea.pfx {
-        # ZDE VLOŽTE HESLO PRO PFX
-        password StrongPfxPassword
-    }
+    # Použití CRT a KEY souborù (standardní Caddy konfigurace)
+    # Soubory se namapují z adresáøe kontejneru /etc/caddy/
+    tls wea.crt wea.key 
 
     # Routování pro cestu /sk04-web/
     route /sk04-web* {
