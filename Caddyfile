@@ -1,22 +1,13 @@
-# --- 1. HTTP na HTTPS Redirect (Port 84) ---
 :84 {
-    # Automatické pøesmìrování na HTTPS port 447
     redir https://wea.nti.tul.cz:447{uri}
 }
 
-
-# --- 2. HTTPS Reverse Proxy (Port 447) ---
 :447 {
-    # Použití CRT a KEY souborù (standardní Caddy konfigurace)
-    # Soubory se namapují z adresáøe kontejneru /etc/caddy/
+    # Musí být JEDNODUCHÝ název souboru, protože to je cesta v kontejneru:
     tls wea.crt wea.key 
 
-    # Routování pro cestu /sk04-web/
     route /sk04-web* {
-        # Odstranìní prefixu /sk04-web pøed odesláním na aplikaci
         uri strip_prefix /sk04-web
-
-        # Reverse proxy na interní službu:webapplication1 na jejím interním portu 8080
         reverse_proxy webapplication1:8080
     }
 }
