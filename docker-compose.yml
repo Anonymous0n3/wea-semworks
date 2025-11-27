@@ -1,12 +1,24 @@
 version: '3.8'
 
 services:
+  caddy:
+    image: caddy:2-alpine
+    restart: always
+    ports:
+      - "84:84"
+      - "447:447"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./wea.pfx:/etc/caddy/wea.pfx
+    depends_on:
+      - webapplication1
+      
   webapplication1:
     build:
       context: .
       dockerfile: WebApplication1/Dockerfile
-    ports:
-      - "8003:8080"
+    # ports:
+    #   - "8003:8080"
     environment:
       - COUCHDB_URL=http://couchdb:5984
       - COUCHDB_USER=admin
@@ -18,7 +30,7 @@ services:
       - couchdb
     volumes:
       - /home/cerny/logs/sk04:/var/log/webapp
-
+      
   couchdb:
     image: couchdb:3.3
     ports:
