@@ -32,6 +32,7 @@ namespace WebApplication1.Controllers
         [Authorize]
         public async Task<IActionResult> Publish([FromBody] PublishRequest request)
         {
+            _logger.LogInformation(_couchService.GetAllDocumentsAsync().ToString());
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _couchService.GetUserByEmailAsync(email);
             if (user == null) return Unauthorized();
