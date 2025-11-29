@@ -1,48 +1,46 @@
 ﻿@{
-    ViewData["Title"] = "Veřejné Widgety";
+    ViewData["Title"] = "Galerie Widgetů";
 }
 
-<div class="container mt-4">
-    <h2>Procházet Widgety</h2>
+<div class="text-center py-4 bg-light rounded-3 mb-4">
+    <h1 class="display-6">Galerie Widgetů</h1>
+    <p class="text-muted">Vyberte si widgety, které chcete používat na svém dashboardu.</p>
+    <a asp-action="Index" class="btn btn-primary">Zpět na Můj Dashboard</a>
+</div>
 
-    <div class="card p-3 mb-4 bg-light">
-        <div class="row g-3">
-            <div class="col-md-3">
-                <input type="text" id="filterName" class="form-control" placeholder="Název widgetu...">
-            </div>
-            <div class="col-md-3">
-                <input type="text" id="filterAuthor" class="form-control" placeholder="Autor...">
-            </div>
-            <div class="col-md-2">
-                <select id="filterType" class="form-select">
-                    <option value="">Všechny typy</option>
-                    <option value="ForecastWeather">Počasí</option>
-                    <option value="CurrencyWidget">Měny</option>
-                    <option value="NewsWidget">Zprávy</option>
-                    <option value="CountryInfoWidget">Info o státu</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select id="sortOrder" class="form-select">
-                    <option value="date">Nejnovější</option>
-                    <option value="likes">Nejoblíbenější</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100" onclick="loadPublicWidgets(1)">Hledat</button>
-            </div>
+<div id="favoritesSection" class="d-none mb-5">
+    <h4 class="border-bottom pb-2 text-warning">⭐ Vaše oblíbené</h4>
+    <div id="favoritesContainer" class="row g-3 mt-2">
+        <div class="col-12 text-muted">Načítám...</div>
+    </div>
+</div>
+
+<div id="publicSection">
+    <h4 class="border-bottom pb-2">🌐 Všechny veřejné widgety</h4>
+
+    <div class="row g-2 mt-2 mb-3">
+        <div class="col-md-5">
+            <input type="text" id="discoSearch" class="form-control" placeholder="Hledat podle názvu...">
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="discoAuthor" class="form-control" placeholder="Hledat autora...">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100" onclick="loadPublicList(1)">Hledat</button>
         </div>
     </div>
 
-    <div id="publicWidgetsList" class="row">
+    <div id="publicContainer" class="row g-3">
+        <div class="col-12 text-muted">Načítám galerii...</div>
     </div>
 
-    <nav aria-label="Page navigation" class="mt-4">
-        <ul class="pagination justify-content-center" id="paginationControls">
-        </ul>
-    </nav>
+    <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-sm btn-outline-secondary me-2" onclick="changePage(-1)">Předchozí</button>
+        <span class="align-self-center" id="pageIndicator">Strana 1</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="changePage(1)">Další</button>
+    </div>
 </div>
 
 @section Scripts {
-    <script src="~/js/public-gallery.js"></script>
+    <script src="~/js/discovery.js"></script>
 }
