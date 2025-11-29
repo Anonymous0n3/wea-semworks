@@ -27,10 +27,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Můj Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="PublicGallery">Veřejné Widgety</a>
                         </li>
                     </ul>
 
@@ -56,6 +56,29 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div class="modal fade" id="publishModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Zveřejnit Widget</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ostatní uživatelé uvidí vaše nastavení tohoto widgetu.</p>
+                        <input type="hidden" id="publishWidgetName">
+                        <input type="hidden" id="publishWidgetLocation">
+                        <div class="mb-3">
+                            <label class="form-label">Veřejný název widgetu</label>
+                            <input type="text" class="form-control" id="publicWidgetNameInput" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                        <button type="button" class="btn btn-primary" id="confirmPublishBtn">Publikovat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="widgetContainer" class="mt-4"></div>
     </div>
 
@@ -84,7 +107,7 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function () {
+                document.addEventListener('DOMContentLoaded', async function () {
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
             const chartMap = new Map();
@@ -117,7 +140,7 @@
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
                     return data.map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "", raw: w }))
-                               .filter(w => w.name);
+                                .filter(w => w.name);
                 } catch (err) {
                     console.error("❌ Chyba CouchDB:", err);
                     return [];
@@ -189,7 +212,9 @@
 
                         wrapper.dataset.location = location;
 
-                        addCloseButton(wrapper, widgetName, key);
+                        // ZDE VOLÁME UPRAVENOU FUNKCI PRO PŘIDÁNÍ TLAČÍTEK
+                        addWidgetControls(wrapper, widgetName, key);
+
                         attachInteractions(wrapper, widgetName, widgetObj.raw);
 
                         if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
@@ -198,7 +223,7 @@
                         if (widgetName === "CountryInfoWidget") {
                             const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
                             wrapper.id = wrapperId;
-                            initCountryWidget(wrapperId); // pracuje s existujícím wrapperem
+                            initCountryWidget(wrapperId);
                         }
 
                         if (isNew) {
@@ -316,24 +341,108 @@
                 }
             }
 
-            function addCloseButton(wrapper, widgetName, key) {
-                if (wrapper.querySelector('.close-widget-btn')) return;
-                const closeBtn = document.createElement('button');
-                closeBtn.textContent = '×';
-                closeBtn.classList.add('btn','btn-sm','btn-danger','close-widget-btn');
-                closeBtn.style.position = "absolute";
-                closeBtn.style.top = "5px";
-                closeBtn.style.right = "5px";
-                closeBtn.addEventListener('click', () => {
-                    wrapper.style.opacity = "0";
-                    setTimeout(() => {
-                        wrapper.remove();
-                        activeWidgets.delete(key);
-                        saveWidgetState();
-                    }, 300);
-                });
-                wrapper.appendChild(closeBtn);
+            // ------------------------
+            // OVLÁDACÍ PRVKY WIDGETU (Close + Publish)
+            // ------------------------
+            function addWidgetControls(wrapper, widgetName, key) {
+                // 1. Tlačítko Zavřít (X)
+                if (!wrapper.querySelector('.close-widget-btn')) {
+                    const closeBtn = document.createElement('button');
+                    closeBtn.textContent = '×';
+                    closeBtn.classList.add('btn','btn-sm','btn-danger','close-widget-btn');
+                    closeBtn.style.position = "absolute";
+                    closeBtn.style.top = "5px";
+                    closeBtn.style.right = "5px";
+                    closeBtn.addEventListener('click', () => {
+                        wrapper.style.opacity = "0";
+                        setTimeout(() => {
+                            wrapper.remove();
+                            activeWidgets.delete(key);
+                            saveWidgetState();
+                        }, 300);
+                    });
+                    wrapper.appendChild(closeBtn);
+                }
+
+                // 2. Tlačítko Publikovat (Mrak) - pouze pro přihlášené
+                // Ověříme token a zda už tlačítko neexistuje
+                if (token && !wrapper.querySelector('.publish-widget-btn')) {
+                    const publishBtn = document.createElement('button');
+                    publishBtn.innerHTML = '☁'; // Ikona obláčku
+                    publishBtn.title = "Publikovat widget veřejně";
+                    publishBtn.classList.add('btn', 'btn-sm', 'btn-info', 'text-white', 'publish-widget-btn');
+
+                    // Styl: umístíme ho vlevo od křížku
+                    publishBtn.style.position = "absolute";
+                    publishBtn.style.top = "5px";
+                    publishBtn.style.right = "40px"; // Odsazení, aby se nepřekrýval s Close
+
+                    publishBtn.onclick = function() {
+                        // Naplníme skryté inputy v modalu
+                        const modalNameInput = document.getElementById('publishWidgetName');
+                        const modalLocInput = document.getElementById('publishWidgetLocation');
+                        const publicNameInput = document.getElementById('publicWidgetNameInput');
+
+                        if(modalNameInput) modalNameInput.value = widgetName;
+                        if(modalLocInput) modalLocInput.value = wrapper.dataset.location || "";
+                        if(publicNameInput) publicNameInput.value = ""; // Vyčistit předchozí vstup
+
+                        // Otevřít modal
+                        const modalEl = document.getElementById('publishModal');
+                        if(modalEl) {
+                            new bootstrap.Modal(modalEl).show();
+                        } else {
+                            console.error("Nenalezen modal #publishModal");
+                        }
+                    };
+
+                    wrapper.appendChild(publishBtn);
+                }
             }
+
+            // ------------------------
+            // Obsluha Publikace Widgetu (Modal Action)
+            // ------------------------
+            const confirmPublishBtn = document.getElementById('confirmPublishBtn');
+            if (confirmPublishBtn) {
+                confirmPublishBtn.addEventListener('click', async () => {
+                    const name = document.getElementById('publishWidgetName').value;
+                    const location = document.getElementById('publishWidgetLocation').value;
+                    const publicName = document.getElementById('publicWidgetNameInput').value;
+
+                    if(!publicName) {
+                        alert("Prosím vyplňte název, pod kterým bude widget vidět.");
+                        return;
+                    }
+
+                    const widgetState = { Name: name, Location: location };
+
+                    try {
+                        const resp = await fetch('/api/PublicWidgets/publish', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({ publicName: publicName, widgetState: widgetState })
+                        });
+
+                        if(resp.ok) {
+                            alert("Widget byl úspěšně publikován!");
+                            const modalEl = document.getElementById('publishModal');
+                            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                            modalInstance?.hide();
+                        } else {
+                            const txt = await resp.text();
+                            alert("Chyba při publikaci: " + txt);
+                        }
+                    } catch(e) {
+                        console.error("Chyba publikace:", e);
+                        alert("Nepodařilo se spojit se serverem.");
+                    }
+                });
+            }
+
 
             // ------------------------
             // Inicializace widgetů
@@ -358,6 +467,8 @@
                         const entry = activeWidgets.get(key);
                         entry.raw = w.raw || entry.raw;
                         attachInteractions(entry.wrapper, w.name, entry.raw);
+                        // I u existujícího widgetu zkontrolujeme tlačítka (pro případ reloginu)
+                        addWidgetControls(entry.wrapper, w.name, key);
                     }
                 }
 
@@ -404,27 +515,16 @@
                     }
                     loginError.textContent = "";
                     localStorage.setItem('jwtToken', data.token);
+
+                    // Uložení emailu pro identifikaci autora v PublicGallery (doplněno dle předchozího kontextu)
+                    if(email) localStorage.setItem('userEmail', email);
+
                     bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
 
-                    const couchData = await fetchWidgetsFromCouchDB();
-                    const currentSaved = JSON.parse(localStorage.getItem("openWidgets") || "[]").map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }));
-                    const merged = Array.from(
-                        new Map([...currentSaved.map(w => [getWidgetKey(w.name, w.location), w]), ...couchData.map(w => [getWidgetKey(w.name, w.location), w])])
-                        .values()
-                    );
+                    // Po loginu se stránka reloadne nebo musíme znovu načíst widgety
+                    // Pro jednoduchost zde reloadneme stránku, aby se UI korektně přepnulo (menu atd.)
+                    window.location.reload();
 
-                    for (const w of merged) {
-                        const key = getWidgetKey(w.name, w.location);
-                        if (!activeWidgets.has(key)) {
-                            await loadWidget(w.name, w.location, w.raw);
-                        } else {
-                            const entry = activeWidgets.get(key);
-                            entry.raw = w.raw || entry.raw;
-                            attachInteractions(entry.wrapper, w.name, entry.raw);
-                        }
-                    }
-
-                    localStorage.setItem("openWidgets", JSON.stringify(merged.map(m => ({ name: m.name, location: m.location }))));
                 } catch (err) {
                     console.error(err);
                     loginError.textContent = "Nepodařilo se přihlásit.";

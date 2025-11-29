@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Veřejné Widgety";
+}
+
+<div class="container mt-4">
+    <h2>Procházet Widgety</h2>
+
+    <div class="card p-3 mb-4 bg-light">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" id="filterName" class="form-control" placeholder="Název widgetu...">
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="filterAuthor" class="form-control" placeholder="Autor...">
+            </div>
+            <div class="col-md-2">
+                <select id="filterType" class="form-select">
+                    <option value="">Všechny typy</option>
+                    <option value="ForecastWeather">Počasí</option>
+                    <option value="CurrencyWidget">Měny</option>
+                    <option value="NewsWidget">Zprávy</option>
+                    <option value="CountryInfoWidget">Info o státu</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="sortOrder" class="form-select">
+                    <option value="date">Nejnovější</option>
+                    <option value="likes">Nejoblíbenější</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" onclick="loadPublicWidgets(1)">Hledat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="publicWidgetsList" class="row">
+    </div>
+
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center" id="paginationControls">
+        </ul>
+    </nav>
+</div>
+
+@section Scripts {
+    <script src="~/js/public-gallery.js"></script>
+}

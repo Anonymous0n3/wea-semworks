@@ -37,5 +37,10 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index", new { baseCurrency, quoteCurrency });
         }
 
+        public IActionResult PublicGallery()
+        {
+            return View();
+        }
+
     }
 }
