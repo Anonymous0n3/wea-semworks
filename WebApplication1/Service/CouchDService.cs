@@ -106,6 +106,15 @@ namespace WebApplication1.Service
             return list;
         }
 
+        public async Task<string> GetRawDbDumpAsync()
+        {
+            // Poptáme CouchDB o všechna data včetně obsahu dokumentů
+            var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
+
+            // Vrátíme surový JSON string bez jakékoliv C# deserializace/filtrů
+            return await resp.Content.ReadAsStringAsync();
+        }
+
         // ---------------------------
         // Autentizace a registrace
         // ---------------------------
