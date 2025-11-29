@@ -531,42 +531,39 @@
                 container.innerHTML = '';
                 activeWidgets.clear();
 
-                const savedWidgetsRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
-
-                const mergedWidgetsMap = new Map();
-
-                savedWidgetsRaw.forEach(w => {
-                    const key = getWidgetKey(normalizeWidgetName(w.name), w.location);
-                    mergedWidgetsMap.set(key, {
-                        name: normalizeWidgetName(w.name),
-                        location: w.location || ""
-                    });
-                });
+                let widgetsToLoad = [];
 
                 if (token) {
-                    const couchData = await fetchWidgetsFromCouchDB();
-
-                    couchData.forEach(w => {
-                        const key = getWidgetKey(w.name, w.location);
-                        mergedWidgetsMap.set(key, w);
-                    });
+                    // 1. Přihlášený uživatel -> Načítáme POUZE z DB (Single Source of Truth)
+                    // Tím se vyhneme konfliktům mezi LocalStorage a DB
+                    widgetsToLoad = await fetchWidgetsFromCouchDB();
+                } else {
+                    // 2. Nepřihlášený -> Načítáme z LocalStorage
+                    const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
+                    widgetsToLoad = savedRaw.map(w => ({
+                        name: normalizeWidgetName(w.name),
+                        location: w.location || "",
+                        raw: w
+                    }));
                 }
 
-                const mergedList = Array.from(mergedWidgetsMap.values());
-
-                for (const w of mergedList) {
+                // 3. Deduplikace (pojistka, kdyby zdroj obsahoval duplicity)
+                const uniqueMap = new Map();
+                widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
-                    if (!activeWidgets.has(key)) {
-                        await loadWidget(w.name, w.location, w.raw);
-                    } else {
-                        const entry = activeWidgets.get(key);
-                        entry.raw = w.raw || entry.raw;
-                        attachInteractions(entry.wrapper, w.name, entry.raw);
-                        addWidgetControls(entry.wrapper, w.name, key);
-                    }
+                    uniqueMap.set(key, w);
+                });
+
+                const finalWidgets = Array.from(uniqueMap.values());
+
+                // 4. Vykreslení
+                for (const w of finalWidgets) {
+                    const key = getWidgetKey(w.name, w.location);
+                    await loadWidget(w.name, w.location, w.raw);
                 }
 
-                localStorage.setItem("openWidgets", JSON.stringify(mergedList.map(m => ({ name: m.name, location: m.location }))));
+                // 5. Synchronizace LocalStorage s aktuálním stavem
+                localStorage.setItem("openWidgets", JSON.stringify(finalWidgets.map(m => ({ name: m.name, location: m.location }))));
             }
 
             document.querySelectorAll('.widget-link').forEach(link => {
