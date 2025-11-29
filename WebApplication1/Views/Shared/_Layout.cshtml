@@ -513,7 +513,7 @@
             }
 
             // ------------------------
-            // INICIALIZACE APLIKACE
+            // INICIALIZACE APLIKACE (FALLBACK LOGIKA)
             // ------------------------
             if (container) {
                 container.innerHTML = '';
@@ -521,11 +521,18 @@
 
                 let widgetsToLoad = [];
 
+                // 1. Primární zdroj: Databáze (pokud je token)
                 if (token) {
-                    // PŘIHLÁŠENÝ: POUZE Z DB
-                    widgetsToLoad = await fetchWidgetsFromCouchDB();
-                } else {
-                    // NEPŘIHLÁŠENÝ: POUZE Z LOCALSTORAGE
+                    try {
+                        widgetsToLoad = await fetchWidgetsFromCouchDB();
+                    } catch (e) {
+                        console.warn("Chyba DB fetch, fallback na LS", e);
+                    }
+                }
+
+                // 2. Fallback zdroj: LocalStorage (pokud DB nic nevrátila nebo není token)
+                if (!widgetsToLoad || widgetsToLoad.length === 0) {
+                    console.log("Načítám z LocalStorage...");
                     const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
                     widgetsToLoad = savedRaw.map(w => ({
                         name: normalizeWidgetName(w.name),
@@ -534,6 +541,7 @@
                     }));
                 }
 
+                // 3. Deduplikace v rámci finálního seznamu
                 const uniqueMap = new Map();
                 widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
@@ -542,11 +550,11 @@
 
                 const finalWidgets = Array.from(uniqueMap.values());
 
-                // Použijeme Promise.all pro paralelní načtení
+                // 4. Paralelní načtení všech widgetů
                 const promises = finalWidgets.map(w => loadWidget(w.name, w.location, w.raw));
                 await Promise.all(promises);
 
-                // Až je vše načteno, uložíme čistý stav
+                // 5. Synchronizace stavu (aby byl konzistentní)
                 saveWidgetState();
             }
 
