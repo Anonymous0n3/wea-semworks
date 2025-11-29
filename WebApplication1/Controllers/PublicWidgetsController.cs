@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
             if (user == null) return Unauthorized();
 
             var success = await _couchService.PublishWidgetAsync(user, request.WidgetState, request.PublicName);
-            _logger
+            _logger.LogInformation("User {Email} is publishing widget {WidgetName} as {PublicName}", email, request.WidgetState.Name, request.PublicName);
             if (!success) return BadRequest("Failed to publish");
 
             return Ok(new { message = "Published successfully" });
