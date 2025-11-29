@@ -82,14 +82,19 @@ async function loadPublicList(page) {
 // --- VYKRESLOVÁNÍ KARTIČKY ---
 
 function renderCard(w, currentUserEmail, token) {
-    // 1. Zjistíme autora, ale pro DEBUG to budeme ignorovat
+    // 1. Porovnání emailu (case insensitive)
     const isAuthor = currentUserEmail && w.authorEmail.toLowerCase() === currentUserEmail.toLowerCase();
 
+    // Escapování dat
     const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
     const widgetType = w.widgetType;
+
+    // ID widgetu
     const widgetId = w._id || w.id;
+
     let likesCount = w.likesCount || 0;
 
+    // --- LOGIKA PRO LIKE TLAČÍTKO ---
     let likeSection = '';
 
     if (token) {
@@ -99,23 +104,18 @@ function renderCard(w, currentUserEmail, token) {
         const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
         const icon = isLiked ? '❤️' : '🤍';
 
-        // --- DEBUG FIX: Zobrazíme tlačítko VŽDY, i když jste autor ---
-        // Původně: if (!isAuthor) { ... }
-
-        // Vynucené tlačítko s extra styly pro jistotu
-        likeSection = `
-        <button type="button" 
-                class="btn btn-sm ${btnClass} position-relative" 
-                style="z-index: 1000; cursor: pointer !important;"
-                onclick="console.log('Kliknuto na ID: ${widgetId}'); event.stopPropagation(); window.toggleLike('${widgetId}')">
-            ${icon} ${likesCount}
-        </button>`;
-
-        // Pokud jste autor, přidáme malou poznámku vedle, abyste to věděl
-        if (isAuthor) {
-            likeSection += ' <small class="text-muted" style="font-size: 0.7em">(Jste autor)</small>';
+        if (!isAuthor) {
+            // ZMĚNA: Používáme přímý onclick, což je nejspolehlivější cesta
+            // Přidáno event.stopPropagation(), aby kliknutí neprobublávalo
+            likeSection = `
+            <button type="button" class="btn btn-sm ${btnClass} position-relative" 
+                    style="z-index: 5;"
+                    onclick="event.stopPropagation(); window.toggleLike('${widgetId}')">
+                ${icon} ${likesCount}
+            </button>`;
+        } else {
+            likeSection = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
         }
-
     } else {
         likeSection = `<span class="text-muted">❤️ ${likesCount}</span>`;
     }
@@ -123,7 +123,7 @@ function renderCard(w, currentUserEmail, token) {
     // --- TLAČÍTKO POUŽÍT ---
     let addBtn = '';
     if (token) {
-        addBtn = `<button class="btn btn-primary btn-sm w-100 mt-3" style="position: relative; z-index: 10;" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">Použít / Náhled</button>`;
+        addBtn = `<button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">Použít / Náhled</button>`;
     } else {
         addBtn = `<small class="d-block mt-3 text-muted text-center">Přihlaste se pro vyzkoušení</small>`;
     }
@@ -142,9 +142,7 @@ function renderCard(w, currentUserEmail, token) {
                 ${addBtn}
             </div>
             <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center py-2">
-                <div style="position: relative; z-index: 1000;">
-                    ${likeSection}
-                </div>
+                ${likeSection}
                 <small class="text-muted">${new Date(w.createdAt).toLocaleDateString()}</small>
             </div>
         </div>
