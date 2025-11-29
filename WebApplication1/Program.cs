@@ -235,6 +235,12 @@ app.Use((context, next) =>
     return next();
 });
 
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
 // ---- CouchDB inicializace ----
 using (var scope = app.Services.CreateScope())
 {
