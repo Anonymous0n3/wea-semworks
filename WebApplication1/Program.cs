@@ -205,12 +205,34 @@ builder.Services.AddSingleton<MqttNewsService>();
 builder.Services.AddSingleton<NewsRepository>();
 builder.Services.AddHostedService<NewsBackgroundJob>();
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    // Říkáme aplikaci, aby přijímala všechny typy forwarded hlaviček
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto |
+        ForwardedHeaders.XForwardedHost;
+
+    // V Dockeru neznáme IP adresu proxy předem, proto vyčistíme filtry.
+    // Toto je bezpečné, protože kontejner je schovaný v privátní síti Dockeru.
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 // ---- Build app ----
 var app = builder.Build();
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions
+app.UseForwardedHeaders();
+
+// 2. Ruční nastavení PathBase z hlavičky od Nginxu
+// Toto zajistí, že aplikace pochopí, že běží pod prefixem "/sk04-web"
+app.Use((context, next) =>
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var pathBase))
+    {
+        context.Request.PathBase = new PathString(pathBase);
+    }
+    return next();
 });
 
 // ---- CouchDB inicializace ----
