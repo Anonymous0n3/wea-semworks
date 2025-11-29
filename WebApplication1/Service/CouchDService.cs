@@ -260,26 +260,40 @@ namespace WebApplication1.Service
         {
             _logger.LogInformation("[CouchDB] Creating/Verifying indexes...");
 
-            // 1. Index pro filtrování a řazení podle času
-            // Důležité: Index musí obsahovat 'Type' (pro filtr) a 'CreatedAt' (pro sort)
-            var indexData = new
+            // ZMĚNA NÁZVU NA 'v2' DONUTÍ COUCHDB PŘEGENEROVAT INDEX
+            var indexPayloadDate = new
             {
                 index = new { fields = new[] { "Type", "CreatedAt" } },
-                name = "idx_public_widgets_date",
-                type = "json"
+                name = "idx_public_widgets_date_v2", // <--- Změna názvu
+                type = "json",
+                ddoc = "idx_widgets_date_v2"
             };
 
-            var content = new StringContent(JsonSerializer.Serialize(indexData, _jsonOptions), Encoding.UTF8, "application/json");
-            var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_index", content);
+            var indexPayloadLikes = new
+            {
+                index = new { fields = new[] { "Type", "LikesCount" } },
+                name = "idx_type_likes_v2", // <--- Změna názvu
+                type = "json",
+                ddoc = "idx_widgets_likes_v2"
+            };
 
-            if (!resp.IsSuccessStatusCode)
-            {
-                _logger.LogError($"[CouchDB] Index creation failed: {await resp.Content.ReadAsStringAsync()}");
-            }
+            // 1. Index Datum
+            var resp1 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadDate, _jsonOptions), Encoding.UTF8, "application/json"));
+
+            if (!resp1.IsSuccessStatusCode)
+                _logger.LogError($"[CouchDB] Date Index Error: {await resp1.Content.ReadAsStringAsync()}");
             else
-            {
-                _logger.LogInformation("[CouchDB] Index 'idx_public_widgets_date' is ready.");
-            }
+                _logger.LogInformation("[CouchDB] Date Index (v2) created.");
+
+            // 2. Index Likes
+            var resp2 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
+
+            if (!resp2.IsSuccessStatusCode)
+                _logger.LogError($"[CouchDB] Likes Index Error: {await resp2.Content.ReadAsStringAsync()}");
+            else
+                _logger.LogInformation("[CouchDB] Likes Index (v2) created.");
         }
 
         public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
