@@ -1,10 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Models.Data;
 
@@ -23,14 +25,13 @@ namespace WebApplication1.Service
         {
             _client = client;
             _jwtOptions = jwtOptions;
-            _couchBase = config["COUCHDB_URL"] ?? "http://couchdb:5984";
+            _couchBase = config["COUCHDB_URL"] ?? "http://couchdb:5987";
             _logger = logger;
 
             _jsonOptions = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                PropertyNamingPolicy = null // Zachová PascalCase (Type, CreatedAt...)
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
 
             var user = config["COUCHDB_USER"] ?? "admin";
@@ -44,8 +45,13 @@ namespace WebApplication1.Service
             }
         }
 
+        public string GenerateJwtForExistingUser(UserDoc user)
+        {
+            return GenerateJwtToken(user);
+        }
+
         // ---------------------------
-        // Inicializace DB a Indexů
+        // CouchDB základní operace
         // ---------------------------
         public async Task EnsureDbExistsAsync()
         {
@@ -54,38 +60,20 @@ namespace WebApplication1.Service
 
             if (head.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                await _client.PutAsync(dbUri, null);
+                var create = await _client.PutAsync(dbUri, null);
+                if (!create.IsSuccessStatusCode)
+                {
+                    var error = await create.Content.ReadAsStringAsync();
+                    throw new Exception($"Nepodařilo se vytvořit databázi '{_dbName}': {create.StatusCode} {error}");
+                }
+            }
+            else if (!head.IsSuccessStatusCode)
+            {
+                var error = await head.Content.ReadAsStringAsync();
+                throw new Exception($"Kontrola databáze '{_dbName}' selhala: {head.StatusCode} {error}");
             }
         }
 
-        public async Task CreateIndexesAsync()
-        {
-            // Index pro Type + CreatedAt (pro řazení podle data)
-            var indexPayload = new
-            {
-                index = new { fields = new[] { "Type", "CreatedAt" } },
-                name = "sort_by_date",
-                type = "json"
-            };
-
-            // Index pro Type + LikesCount (pro řazení podle lajků)
-            var indexPayloadLikes = new
-            {
-                index = new { fields = new[] { "Type", "LikesCount" } },
-                name = "sort_by_likes",
-                type = "json"
-            };
-
-            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayload, _jsonOptions), Encoding.UTF8, "application/json"));
-
-            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
-        }
-
-        // ---------------------------
-        // Základní CRUD operace
-        // ---------------------------
         public async Task<HttpResponseMessage> GetDocumentAsync(string id)
         {
             return await _client.GetAsync($"{_couchBase}/{_dbName}/{id}");
@@ -101,45 +89,67 @@ namespace WebApplication1.Service
         public async Task<List<HelloDoc>> GetAllDocumentsAsync()
         {
             var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
-            if (!resp.IsSuccessStatusCode) return new List<HelloDoc>();
+            resp.EnsureSuccessStatusCode();
 
             var json = await resp.Content.ReadAsStringAsync();
             using var doc = JsonDocument.Parse(json);
 
             var list = new List<HelloDoc>();
-            if (doc.RootElement.TryGetProperty("rows", out var rows))
+            foreach (var row in doc.RootElement.GetProperty("rows").EnumerateArray())
             {
-                foreach (var row in rows.EnumerateArray())
+                if (row.TryGetProperty("doc", out var d))
                 {
-                    if (row.TryGetProperty("doc", out var d))
-                    {
-                        var item = JsonSerializer.Deserialize<HelloDoc>(d.GetRawText(), _jsonOptions);
-                        if (item != null) list.Add(item);
-                    }
+                    var item = JsonSerializer.Deserialize<HelloDoc>(d.GetRawText(), _jsonOptions);
+                    if (item != null) list.Add(item);
                 }
             }
             return list;
         }
 
         // ---------------------------
-        // Uživatelé a Auth
+        // Autentizace a registrace
         // ---------------------------
         public async Task<UserDoc?> GetUserByEmailAsync(string email)
         {
             var encodedId = Uri.EscapeDataString(email);
-            var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/{encodedId}");
-            if (!resp.IsSuccessStatusCode) return null;
+            var url = $"{_couchBase}/{_dbName}/{encodedId}";
+            _logger.LogInformation($"[CouchDB] GET user by email: {email}, URL: {url}");
 
-            var json = await resp.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<UserDoc>(json, _jsonOptions);
+            try
+            {
+                var resp = await _client.GetAsync(url);
+                var json = await resp.Content.ReadAsStringAsync();
+
+                _logger.LogInformation($"[CouchDB] Response status: {resp.StatusCode}");
+                _logger.LogInformation($"[CouchDB] Response body: {json}");
+
+                if (!resp.IsSuccessStatusCode)
+                    return null;
+
+                var user = JsonSerializer.Deserialize<UserDoc>(json, _jsonOptions);
+                _logger.LogInformation($"[CouchDB] User document found: {user != null}");
+                return user;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"[CouchDB] Chyba při GET user: {ex.Message}");
+                return null;
+            }
         }
 
         public async Task<bool> RegisterUserAsync(string name, string email, string password)
         {
+            _logger.LogInformation($"[Auth] Registruji uživatele: {email}");
+
             var existing = await GetUserByEmailAsync(email);
-            if (existing != null) return false;
+            if (existing != null)
+            {
+                _logger.LogInformation($"[Auth] Uživatel {email} již existuje.");
+                return false;
+            }
 
             var hash = BCrypt.Net.BCrypt.HashPassword(password);
+
             var user = new UserDoc
             {
                 _id = email,
@@ -147,26 +157,53 @@ namespace WebApplication1.Service
                 Name = name,
                 Email = email,
                 PasswordHash = hash,
-                OpenWidgets = new List<UserWidgetState>()
+                OpenWidgets = new List<UserWidgetState>()   // <-- pouze tohle
             };
 
             var encodedId = Uri.EscapeDataString(user._id);
             var json = JsonSerializer.Serialize(user, _jsonOptions);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var resp = await _client.PutAsync($"{_couchBase}/{_dbName}/{encodedId}", content);
+            var putUrl = $"{_couchBase}/{_dbName}/{encodedId}";
 
-            return resp.IsSuccessStatusCode;
+            var resp = await _client.PutAsync(putUrl, content);
+            var result = await resp.Content.ReadAsStringAsync();
+            _logger.LogInformation($"[CouchDB] PUT result: {resp.StatusCode} | {result}");
+
+            if (!resp.IsSuccessStatusCode)
+                return false;
+
+            using var doc = JsonDocument.Parse(result);
+            if (doc.RootElement.TryGetProperty("rev", out var rev))
+                user._rev = rev.GetString();
+
+            return true;
         }
 
         public async Task<string?> LoginUserAsync(string email, string password)
         {
             var user = await GetUserByEmailAsync(email);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return null;
+            if (user == null)
+            {
+                _logger.LogInformation($"[Auth] Login failed – user {email} not found.");
+                return null;
+            }
+
+            var ok = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            if (!ok)
+            {
+                _logger.LogInformation($"[Auth] Login failed – invalid password for {email}.");
+                return null;
+            }
+
+            _logger.LogInformation($"[Auth] Login success for {email}");
             return GenerateJwtToken(user);
         }
 
         private string GenerateJwtToken(UserDoc user)
         {
+            if (string.IsNullOrEmpty(_jwtOptions.Key))
+                throw new InvalidOperationException("JWT Key není nastavený v .env nebo appsettings.json");
+
             var keyBytes = Encoding.UTF8.GetBytes(_jwtOptions.Key);
             var key = new SymmetricSecurityKey(keyBytes);
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -178,11 +215,13 @@ namespace WebApplication1.Service
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             };
 
+            var expireMinutes = _jwtOptions.ExpireMinutes > 0 ? _jwtOptions.ExpireMinutes : 60;
+
             var token = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
                 audience: _jwtOptions.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpireMinutes),
+                expires: DateTime.UtcNow.AddMinutes(expireMinutes),
                 signingCredentials: creds
             );
 
@@ -190,84 +229,217 @@ namespace WebApplication1.Service
         }
 
         // ---------------------------
-        // Widgety uživatele (Workspace)
+        // Widgety – OPRAVENÉ
         // ---------------------------
         public async Task<List<UserWidgetState>> GetUserWidgetsAsync(string email)
         {
             var user = await GetUserByEmailAsync(email);
-            return user?.OpenWidgets ?? new List<UserWidgetState>();
+            if (user == null)
+                return new List<UserWidgetState>();
+
+            return user.OpenWidgets ?? new List<UserWidgetState>();
         }
 
         public async Task<bool> SaveUserWidgetsAsync(string email, List<UserWidgetState> widgets)
         {
+            if (widgets == null)
+                widgets = new List<UserWidgetState>();
+
+            async Task<bool> PutWithRevAsync(UserDoc userDoc)
+            {
+                var encodedId = Uri.EscapeDataString(userDoc._id);
+                var url = $"{_couchBase}/{_dbName}/{encodedId}";
+
+                var json = JsonSerializer.Serialize(userDoc, _jsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _client.PutAsync(url, content);
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                _logger.LogInformation($"[CouchDB] PUT result: {response.StatusCode} | {responseBody}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    using var doc = JsonDocument.Parse(responseBody);
+                    if (doc.RootElement.TryGetProperty("rev", out var revEl))
+                        userDoc._rev = revEl.GetString();
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            // 1) Najdi usera
             var user = await GetUserByEmailAsync(email);
-            if (user == null) return false;
+            if (user == null)
+                return false;
 
-            user.OpenWidgets = widgets ?? new List<UserWidgetState>();
+            // 2) Ulož pouze OpenWidgets
+            user.OpenWidgets = widgets;
 
-            var encodedId = Uri.EscapeDataString(user._id);
-            var json = JsonSerializer.Serialize(user, _jsonOptions);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var resp = await _client.PutAsync($"{_couchBase}/{_dbName}/{encodedId}", content);
+            // 3) Pokus o save
+            if (await PutWithRevAsync(user))
+                return true;
 
-            return resp.IsSuccessStatusCode;
+            // 4) Pokud konflikt, načti čerstvou revizi a opakuj
+            _logger.LogInformation("[CouchDB] Conflict detected – retrying with fresh _rev...");
+            var freshUser = await GetUserByEmailAsync(email);
+            if (freshUser == null)
+                return false;
+
+            freshUser.OpenWidgets = widgets;
+
+            return await PutWithRevAsync(freshUser);
+        }
+
+        // Testovací metoda nechána beze změn, jen používá nové uložení
+        public async Task TestSaveUserWidgetsAsync()
+        {
+            string testEmail = "vojtech.zmolik@tul.cz";
+
+            var widgets = new List<UserWidgetState>
+            {
+                new UserWidgetState { Name = "ForecastWeather", Location = "Prague" },
+                new UserWidgetState { Name = "NewsFeed", Location = "Global" }
+            };
+
+            bool saved = await SaveUserWidgetsAsync(testEmail, widgets);
+            _logger.LogInformation($"[Test] SaveUserWidgetsAsync result: {saved}");
+
+            if (!saved)
+            {
+                _logger.LogInformation("[Test] Ukládání widgetů selhalo!");
+                return;
+            }
+
+            var loadedWidgets = await GetUserWidgetsAsync(testEmail);
+            _logger.LogInformation($"[Test] Načteno {loadedWidgets.Count} widgetů");
+
+            foreach (var w in loadedWidgets)
+                _logger.LogInformation($"[Test] Widget: Name={w.Name}, Location={w.Location}");
+
+            bool allMatch = widgets.All(w => loadedWidgets.Any(lw => lw.Name == w.Name && lw.Location == w.Location));
+            _logger.LogInformation($"[Test] Všechny widgety uloženy správně: {allMatch}");
         }
 
         // ---------------------------
         // Veřejné Widgety (Public API)
         // ---------------------------
+
+        public async Task CreateIndexesAsync()
+        {
+            _logger.LogInformation("[CouchDB] Creating indexes...");
+
+            // 1. Index pro řazení podle data (Type + CreatedAt)
+            // Důležité: 'ddoc' (design document) zajišťuje, že se indexy nepoperou
+            var indexPayloadDate = new
+            {
+                index = new { fields = new[] { "Type", "CreatedAt" } },
+                name = "idx_type_createdat",
+                type = "json",
+                ddoc = "idx_widgets_date"
+            };
+
+            // 2. Index pro řazení podle likes (Type + LikesCount)
+            var indexPayloadLikes = new
+            {
+                index = new { fields = new[] { "Type", "LikesCount" } },
+                name = "idx_type_likes",
+                type = "json",
+                ddoc = "idx_widgets_likes"
+            };
+
+            // Odeslání indexu 1
+            var resp1 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadDate, _jsonOptions), Encoding.UTF8, "application/json"));
+
+            if (!resp1.IsSuccessStatusCode)
+                _logger.LogError($"[CouchDB] Failed to create Date index: {await resp1.Content.ReadAsStringAsync()}");
+
+            // Odeslání indexu 2
+            var resp2 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
+
+            if (!resp2.IsSuccessStatusCode)
+                _logger.LogError($"[CouchDB] Failed to create Likes index: {await resp2.Content.ReadAsStringAsync()}");
+        }
+
         public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
         {
             var publicWidget = new PublicWidgetDoc
             {
+                // CouchDB potřebuje ID. Pokud ho nevygenerujete, udělá to sama, 
+                // ale je lepší mít kontrolu (Guid).
+                Id = Guid.NewGuid().ToString(),
+
+                Type = "public_widget", // KLÍČOVÉ PRO FILTR
                 WidgetType = widgetData.Name,
                 PublicName = publicName,
                 AuthorEmail = author.Email,
                 AuthorName = author.Name,
                 WidgetData = widgetData,
                 CreatedAt = DateTime.UtcNow,
-                Type = "public_widget", // Důležité pro selektor
-                LikesCount = 0,
-                LikedBy = new List<string>()
+                LikedBy = new List<string>(),
+                LikesCount = 0
             };
 
-            var result = await PostDocumentAsync(publicWidget);
-            return result.IsSuccessStatusCode;
+            // POZOR: Serializujeme explicitně, aby se uložilo "_id" a ne "Id" pokud používáte atributy
+            var response = await PostDocumentAsync(publicWidget);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var err = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"[CouchDB] Failed to publish widget: {err}");
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
         {
+            // 1. Selector: Musí obsahovat "Type": "public_widget"
             var selector = new Dictionary<string, object>
             {
                 { "Type", "public_widget" }
             };
 
-            // Filtr podle typu widgetu
+            // Filtry
             if (!string.IsNullOrEmpty(filter.WidgetType))
             {
                 selector.Add("WidgetType", filter.WidgetType);
             }
 
-            // Filtr podle autora (Case insensitive regex)
             if (!string.IsNullOrEmpty(filter.Author))
             {
                 selector.Add("AuthorName", new { @regex = $"(?i){filter.Author}" });
             }
 
-            // Filtr podle názvu (Case insensitive regex)
             if (!string.IsNullOrEmpty(filter.SearchName))
             {
                 selector.Add("PublicName", new { @regex = $"(?i){filter.SearchName}" });
             }
 
-            // Řazení
+            // 2. Řazení
             var sort = new List<object>();
-            if (filter.SortBy == "likes")
-                sort.Add(new { LikesCount = "desc" });
-            else
-                sort.Add(new { CreatedAt = "desc" });
 
-            // 1. Pokus s řazením
+            // DŮLEŽITÉ: CouchDB vyžaduje, aby pole, podle kterého řadíte, 
+            // bylo obsaženo v indexu A ideálně i v selectoru (jako existence check).
+            if (filter.SortBy == "likes")
+            {
+                sort.Add(new { LikesCount = "desc" });
+                // Trik pro Mango Query: Říkáme, že LikesCount musí existovat (být větší než null)
+                // To pomůže CouchDB vybrat správný index.
+                if (!selector.ContainsKey("LikesCount")) selector.Add("LikesCount", new { @gt = -1 });
+            }
+            else
+            {
+                sort.Add(new { CreatedAt = "desc" });
+                // Trik pro Mango Query:
+                if (!selector.ContainsKey("CreatedAt")) selector.Add("CreatedAt", new { @gt = 0 });
+            }
+
             var query = new
             {
                 selector = selector,
@@ -277,127 +449,43 @@ namespace WebApplication1.Service
                 execution_stats = true
             };
 
-            var resultList = await ExecuteMangoQueryAsync(query);
+            var jsonQuery = JsonSerializer.Serialize(query, _jsonOptions);
+            _logger.LogInformation($"[CouchDB] Sending Query: {jsonQuery}"); // DEBUG VÝPIS
 
-            // 2. FALLBACK: Pokud řazení selže (chybí index), zkusíme to bez řazení
-            if (resultList == null)
+            var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
+            var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
+
+            // 3. Zpracování chyby
+            if (!resp.IsSuccessStatusCode)
             {
-                _logger.LogWarning("[CouchDB] Query with sort failed. Retrying without sort...");
-                var queryNoSort = new
-                {
-                    selector = selector,
-                    limit = filter.PageSize,
-                    skip = (filter.Page - 1) * filter.PageSize
-                };
-                resultList = await ExecuteMangoQueryAsync(queryNoSort);
+                var errorBody = await resp.Content.ReadAsStringAsync();
+                _logger.LogError($"[CouchDB] _find query failed: {resp.StatusCode} | {errorBody}");
+                // Vraťte prázdný list, ale v konzoli uvidíte chybu
+                return new List<PublicWidgetDoc>();
             }
 
-            return resultList ?? new List<PublicWidgetDoc>();
-        }
+            var result = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(result);
 
-        public async Task<List<PublicWidgetDoc>> GetLikedWidgetsAsync(string userEmail)
-        {
-            var query = new
+            var list = new List<PublicWidgetDoc>();
+            if (doc.RootElement.TryGetProperty("docs", out var docs))
             {
-                selector = new
+                foreach (var d in docs.EnumerateArray())
                 {
-                    Type = "public_widget",
-                    LikedBy = newDictionary("$elemMatch", new { @eq = userEmail }) // nebo prostě jen pole hodnotu
-                },
-                // Zjednodušený selector pro pole v CouchDB
-                // Často stačí: LikedBy: userEmail
-            };
-
-            // CouchDB Mango query pro pole: { "LikedBy": { "$elemMatch": { "$eq": "email" } } }
-            // Nebo jednodušeji { "LikedBy": "email" } funguje v mnoha verzích pokud je to pole stringů.
-
-            var simpleQuery = new
-            {
-                selector = new
-                {
-                    Type = "public_widget",
-                    LikedBy = userEmail
-                }
-            };
-
-            return await ExecuteMangoQueryAsync(simpleQuery) ?? new List<PublicWidgetDoc>();
-        }
-
-        // Pomocná metoda pro vykonání dotazu
-        private async Task<List<PublicWidgetDoc>?> ExecuteMangoQueryAsync(object queryObj)
-        {
-            try
-            {
-                var jsonQuery = JsonSerializer.Serialize(queryObj, _jsonOptions);
-                // Fix pro regex operátor (C# objekt -> $regex)
-                jsonQuery = jsonQuery.Replace("\"@regex\"", "\"$regex\"");
-
-                var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
-                var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
-
-                if (!resp.IsSuccessStatusCode)
-                {
-                    var err = await resp.Content.ReadAsStringAsync();
-                    _logger.LogError($"[CouchDB] Find failed: {resp.StatusCode} - {err}");
-                    return null;
-                }
-
-                var result = await resp.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(result);
-
-                var list = new List<PublicWidgetDoc>();
-                if (doc.RootElement.TryGetProperty("docs", out var docs))
-                {
-                    foreach (var d in docs.EnumerateArray())
+                    try
                     {
                         var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
                         if (item != null) list.Add(item);
                     }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"[CouchDB] Failed to deserialize item: {ex.Message}");
+                    }
                 }
-                return list;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "[CouchDB] ExecuteMangoQueryAsync exception");
-                return null;
-            }
-        }
-
-        // Helper proDictionary
-        private Dictionary<string, object> newDictionary(string k, object v)
-        {
-            return new Dictionary<string, object> { { k, v } };
-        }
-
-        public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
-        {
-            var resp = await GetDocumentAsync(widgetId);
-            if (!resp.IsSuccessStatusCode) return false;
-
-            var json = await resp.Content.ReadAsStringAsync();
-            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(json, _jsonOptions);
-            if (widget == null) return false;
-
-            if (widget.AuthorEmail == userEmail) return false;
-
-            if (widget.LikedBy == null) widget.LikedBy = new List<string>();
-
-            if (widget.LikedBy.Contains(userEmail))
-            {
-                widget.LikedBy.Remove(userEmail);
-                widget.LikesCount = Math.Max(0, widget.LikesCount - 1);
-            }
-            else
-            {
-                widget.LikedBy.Add(userEmail);
-                widget.LikesCount++;
             }
 
-            var putUrl = $"{_couchBase}/{_dbName}/{widget.Id}";
-            var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
-            var putResp = await _client.PutAsync(putUrl, putContent);
-
-            return putResp.IsSuccessStatusCode;
+            _logger.LogInformation($"[CouchDB] Found {list.Count} widgets.");
+            return list;
         }
     }
 }
