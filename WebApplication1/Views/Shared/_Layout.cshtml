@@ -179,10 +179,8 @@
             // Helpers
             // ------------------------
 
-            // 🔹 DŮLEŽITÁ OPRAVA: Sjednocení klíče pro null vs ""
             function getWidgetKey(name, location) {
-                // Převedeme null/undefined na prázdný string, aby klíče z DB a LocalStorage byly shodné
-                // Trim odstraní případné mezery, které by mohly vytvářet duplicity
+                // Převedeme null/undefined na prázdný string a ořežeme mezery
                 const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
                 return `${name}::${locSafe}`;
             }
@@ -206,7 +204,6 @@
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
 
-                    // Podpora pro camelCase i PascalCase + normalizace jména
                     return data.map(w => ({
                         name: normalizeWidgetName(w.name || w.Name),
                         location: w.location || w.Location || "",
@@ -227,10 +224,9 @@
 
                 document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
                     const key = wrapper.dataset.widgetKey;
-                    if (!key) return; // Ochrana proti pádu
+                    if (!key) return;
 
                     const widgetName = key.split("::")[0];
-                    // Důležité: Čteme aktuální stav z DOMu (např. po změně země)
                     const currentLocation = wrapper.dataset.location || "";
 
                     widgets.push({
@@ -260,7 +256,6 @@
             // loadWidget
             // ------------------------
             async function loadWidget(widgetName, location = '', optionsRaw = null) {
-                // Normalizujeme klíč hned na začátku
                 const key = getWidgetKey(widgetName, location);
 
                 if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
@@ -272,7 +267,7 @@
                     const wrapper = document.createElement('div');
                     wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
                     wrapper.dataset.widgetKey = key;
-                    wrapper.dataset.location = location; // Nastavíme data-location hned
+                    wrapper.dataset.location = location;
                     container.appendChild(wrapper);
 
                     widgetObj = { wrapper, raw: optionsRaw || null };
@@ -283,7 +278,7 @@
 
                 const { wrapper } = widgetObj;
 
-                // Pokud widget už má obsah, nenačítáme ho znovu (prevence přepisu běžícího widgetu)
+                // Pokud widget už má obsah, nenačítáme ho znovu
                 if (wrapper.children.length > 0 && !isNew) {
                      return Promise.resolve();
                 }
@@ -303,7 +298,6 @@
                             wrapper.innerHTML = await resp.text();
                         }
 
-                        // Ujistíme se, že dataset.location je aktuální
                         wrapper.dataset.location = location;
 
                         addWidgetControls(wrapper, widgetName, key);
@@ -313,7 +307,6 @@
                         if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
                         if (widgetName === "NewsWidget") initNewsWidget(wrapper);
 
-                        // Inicializace Country Widgetu
                         if (widgetName === "CountryInfoWidget") {
                             const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
                             wrapper.id = wrapperId;
@@ -372,7 +365,6 @@
                 if (!canvas) return;
                 const labels = JSON.parse(canvas.dataset.labels || '[]');
                 const data = JSON.parse(canvas.dataset.rates || '[]');
-                const label = canvas.dataset.label || '';
 
                 if (!labels.length || !data.length || typeof Chart === 'undefined') return;
 
@@ -527,18 +519,17 @@
             // Inicializace widgetů při startu
             // ------------------------
             if (container) {
-                // 🔹 PREVENCE DUPLICIT: Vyčistíme kontejner před načítáním
+                // 1. Vyčistíme kontejner a mapu (prevence duplicit)
                 container.innerHTML = '';
                 activeWidgets.clear();
 
                 let widgetsToLoad = [];
 
                 if (token) {
-                    // 1. Přihlášený uživatel -> Načítáme POUZE z DB (Single Source of Truth)
-                    // Tím se vyhneme konfliktům mezi LocalStorage a DB
+                    // A. Přihlášený uživatel: Načítáme POUZE z databáze
                     widgetsToLoad = await fetchWidgetsFromCouchDB();
                 } else {
-                    // 2. Nepřihlášený -> Načítáme z LocalStorage
+                    // B. Nepřihlášený uživatel: Načítáme POUZE z LocalStorage
                     const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
                     widgetsToLoad = savedRaw.map(w => ({
                         name: normalizeWidgetName(w.name),
@@ -547,22 +538,25 @@
                     }));
                 }
 
-                // 3. Deduplikace (pojistka, kdyby zdroj obsahoval duplicity)
+                // 2. Deduplikace pro jistotu (Unikátní klíč = Jméno + Lokace)
                 const uniqueMap = new Map();
                 widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
-                    uniqueMap.set(key, w);
+                    // Pokud v seznamu už je (např. z DB přišly duplicity), ignorujeme další
+                    if (!uniqueMap.has(key)) {
+                        uniqueMap.set(key, w);
+                    }
                 });
 
                 const finalWidgets = Array.from(uniqueMap.values());
 
-                // 4. Vykreslení
+                // 3. Vykreslení
                 for (const w of finalWidgets) {
                     const key = getWidgetKey(w.name, w.location);
                     await loadWidget(w.name, w.location, w.raw);
                 }
 
-                // 5. Synchronizace LocalStorage s aktuálním stavem
+                // 4. Synchronizace LocalStorage s finálním stavem
                 localStorage.setItem("openWidgets", JSON.stringify(finalWidgets.map(m => ({ name: m.name, location: m.location }))));
             }
 
