@@ -58,16 +58,41 @@ namespace WebApplication1.Controllers
 
         // 4. OPRAVA: Akce Like/Unlike
         // V JS voláš ".../like" (bez D), ale v C# jsi měl "liked". Sjednotíme to na "like".
-        [HttpPost("{id}/like")]
+        [HttpPost("{id}/like")] // Ujisti se, že tady NENÍ "liked", ale "like" (aby sedělo s JS)
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
+            // 1. Získání emailu
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            // Tady to volá ToggleLikeAsync
-            var success = await _couchService.ToggleLikeAsync(id, email);
 
-            if (!success) return BadRequest("Cannot like this widget");
-            return Ok();
+            // DIAGNOSTIKA: Pokud se v konzoli serveru objeví "Email is null", je problém v Tokenu
+            if (string.IsNullOrEmpty(email))
+            {
+                _logger.LogError($"Like failed: User email claim is missing. ID: {id}");
+                return Unauthorized("Email claim missing in token");
+            }
+
+            try
+            {
+                // 2. Volání služby
+                var success = await _couchService.ToggleLikeAsync(id, email);
+
+                if (!success)
+                {
+                    _logger.LogWarning($"Like failed inside Service. User: {email}, Widget: {id}. Maybe author self-like or DB error.");
+                    // Vracíme 200 i při neúspěchu logiky (např. vlastní like), 
+                    // aby frontend nevyhazoval chybu, nebo 400 pokud chceš chybu.
+                    // Pro teď zkusíme 400 s vysvětlením:
+                    return BadRequest("Action failed. Are you the author? Or DB error.");
+                }
+
+                return Ok(new { count = "updated" }); // Vracíme JSON pro jistotu
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"CRITICAL ERROR processing like for {id}");
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // DTO
