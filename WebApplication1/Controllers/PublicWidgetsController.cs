@@ -11,10 +11,12 @@ namespace WebApplication1.Controllers
     public class PublicWidgetsController : ControllerBase
     {
         private readonly CouchDbService _couchService;
+        private readonly ILogger<PublicWidgetsController> _logger;
 
-        public PublicWidgetsController(CouchDbService couchService)
+        public PublicWidgetsController(CouchDbService couchService, ILogger<PublicWidgetsController> logger)
         {
             _couchService = couchService;
+            _logger = logger;
         }
 
         [HttpPost("list")]
@@ -34,6 +36,7 @@ namespace WebApplication1.Controllers
             if (user == null) return Unauthorized();
 
             var success = await _couchService.PublishWidgetAsync(user, request.WidgetState, request.PublicName);
+            _logger
             if (!success) return BadRequest("Failed to publish");
 
             return Ok(new { message = "Published successfully" });
