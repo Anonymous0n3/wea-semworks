@@ -258,36 +258,35 @@ namespace WebApplication1.Service
 
         public async Task CreateIndexesAsync()
         {
-            _logger.LogInformation("[CouchDB] Creating indexes...");
+            _logger.LogInformation("[CouchDB] Creating/Verifying indexes...");
 
-            var indexPayloadDate = new
+            // 1. Index pro filtrování a řazení podle času
+            // Důležité: Index musí obsahovat 'Type' (pro filtr) a 'CreatedAt' (pro sort)
+            var indexData = new
             {
                 index = new { fields = new[] { "Type", "CreatedAt" } },
-                name = "idx_type_createdat",
-                type = "json",
-                ddoc = "idx_widgets_date"
+                name = "idx_public_widgets_date",
+                type = "json"
             };
 
-            var indexPayloadLikes = new
+            var content = new StringContent(JsonSerializer.Serialize(indexData, _jsonOptions), Encoding.UTF8, "application/json");
+            var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_index", content);
+
+            if (!resp.IsSuccessStatusCode)
             {
-                index = new { fields = new[] { "Type", "LikesCount" } },
-                name = "idx_type_likes",
-                type = "json",
-                ddoc = "idx_widgets_likes"
-            };
-
-            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayloadDate, _jsonOptions), Encoding.UTF8, "application/json"));
-
-            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
+                _logger.LogError($"[CouchDB] Index creation failed: {await resp.Content.ReadAsStringAsync()}");
+            }
+            else
+            {
+                _logger.LogInformation("[CouchDB] Index 'idx_public_widgets_date' is ready.");
+            }
         }
 
         public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
         {
             var publicWidget = new PublicWidgetDoc
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(), // Vygenerujeme ID ručně
                 Type = "public_widget",
                 WidgetType = widgetData.Name,
                 PublicName = publicName,
@@ -300,7 +299,15 @@ namespace WebApplication1.Service
             };
 
             var response = await PostDocumentAsync(publicWidget);
-            return response.IsSuccessStatusCode;
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                _logger.LogError($"[CouchDB] Failed to save widget: {response.StatusCode} | {error}");
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
@@ -351,7 +358,7 @@ namespace WebApplication1.Service
             var query = new
             {
                 selector = selector,
-                sort = sort,
+                //sort = sort,
                 limit = filter.PageSize,
                 skip = (filter.Page - 1) * filter.PageSize,
                 execution_stats = true
