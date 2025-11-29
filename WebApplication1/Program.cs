@@ -15,18 +15,31 @@ using WebApplication1.Models;
 using WebApplication1.Service;
 using WidgetsDemo.Services;
 
-// ---- Načtení .env souboru ----
+// ==========================================
+// 1. NAČTENÍ .ENV A ENVIRONMENT
+// ==========================================
+// Načte .env soubor do proměnných prostředí
 DotNetEnv.Env.Load();
 
-// ---- Build builder ----
 var builder = WebApplication.CreateBuilder(args);
 
-// ---- Logging (Serilog) ----
-var logPath = Environment.GetEnvironmentVariable("APP_LOG_PATH")
-              ?? "/app/logs/log.txt"; // fallback
+// Načteme proměnné prostředí i do konfigurace (aby fungovalo @inject IConfiguration v pohledech)
+builder.Configuration.AddEnvironmentVariables();
+
+// Rychlá kontrola, zda se načetly Google proměnné (pro debugging)
+var gClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENTID");
+var gRedirect = Environment.GetEnvironmentVariable("GOOGLE_REDIRECTURI");
+Console.WriteLine($"[ENV CHECK] Google ClientID loaded: {!string.IsNullOrEmpty(gClientId)}");
+Console.WriteLine($"[ENV CHECK] Google RedirectURI: {gRedirect ?? "NENALEZENO"}");
+
+// ==========================================
+// 2. LOGOVÁNÍ (SERILOG)
+// ==========================================
+var logPath = Environment.GetEnvironmentVariable("APP_LOG_PATH") ?? "/app/logs/log.txt";
 
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
     .WriteTo.Console()
     .WriteTo.File(
         logPath,
@@ -37,17 +50,26 @@ var logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog(logger);
 
-// ---- Služby ----
+// ==========================================
+// 3. SLUŽBY (DI CONTAINER)
+// ==========================================
+
+// Lokalizace
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// Cache
 builder.Services.AddMemoryCache();
+
+// HTTP Klienti a Services
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<SwopCacheService>();
 builder.Services.AddSingleton<SystemMetricsService>();
-builder.Services.AddHttpClient(); // základní HttpClient
 builder.Services.AddSingleton<CouchDbService>();
 builder.Services.AddSingleton<CountryInfoService>();
 builder.Services.AddHttpClient<ForecastWeatherController>();
 builder.Services.AddHttpClient<WeatherService>();
 
+// Registrace SWOP klienta
 builder.Services.AddSingleton<ISwopClient>(sp =>
 {
     var config = sp.GetRequiredService<IConfiguration>();
@@ -56,26 +78,23 @@ builder.Services.AddSingleton<ISwopClient>(sp =>
     return new SwopClient(config, factory, logger);
 });
 
-// ---- MVC + Razor lokalizace + JSON Konfigurace ----
+// MVC Controllers + Views + JSON Nastavení
 builder.Services
     .AddControllersWithViews()
-    // --- OPRAVA PRO GALERII (CamelCase JSON) ---
     .AddJsonOptions(options =>
     {
+        // DŮLEŽITÉ: Zajistí, že C# vlastnost "Location" bude v JSONu "location" (camelCase)
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     })
-    // ---------------------------------------------
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
-// ---- Quartz ----
+// Quartz (Plánované úlohy na pozadí)
 builder.Services.AddQuartz(q =>
 {
     var jobKey = new JobKey("NewsQuartzJob");
-
     q.AddJob<NewsQuartzJob>(opts => opts.WithIdentity(jobKey));
-
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("NewsQuartzTrigger")
@@ -85,19 +104,10 @@ builder.Services.AddQuartz(q =>
         )
     );
 });
+builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
-builder.Services.AddQuartzHostedService(options =>
-{
-    options.WaitForJobsToComplete = true;
-});
-
-// ---- Podporované kultury ----
-var supportedCultures = new[]
-{
-    new CultureInfo("cs"),
-    new CultureInfo("en"),
-};
-
+// Konfigurace podporovaných jazyků
+var supportedCultures = new[] { new CultureInfo("cs"), new CultureInfo("en") };
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     options.DefaultRequestCulture = new RequestCulture("cs");
@@ -110,7 +120,14 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     };
 });
 
-// ---- JWT konfigurace ----
+// MQTT Services
+builder.Services.AddSingleton<MqttNewsService>();
+builder.Services.AddSingleton<NewsRepository>();
+builder.Services.AddHostedService<NewsBackgroundJob>();
+
+// ==========================================
+// 4. SECURITY (JWT & AUTH)
+// ==========================================
 var jwtOptions = new JwtOptions
 {
     Key = Environment.GetEnvironmentVariable("JWT_KEY")
@@ -120,46 +137,13 @@ var jwtOptions = new JwtOptions
     ExpireMinutes = int.TryParse(Environment.GetEnvironmentVariable("JWT_EXPIREMINUTES"), out var m) ? m : 60
 };
 
-Console.WriteLine($"[JWT DEBUG] KeyPrefix={jwtOptions.Key?.Substring(0, Math.Min(10, jwtOptions.Key.Length))}");
+// Debug výpis JWT nastavení
+Console.WriteLine($"[JWT DEBUG] KeyPrefix={jwtOptions.Key?.Substring(0, Math.Min(5, jwtOptions.Key.Length))}...");
 Console.WriteLine($"[JWT DEBUG] Issuer={jwtOptions.Issuer}, Audience={jwtOptions.Audience}");
 
 builder.Services.AddSingleton(jwtOptions);
 
-// ---- Swagger (OpenAPI) ----
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1 API", Version = "v1" });
-
-    var securityScheme = new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Zadejte 'Bearer {token}'"
-    };
-
-    c.AddSecurityDefinition("Bearer", securityScheme);
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        { securityScheme, Array.Empty<string>() }
-    });
-});
-
-// ---- CORS ----
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("DefaultCorsPolicy", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-// ---- Authentication / JWT ----
+// Povolení detailních logů pro IdentityModel (jen pro debug)
 IdentityModelEventSource.ShowPII = true;
 
 builder.Services.AddAuthentication(options =>
@@ -178,76 +162,95 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtOptions.Issuer,
         ValidAudience = jwtOptions.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        ClockSkew = TimeSpan.Zero // Token expiruje přesně v daný čas
     };
 
     options.Events = new JwtBearerEvents
     {
-        OnMessageReceived = ctx =>
-        {
-            var header = ctx.Request.Headers["Authorization"].FirstOrDefault();
-            Console.WriteLine($"[JWT] OnMessageReceived Authorization header: {header}");
-            return Task.CompletedTask;
-        },
         OnAuthenticationFailed = ctx =>
         {
-            Console.WriteLine($"[JWT] Authentication failed: {ctx.Exception?.Message}");
+            Console.WriteLine($"[JWT ERROR] Auth failed: {ctx.Exception?.Message}");
             return Task.CompletedTask;
         },
         OnTokenValidated = ctx =>
         {
-            Console.WriteLine("[JWT] Token validated. Claims:");
-            foreach (var c in ctx.Principal.Claims)
-                Console.WriteLine($"  - {c.Type} = {c.Value}");
+            var email = ctx.Principal?.FindFirst("email")?.Value ?? "N/A";
+            Console.WriteLine($"[JWT INFO] Token validated for user: {email}");
             return Task.CompletedTask;
         }
     };
 });
 
-// ---- Authorization ----
 builder.Services.AddAuthorization();
 
-// ---- MQTT ----
-builder.Services.AddSingleton<MqttNewsService>();
-builder.Services.AddSingleton<NewsRepository>();
-builder.Services.AddHostedService<NewsBackgroundJob>();
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1 API", Version = "v1" });
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Zadejte 'Bearer {token}'"
+    };
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement { { securityScheme, Array.Empty<string>() } });
+});
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DefaultCorsPolicy", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
+// ==========================================
+// 5. PROXY CONFIG (DŮLEŽITÉ PRO NGINX)
+// ==========================================
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor |
         ForwardedHeaders.XForwardedProto |
-        ForwardedHeaders.XForwardedHost;
+        ForwardedHeaders.XForwardedHost; // Důležité pro zachování domény a portu z Nginx
 
+    // V Dockeru neznáme IP proxy předem, proto vyčistíme limity
     options.KnownNetworks.Clear();
     options.KnownProxies.Clear();
 });
 
 // ==========================================
-// ---- BUILD APP PIPELINE (Middleware) ----
+// 6. PIPELINE APLIKACE
 // ==========================================
 var app = builder.Build();
 
-// 1. Inicializace DB (může být zde, neovlivňuje HTTP pipeline)
+// Inicializace DB
 using (var scope = app.Services.CreateScope())
 {
     try
     {
         var couch = scope.ServiceProvider.GetRequiredService<CouchDbService>();
         await couch.EnsureDbExistsAsync();
-        // Vytvoření indexů pro Mango queries (pro Public Widgets)
         await couch.CreateIndexesAsync();
-        Console.WriteLine("✅ CouchDB databáze ověřena a indexy vytvořeny.");
+        Console.WriteLine("✅ CouchDB databáze připravena.");
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"❌ Chyba při inicializaci CouchDB: {ex.Message}");
+        Console.WriteLine($"❌ Chyba inicializace DB: {ex.Message}");
     }
 }
 
-// 2. Forwarded Headers (musí být úplně nahoře pro proxy)
+// 1. Forwarded Headers - MUSÍ BÝT PRVNÍ
 app.UseForwardedHeaders();
 
+// Middleware pro opravu PathBase, pokud ji Nginx posílá
 app.Use((context, next) =>
 {
     if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var pathBase))
@@ -257,7 +260,7 @@ app.Use((context, next) =>
     return next();
 });
 
-// 3. Exception Handler / HSTS / Swagger
+// 2. Developer exceptions / Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -267,35 +270,33 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    // HSTS zapneme jen pokud jsme si jistí HTTPS
+    // app.UseHsts(); 
 }
 
-// 4. HTTPS Redirection & Static Files
+// 3. Static Files & Routing
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
-// 5. Routing (musí být před CORS a Auth)
 app.UseRouting();
 
-// 6. CORS (musí být mezi UseRouting a UseResponseCaching/UseAuth)
+// 4. CORS
 app.UseCors("DefaultCorsPolicy");
 
-// 7. Lokalizace
+// 5. Lokalizace
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 
-// 8. AUTENTIZACE & AUTORIZACE (v tomto pořadí!)
-app.UseAuthentication(); // Zjistí KDO to je (rozbalí JWT)
-app.UseAuthorization();  // Zjistí CO může dělat
+// 6. Auth
+app.UseAuthentication();
+app.UseAuthorization();
 
-// 9. Mapování Endpointů
+// 7. Endpoints
 app.MapControllers();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Endpoint pro přepnutí jazyka
+// Endpoint pro změnu jazyka
 app.MapPost("/set-language", (HttpContext http) =>
 {
     var culture = http.Request.Form["culture"].ToString();
@@ -306,17 +307,11 @@ app.MapPost("/set-language", (HttpContext http) =>
         http.Response.Cookies.Append(
             CookieRequestCultureProvider.DefaultCookieName,
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-            new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddYears(1),
-                IsEssential = true,
-                HttpOnly = false,
-                Secure = true
-            }
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1), IsEssential = true, HttpOnly = false, Secure = true }
         );
     }
 
-    if (string.IsNullOrEmpty(returnUrl) || returnUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+    if (string.IsNullOrEmpty(returnUrl) || !returnUrl.StartsWith("/"))
         return Results.Redirect("/");
 
     return Results.LocalRedirect(returnUrl);
