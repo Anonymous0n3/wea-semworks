@@ -1,10 +1,12 @@
 ﻿using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Quartz;
 using Serilog;
 using System.Globalization;
 using System.Text;
@@ -12,7 +14,6 @@ using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Service;
 using WidgetsDemo.Services;
-using Quartz;
 
 // ---- Načtení .env souboru ----
 DotNetEnv.Env.Load();
@@ -206,6 +207,11 @@ builder.Services.AddHostedService<NewsBackgroundJob>();
 
 // ---- Build app ----
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 // ---- CouchDB inicializace ----
 using (var scope = app.Services.CreateScope())
