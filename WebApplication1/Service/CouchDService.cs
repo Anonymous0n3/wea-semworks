@@ -313,7 +313,7 @@ namespace WebApplication1.Service
             };
 
             var response = await PostDocumentAsync(publicWidget);
-
+            _logger.LogInformation($"[CouchDB] atempting to publish public widget: {publicWidget.Id} by {author.Email}");
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
