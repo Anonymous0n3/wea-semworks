@@ -305,30 +305,47 @@ namespace WebApplication1.Service
 
         public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
         {
+            // 1. Selector: Musí obsahovat alespoň Type
             var selector = new Dictionary<string, object>
-            {
-                { "Type", "public_widget" }
-            };
+    {
+        { "Type", "public_widget" }
+    };
 
+            // Filtry
             if (!string.IsNullOrEmpty(filter.WidgetType))
+            {
                 selector.Add("WidgetType", filter.WidgetType);
+            }
 
             if (!string.IsNullOrEmpty(filter.Author))
+            {
                 selector.Add("AuthorName", new { @regex = $"(?i){filter.Author}" });
+            }
 
             if (!string.IsNullOrEmpty(filter.SearchName))
+            {
                 selector.Add("PublicName", new { @regex = $"(?i){filter.SearchName}" });
+            }
 
+            // 2. Řazení a Index-Hint
             var sort = new List<object>();
+
             if (filter.SortBy == "likes")
             {
                 sort.Add(new { LikesCount = "desc" });
-                if (!selector.ContainsKey("LikesCount")) selector.Add("LikesCount", new { @gt = -1 });
+                // Trik: Aby CouchDB použila index na LikesCount, musí být pole v selectoru
+                if (!selector.ContainsKey("LikesCount"))
+                    selector.Add("LikesCount", new { @gt = -1 });
             }
             else
             {
+                // Default: Řazení podle data
                 sort.Add(new { CreatedAt = "desc" });
-                if (!selector.ContainsKey("CreatedAt")) selector.Add("CreatedAt", new { @gt = 0 });
+
+                // Trik: Aby CouchDB použila index na CreatedAt, musí být pole v selectoru.
+                // @gt = null v CouchDB znamená "všechny hodnoty, které existují" (null je nejmenší hodnota)
+                if (!selector.ContainsKey("CreatedAt"))
+                    selector.Add("CreatedAt", new { @gt = (string?)null });
             }
 
             var query = new
@@ -340,16 +357,25 @@ namespace WebApplication1.Service
                 execution_stats = true
             };
 
-            var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
+            // Debug výpis dotazu
+            var jsonQuery = JsonSerializer.Serialize(query, _jsonOptions);
+            _logger.LogInformation($"[CouchDB] Sending _find Query: {jsonQuery}");
+
+            var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
             var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
 
             if (!resp.IsSuccessStatusCode)
             {
-                _logger.LogError($"[CouchDB] Find error: {resp.StatusCode} - {await resp.Content.ReadAsStringAsync()}");
+                var errorTxt = await resp.Content.ReadAsStringAsync();
+                _logger.LogError($"[CouchDB] Find error: {resp.StatusCode} - {errorTxt}");
                 return new List<PublicWidgetDoc>();
             }
 
             var result = await resp.Content.ReadAsStringAsync();
+
+            // Debug výpis odpovědi (zkrácený)
+            _logger.LogInformation($"[CouchDB] Response length: {result.Length}");
+
             using var doc = JsonDocument.Parse(result);
 
             var list = new List<PublicWidgetDoc>();
@@ -362,7 +388,10 @@ namespace WebApplication1.Service
                         var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
                         if (item != null) list.Add(item);
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning($"[CouchDB] Failed to deserialize item: {ex.Message}");
+                    }
                 }
             }
             return list;

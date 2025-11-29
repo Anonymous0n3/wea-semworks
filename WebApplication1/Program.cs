@@ -56,9 +56,16 @@ builder.Services.AddSingleton<ISwopClient>(sp =>
     return new SwopClient(config, factory, logger);
 });
 
-// ---- MVC + Razor lokalizace ----
+// ---- MVC + Razor lokalizace + JSON Konfigurace ----
 builder.Services
     .AddControllersWithViews()
+    // --- OPRAVA PRO GALERII (CamelCase JSON) ---
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    })
+    // ---------------------------------------------
     .AddViewLocalization()
     .AddDataAnnotationsLocalization();
 
