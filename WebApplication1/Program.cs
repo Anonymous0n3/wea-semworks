@@ -207,25 +207,40 @@ builder.Services.AddHostedService<NewsBackgroundJob>();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
-    // Říkáme aplikaci, aby přijímala všechny typy forwarded hlaviček
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor |
         ForwardedHeaders.XForwardedProto |
         ForwardedHeaders.XForwardedHost;
 
-    // V Dockeru neznáme IP adresu proxy předem, proto vyčistíme filtry.
-    // Toto je bezpečné, protože kontejner je schovaný v privátní síti Dockeru.
     options.KnownNetworks.Clear();
     options.KnownProxies.Clear();
 });
 
-// ---- Build app ----
+// ==========================================
+// ---- BUILD APP PIPELINE (Middleware) ----
+// ==========================================
 var app = builder.Build();
 
+// 1. Inicializace DB (může být zde, neovlivňuje HTTP pipeline)
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var couch = scope.ServiceProvider.GetRequiredService<CouchDbService>();
+        await couch.EnsureDbExistsAsync();
+        // Vytvoření indexů pro Mango queries (pro Public Widgets)
+        await couch.CreateIndexesAsync();
+        Console.WriteLine("✅ CouchDB databáze ověřena a indexy vytvořeny.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Chyba při inicializaci CouchDB: {ex.Message}");
+    }
+}
+
+// 2. Forwarded Headers (musí být úplně nahoře pro proxy)
 app.UseForwardedHeaders();
 
-// 2. Ruční nastavení PathBase z hlavičky od Nginxu
-// Toto zajistí, že aplikace pochopí, že běží pod prefixem "/sk04-web"
 app.Use((context, next) =>
 {
     if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var pathBase))
@@ -235,28 +250,7 @@ app.Use((context, next) =>
     return next();
 });
 
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-// ---- CouchDB inicializace ----
-using (var scope = app.Services.CreateScope())
-{
-    try
-    {
-        var couch = scope.ServiceProvider.GetRequiredService<CouchDbService>();
-        await couch.EnsureDbExistsAsync();
-        Console.WriteLine("✅ CouchDB databáze ověřena nebo vytvořena.");
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"❌ Chyba při inicializaci CouchDB: {ex.Message}");
-    }
-}
-
-// ---- Middleware / pipeline ----
+// 3. Exception Handler / HSTS / Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -269,28 +263,32 @@ else
     app.UseHsts();
 }
 
+// 4. HTTPS Redirection & Static Files
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+// 5. Routing (musí být před CORS a Auth)
+app.UseRouting();
+
+// 6. CORS (musí být mezi UseRouting a UseResponseCaching/UseAuth)
+app.UseCors("DefaultCorsPolicy");
+
+// 7. Lokalizace
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
+// 8. AUTENTIZACE & AUTORIZACE (v tomto pořadí!)
+app.UseAuthentication(); // Zjistí KDO to je (rozbalí JWT)
+app.UseAuthorization();  // Zjistí CO může dělat
 
-// CORS MUSÍ být před auth
-app.UseCors("DefaultCorsPolicy");
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-// ---- Endpoints ----
+// 9. Mapování Endpointů
 app.MapControllers();
 
-// Default route
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// ---- Ruční přepnutí jazyka (endpoint) ----
+// Endpoint pro přepnutí jazyka
 app.MapPost("/set-language", (HttpContext http) =>
 {
     var culture = http.Request.Form["culture"].ToString();
