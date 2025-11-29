@@ -182,7 +182,8 @@
             // 🔹 DŮLEŽITÁ OPRAVA: Sjednocení klíče pro null vs ""
             function getWidgetKey(name, location) {
                 // Převedeme null/undefined na prázdný string, aby klíče z DB a LocalStorage byly shodné
-                const locSafe = (location === null || location === undefined) ? "" : String(location);
+                // Trim odstraní případné mezery, které by mohly vytvářet duplicity
+                const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
                 return `${name}::${locSafe}`;
             }
 
@@ -371,6 +372,7 @@
                 if (!canvas) return;
                 const labels = JSON.parse(canvas.dataset.labels || '[]');
                 const data = JSON.parse(canvas.dataset.rates || '[]');
+                const label = canvas.dataset.label || '';
 
                 if (!labels.length || !data.length || typeof Chart === 'undefined') return;
 
@@ -525,10 +527,12 @@
             // Inicializace widgetů při startu
             // ------------------------
             if (container) {
-                // 1. Načtení z LocalStorage
+                // 🔹 PREVENCE DUPLICIT: Vyčistíme kontejner před načítáním
+                container.innerHTML = '';
+                activeWidgets.clear();
+
                 const savedWidgetsRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
 
-                // Mapa pro sloučení, klíčem je "Name::Location"
                 const mergedWidgetsMap = new Map();
 
                 savedWidgetsRaw.forEach(w => {
@@ -540,26 +544,21 @@
                 });
 
                 if (token) {
-                    // 2. Načtení z DB (má přednost)
                     const couchData = await fetchWidgetsFromCouchDB();
 
                     couchData.forEach(w => {
                         const key = getWidgetKey(w.name, w.location);
-                        // Přepíšeme lokální záznam tím z DB (nebo přidáme nový)
                         mergedWidgetsMap.set(key, w);
                     });
                 }
 
-                // 3. Vykreslení unikátních widgetů
                 const mergedList = Array.from(mergedWidgetsMap.values());
 
                 for (const w of mergedList) {
                     const key = getWidgetKey(w.name, w.location);
-                    // Zkontrolujeme, jestli už náhodou není v activeWidgets (pro jistotu)
                     if (!activeWidgets.has(key)) {
                         await loadWidget(w.name, w.location, w.raw);
                     } else {
-                        // Refresh existujícího
                         const entry = activeWidgets.get(key);
                         entry.raw = w.raw || entry.raw;
                         attachInteractions(entry.wrapper, w.name, entry.raw);
@@ -567,7 +566,6 @@
                     }
                 }
 
-                // 4. Uložíme čistý seznam zpět do localStorage
                 localStorage.setItem("openWidgets", JSON.stringify(mergedList.map(m => ({ name: m.name, location: m.location }))));
             }
 
@@ -575,7 +573,6 @@
                 link.addEventListener('click', e => {
                     e.preventDefault();
                     const name = normalizeWidgetName(link.getAttribute('data-widget'));
-                    // Kliknutí z menu vždy přidá widget s prázdnou lokací (pokud to tak má být)
                     const key = getWidgetKey(name, "");
                     if (!activeWidgets.has(key)) loadWidget(name);
                 });
