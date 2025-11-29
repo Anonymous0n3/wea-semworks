@@ -37,5 +37,10 @@ namespace WebApplication1.Controllers
             _logger.LogInformation("Saved NEW hello doc with text: {text}", text);
             return RedirectToAction("Index");
         }
+
+        public IActionResult PublicGallery()
+        {
+            return View();
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿@model List<WebApplication1.Models.Data.HelloDoc>
-@using System.Globalization
+﻿@using System.Globalization
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<WebApplication1.SharedResource> Localizer
 @inject IConfiguration Configuration
@@ -24,41 +23,6 @@
             </select>
         </form>
     </div>
-
-    <hr class="my-4" />
-
-    <h2>@Localizer["HelloCouchDBTitle"]</h2>
-
-    @if (Model != null && Model.Any())
-    {
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>@Localizer["TextHeader"]</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var doc in Model)
-                {
-                    <tr>
-                        <td>@doc.text</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p><strong>@Localizer["DatabaseEmptyMessage"]</strong></p>
-    }
-
-    <form asp-controller="Hello" asp-action="Save" method="post" class="mt-3">
-        <div class="form-group">
-            <label for="text">@Localizer["EnterNewTextLabel"]</label>
-            <input type="text" class="form-control" id="text" name="text" />
-        </div>
-        <button type="submit" class="btn btn-primary mt-2">@Localizer["SaveButton"]</button>
-    </form>
 
     <hr class="my-4" />
 

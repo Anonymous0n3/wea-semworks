@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Models.Data;
+using WebApplication1.Models.WebApplication1.Models;
 
 namespace WebApplication1.Service
 {
@@ -321,6 +322,161 @@ namespace WebApplication1.Service
 
             bool allMatch = widgets.All(w => loadedWidgets.Any(lw => lw.Name == w.Name && lw.Location == w.Location));
             _logger.LogInformation($"[Test] Všechny widgety uloženy správně: {allMatch}");
+        }
+
+        // ---------------------------
+        // Veřejné Widgety (Public API)
+        // ---------------------------
+
+        // 1. Inicializace indexů (nutné pro řazení v CouchDB)
+        public async Task CreateIndexesAsync()
+        {
+            // Index pro řazení podle data
+            var indexPayloadDate = new
+            {
+                index = new { fields = new[] { "Type", "CreatedAt" } },
+                name = "sort_by_date",
+                type = "json"
+            };
+
+            // Index pro řazení podle likes
+            var indexPayloadLikes = new
+            {
+                index = new { fields = new[] { "Type", "LikesCount" } },
+                name = "sort_by_likes",
+                type = "json"
+            };
+
+            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadDate, _jsonOptions), Encoding.UTF8, "application/json"));
+
+            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
+        }
+
+        public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
+        {
+            var publicWidget = new PublicWidgetDoc
+            {
+                WidgetType = widgetData.Name, // Např. ForecastWeather
+                PublicName = publicName,
+                AuthorEmail = author.Email,
+                AuthorName = author.Name,
+                WidgetData = widgetData,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            return (await PostDocumentAsync(publicWidget)).IsSuccessStatusCode;
+        }
+
+        public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
+        {
+            // Stavba Mango Query Selectoru
+            var selector = new Dictionary<string, object>
+            {
+                { "Type", "public_widget" }
+            };
+
+            if (!string.IsNullOrEmpty(filter.WidgetType))
+            {
+                selector.Add("WidgetType", filter.WidgetType);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Author))
+            {
+                // Jednoduchý regex pro substring case-insensitive (Pozor: v produkci může být pomalé)
+                selector.Add("AuthorName", new { has_regex = $"(?i){filter.Author}" });
+            }
+
+            if (!string.IsNullOrEmpty(filter.SearchName))
+            {
+                selector.Add("PublicName", new { has_regex = $"(?i){filter.SearchName}" });
+            }
+
+            // Řazení
+            var sort = new List<object>();
+            if (filter.SortBy == "likes")
+                sort.Add(new { LikesCount = "desc" });
+            else
+                sort.Add(new { CreatedAt = "desc" });
+
+            var query = new
+            {
+                selector = selector,
+                sort = sort,
+                limit = filter.PageSize,
+                skip = (filter.Page - 1) * filter.PageSize,
+                execution_stats = true
+            };
+
+            var jsonQuery = JsonSerializer.Serialize(query, _jsonOptions);
+            var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
+
+            var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
+
+            if (!resp.IsSuccessStatusCode) return new List<PublicWidgetDoc>();
+
+            var result = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(result);
+
+            var list = new List<PublicWidgetDoc>();
+            if (doc.RootElement.TryGetProperty("docs", out var docs))
+            {
+                foreach (var d in docs.EnumerateArray())
+                {
+                    var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
+                    if (item != null) list.Add(item);
+                }
+            }
+            return list;
+        }
+
+        public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
+        {
+            // 1. Získat dokument
+            var resp = await GetDocumentAsync(widgetId);
+            if (!resp.IsSuccessStatusCode) return false;
+
+            var json = await resp.Content.ReadAsStringAsync();
+            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(json, _jsonOptions);
+            if (widget == null) return false;
+
+            if (widget.AuthorEmail == userEmail) return false; // Autor nemůže lajkovat sám sebe
+
+            // 2. Upravit likes
+            if (widget.LikedBy.Contains(userEmail))
+            {
+                widget.LikedBy.Remove(userEmail);
+                widget.LikesCount--;
+            }
+            else
+            {
+                widget.LikedBy.Add(userEmail);
+                widget.LikesCount++;
+            }
+
+            // 3. Uložit update (optimistický locking přes _rev)
+            var putUrl = $"{_couchBase}/{_dbName}/{widget.Id}";
+            var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
+            var putResp = await _client.PutAsync(putUrl, putContent);
+
+            return putResp.IsSuccessStatusCode;
+        }
+
+        // Pomocná metoda pro update nastavení veřejného widgetu (pouze autor)
+        public async Task<bool> UpdatePublicWidgetSettingsAsync(string widgetId, string userEmail, UserWidgetState newData)
+        {
+            var resp = await GetDocumentAsync(widgetId);
+            if (!resp.IsSuccessStatusCode) return false;
+
+            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(await resp.Content.ReadAsStringAsync(), _jsonOptions);
+            if (widget == null || widget.AuthorEmail != userEmail) return false; // Kontrola autora
+
+            widget.WidgetData = newData; // Přepis nastavení
+
+            var putUrl = $"{_couchBase}/{_dbName}/{widget.Id}";
+            var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
+            return (await _client.PutAsync(putUrl, putContent)).IsSuccessStatusCode;
         }
     }
 }
