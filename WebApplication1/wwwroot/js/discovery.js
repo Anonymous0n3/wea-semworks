@@ -87,30 +87,35 @@ function renderCard(w, currentUserEmail, token) {
 
     // --- LOGIKA PRO LIKE TLAČÍTKO ---
     let likeBtn = '';
-    let heartIcon = '🤍'; // Prázdné srdce (default)
     let likesCount = w.likesCount || 0;
 
     if (token) {
-        // Zkontrolujeme, zda je uživatel v seznamu LikedBy
         const likedBy = w.likedBy || [];
-        // Porovnáváme emaily (case-insensitive pro jistotu)
-        if (currentUserEmail && likedBy.some(e => e.toLowerCase() === currentUserEmail.toLowerCase())) {
-            heartIcon = '❤️'; // Plné srdce
-        }
+        // Zjistíme, zda uživatel už lajkoval
+        const isLiked = currentUserEmail && likedBy.some(e => e.toLowerCase() === currentUserEmail.toLowerCase());
 
-        // Zobrazíme tlačítko, pokud nejsem autor (nebo i když jsem, záleží na pravidlech, zde povolíme všem kromě autora)
+        // Nastavení vzhledu tlačítka podle stavu
+        const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
+        const btnText = isLiked ? 'Líbi se' : 'To se mi líbí';
+        const icon = isLiked ? '❤️' : '🤍';
+
         if (!isAuthor) {
-            likeBtn = `<button class="btn btn-sm btn-light border position-absolute top-0 end-0 m-2 shadow-sm" onclick="toggleLike('${w.id}')" title="Like">${heartIcon}</button>`;
+            // DŮLEŽITÉ: z-index: 10 zajistí, že tlačítko bude klikatelné i přes ostatní vrstvy
+            likeBtn = `
+            <button class="btn btn-sm ${btnClass} position-absolute top-0 end-0 m-2 shadow-sm" 
+                    style="z-index: 10;" 
+                    onclick="window.toggleLike('${w.id}')">
+                ${icon} ${btnText}
+            </button>`;
         } else {
-            // Autorovi ukážeme jen statickou ikonku nebo nic (zde nic, jen count dole)
-            // likeBtn = `<span class="position-absolute top-0 end-0 m-2 badge bg-light text-dark border">Autor</span>`;
+            likeBtn = `<span class="badge bg-secondary position-absolute top-0 end-0 m-2">Autor</span>`;
         }
     }
 
     // Tlačítko Použít (Náhled)
     let addBtn = '';
     if (token) {
-        addBtn = `<button class="btn btn-primary btn-sm w-100 mt-2" onclick="previewWidget('${widgetType}', ${widgetDataStr})">Vyzkoušet (Náhled)</button>`;
+        addBtn = `<button class="btn btn-primary btn-sm w-100 mt-2" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">Vyzkoušet (Náhled)</button>`;
     } else {
         addBtn = `<small class="d-block mt-2 text-muted">Přihlaste se pro vyzkoušení</small>`;
     }
@@ -119,8 +124,8 @@ function renderCard(w, currentUserEmail, token) {
     <div class="col-md-4 col-lg-3">
         <div class="card h-100 shadow-sm position-relative">
             ${likeBtn}
-            <div class="card-body">
-                <h5 class="card-title text-truncate pe-4" title="${w.publicName}">${w.publicName}</h5>
+            <div class="card-body pt-5"> <!-- Větší padding nahoře kvůli tlačítku -->
+                <h5 class="card-title text-truncate" title="${w.publicName}">${w.publicName}</h5>
                 <span class="badge bg-light text-dark border mb-2">${w.widgetType}</span>
                 <p class="card-text small text-muted mb-0">Autor: ${w.authorName}</p>
                 <p class="card-text small text-muted">Lokalita: ${w.widgetData.location || "N/A"}</p>
@@ -148,11 +153,9 @@ async function toggleLike(id) {
         });
 
         if (resp.ok) {
-            // Úspěch -> Obnovíme seznamy, aby se projevila změna (počet i barva)
             const userEmail = localStorage.getItem('userEmail');
-            // Obnovíme oblíbené (pokud jsme přidali like, objeví se tam; pokud odebrali, zmizí)
+            // Obnovíme oba seznamy, aby se projevila změna barvy i čísla
             loadFavorites(token, userEmail);
-            // Obnovíme veřejný seznam (aktualizuje se count)
             loadPublicList(currentPage);
         } else {
             console.error("Like failed", await resp.text());
@@ -194,7 +197,6 @@ async function previewWidget(widgetName, widgetData) {
         const html = await resp.text();
         container.innerHTML = html;
 
-        // Inicializace interaktivity v náhledu
         setTimeout(() => {
             initWidgetScripts(container, widgetName);
         }, 100);
@@ -277,44 +279,27 @@ function initWidgetScripts(wrapper, widgetName) {
 
     // 4. Inicializace Country Widgetu
     if (widgetName === "CountryInfoWidget") {
-        // Zkusíme najít element widgetu
         const widgetEl = wrapper.querySelector('.country-info-widget');
         if (widgetEl && typeof window.initCountryWidget === 'function') {
             if (!widgetEl.id) {
                 widgetEl.id = `preview_country_${Math.random().toString(36).substr(2, 9)}`;
             }
-            // Nastavíme lokaci z wrapperu do inputu uvnitř
-            // Protože initCountryWidget čte z dataset.location na wrapperu (což už máme),
-            // musíme zajistit, aby funkce dostala správné ID.
-            // Funkce `initCountryWidget(id)` očekává ID wrapperu.
-            // Zde je wrapperem `container` (nebo jeho child).
-
-            // Jelikož `initCountryWidget` hledá `.input-country` uvnitř elementu s daným ID,
-            // a my jsme HTML vložili do `previewContainer` (což je `container`),
-            // můžeme zkusit inicializovat přímo na containeru, pokud má správnou strukturu,
-            // nebo přidat ID hlavnímu divu widgetu.
-
-            // Nejjednodušší: Najít wrapper v containeru a inicializovat ho
-            // HTML ze serveru obvykle vypadá: <div id="..." class="country-info-widget widget-wrapper" data-location="...">
-            // Ale v náhledu nemáme "widget-wrapper" třídu v kořeni z PartialView.
-
-            // Pokud PartialView vrací rovnou obsah, obalíme ho logikou.
-            // Pro CountryWidget je to specifické.
-            // Zkusíme jen spustit init na elementu, který má class .country-info-widget
             window.initCountryWidget(widgetEl.id);
 
-            // A ručně dotlačíme data, pokud to init neudělal (protože preview nemá dataset.location na vnitřním divu)
             const loc = wrapper.dataset.location;
             if (loc) {
-                // Najdeme input a nastavíme
                 const input = widgetEl.querySelector('.input-country');
                 if (input) {
-                    // Tady bychom ideálně volali fetchCountryDetails z country-widget.js, ale ta není exportovaná.
-                    // Proto spoléháme na to, že initCountryWidget si to přečte, pokud nastavíme dataset.
                     widgetEl.dataset.location = loc;
-                    window.initCountryWidget(widgetEl.id); // Znovu init s daty
+                    window.initCountryWidget(widgetEl.id);
                 }
             }
         }
     }
 }
+
+// 🔹 EXPORT FUNKCÍ DO GLOBAL SCOPE
+// Toto je nutné, aby fungovaly 'onclick' atributy v HTML stringu
+window.toggleLike = toggleLike;
+window.previewWidget = previewWidget;
+window.closePreview = closePreview;
