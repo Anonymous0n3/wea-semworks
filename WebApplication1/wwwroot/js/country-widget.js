@@ -1,5 +1,4 @@
-﻿// countryWidget.js
-// ---------------------------------------------
+﻿// ---------------------------------------------
 // Dynamická inicializace všech Country Info widgetů
 // ---------------------------------------------
 
@@ -27,8 +26,6 @@ function initCountryWidget(widgetId) {
         datalist.innerHTML = Object.entries(window.allCountries)
             .map(([key, value]) => `<option value="${value} (${key})"></option>`)
             .join('');
-    } else {
-        console.warn('⚠️ window.allCountries není inicializován – datalist zůstane prázdný.');
     }
 
     // Funkce pro extrakci ISO kódu
@@ -39,10 +36,7 @@ function initCountryWidget(widgetId) {
 
     // Načtení detailů země
     async function fetchCountryDetails(isoCode) {
-        if (!isoCode) {
-            resultContainer.innerHTML = `<p class="text-muted">Select a valid country.</p>`;
-            return;
-        }
+        if (!isoCode) return;
 
         try {
             const resp = await fetch(`/Country/Details?isoCode=${encodeURIComponent(isoCode)}`, {
@@ -57,8 +51,9 @@ function initCountryWidget(widgetId) {
             const html = await resp.text();
             resultContainer.innerHTML = html;
 
-            // 🔹 Uložíme poslední vybranou zemi do localStorage
-            localStorage.setItem('selectedCountryIso', isoCode);
+            // DŮLEŽITÉ: Aktualizujeme stav widgetu v DOM, aby ho site.js mohl uložit
+            wrapper.dataset.location = isoCode;
+
         } catch (err) {
             console.error(err);
             resultContainer.innerHTML = `<p class="text-danger">Error fetching country details.</p>`;
@@ -68,7 +63,7 @@ function initCountryWidget(widgetId) {
     // Event listenery
     searchBtn.addEventListener('click', () => {
         const isoCode = extractIsoCode(input.value);
-        fetchCountryDetails(isoCode);
+        if (isoCode) fetchCountryDetails(isoCode);
     });
 
     input.addEventListener('keypress', e => {
@@ -78,18 +73,23 @@ function initCountryWidget(widgetId) {
         }
     });
 
-    // 🔹 Při načtení widgetu obnovíme poslední zemi (pokud existuje)
-    const savedIso = localStorage.getItem('selectedCountryIso');
+    // 🔹 OPRAVA: Inicializace stavu (Načtení a vykreslení)
+    const savedIso = wrapper.dataset.location;
+
     if (savedIso) {
+        // 1. Stáhneme a zobrazíme data o zemi (to chybělo)
         fetchCountryDetails(savedIso);
-        // Aktualizujeme input, aby zobrazoval název
+
+        // 2. Nastavíme input
         if (window.allCountries && window.allCountries[savedIso]) {
             input.value = `${window.allCountries[savedIso]} (${savedIso})`;
+        } else {
+            input.value = savedIso;
         }
     }
 }
 
-// Inicializuje všechny widgety na stránce
+// Inicializuje všechny widgety na stránce (pro prvotní load dashboardu)
 function initAllCountryWidgets() {
     document.querySelectorAll('.country-info-widget').forEach(widget => {
         if (!widget.dataset.initialized) {
@@ -100,9 +100,8 @@ function initAllCountryWidgets() {
     });
 }
 
-// Při načtení stránky
 document.addEventListener('DOMContentLoaded', initAllCountryWidgets);
 
-// Export do globálního prostoru (pro dynamické přidávání)
+// Export do globálního prostoru
 window.initCountryWidget = initCountryWidget;
 window.initAllCountryWidgets = initAllCountryWidgets;

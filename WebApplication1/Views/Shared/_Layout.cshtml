@@ -207,27 +207,40 @@
                 }
             }
 
-            async function saveWidgetState() {
-                const widgets = Array.from(activeWidgets.keys()).map(k => {
-                    const [name, location] = k.split("::");
-                    return { name, location };
-                });
-                localStorage.setItem("openWidgets", JSON.stringify(widgets));
+                    async function saveWidgetState() {
+            const widgets = [];
 
-                if (!token) return;
-                try {
-                    await fetch("/api/auth/widgets", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": "Bearer " + token
-                        },
-                        body: JSON.stringify(widgets)
-                    });
-                } catch (err) {
-                    console.error("❌ Chyba ukládání na CouchDB:", err);
-                }
+            // Iterujeme přes skutečné DOM elementy widgetů
+            document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
+                const key = wrapper.dataset.widgetKey;
+                // Získáme název widgetu z klíče (např. "CountryInfoWidget::CZ" -> "CountryInfoWidget")
+                const widgetName = key.split("::")[0];
+
+                // Získáme AKTUÁLNÍ lokaci z datasetu (kterou tam zapsal country-widget.js)
+                const currentLocation = wrapper.dataset.location || "";
+
+                widgets.push({
+                    name: widgetName,
+                    location: currentLocation
+                });
+            });
+
+            localStorage.setItem("openWidgets", JSON.stringify(widgets));
+
+            if (!token) return;
+            try {
+                await fetch("/api/auth/widgets", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    body: JSON.stringify(widgets)
+                });
+            } catch (err) {
+                console.error("❌ Chyba ukládání na CouchDB:", err);
             }
+        }
 
             // ------------------------
             // loadWidget
