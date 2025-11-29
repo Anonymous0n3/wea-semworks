@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Řízení sekce Oblíbené
     const favSection = document.getElementById('favoritesSection');
+    const favContainer = document.getElementById('favoritesContainer');
+
     if (token) {
         if (favSection) favSection.classList.remove('d-none');
         await loadFavorites(token, userEmail);
@@ -14,7 +16,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Načtení veřejného seznamu
+    const publicContainer = document.getElementById('publicContainer');
     await loadPublicList(1);
+
+    // --- OPRAVA: EVENT DELEGATION PRO LIKE TLAČÍTKA ---
+    // Místo inline onclick posloucháme kliknutí v celém kontejneru
+    const handleLikeClick = (e) => {
+        // Najdeme tlačítko s třídou .js-like-btn (i když klikneme na ikonu uvnitř)
+        const btn = e.target.closest('.js-like-btn');
+        if (btn) {
+            e.preventDefault();
+            e.stopPropagation();
+            const id = btn.dataset.id;
+            if (id) {
+                // Zavoláme funkci pro like
+                toggleLike(id);
+            }
+        }
+    };
+
+    // Nasadíme posluchače na oba kontejnery (pokud existují)
+    if (publicContainer) publicContainer.addEventListener('click', handleLikeClick);
+    if (favContainer) favContainer.addEventListener('click', handleLikeClick);
 });
 
 async function changePage(delta) {
@@ -80,8 +103,10 @@ async function loadPublicList(page) {
 // --- VYKRESLOVÁNÍ KARTIČKY ---
 
 function renderCard(w, currentUserEmail, token) {
-    const isAuthor = w.authorEmail === currentUserEmail;
-    // Escapování dat pro vložení do onclick
+    // 1. Oprava porovnání emailu (case insensitive)
+    const isAuthor = currentUserEmail && w.authorEmail.toLowerCase() === currentUserEmail.toLowerCase();
+
+    // Escapování dat pro vložení do onclick (pro preview tlačítko, které necháváme inline)
     const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
     const widgetType = w.widgetType;
 
@@ -90,35 +115,36 @@ function renderCard(w, currentUserEmail, token) {
 
     let likesCount = w.likesCount || 0;
 
-    // --- 1. LOGIKA PRO LIKE TLAČÍTKO ---
+    // --- LOGIKA PRO LIKE TLAČÍTKO ---
     let likeSection = '';
 
     if (token) {
         const likedBy = w.likedBy || [];
-        // Zjistíme, zda uživatel už lajkoval
+        // Zjistíme, zda uživatel už lajkoval (case insensitive)
         const isLiked = currentUserEmail && likedBy.some(e => e.toLowerCase() === currentUserEmail.toLowerCase());
 
         const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
         const icon = isLiked ? '❤️' : '🤍';
 
         if (!isAuthor) {
-            // Přidán type="button" a z-index pro jistotu
+            // 2. OPRAVA: Místo onclick používáme třídu .js-like-btn a data-id
             likeSection = `
-            <button type="button" class="btn btn-sm ${btnClass} position-relative" 
+            <button type="button" class="btn btn-sm ${btnClass} position-relative js-like-btn" 
                     style="z-index: 5;"
-                    onclick="window.toggleLike('${widgetId}')">
+                    data-id="${widgetId}">
                 ${icon} ${likesCount}
             </button>`;
         } else {
-            likeSection = `<span class="badge bg-light text-dark border">❤️ ${likesCount}</span>`;
+            likeSection = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
         }
     } else {
         likeSection = `<span class="text-muted">❤️ ${likesCount}</span>`;
     }
 
-    // --- 2. TLAČÍTKO POUŽÍT ---
+    // --- TLAČÍTKO POUŽÍT ---
     let addBtn = '';
     if (token) {
+        // Preview necháváme inline, protože předáváme komplexní objekt
         addBtn = `<button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">Použít / Náhled</button>`;
     } else {
         addBtn = `<small class="d-block mt-3 text-muted text-center">Přihlaste se pro vyzkoušení</small>`;
@@ -151,6 +177,10 @@ function renderCard(w, currentUserEmail, token) {
 async function toggleLike(id) {
     const token = localStorage.getItem('jwtToken');
     if (!token) return;
+
+    // Vizuální feedback ihned (volitelné, pro lepší UX)
+    // const btn = document.querySelector(`button[data-id="${id}"]`);
+    // if(btn) btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
 
     try {
         // Posíláme požadavek na like
