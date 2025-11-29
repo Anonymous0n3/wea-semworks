@@ -19,38 +19,54 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
+        // 1. Získání seznamu všech (filtr)
         [HttpPost("list")]
-        [AllowAnonymous] // Anonymní uživatelé mohou prohlížet
+        [AllowAnonymous]
         public async Task<IActionResult> GetList([FromBody] WidgetFilterRequest filter)
         {
             var widgets = await _couchService.GetPublicWidgetsAsync(filter);
-            _logger.LogInformation("Retrieved public widgets list with filter: {@Filter}; {@Widgets}", filter, widgets);
             return Ok(widgets);
         }
 
+        // 2. Publikování widgetu
         [HttpPost("publish")]
         [Authorize]
         public async Task<IActionResult> Publish([FromBody] PublishRequest request)
         {
-            _logger.LogInformation(await _couchService.GetRawDbDumpAsync());
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await _couchService.GetUserByEmailAsync(email);
             if (user == null) return Unauthorized();
 
             var success = await _couchService.PublishWidgetAsync(user, request.WidgetState, request.PublicName);
-            _logger.LogInformation("User {Email} is publishing widget {WidgetName} as {PublicName}", email, request.WidgetState.Name, request.PublicName);
             if (!success) return BadRequest("Failed to publish");
 
             return Ok(new { message = "Published successfully" });
         }
 
-        [HttpPost("{id}/liked")]
+        // 3. NOVÁ METODA: Získání oblíbených widgetů (GET /api/PublicWidgets/liked)
+        [HttpGet("liked")]
+        [Authorize]
+        public async Task<IActionResult> GetLikedWidgets()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email)) return Unauthorized();
+
+            // Tuto metodu musíme mít v Service (viz bod 2 níže)
+            var widgets = await _couchService.GetLikedWidgetsAsync(email);
+            return Ok(widgets);
+        }
+
+        // 4. OPRAVA: Akce Like/Unlike
+        // V JS voláš ".../like" (bez D), ale v C# jsi měl "liked". Sjednotíme to na "like".
+        [HttpPost("{id}/like")]
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            // Tady to volá ToggleLikeAsync
             var success = await _couchService.ToggleLikeAsync(id, email);
-            if (!success) return BadRequest("Cannot like this widget (maybe you are author or DB error)");
+
+            if (!success) return BadRequest("Cannot like this widget");
             return Ok();
         }
 
