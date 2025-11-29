@@ -108,10 +108,7 @@ namespace WebApplication1.Service
 
         public async Task<string> GetRawDbDumpAsync()
         {
-            // Poptáme CouchDB o všechna data včetně obsahu dokumentů
             var resp = await _client.GetAsync($"{_couchBase}/{_dbName}/_all_docs?include_docs=true");
-
-            // Vrátíme surový JSON string bez jakékoliv C# deserializace/filtrů
             return await resp.Content.ReadAsStringAsync();
         }
 
@@ -242,7 +239,6 @@ namespace WebApplication1.Service
 
             if (await PutWithRevAsync(user)) return true;
 
-            // Retry při konfliktu
             var freshUser = await GetUserByEmailAsync(email);
             if (freshUser == null) return false;
             freshUser.OpenWidgets = widgets;
@@ -261,56 +257,31 @@ namespace WebApplication1.Service
         }
 
         // ==========================================
-        // NOVÉ METODY PRO VEŘEJNÉ WIDGETY
-        // (Toto vám chybělo a způsobovalo Error)
+        // VEŘEJNÉ WIDGETY (PUBLIC API) - FIXED
         // ==========================================
 
         public async Task CreateIndexesAsync()
         {
             _logger.LogInformation("[CouchDB] Creating/Verifying indexes...");
 
-            // ZMĚNA NÁZVU NA 'v2' DONUTÍ COUCHDB PŘEGENEROVAT INDEX
-            var indexPayloadDate = new
+            // Pro jistotu vytvoříme jednoduchý index na Type, ten se vždy hodí
+            var indexData = new
             {
-                index = new { fields = new[] { "Type", "CreatedAt" } },
-                name = "idx_public_widgets_date_v2", // <--- Změna názvu
-                type = "json",
-                ddoc = "idx_widgets_date_v2"
+                index = new { fields = new[] { "Type" } },
+                name = "idx_type_simple",
+                type = "json"
             };
 
-            var indexPayloadLikes = new
-            {
-                index = new { fields = new[] { "Type", "LikesCount" } },
-                name = "idx_type_likes_v2", // <--- Změna názvu
-                type = "json",
-                ddoc = "idx_widgets_likes_v2"
-            };
-
-            // 1. Index Datum
-            var resp1 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayloadDate, _jsonOptions), Encoding.UTF8, "application/json"));
-
-            if (!resp1.IsSuccessStatusCode)
-                _logger.LogError($"[CouchDB] Date Index Error: {await resp1.Content.ReadAsStringAsync()}");
-            else
-                _logger.LogInformation("[CouchDB] Date Index (v2) created.");
-
-            // 2. Index Likes
-            var resp2 = await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
-                new StringContent(JsonSerializer.Serialize(indexPayloadLikes, _jsonOptions), Encoding.UTF8, "application/json"));
-
-            if (!resp2.IsSuccessStatusCode)
-                _logger.LogError($"[CouchDB] Likes Index Error: {await resp2.Content.ReadAsStringAsync()}");
-            else
-                _logger.LogInformation("[CouchDB] Likes Index (v2) created.");
+            await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
+                new StringContent(JsonSerializer.Serialize(indexData, _jsonOptions), Encoding.UTF8, "application/json"));
         }
 
         public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
         {
             var publicWidget = new PublicWidgetDoc
             {
-                Id = Guid.NewGuid().ToString(), // Vygenerujeme ID ručně
-                Type = "public_widget",
+                Id = Guid.NewGuid().ToString(),
+                Type = "public_widget", // DŮLEŽITÉ: Identifikátor typu
                 WidgetType = widgetData.Name,
                 PublicName = publicName,
                 AuthorEmail = author.Email,
@@ -322,93 +293,43 @@ namespace WebApplication1.Service
             };
 
             var response = await PostDocumentAsync(publicWidget);
-            _logger.LogInformation($"[CouchDB] atempting to publish public widget: {publicWidget.Id} by {author.Email}");
+
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                _logger.LogError($"[CouchDB] Failed to save widget: {response.StatusCode} | {error}");
+                _logger.LogError($"[CouchDB] Publish failed: {error}");
                 return false;
             }
-
             return true;
         }
 
+        // -------------------------------------------------------------
+        // OPRAVA: In-Memory Filtering (Spolehlivější než Mango Sort)
+        // -------------------------------------------------------------
         public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
         {
-            // 1. Selector: Musí obsahovat alespoň Type
-            var selector = new Dictionary<string, object>
-    {
-        { "Type", "public_widget" }
-    };
-
-            // Filtry
-            if (!string.IsNullOrEmpty(filter.WidgetType))
-            {
-                selector.Add("WidgetType", filter.WidgetType);
-            }
-
-            if (!string.IsNullOrEmpty(filter.Author))
-            {
-                selector.Add("AuthorName", new { @regex = $"(?i){filter.Author}" });
-            }
-
-            if (!string.IsNullOrEmpty(filter.SearchName))
-            {
-                selector.Add("PublicName", new { @regex = $"(?i){filter.SearchName}" });
-            }
-
-            // 2. Řazení a Index-Hint
-            var sort = new List<object>();
-
-            if (filter.SortBy == "likes")
-            {
-                sort.Add(new { LikesCount = "desc" });
-                // Trik: Aby CouchDB použila index na LikesCount, musí být pole v selectoru
-                if (!selector.ContainsKey("LikesCount"))
-                    selector.Add("LikesCount", new { @gt = -1 });
-            }
-            else
-            {
-                // Default: Řazení podle data
-                sort.Add(new { CreatedAt = "desc" });
-
-                // Trik: Aby CouchDB použila index na CreatedAt, musí být pole v selectoru.
-                // @gt = null v CouchDB znamená "všechny hodnoty, které existují" (null je nejmenší hodnota)
-                if (!selector.ContainsKey("CreatedAt"))
-                    selector.Add("CreatedAt", new { @gt = (string?)null });
-            }
-
+            // 1. Stáhneme VŠECHNY dokumenty typu 'public_widget' (bez sortu v DB)
             var query = new
             {
-                selector = selector,
-                //sort = sort,
-                limit = filter.PageSize,
-                skip = (filter.Page - 1) * filter.PageSize,
-                execution_stats = true
+                selector = new { Type = "public_widget" },
+                limit = 2000
             };
 
-            // Debug výpis dotazu
-            var jsonQuery = JsonSerializer.Serialize(query, _jsonOptions);
-            _logger.LogInformation($"[CouchDB] Sending _find Query: {jsonQuery}");
-
-            var content = new StringContent(jsonQuery, Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
             var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
 
             if (!resp.IsSuccessStatusCode)
             {
-                var errorTxt = await resp.Content.ReadAsStringAsync();
-                _logger.LogError($"[CouchDB] Find error: {resp.StatusCode} - {errorTxt}");
+                _logger.LogError($"[CouchDB] Find failed: {resp.StatusCode}");
                 return new List<PublicWidgetDoc>();
             }
 
             var result = await resp.Content.ReadAsStringAsync();
-
-            // Debug výpis odpovědi (zkrácený)
-            _logger.LogInformation($"[CouchDB] Response length: {result.Length}");
-
             using var doc = JsonDocument.Parse(result);
 
             var list = new List<PublicWidgetDoc>();
+
+            // 2. Deserializace
             if (doc.RootElement.TryGetProperty("docs", out var docs))
             {
                 foreach (var d in docs.EnumerateArray())
@@ -420,53 +341,61 @@ namespace WebApplication1.Service
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogWarning($"[CouchDB] Failed to deserialize item: {ex.Message}");
+                        _logger.LogWarning($"Deserialization error: {ex.Message}");
                     }
                 }
             }
-            return list;
+
+            // 3. Filtrování a Řazení v paměti C# (LINQ)
+            var queryable = list.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(filter.WidgetType))
+                queryable = queryable.Where(w => w.WidgetType == filter.WidgetType);
+
+            if (!string.IsNullOrEmpty(filter.Author))
+                queryable = queryable.Where(w => w.AuthorName != null && w.AuthorName.Contains(filter.Author, StringComparison.OrdinalIgnoreCase));
+
+            if (!string.IsNullOrEmpty(filter.SearchName))
+                queryable = queryable.Where(w => w.PublicName != null && w.PublicName.Contains(filter.SearchName, StringComparison.OrdinalIgnoreCase));
+
+            if (filter.SortBy == "likes")
+                queryable = queryable.OrderByDescending(w => w.LikesCount);
+            else
+                queryable = queryable.OrderByDescending(w => w.CreatedAt);
+
+            // 4. Stránkování
+            return queryable
+                .Skip((filter.Page - 1) * filter.PageSize)
+                .Take(filter.PageSize)
+                .ToList();
         }
 
         public async Task<List<PublicWidgetDoc>> GetLikedWidgetsAsync(string userEmail)
         {
-            var query = new
-            {
-                selector = new
-                {
-                    Type = "public_widget",
-                    LikedBy = new { @elemMatch = new { @eq = userEmail } } // Opravený selector pro pole
-                },
-                sort = new[] { new { CreatedAt = "desc" } },
-                // Trik pro index:
-                selector_hint = new { CreatedAt = new { @gt = 0 } }
-            };
+            // Stejný princip: Stáhneme vše a vyfiltrujeme v paměti
+            var query = new { selector = new { Type = "public_widget" } };
 
-            // Poznámka: Mango queries s poli jsou v CouchDB někdy ošemetné. 
-            // Pokud by to nefungovalo, můžeme filtrovat v paměti (viz níže).
-
-            // Alternativa (In-Memory Filter) - spolehlivější pokud zlobí indexy
-            var selectorSimple = new Dictionary<string, object> { { "Type", "public_widget" } };
-            // Získáme vše a vyfiltrujeme v C# (pro malé množství dat ok)
-
-            var content = new StringContent(JsonSerializer.Serialize(new { selector = selectorSimple }, _jsonOptions), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
             var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
 
             if (!resp.IsSuccessStatusCode) return new List<PublicWidgetDoc>();
 
             var list = new List<PublicWidgetDoc>();
             using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync());
+
             if (doc.RootElement.TryGetProperty("docs", out var docs))
             {
                 foreach (var d in docs.EnumerateArray())
                 {
                     var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
+                    // Kontrola v paměti
                     if (item != null && item.LikedBy != null && item.LikedBy.Contains(userEmail))
                     {
                         list.Add(item);
                     }
                 }
             }
-            return list;
+            return list.OrderByDescending(w => w.CreatedAt).ToList();
         }
 
         public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
@@ -477,7 +406,7 @@ namespace WebApplication1.Service
             var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(await resp.Content.ReadAsStringAsync(), _jsonOptions);
             if (widget == null) return false;
 
-            if (widget.AuthorEmail == userEmail) return false; // Autor nemůže lajkovat sám sebe
+            if (widget.AuthorEmail == userEmail) return false;
 
             if (widget.LikedBy == null) widget.LikedBy = new List<string>();
 
