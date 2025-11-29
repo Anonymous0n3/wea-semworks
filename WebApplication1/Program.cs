@@ -249,15 +249,6 @@ using (var scope = app.Services.CreateScope())
 
 // 1. Forwarded Headers - MUSÍ BÝT PRVNÍ
 app.UseForwardedHeaders();
-app.Use((context, next) =>
-{
-    // Pokud Nginx pošle hlavičku X-Forwarded-Path-Base, nastavíme ji aplikaci
-    if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var pathBase))
-    {
-        context.Request.PathBase = new PathString(pathBase);
-    }
-    return next();
-});
 
 // Middleware pro opravu PathBase, pokud ji Nginx posílá
 app.Use((context, next) =>
