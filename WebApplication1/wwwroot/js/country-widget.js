@@ -30,8 +30,15 @@ function initCountryWidget(widgetId) {
 
     // Funkce pro extrakci ISO kódu
     function extractIsoCode(value) {
+        // 1. Zkusíme formát "Název (ISO)"
         const match = value.match(/\(([^)]+)\)$/);
-        return match ? match[1] : null;
+        if (match) return match[1];
+
+        // 2. Fallback: Pokud uživatel zadal přímo ISO kód (2 znaky)
+        const trimmed = value.trim();
+        if (trimmed.length === 2) return trimmed.toUpperCase();
+
+        return null;
     }
 
     // Načtení detailů země
@@ -54,6 +61,9 @@ function initCountryWidget(widgetId) {
             // DŮLEŽITÉ: Aktualizujeme stav widgetu v DOM, aby ho site.js mohl uložit
             wrapper.dataset.location = isoCode;
 
+            // Oznámíme změnu stavu (užitečné pro debug nebo reaktivní uložení)
+            wrapper.dispatchEvent(new CustomEvent('widget-state-changed', { bubbles: true }));
+
         } catch (err) {
             console.error(err);
             resultContainer.innerHTML = `<p class="text-danger">Error fetching country details.</p>`;
@@ -74,6 +84,7 @@ function initCountryWidget(widgetId) {
     });
 
     // 🔹 OPRAVA: Inicializace stavu (Načtení a vykreslení)
+    // Pokud má widget uloženou lokaci (z DB nebo předchozího uložení), načteme ji
     const savedIso = wrapper.dataset.location;
 
     if (savedIso) {

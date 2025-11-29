@@ -207,21 +207,21 @@
                 }
             }
 
-                    async function saveWidgetState() {
-            const widgets = [];
+            async function saveWidgetState() {
+                const widgets = [];
 
-            // Iterujeme přes skutečné DOM elementy widgetů
-            document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
-                const key = wrapper.dataset.widgetKey;
-                // Získáme název widgetu z klíče (např. "CountryInfoWidget::CZ" -> "CountryInfoWidget")
-                const widgetName = key.split("::")[0];
+                // Procházíme DOM a čteme AKTUÁLNÍ stav (data-location), který tam zapsal widget
+                document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
+                    const key = wrapper.dataset.widgetKey;
+                    // Získáme název widgetu (ořízneme starou lokaci z klíče)
+                    const widgetName = key.split("::")[0];
 
-                // Získáme AKTUÁLNÍ lokaci z datasetu (kterou tam zapsal country-widget.js)
-                const currentLocation = wrapper.dataset.location || "";
+                    // Získáme aktuální lokaci přímo z atributu (tu tam zapsal country-widget.js)
+                    const currentLocation = wrapper.dataset.location || "";
 
-                widgets.push({
-                    name: widgetName,
-                    location: currentLocation
+                    widgets.push({
+                        name: widgetName,
+                        location: currentLocation
                 });
             });
 
