@@ -495,12 +495,9 @@ using (var scope = app.Services.CreateScope())
 // 2. Forwarded Headers (musí být úplně nahoře pro proxy)
 
 app.UseForwardedHeaders();
-
-
-
-app.Use((context, next) =>
-
-{
+    }
+    return next();
+});
 
     if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var pathBase))
 
