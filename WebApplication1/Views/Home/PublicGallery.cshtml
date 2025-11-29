@@ -4,10 +4,11 @@
 
 <div class="text-center py-4 bg-light rounded-3 mb-4">
     <h1 class="display-6">Galerie Widgetů</h1>
-    <p class="text-muted">Vyberte si widgety, které chcete používat na svém dashboardu.</p>
+    <p class="text-muted">Prohlížejte a hodnoťte widgety ostatních. Kliknutím na <strong>Použít</strong> si widget vyzkoušíte přímo zde.</p>
     <a asp-action="Index" class="btn btn-primary">Zpět na Můj Dashboard</a>
 </div>
 
+<!-- 1. SEKCE: OBLÍBENÉ -->
 <div id="favoritesSection" class="d-none mb-5">
     <h4 class="border-bottom pb-2 text-warning">⭐ Vaše oblíbené</h4>
     <div id="favoritesContainer" class="row g-3 mt-2">
@@ -15,6 +16,18 @@
     </div>
 </div>
 
+<!-- 2. SEKCE: NÁHLED AKTIVNÍHO WIDGETU (Zde se načte po kliknutí na Použít) -->
+<div id="activeWidgetSection" class="mb-5 d-none">
+    <h4 class="border-bottom pb-2 text-primary">▶️ Aktivní náhled</h4>
+    <div class="p-4 border rounded bg-white shadow-sm position-relative">
+        <button onclick="closePreview()" class="btn btn-sm btn-close position-absolute top-0 end-0 m-3" aria-label="Zavřít"></button>
+        <div id="previewContainer">
+            <!-- Sem se dynamicky načte HTML widgetu -->
+        </div>
+    </div>
+</div>
+
+<!-- 3. SEKCE: VŠECHNY VEŘEJNÉ -->
 <div id="publicSection">
     <h4 class="border-bottom pb-2">🌐 Všechny veřejné widgety</h4>
 
@@ -42,6 +55,7 @@
 </div>
 
 @section Scripts {
+    <!-- Důležité: Chart.js musíme mít načtený pro grafy v náhledu -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/discovery.js"></script>
-    <script src="~/js/public-gallery.js"></script>
 }
