@@ -129,7 +129,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- <script src="~/js/site.js" asp-append-version="true"></script> -->
     <script src="~/js/weather-autocomplete.js" defer></script>
     <script src="~/js/country-widget.js"></script>
     <script src="~/js/news.js"></script>
@@ -146,6 +146,52 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
+            // ---------------------------------------------------------
+            // 1. JAZYKOVÁ LOGIKA (Původní obsah site.js)
+            // ---------------------------------------------------------
+            const langSelect = document.getElementById("langSelect");
+
+            if (langSelect) {
+                const LS_KEY = "preferredLang";
+                const storedLang = localStorage.getItem(LS_KEY);
+
+                // preferuj uloženou volbu; jinak vezmi z prohlížeče (en/cs)
+                const initialLang = storedLang
+                    ? storedLang
+                    : (navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "cs");
+
+                // nastav select
+                langSelect.value = initialLang;
+
+                // ulož do localStorage, pokud tam ještě nebylo
+                if (!storedLang) {
+                    localStorage.setItem(LS_KEY, initialLang);
+                }
+
+                // změna jazyka → ulož + přesměruj
+                langSelect.addEventListener("change", function () {
+                    const val = this.value || "cs";
+                    localStorage.setItem(LS_KEY, val);
+
+                    // Odeslání na server pro nastavení cookie (pokud používáte controller)
+                    // nebo jen reload, pokud to řeší middleware
+                    // Zde ponechávám vaši logiku, případně můžete volat /set-language endpoint
+                    window.location.href = `/`;
+                });
+            }
+
+
+            // ---------------------------------------------------------
+            // 2. WIDGETY A AUTH (Nový sjednocený kód)
+            // ---------------------------------------------------------
+
+            // Prevence dvojitého spuštění (pro jistotu)
+            if (window.hasInitializedDashboard) {
+                console.warn("⚠️ Dashboard již běží. Ignoruji duplicitní spuštění.");
+                return;
+            }
+            window.hasInitializedDashboard = true;
+
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
             const chartMap = new Map();
@@ -169,6 +215,7 @@
                 logoutBtn.addEventListener('click', () => {
                     localStorage.removeItem('jwtToken');
                     localStorage.removeItem('userEmail');
+                    // Vyčistíme i lokální widgety při odhlášení
                     localStorage.removeItem('openWidgets');
                     window.location.reload();
                 });
@@ -179,7 +226,7 @@
             // ------------------------
 
             function getWidgetKey(name, location) {
-                // Normalizace klíče: null -> "", trim
+                // Převedeme null/undefined na prázdný string a ořežeme mezery
                 const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
                 return `${name}::${locSafe}`;
             }
@@ -203,8 +250,7 @@
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
 
-                    console.log("[Site.js] Loaded from DB:", data); // Debug log
-
+                    // Podpora pro camelCase i PascalCase + normalizace jména
                     return data.map(w => ({
                         name: normalizeWidgetName(w.name || w.Name),
                         location: w.location || w.Location || "",
@@ -242,7 +288,6 @@
                 });
 
                 const widgetsList = Array.from(uniqueWidgets.values());
-                console.log("[Site.js] Saving widgets:", widgetsList);
 
                 localStorage.setItem("openWidgets", JSON.stringify(widgetsList));
 
@@ -287,6 +332,7 @@
 
                 const { wrapper } = widgetObj;
 
+                // Pokud widget už má obsah, nenačítáme ho znovu
                 if (wrapper.children.length > 0 && !isNew) {
                      return Promise.resolve();
                 }
@@ -486,6 +532,9 @@
                 }
             }
 
+            // ------------------------
+            // Obsluha Publikace Widgetu (Modal)
+            // ------------------------
             const confirmPublishBtn = document.getElementById('confirmPublishBtn');
             if (confirmPublishBtn) {
                 confirmPublishBtn.addEventListener('click', async () => {
@@ -527,16 +576,16 @@
             // Inicializace widgetů při startu
             // ------------------------
             if (container) {
-                container.innerHTML = '';
+                container.innerHTML = ''; // Čistíme kontejner pro jistotu
                 activeWidgets.clear();
 
                 let widgetsToLoad = [];
 
                 if (token) {
-                    // A. Přihlášený uživatel: POUZE z databáze
+                    // PŘIHLÁŠENÝ: POUZE Z DB
                     widgetsToLoad = await fetchWidgetsFromCouchDB();
                 } else {
-                    // B. Nepřihlášený uživatel: POUZE z LocalStorage
+                    // NEPŘIHLÁŠENÝ: POUZE Z LOCALSTORAGE
                     const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
                     widgetsToLoad = savedRaw.map(w => ({
                         name: normalizeWidgetName(w.name),
@@ -545,13 +594,11 @@
                     }));
                 }
 
-                // Deduplikace (Unikátní klíč = Jméno + Lokace)
+                // Deduplikace v rámci seznamu (kdyby DB vrátila duplicity)
                 const uniqueMap = new Map();
                 widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
-                    if (!uniqueMap.has(key)) {
-                        uniqueMap.set(key, w);
-                    }
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, w);
                 });
 
                 const finalWidgets = Array.from(uniqueMap.values());
@@ -561,10 +608,10 @@
                     await loadWidget(w.name, w.location, w.raw);
                 }
 
-                // Synchronizace (použije se i pro uložení čistého stavu)
                 saveWidgetState();
             }
 
+            // Linky v menu
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
@@ -578,7 +625,7 @@
             document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveWidgetState(); });
 
             // ------------------------
-            // Login
+            // Login Forms
             // ------------------------
             const loginForm = document.getElementById('loginForm');
             if (loginForm) {
