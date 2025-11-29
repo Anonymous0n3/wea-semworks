@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
             return Ok(new { message = "Published successfully" });
         }
 
-        [HttpPost("{id}/like")]
+        [HttpPost("{id}/liked")]
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
