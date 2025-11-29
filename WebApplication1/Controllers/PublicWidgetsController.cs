@@ -24,6 +24,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> GetList([FromBody] WidgetFilterRequest filter)
         {
             var widgets = await _couchService.GetPublicWidgetsAsync(filter);
+            _logger.LogInformation("Retrieved public widgets list with filter: {@Filter}; {@Widgets}", filter, widgets);
             return Ok(widgets);
         }
 
