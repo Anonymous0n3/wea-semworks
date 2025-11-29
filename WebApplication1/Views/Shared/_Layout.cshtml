@@ -146,8 +146,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
-            // 🔹 KRITICKÁ OCHRANA: Pokud se skript načte 2x (např. jednou ze souboru a jednou z Layoutu),
-            // tento blok zajistí, že se spustí jen poprvé.
+            // 🔹 KRITICKÁ OCHRANA: Pokud se skript načte 2x, tento blok zajistí, že se spustí jen poprvé.
             if (window.hasInitializedSiteJs) {
                 console.warn("⚠️ Site.js byl načten dvakrát. Ignoruji druhé spuštění.");
                 return;
@@ -177,7 +176,7 @@
                 logoutBtn.addEventListener('click', () => {
                     localStorage.removeItem('jwtToken');
                     localStorage.removeItem('userEmail');
-                    localStorage.removeItem('openWidgets'); // Vyčistíme lokální stav při odhlášení
+                    localStorage.removeItem('openWidgets');
                     window.location.reload();
                 });
             }
@@ -187,8 +186,6 @@
             // ------------------------
 
             function getWidgetKey(name, location) {
-                // Převedeme null/undefined na prázdný string a ořežeme mezery
-                // Tím zajistíme, že "Widget::" (local) a "Widget::null" (db) jsou stejný klíč
                 const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
                 return `${name}::${locSafe}`;
             }
@@ -212,7 +209,6 @@
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
 
-                    // Robustní čtení vlastností (malá/velká písmena)
                     return data.map(w => ({
                         name: normalizeWidgetName(w.name || w.Name),
                         location: w.location || w.Location || "",
@@ -229,7 +225,6 @@
             // UKLÁDÁNÍ STAVU WIDGETŮ
             // ---------------------------------------------------------
             async function saveWidgetState() {
-                // Použijeme Mapu pro deduplikaci při ukládání
                 const uniqueToSave = new Map();
 
                 document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
@@ -237,7 +232,6 @@
                     if (!keyFromData) return;
 
                     const widgetName = keyFromData.split("::")[0];
-                    // Důležité: Čteme aktuální stav z DOMu (např. po změně země v CountryWidgetu)
                     const currentLocation = wrapper.dataset.location || "";
 
                     const currentKey = getWidgetKey(widgetName, currentLocation);
@@ -273,15 +267,20 @@
 
                 if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
 
-                // Pokud už widget existuje v mapě aktivních, zkontrolujeme, zda je i v DOMu
-                let widgetObj = activeWidgets.get(key);
-
-                // Pokud je v mapě, ale ne v DOMu (např. byl smazán), považujeme ho za nový
-                if (widgetObj && !document.body.contains(widgetObj.wrapper)) {
-                    widgetObj = null;
-                    activeWidgets.delete(key);
+                // 🔹 DOM CHECK: Je widget už fyzicky na stránce?
+                // Toto zabrání duplicitám i v případě, že activeWidgets mapa je prázdná (např. jiný scope)
+                const existingInDom = document.querySelector(`.widget-wrapper[data-widget-key="${key}"]`);
+                if (existingInDom) {
+                    // Pokud je v DOMu, ale ne v naší mapě, přidáme ho tam a končíme
+                    if (!activeWidgets.has(key)) {
+                        activeWidgets.set(key, { wrapper: existingInDom, raw: optionsRaw });
+                        // Můžeme případně znovu připojit listenery, pokud by chyběly
+                        // attachInteractions(existingInDom, widgetName, optionsRaw);
+                    }
+                    return Promise.resolve();
                 }
 
+                let widgetObj = activeWidgets.get(key);
                 const isNew = !widgetObj;
 
                 if (!widgetObj) {
@@ -299,14 +298,10 @@
 
                 const { wrapper } = widgetObj;
 
-                // Pokud widget už má obsah a není nový, nic neděláme (je už načtený)
-                if (wrapper.children.length > 0 && !isNew) {
-                     return Promise.resolve();
-                }
-
                 const promise = (async () => {
                     try {
-                        if (isNew || wrapper.children.length === 0) {
+                        // Načítáme obsah jen pokud je prázdný
+                        if (wrapper.children.length === 0) {
                             let url = `/Widget/Load?name=${widgetName}`;
                             if (widgetName === "CurrencyWidget") {
                                 const base = localStorage.getItem("baseCurrency") || "EUR";
@@ -342,7 +337,10 @@
                             requestAnimationFrame(() => wrapper.style.opacity = "1");
                         }
 
-                        await saveWidgetState();
+                        // 🔹 ODSTRANĚNO: await saveWidgetState();
+                        // Ukládání během načítání (v cyklu) je zbytečné a zatěžuje DB.
+                        // Uložíme až vše najednou na konci inicializace.
+
                     } catch (err) {
                         console.error("Chyba při načítání widgetu:", err);
                         if(isNew && wrapper.parentNode) {
@@ -392,7 +390,6 @@
             }
 
             function attachInteractions(wrapper, widgetName, rawData = null) {
-                // Toggle
                 const toggleBtn = wrapper.querySelector('#toggleUnit');
                 if (toggleBtn && !wrapper.dataset.toggleInit) {
                     toggleBtn.addEventListener('click', () => {
@@ -401,24 +398,22 @@
                     });
                     wrapper.dataset.toggleInit = "1";
                 }
-                // Forms
-                const locForm = wrapper.querySelector('#locationForm');
-                if (locForm && !wrapper.dataset.locationFormInit) {
-                    locForm.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        await loadWidget(widgetName, locForm.querySelector('input[name="location"]').value);
-                    });
-                    wrapper.dataset.locationFormInit = "1";
-                }
-                const fcForm = wrapper.querySelector('#forecastLocationForm');
-                if (fcForm && !wrapper.dataset.forecastFormInit) {
-                    fcForm.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        await loadWidget(widgetName, fcForm.querySelector('input[name="location"]').value);
-                    });
-                    wrapper.dataset.forecastFormInit = "1";
-                }
-                // Currency
+
+                // Location Forms (Forecast & Current)
+                const forms = wrapper.querySelectorAll('form');
+                forms.forEach(form => {
+                    if (form.id === 'locationForm' || form.id === 'forecastLocationForm') {
+                        if (!wrapper.dataset.formInit) {
+                            form.addEventListener('submit', async e => {
+                                e.preventDefault();
+                                const locInput = form.querySelector('input[name="location"]');
+                                if(locInput) await loadWidget(widgetName, locInput.value);
+                            });
+                            wrapper.dataset.formInit = "1";
+                        }
+                    }
+                });
+
                 if (widgetName === "CurrencyWidget") {
                     const base = wrapper.querySelector('#baseCurrency');
                     const quote = wrapper.querySelector('#quoteCurrency');
@@ -439,7 +434,7 @@
                             e.preventDefault();
                             localStorage.setItem("baseCurrency", base.value);
                             localStorage.setItem("quoteCurrency", quote.value);
-                            await loadWidget(widgetName);
+                            await loadWidget(widgetName); // Reload same widget
                         });
                         wrapper.dataset.currencyInit = "1";
                     }
@@ -468,7 +463,7 @@
                 if (token && !wrapper.querySelector('.publish-widget-btn')) {
                     const publishBtn = document.createElement('button');
                     publishBtn.innerHTML = '☁';
-                    publishBtn.title = "Publikovat widget veřejně";
+                    publishBtn.title = "Publikovat";
                     publishBtn.classList.add('btn', 'btn-sm', 'btn-info', 'text-white', 'publish-widget-btn');
                     publishBtn.style.position = "absolute";
                     publishBtn.style.top = "5px";
@@ -478,11 +473,9 @@
                         const modalNameInput = document.getElementById('publishWidgetName');
                         const modalLocInput = document.getElementById('publishWidgetLocation');
                         const publicNameInput = document.getElementById('publicWidgetNameInput');
-
                         if(modalNameInput) modalNameInput.value = widgetName;
                         if(modalLocInput) modalLocInput.value = wrapper.dataset.location || "";
                         if(publicNameInput) publicNameInput.value = "";
-
                         const modalEl = document.getElementById('publishModal');
                         if(modalEl) new bootstrap.Modal(modalEl).show();
                     };
@@ -490,10 +483,13 @@
                 }
             }
 
-            // Publish Modal Handler
             const confirmPublishBtn = document.getElementById('confirmPublishBtn');
             if (confirmPublishBtn) {
-                confirmPublishBtn.addEventListener('click', async () => {
+                // Odebrání starých listenerů (cloneNode) pro jistotu
+                const newBtn = confirmPublishBtn.cloneNode(true);
+                confirmPublishBtn.parentNode.replaceChild(newBtn, confirmPublishBtn);
+
+                newBtn.addEventListener('click', async () => {
                     const name = document.getElementById('publishWidgetName').value;
                     const location = document.getElementById('publishWidgetLocation').value;
                     const publicName = document.getElementById('publicWidgetNameInput').value;
@@ -520,17 +516,16 @@
             // INICIALIZACE APLIKACE
             // ------------------------
             if (container) {
-                // 1. Důkladné vyčištění před startem
                 container.innerHTML = '';
                 activeWidgets.clear();
 
                 let widgetsToLoad = [];
 
                 if (token) {
-                    // Přihlášený: Načítáme POUZE z databáze (Single Source of Truth)
+                    // PŘIHLÁŠENÝ: POUZE Z DB
                     widgetsToLoad = await fetchWidgetsFromCouchDB();
                 } else {
-                    // Nepřihlášený: POUZE z LocalStorage
+                    // NEPŘIHLÁŠENÝ: POUZE Z LOCALSTORAGE
                     const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
                     widgetsToLoad = savedRaw.map(w => ({
                         name: normalizeWidgetName(w.name),
@@ -539,34 +534,27 @@
                     }));
                 }
 
-                // 2. Deduplikace seznamu před vykreslením
                 const uniqueMap = new Map();
                 widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
-                    // Pokud už v mapě je, ignorujeme duplikát
-                    if (!uniqueMap.has(key)) {
-                        uniqueMap.set(key, w);
-                    }
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, w);
                 });
 
                 const finalWidgets = Array.from(uniqueMap.values());
 
-                // 3. Vykreslení
-                for (const w of finalWidgets) {
-                    const key = getWidgetKey(w.name, w.location);
-                    await loadWidget(w.name, w.location, w.raw);
-                }
+                // Použijeme Promise.all pro paralelní načtení
+                const promises = finalWidgets.map(w => loadWidget(w.name, w.location, w.raw));
+                await Promise.all(promises);
 
-                // 4. Uložení čistého stavu
+                // Až je vše načteno, uložíme čistý stav
                 saveWidgetState();
             }
 
-            // Linky v menu (Přidávání nových)
+            // Linky v menu
             document.querySelectorAll('.widget-link').forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
                     const name = normalizeWidgetName(link.getAttribute('data-widget'));
-                    // Nový widget má vždy prázdnou lokaci
                     const key = getWidgetKey(name, "");
                     if (!activeWidgets.has(key)) loadWidget(name);
                 });
