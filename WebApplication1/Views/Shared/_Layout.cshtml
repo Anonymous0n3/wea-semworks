@@ -169,7 +169,6 @@
                 logoutBtn.addEventListener('click', () => {
                     localStorage.removeItem('jwtToken');
                     localStorage.removeItem('userEmail');
-                    // Vyčistíme i lokální widgety při odhlášení
                     localStorage.removeItem('openWidgets');
                     window.location.reload();
                 });
@@ -180,7 +179,7 @@
             // ------------------------
 
             function getWidgetKey(name, location) {
-                // Převedeme null/undefined na prázdný string a ořežeme mezery
+                // Normalizace klíče: null -> "", trim
                 const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
                 return `${name}::${locSafe}`;
             }
@@ -204,6 +203,8 @@
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
 
+                    console.log("[Site.js] Loaded from DB:", data); // Debug log
+
                     return data.map(w => ({
                         name: normalizeWidgetName(w.name || w.Name),
                         location: w.location || w.Location || "",
@@ -217,25 +218,33 @@
             }
 
             // ---------------------------------------------------------
-            // UKLÁDÁNÍ STAVU WIDGETŮ
+            // UKLÁDÁNÍ STAVU WIDGETŮ (S DEDUPLIKACÍ)
             // ---------------------------------------------------------
             async function saveWidgetState() {
-                const widgets = [];
+                // Použijeme Mapu pro automatickou deduplikaci podle klíče
+                const uniqueWidgets = new Map();
 
                 document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
-                    const key = wrapper.dataset.widgetKey;
-                    if (!key) return;
+                    const keyFromData = wrapper.dataset.widgetKey;
+                    if (!keyFromData) return;
 
-                    const widgetName = key.split("::")[0];
+                    const widgetName = keyFromData.split("::")[0];
                     const currentLocation = wrapper.dataset.location || "";
 
-                    widgets.push({
+                    // Vygenerujeme klíč podle aktuálního stavu
+                    const currentKey = getWidgetKey(widgetName, currentLocation);
+
+                    // Uložíme do mapy (přepíše případné duplicity)
+                    uniqueWidgets.set(currentKey, {
                         name: widgetName,
                         location: currentLocation
                     });
                 });
 
-                localStorage.setItem("openWidgets", JSON.stringify(widgets));
+                const widgetsList = Array.from(uniqueWidgets.values());
+                console.log("[Site.js] Saving widgets:", widgetsList);
+
+                localStorage.setItem("openWidgets", JSON.stringify(widgetsList));
 
                 if (!token) return;
                 try {
@@ -245,7 +254,7 @@
                             "Content-Type": "application/json",
                             "Authorization": "Bearer " + token
                         },
-                        body: JSON.stringify(widgets)
+                        body: JSON.stringify(widgetsList)
                     });
                 } catch (err) {
                     console.error("❌ Chyba ukládání na CouchDB:", err);
@@ -278,7 +287,6 @@
 
                 const { wrapper } = widgetObj;
 
-                // Pokud widget už má obsah, nenačítáme ho znovu
                 if (wrapper.children.length > 0 && !isNew) {
                      return Promise.resolve();
                 }
@@ -519,17 +527,16 @@
             // Inicializace widgetů při startu
             // ------------------------
             if (container) {
-                // 1. Vyčistíme kontejner a mapu (prevence duplicit)
                 container.innerHTML = '';
                 activeWidgets.clear();
 
                 let widgetsToLoad = [];
 
                 if (token) {
-                    // A. Přihlášený uživatel: Načítáme POUZE z databáze
+                    // A. Přihlášený uživatel: POUZE z databáze
                     widgetsToLoad = await fetchWidgetsFromCouchDB();
                 } else {
-                    // B. Nepřihlášený uživatel: Načítáme POUZE z LocalStorage
+                    // B. Nepřihlášený uživatel: POUZE z LocalStorage
                     const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
                     widgetsToLoad = savedRaw.map(w => ({
                         name: normalizeWidgetName(w.name),
@@ -538,11 +545,10 @@
                     }));
                 }
 
-                // 2. Deduplikace pro jistotu (Unikátní klíč = Jméno + Lokace)
+                // Deduplikace (Unikátní klíč = Jméno + Lokace)
                 const uniqueMap = new Map();
                 widgetsToLoad.forEach(w => {
                     const key = getWidgetKey(w.name, w.location);
-                    // Pokud v seznamu už je (např. z DB přišly duplicity), ignorujeme další
                     if (!uniqueMap.has(key)) {
                         uniqueMap.set(key, w);
                     }
@@ -550,14 +556,13 @@
 
                 const finalWidgets = Array.from(uniqueMap.values());
 
-                // 3. Vykreslení
                 for (const w of finalWidgets) {
                     const key = getWidgetKey(w.name, w.location);
                     await loadWidget(w.name, w.location, w.raw);
                 }
 
-                // 4. Synchronizace LocalStorage s finálním stavem
-                localStorage.setItem("openWidgets", JSON.stringify(finalWidgets.map(m => ({ name: m.name, location: m.location }))));
+                // Synchronizace (použije se i pro uložení čistého stavu)
+                saveWidgetState();
             }
 
             document.querySelectorAll('.widget-link').forEach(link => {
