@@ -81,8 +81,12 @@ async function loadPublicList(page) {
 
 function renderCard(w, currentUserEmail, token) {
     const isAuthor = w.authorEmail === currentUserEmail;
+    // Escapování dat pro vložení do onclick
     const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
     const widgetType = w.widgetType;
+
+    // OPRAVA ID: CouchDB vrací _id, C# model id. Bereme, co přijde.
+    const widgetId = w._id || w.id;
 
     let likesCount = w.likesCount || 0;
 
@@ -98,17 +102,17 @@ function renderCard(w, currentUserEmail, token) {
         const icon = isLiked ? '❤️' : '🤍';
 
         if (!isAuthor) {
-            // Klasické tlačítko v patičce
+            // Přidán type="button" a z-index pro jistotu
             likeSection = `
-            <button class="btn btn-sm ${btnClass}" onclick="window.toggleLike('${w.id}')">
+            <button type="button" class="btn btn-sm ${btnClass} position-relative" 
+                    style="z-index: 5;"
+                    onclick="window.toggleLike('${widgetId}')">
                 ${icon} ${likesCount}
             </button>`;
         } else {
-            // Autor nemůže lajkovat, vidí jen info
             likeSection = `<span class="badge bg-light text-dark border">❤️ ${likesCount}</span>`;
         }
     } else {
-        // Nepřihlášený vidí jen počet
         likeSection = `<span class="text-muted">❤️ ${likesCount}</span>`;
     }
 
@@ -149,6 +153,7 @@ async function toggleLike(id) {
     if (!token) return;
 
     try {
+        // Posíláme požadavek na like
         const resp = await fetch(`/api/PublicWidgets/${id}/like`, {
             method: 'POST',
             headers: { 'Authorization': 'Bearer ' + token }
@@ -157,8 +162,9 @@ async function toggleLike(id) {
         if (resp.ok) {
             const userEmail = localStorage.getItem('userEmail');
             // Obnovíme oba seznamy, aby se projevila změna barvy i čísla
-            loadFavorites(token, userEmail);
-            loadPublicList(currentPage);
+            await loadFavorites(token, userEmail);
+            // U public listu nechceme ztratit stránkování, tak načteme znovu aktuální stranu
+            await loadPublicList(currentPage);
         } else {
             console.error("Like failed", await resp.text());
         }
@@ -200,10 +206,6 @@ async function previewWidget(widgetName, widgetData) {
         container.innerHTML = html;
 
         // Uložíme dataset pro případnou inicializaci (CountryWidget)
-        const wrapperDiv = container.firstElementChild;
-        // Poznámka: container je wrapper, ale widget load vrací obsah.
-        // Pro CountryWidget potřebujeme, aby container (nebo element v něm) měl data-location.
-        // Nastavíme to na kontejner preview.
         container.dataset.location = widgetData.location || "";
 
         setTimeout(() => {
@@ -294,17 +296,15 @@ function initWidgetScripts(wrapper, widgetName) {
                 widgetEl.id = `preview_country_${Math.random().toString(36).substr(2, 9)}`;
             }
 
-            // Nejdřív zkusíme spustit standardní init
             window.initCountryWidget(widgetEl.id);
 
-            // Pokud init nenačetl data (protože v HTML chyběl atribut),
-            // vezmeme data z wrapperu (kam jsme je uložili v previewWidget) a vynutíme načtení
             const loc = wrapper.dataset.location;
             if (loc) {
-                // Nastavíme přímo na element widgetu, aby si to initCountryWidget přečetl
-                widgetEl.dataset.location = loc;
-                // Znovu zavoláme init, který teď uvidí dataset.location a spustí fetch
-                window.initCountryWidget(widgetEl.id);
+                const input = widgetEl.querySelector('.input-country');
+                if (input) {
+                    widgetEl.dataset.location = loc;
+                    window.initCountryWidget(widgetEl.id);
+                }
             }
         }
     }
