@@ -4,10 +4,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('jwtToken');
     const userEmail = localStorage.getItem('userEmail');
 
-    // Řízení sekce Oblíbené
+    // Řízení sekce Oblíbené (jen pro přihlášené)
     const favSection = document.getElementById('favoritesSection');
-    const favContainer = document.getElementById('favoritesContainer');
-
     if (token) {
         if (favSection) favSection.classList.remove('d-none');
         await loadFavorites(token, userEmail);
@@ -15,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (favSection) favSection.classList.add('d-none');
     }
 
-    // Načtení veřejného seznamu
+    // Načtení veřejného seznamu (pro všechny)
     await loadPublicList(1);
 });
 
@@ -82,19 +80,14 @@ async function loadPublicList(page) {
 // --- VYKRESLOVÁNÍ KARTIČKY ---
 
 function renderCard(w, currentUserEmail, token) {
-    // 1. Porovnání emailu (case insensitive)
-    const isAuthor = currentUserEmail && w.authorEmail.toLowerCase() === currentUserEmail.toLowerCase();
-
-    // Escapování dat
+    const isAuthor = w.authorEmail === currentUserEmail;
+    // Escapování dat pro vložení do onclick
     const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
     const widgetType = w.widgetType;
 
-    // ID widgetu
-    const widgetId = w._id || w.id;
-
     let likesCount = w.likesCount || 0;
 
-    // --- LOGIKA PRO LIKE TLAČÍTKO ---
+    // --- 1. LOGIKA PRO LIKE TLAČÍTKO (Pouze přihlášení) ---
     let likeSection = '';
 
     if (token) {
@@ -105,28 +98,27 @@ function renderCard(w, currentUserEmail, token) {
         const icon = isLiked ? '❤️' : '🤍';
 
         if (!isAuthor) {
-            // ZMĚNA: Používáme přímý onclick, což je nejspolehlivější cesta
-            // Přidáno event.stopPropagation(), aby kliknutí neprobublávalo
             likeSection = `
             <button type="button" class="btn btn-sm ${btnClass} position-relative" 
                     style="z-index: 5;"
-                    onclick="event.stopPropagation(); window.toggleLike('${widgetId}')">
+                    onclick="event.stopPropagation(); window.toggleLike('${w.id}')">
                 ${icon} ${likesCount}
             </button>`;
         } else {
             likeSection = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
         }
     } else {
-        likeSection = `<span class="text-muted">❤️ ${likesCount}</span>`;
+        // Nepřihlášený vidí jen počet, nemůže kliknout
+        likeSection = `<span class="text-muted fw-bold">❤️ ${likesCount}</span>`;
     }
 
-    // --- TLAČÍTKO POUŽÍT ---
-    let addBtn = '';
-    if (token) {
-        addBtn = `<button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">Použít / Náhled</button>`;
-    } else {
-        addBtn = `<small class="d-block mt-3 text-muted text-center">Přihlaste se pro vyzkoušení</small>`;
-    }
+    // --- 2. TLAČÍTKO POUŽÍT (PRO VŠECHNY) ---
+    // Zde byla změna: Odstraněna podmínka if(token), nyní se zobrazí všem.
+    let addBtn = `
+        <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">
+            Vyzkoušet (Náhled)
+        </button>
+    `;
 
     return `
     <div class="col-md-4 col-lg-3">
@@ -154,12 +146,9 @@ function renderCard(w, currentUserEmail, token) {
 
 async function toggleLike(id) {
     const token = localStorage.getItem('jwtToken');
-    if (!token) return;
+    if (!token) return alert("Pro hodnocení se musíte přihlásit.");
 
     try {
-        // DŮLEŽITÉ: Zde musí být URL přesně tak, jak ji máte v Controlleru
-        // Pokud jste v C# opravil [HttpPost("{id}/like")], použijte /like
-        // Pokud tam máte stále /liked, přepište to zde na /liked
         const resp = await fetch(`/api/PublicWidgets/${id}/like`, {
             method: 'POST',
             headers: { 'Authorization': 'Bearer ' + token }
@@ -167,8 +156,8 @@ async function toggleLike(id) {
 
         if (resp.ok) {
             const userEmail = localStorage.getItem('userEmail');
-            await loadFavorites(token, userEmail);
-            await loadPublicList(currentPage);
+            loadFavorites(token, userEmail);
+            loadPublicList(currentPage);
         } else {
             console.error("Like failed", await resp.text());
         }
@@ -191,6 +180,7 @@ async function previewWidget(widgetName, widgetData) {
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     try {
+        // Poznámka: Endpoint /Widget/Load musí být přístupný i pro nepřihlášené (bez [Authorize])
         let url = `/Widget/Load?name=${widgetName}`;
 
         if (widgetName === "CurrencyWidget") {
@@ -208,6 +198,8 @@ async function previewWidget(widgetName, widgetData) {
 
         const html = await resp.text();
         container.innerHTML = html;
+
+        // Nastavíme dataset pro případnou inicializaci v initWidgetScripts
         container.dataset.location = widgetData.location || "";
 
         setTimeout(() => {
@@ -223,11 +215,15 @@ async function previewWidget(widgetName, widgetData) {
 function closePreview() {
     const section = document.getElementById('activeWidgetSection');
     if (section) section.classList.add('d-none');
+    // Vyčistit obsah, aby se zastavily případné intervaly nebo listenery
+    const container = document.getElementById('previewContainer');
+    if (container) container.innerHTML = '';
 }
 
-// --- POMOCNÉ FUNKCE ---
+// --- POMOCNÉ FUNKCE PRO OŽIVENÍ WIDGETU V NÁHLEDU ---
 
 function initWidgetScripts(wrapper, widgetName) {
+    // 1. Toggle C/F
     const toggleBtn = wrapper.querySelector('#toggleUnit');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
@@ -238,6 +234,7 @@ function initWidgetScripts(wrapper, widgetName) {
         });
     }
 
+    // 2. Grafy pro Počasí
     if (widgetName === "ForecastWeather") {
         const charts = wrapper.querySelectorAll('.temperatureChart');
         charts.forEach(canvas => {
@@ -245,9 +242,12 @@ function initWidgetScripts(wrapper, widgetName) {
             if (!ctx) return;
             const labelsRaw = canvas.dataset.labels;
             const valuesRaw = canvas.dataset.values;
+
             if (!labelsRaw || !valuesRaw) return;
+
             const labels = JSON.parse(labelsRaw);
             const values = JSON.parse(valuesRaw);
+
             if (typeof Chart !== 'undefined') {
                 new Chart(ctx, {
                     type: 'line',
@@ -258,20 +258,24 @@ function initWidgetScripts(wrapper, widgetName) {
         });
     }
 
+    // 3. Grafy pro Měny
     if (widgetName === "CurrencyWidget") {
         const canvas = wrapper.querySelector("#rateChart");
         if (canvas && typeof Chart !== 'undefined') {
             const labelsRaw = canvas.dataset.labels;
             const dataRaw = canvas.dataset.rates;
+
             if (labelsRaw && dataRaw) {
                 const labels = JSON.parse(labelsRaw);
                 const data = JSON.parse(dataRaw);
+
                 new Chart(canvas.getContext("2d"), {
                     type: 'line',
                     data: { labels, datasets: [{ label: canvas.dataset.label || '', data, fill: false, tension: 0.3 }] }
                 });
             }
         }
+
         const currencyForm = wrapper.querySelector('#currencyForm');
         if (currencyForm) {
             currencyForm.addEventListener("submit", e => {
@@ -281,13 +285,16 @@ function initWidgetScripts(wrapper, widgetName) {
         }
     }
 
+    // 4. Inicializace Country Widgetu
     if (widgetName === "CountryInfoWidget") {
         const widgetEl = wrapper.querySelector('.country-info-widget');
         if (widgetEl && typeof window.initCountryWidget === 'function') {
             if (!widgetEl.id) {
                 widgetEl.id = `preview_country_${Math.random().toString(36).substr(2, 9)}`;
             }
+
             window.initCountryWidget(widgetEl.id);
+
             const loc = wrapper.dataset.location;
             if (loc) {
                 const input = widgetEl.querySelector('.input-country');
@@ -300,7 +307,7 @@ function initWidgetScripts(wrapper, widgetName) {
     }
 }
 
-// 🔹 EXPORT FUNKCÍ
+// 🔹 EXPORT FUNKCÍ DO GLOBAL SCOPE
 window.toggleLike = toggleLike;
 window.previewWidget = previewWidget;
 window.closePreview = closePreview;
