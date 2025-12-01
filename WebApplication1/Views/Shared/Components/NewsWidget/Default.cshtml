@@ -28,7 +28,7 @@
     </div>
 
     <ul id="newsList" class="list-group">
-        @foreach (var news in Model.OrderByDescending(n => DateTime.Parse(n.Date)))
+        @foreach (var news in Model.OrderByDescending(n => n.Date))
         {
             <li class="list-group-item" data-category="@news.Category" data-date="@news.Date">
                 <div class="fw-bold">@news.Title</div>

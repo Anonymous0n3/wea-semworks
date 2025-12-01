@@ -7,19 +7,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Meta tagy pro Google Auth -->
+    <meta name="google-client-id" content="@System.Environment.GetEnvironmentVariable("GOOGLE_CLIENTID")">
+    <meta name="google-redirect-uri" content="@System.Environment.GetEnvironmentVariable("GOOGLE_REDIRECTURI")">
+
     <title>@ViewData["Title"] - WebApplication1</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebApplication1</a>
+                <a class="navbar-brand" href="/Home/PublicGallery">WebApplication1</a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,14 +31,15 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            <a class="nav-link text-dark" href="/Home/Index">Můj Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
+                            <a class="nav-link text-dark" href="/Home/PublicGallery">Veřejné Widgety</a>
                         </li>
                     </ul>
 
-                    <div class="dropdown">
+                    <!-- Dropdown s widgety -->
+                    <div class="dropdown me-2">
                         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="widgetMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             Widgety
                         </button>
@@ -47,6 +52,24 @@
                             <li><a class="dropdown-item widget-link" data-widget="NewsWidget" href="#">News Widget</a></li>
                         </ul>
                     </div>
+
+                    <!-- Výběr Jazyka (ZNOVU PŘIDÁNO) -->
+                    <div class="me-2">
+                        <select id="langSelect" class="form-select form-select-sm" style="width: auto;">
+                            <option value="cs">🇨🇿 CS</option>
+                            <option value="en">🇬🇧 EN</option>
+                        </select>
+                    </div>
+
+                    <!-- Login / Logout -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item" id="navLoginItem">
+                            <button class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#loginModal">Přihlásit se</button>
+                        </li>
+                        <li class="nav-item d-none" id="navLogoutItem">
+                            <button class="btn btn-link nav-link text-dark" id="logoutBtn">Odhlásit se</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -65,17 +88,77 @@
         </div>
     </footer>
 
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Přihlášení</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Heslo</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="text-danger mb-3" id="loginError"></div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Přihlásit se</button>
+
+                        <!-- Google Login Button (pokud je potřeba) -->
+                        <button type="button" id="googleLoginBtn" class="btn btn-outline-danger w-100">
+                            Přihlásit přes Google
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publish Modal -->
+    <div class="modal fade" id="publishModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Zveřejnit Widget</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Ostatní uživatelé uvidí vaše nastavení tohoto widgetu v "Veřejných Widgetech".</p>
+                    <input type="hidden" id="publishWidgetName">
+                    <input type="hidden" id="publishWidgetLocation">
+                    <div class="mb-3">
+                        <label class="form-label">Veřejný název (pro vyhledávání)</label>
+                        <input type="text" class="form-control" id="publicWidgetNameInput" placeholder="Např. Počasí v Praze" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                    <button type="button" class="btn btn-primary" id="confirmPublishBtn">Publikovat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- HLAVNÍ SKRIPT: Widgety, Auth i Jazyky jsou zde -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     <script src="~/js/weather-autocomplete.js" defer></script>
     <script src="~/js/country-widget.js"></script>
     <script src="~/js/news.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
-    <!-- Inicializace dat ze serveru - mimo DOMContentLoaded -->
     <script>
+        // Inicializace seznamu zemí pro Country Widget
         window.allCountries = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
                         await Context.RequestServices
                                 .GetService<WebApplication1.Service.CountryInfoService>()
@@ -84,26 +167,89 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async function () {
+            document.addEventListener('DOMContentLoaded', async function () {
+
+            // -------------------------------------------------------
+            // 1. JAZYKY (Lang Select)
+            // -------------------------------------------------------
+            const langSelect = document.getElementById("langSelect");
+            if (langSelect) {
+                const LS_KEY = "preferredLang";
+                const storedLang = localStorage.getItem(LS_KEY);
+                const initialLang = storedLang
+                    ? storedLang
+                    : (navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "cs");
+
+                langSelect.value = initialLang;
+
+                if (!storedLang) {
+                    localStorage.setItem(LS_KEY, initialLang);
+                }
+
+                langSelect.addEventListener("change", function () {
+                    const val = this.value || "cs";
+                    localStorage.setItem(LS_KEY, val);
+
+                    // Volání endpointu pro nastavení cookie, pokud existuje, nebo reload
+                    // Zde použijeme fetch na endpoint, který jsme definovali v Program.cs
+                    fetch('/set-language', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `culture=${val}&returnUrl=${encodeURIComponent(window.location.pathname)}`
+                    }).then(() => {
+                         window.location.reload();
+                    });
+                });
+            }
+
+            // -------------------------------------------------------
+            // 2. WIDGETY A AUTH
+            // -------------------------------------------------------
+
+            // Ochrana proti dvojímu spuštění
+            if (window.hasInitializedSiteJs) {
+                console.warn("⚠️ Site.js byl načten dvakrát. Ignoruji druhé spuštění.");
+                return;
+            }
+            window.hasInitializedSiteJs = true;
+
             const container = document.getElementById('widgetContainer');
             const activeWidgets = new Map();
             const chartMap = new Map();
             const widgetLoadPromises = new Map();
             const token = localStorage.getItem("jwtToken");
 
-            // ------------------------
-            // Helpers
-            // ------------------------
+            // --- UI Auth State Management ---
+            const loginItem = document.getElementById('navLoginItem');
+            const logoutItem = document.getElementById('navLogoutItem');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (token) {
+                if(loginItem) loginItem.classList.add('d-none');
+                if(logoutItem) logoutItem.classList.remove('d-none');
+            } else {
+                if(loginItem) loginItem.classList.remove('d-none');
+                if(logoutItem) logoutItem.classList.add('d-none');
+            }
+
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('jwtToken');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('openWidgets');
+                    window.location.reload();
+                });
+            }
+
+            // --- Helpers ---
             function getWidgetKey(name, location) {
-                return name + "::" + (location || "");
+                const locSafe = (location === null || location === undefined) ? "" : String(location).trim();
+                return `${name}::${locSafe}`;
             }
 
             function normalizeWidgetName(name) {
                 if (!name) return "";
-                return name
-                    .split(/[^a-zA-Z0-9]/)
-                    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-                    .join('');
+                return name.split(/[^a-zA-Z0-9]/).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join('');
             }
 
             async function fetchWidgetsFromCouchDB() {
@@ -116,43 +262,50 @@
                     if (!resp.ok) return [];
                     const data = await resp.json();
                     if (!Array.isArray(data)) return [];
-                    return data.map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "", raw: w }))
-                               .filter(w => w.name);
+                    return data.map(w => ({
+                        name: normalizeWidgetName(w.name || w.Name),
+                        location: w.location || w.Location || "",
+                        raw: w
+                    })).filter(w => w.name);
                 } catch (err) {
                     console.error("❌ Chyba CouchDB:", err);
                     return [];
                 }
             }
 
+            // --- Save State ---
             async function saveWidgetState() {
-                const widgets = Array.from(activeWidgets.keys()).map(k => {
-                    const [name, location] = k.split("::");
-                    return { name, location };
+                const uniqueToSave = new Map();
+                document.querySelectorAll('.widget-wrapper').forEach(wrapper => {
+                    const keyFromData = wrapper.dataset.widgetKey;
+                    if (!keyFromData) return;
+                    const widgetName = keyFromData.split("::")[0];
+                    const currentLocation = wrapper.dataset.location || "";
+                    const currentKey = getWidgetKey(widgetName, currentLocation);
+                    uniqueToSave.set(currentKey, { name: widgetName, location: currentLocation });
                 });
-                localStorage.setItem("openWidgets", JSON.stringify(widgets));
-
+                const widgetsList = Array.from(uniqueToSave.values());
+                localStorage.setItem("openWidgets", JSON.stringify(widgetsList));
                 if (!token) return;
                 try {
                     await fetch("/api/auth/widgets", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": "Bearer " + token
-                        },
-                        body: JSON.stringify(widgets)
+                        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                        body: JSON.stringify(widgetsList)
                     });
-                } catch (err) {
-                    console.error("❌ Chyba ukládání na CouchDB:", err);
-                }
+                } catch (err) { console.error("❌ Chyba ukládání:", err); }
             }
 
-            // ------------------------
-            // loadWidget
-            // ------------------------
+            // --- Load Widget ---
             async function loadWidget(widgetName, location = '', optionsRaw = null) {
                 const key = getWidgetKey(widgetName, location);
-
                 if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
+
+                const existingInDom = document.querySelector(`.widget-wrapper[data-widget-key="${key}"]`);
+                if (existingInDom) {
+                    if (!activeWidgets.has(key)) activeWidgets.set(key, { wrapper: existingInDom, raw: optionsRaw });
+                    return Promise.resolve();
+                }
 
                 let widgetObj = activeWidgets.get(key);
                 const isNew = !widgetObj;
@@ -163,7 +316,6 @@
                     wrapper.dataset.widgetKey = key;
                     wrapper.dataset.location = location;
                     container.appendChild(wrapper);
-
                     widgetObj = { wrapper, raw: optionsRaw || null };
                     activeWidgets.set(key, widgetObj);
                 } else {
@@ -171,10 +323,11 @@
                 }
 
                 const { wrapper } = widgetObj;
+                if (wrapper.children.length > 0 && !isNew) return Promise.resolve();
 
                 const promise = (async () => {
                     try {
-                        if (isNew) {
+                        if (isNew || wrapper.children.length === 0) {
                             let url = `/Widget/Load?name=${widgetName}`;
                             if (widgetName === "CurrencyWidget") {
                                 const base = localStorage.getItem("baseCurrency") || "EUR";
@@ -182,14 +335,11 @@
                                 url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
                             }
                             if (location) url += `&location=${encodeURIComponent(location)}`;
-
                             const resp = await fetch(url);
                             wrapper.innerHTML = await resp.text();
                         }
-
                         wrapper.dataset.location = location;
-
-                        addCloseButton(wrapper, widgetName, key);
+                        addWidgetControls(wrapper, widgetName, key);
                         attachInteractions(wrapper, widgetName, widgetObj.raw);
 
                         if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
@@ -198,30 +348,28 @@
                         if (widgetName === "CountryInfoWidget") {
                             const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
                             wrapper.id = wrapperId;
-                            initCountryWidget(wrapperId); // pracuje s existujícím wrapperem
+                            if (window.initCountryWidget) window.initCountryWidget(wrapperId);
                         }
-
                         if (isNew) {
                             wrapper.style.opacity = "0";
                             wrapper.style.transition = "opacity 0.3s ease";
                             requestAnimationFrame(() => wrapper.style.opacity = "1");
                         }
-
-                        await saveWidgetState();
                     } catch (err) {
                         console.error("Chyba při načítání widgetu:", err);
+                        if(isNew && wrapper.parentNode) {
+                            wrapper.remove();
+                            activeWidgets.delete(key);
+                        }
                     } finally {
                         widgetLoadPromises.delete(key);
                     }
                 })();
-
                 widgetLoadPromises.set(key, promise);
                 return promise;
             }
 
-            // ------------------------
-            // Grafy a widgety
-            // ------------------------
+            // --- Widget Functions (Charts, etc) ---
             function renderForecastCharts(wrapper) {
                 const charts = wrapper.querySelectorAll('.temperatureChart');
                 charts.forEach(canvas => {
@@ -230,6 +378,7 @@
                     if (!ctx) return;
                     const labels = JSON.parse(canvas.dataset.labels || '[]');
                     const values = JSON.parse(canvas.dataset.values || '[]');
+                    if(typeof Chart === 'undefined') return;
                     const chart = new Chart(ctx, {
                         type: 'line',
                         data: { labels, datasets: [{ label: 'Teplota (°C)', data: values, fill: true, tension: 0.4 }] },
@@ -244,59 +393,52 @@
                 if (!canvas) return;
                 const labels = JSON.parse(canvas.dataset.labels || '[]');
                 const data = JSON.parse(canvas.dataset.rates || '[]');
-                const label = canvas.dataset.label || '';
-                if (!labels.length || !data.length) return;
+                if (!labels.length || !data.length || typeof Chart === 'undefined') return;
                 new Chart(canvas.getContext("2d"), {
                     type: 'line',
-                    data: { labels, datasets: [{ label, data, fill: false, tension: 0.3 }] }
+                    data: { labels, datasets: [{ label: canvas.dataset.label || '', data, fill: false, tension: 0.3 }] }
                 });
             }
 
             function attachInteractions(wrapper, widgetName, rawData = null) {
-                if (!wrapper.dataset.toggleInit) {
-                    const toggleBtn = wrapper.querySelector('#toggleUnit');
-                    toggleBtn?.addEventListener('click', () => {
+                const toggleBtn = wrapper.querySelector('#toggleUnit');
+                if (toggleBtn && !wrapper.dataset.toggleInit) {
+                    toggleBtn.addEventListener('click', () => {
                         const tempEl = wrapper.querySelector('h2');
-                        if (!tempEl) return;
-                        tempEl.textContent = tempEl.textContent.includes('°C') ? tempEl.dataset.fahrenheit + '°F' : tempEl.dataset.celsius + '°C';
+                        if (tempEl) tempEl.textContent = tempEl.textContent.includes('°C') ? tempEl.dataset.fahrenheit + '°F' : tempEl.dataset.celsius + '°C';
                     });
                     wrapper.dataset.toggleInit = "1";
                 }
 
-                if (!wrapper.dataset.locationFormInit) {
-                    const form = wrapper.querySelector('#locationForm');
-                    form?.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        await loadWidget(widgetName, form.querySelector('input[name="location"]').value);
-                    });
-                    wrapper.dataset.locationFormInit = "1";
-                }
-
-                if (!wrapper.dataset.forecastFormInit) {
-                    const forecastForm = wrapper.querySelector('#forecastLocationForm');
-                    forecastForm?.addEventListener('submit', async e => {
-                        e.preventDefault();
-                        await loadWidget(widgetName, forecastForm.querySelector('input[name="location"]').value);
-                    });
-                    wrapper.dataset.forecastFormInit = "1";
-                }
+                const forms = wrapper.querySelectorAll('form');
+                forms.forEach(form => {
+                    if ((form.id === 'locationForm' || form.id === 'forecastLocationForm') && !wrapper.dataset.formInit) {
+                        form.addEventListener('submit', async e => {
+                            e.preventDefault();
+                            const locInput = form.querySelector('input[name="location"]');
+                            if(locInput) await loadWidget(widgetName, locInput.value);
+                        });
+                        wrapper.dataset.formInit = "1";
+                    }
+                });
 
                 if (widgetName === "CurrencyWidget") {
                     const base = wrapper.querySelector('#baseCurrency');
                     const quote = wrapper.querySelector('#quoteCurrency');
                     if (rawData) {
-                        if (rawData.baseCurrency && base?.querySelector(`option[value="${rawData.baseCurrency}"]`)) base.value = rawData.baseCurrency;
-                        if (rawData.quoteCurrency && quote?.querySelector(`option[value="${rawData.quoteCurrency}"]`)) quote.value = rawData.quoteCurrency;
+                        const rBase = rawData.baseCurrency || rawData.BaseCurrency;
+                        const rQuote = rawData.quoteCurrency || rawData.QuoteCurrency;
+                        if (rBase && base?.querySelector(`option[value="${rBase}"]`)) base.value = rBase;
+                        if (rQuote && quote?.querySelector(`option[value="${rQuote}"]`)) quote.value = rQuote;
                     } else {
-                        const savedBase = localStorage.getItem("baseCurrency");
-                        const savedQuote = localStorage.getItem("quoteCurrency");
-                        if (savedBase && base?.querySelector(`option[value="${savedBase}"]`)) base.value = savedBase;
-                        if (savedQuote && quote?.querySelector(`option[value="${savedQuote}"]`)) quote.value = savedQuote;
+                        const sBase = localStorage.getItem("baseCurrency");
+                        const sQuote = localStorage.getItem("quoteCurrency");
+                        if (sBase && base?.querySelector(`option[value="${sBase}"]`)) base.value = sBase;
+                        if (sQuote && quote?.querySelector(`option[value="${sQuote}"]`)) quote.value = sQuote;
                     }
-
-                    if (!wrapper.dataset.currencyInit) {
-                        const currencyForm = wrapper.querySelector('#currencyForm');
-                        currencyForm?.addEventListener("submit", async e => {
+                    const cForm = wrapper.querySelector('#currencyForm');
+                    if (cForm && !wrapper.dataset.currencyInit) {
+                        cForm.addEventListener("submit", async e => {
                             e.preventDefault();
                             localStorage.setItem("baseCurrency", base.value);
                             localStorage.setItem("quoteCurrency", quote.value);
@@ -305,67 +447,115 @@
                         wrapper.dataset.currencyInit = "1";
                     }
                 }
+            }
 
-                if (widgetName === "CountryInfoWidget") {
-                    const input = wrapper.querySelector('.input-country');
-                    const datalist = wrapper.querySelector('datalist');
-                    if (input && datalist && window.allCountries && Array.isArray(window.allCountries) && !datalist.dataset.populated) {
-                        datalist.innerHTML = window.allCountries.map(c => `<option value="${c.name}">`).join('');
-                        datalist.dataset.populated = "1";
-                    }
+            function addWidgetControls(wrapper, widgetName, key) {
+                if (!wrapper.querySelector('.close-widget-btn')) {
+                    const closeBtn = document.createElement('button');
+                    closeBtn.textContent = '×';
+                    closeBtn.classList.add('btn','btn-sm','btn-danger','close-widget-btn');
+                    closeBtn.style.position = "absolute";
+                    closeBtn.style.top = "5px";
+                    closeBtn.style.right = "5px";
+                    closeBtn.addEventListener('click', () => {
+                        wrapper.style.opacity = "0";
+                        setTimeout(() => {
+                            wrapper.remove();
+                            activeWidgets.delete(key);
+                            saveWidgetState();
+                        }, 300);
+                    });
+                    wrapper.appendChild(closeBtn);
+                }
+
+                if (token && !wrapper.querySelector('.publish-widget-btn')) {
+                    const publishBtn = document.createElement('button');
+                    publishBtn.innerHTML = '☁';
+                    publishBtn.classList.add('btn', 'btn-sm', 'btn-info', 'text-white', 'publish-widget-btn');
+                    publishBtn.style.position = "absolute";
+                    publishBtn.style.top = "5px";
+                    publishBtn.style.right = "40px";
+                    publishBtn.onclick = function() {
+                        const modalNameInput = document.getElementById('publishWidgetName');
+                        const modalLocInput = document.getElementById('publishWidgetLocation');
+                        const publicNameInput = document.getElementById('publicWidgetNameInput');
+                        if(modalNameInput) modalNameInput.value = widgetName;
+                        if(modalLocInput) modalLocInput.value = wrapper.dataset.location || "";
+                        if(publicNameInput) publicNameInput.value = "";
+                        const modalEl = document.getElementById('publishModal');
+                        if(modalEl) new bootstrap.Modal(modalEl).show();
+                    };
+                    wrapper.appendChild(publishBtn);
                 }
             }
 
-            function addCloseButton(wrapper, widgetName, key) {
-                if (wrapper.querySelector('.close-widget-btn')) return;
-                const closeBtn = document.createElement('button');
-                closeBtn.textContent = '×';
-                closeBtn.classList.add('btn','btn-sm','btn-danger','close-widget-btn');
-                closeBtn.style.position = "absolute";
-                closeBtn.style.top = "5px";
-                closeBtn.style.right = "5px";
-                closeBtn.addEventListener('click', () => {
-                    wrapper.style.opacity = "0";
-                    setTimeout(() => {
-                        wrapper.remove();
-                        activeWidgets.delete(key);
-                        saveWidgetState();
-                    }, 300);
+            const confirmPublishBtn = document.getElementById('confirmPublishBtn');
+            if (confirmPublishBtn) {
+                const newBtn = confirmPublishBtn.cloneNode(true);
+                confirmPublishBtn.parentNode.replaceChild(newBtn, confirmPublishBtn);
+
+                newBtn.addEventListener('click', async () => {
+                    const name = document.getElementById('publishWidgetName').value;
+                    const location = document.getElementById('publishWidgetLocation').value;
+                    const publicName = document.getElementById('publicWidgetNameInput').value;
+                    if(!publicName) { alert("Prosím vyplňte název."); return; }
+
+                    const widgetState = { Name: name, Location: location };
+                    try {
+                        const resp = await fetch('/api/PublicWidgets/publish', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                            body: JSON.stringify({ publicName: publicName, widgetState: widgetState })
+                        });
+                        if(resp.ok) {
+                            alert("Widget publikován!");
+                            bootstrap.Modal.getInstance(document.getElementById('publishModal'))?.hide();
+                        } else {
+                            alert("Chyba při publikaci.");
+                        }
+                    } catch(e) { console.error(e); alert("Chyba spojení."); }
                 });
-                wrapper.appendChild(closeBtn);
             }
 
             // ------------------------
-            // Inicializace widgetů
+            // INICIALIZACE APLIKACE (FALLBACK LOGIKA)
             // ------------------------
-            const savedWidgetsRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
-            const savedWidgets = Array.from(
-                new Map(savedWidgetsRaw.map(w => [getWidgetKey(normalizeWidgetName(w.name), w.location || ""), w])).values()
-            ).map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }));
+            if (container) {
+                container.innerHTML = '';
+                activeWidgets.clear();
 
-            if (token) {
-                const couchData = await fetchWidgetsFromCouchDB();
-                const merged = Array.from(
-                    new Map([...savedWidgets.map(w => [getWidgetKey(w.name, w.location), w]), ...couchData.map(w => [getWidgetKey(w.name, w.location), w])])
-                    .values()
-                );
+                let widgetsToLoad = [];
 
-                for (const w of merged) {
-                    const key = getWidgetKey(w.name, w.location);
-                    if (!activeWidgets.has(key)) {
-                        await loadWidget(w.name, w.location, w.raw);
-                    } else {
-                        const entry = activeWidgets.get(key);
-                        entry.raw = w.raw || entry.raw;
-                        attachInteractions(entry.wrapper, w.name, entry.raw);
+                if (token) {
+                    try {
+                        widgetsToLoad = await fetchWidgetsFromCouchDB();
+                    } catch (e) {
+                        console.warn("Chyba DB fetch, fallback na LS", e);
                     }
                 }
 
-                localStorage.setItem("openWidgets", JSON.stringify(merged.map(m => ({ name: m.name, location: m.location }))));
-            } else {
-                for (const w of savedWidgets) {
-                    await loadWidget(w.name, w.location);
+                if (!widgetsToLoad || widgetsToLoad.length === 0) {
+                    console.log("Načítám z LocalStorage...");
+                    const savedRaw = JSON.parse(localStorage.getItem("openWidgets") || "[]");
+                    widgetsToLoad = savedRaw.map(w => ({
+                        name: normalizeWidgetName(w.name),
+                        location: w.location || "",
+                        raw: w
+                    }));
                 }
+
+                const uniqueMap = new Map();
+                widgetsToLoad.forEach(w => {
+                    const key = getWidgetKey(w.name, w.location);
+                    if (!uniqueMap.has(key)) uniqueMap.set(key, w);
+                });
+
+                const finalWidgets = Array.from(uniqueMap.values());
+
+                const promises = finalWidgets.map(w => loadWidget(w.name, w.location, w.raw));
+                await Promise.all(promises);
+
+                saveWidgetState();
             }
 
             document.querySelectorAll('.widget-link').forEach(link => {
@@ -381,60 +571,76 @@
             document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveWidgetState(); });
 
             // ------------------------
-            // Login
+            // LOGIN HANDLERS
             // ------------------------
             const loginForm = document.getElementById('loginForm');
-            const loginError = document.getElementById('loginError');
-
-            loginForm?.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-
-                try {
-                    const resp = await fetch('/api/Auth/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, password })
-                    });
-                    const data = await resp.json();
-                    if (!resp.ok) {
-                        loginError.textContent = data.message || "Chyba přihlášení";
-                        return;
-                    }
-                    loginError.textContent = "";
-                    localStorage.setItem('jwtToken', data.token);
-                    bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
-
-                    const couchData = await fetchWidgetsFromCouchDB();
-                    const currentSaved = JSON.parse(localStorage.getItem("openWidgets") || "[]").map(w => ({ name: normalizeWidgetName(w.name), location: w.location || "" }));
-                    const merged = Array.from(
-                        new Map([...currentSaved.map(w => [getWidgetKey(w.name, w.location), w]), ...couchData.map(w => [getWidgetKey(w.name, w.location), w])])
-                        .values()
-                    );
-
-                    for (const w of merged) {
-                        const key = getWidgetKey(w.name, w.location);
-                        if (!activeWidgets.has(key)) {
-                            await loadWidget(w.name, w.location, w.raw);
-                        } else {
-                            const entry = activeWidgets.get(key);
-                            entry.raw = w.raw || entry.raw;
-                            attachInteractions(entry.wrapper, w.name, entry.raw);
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const email = document.getElementById('loginEmail').value;
+                    const password = document.getElementById('loginPassword').value;
+                    const loginError = document.getElementById('loginError');
+                    try {
+                        const resp = await fetch('/api/Auth/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password })
+                        });
+                        const data = await resp.json();
+                        if (!resp.ok) {
+                            if(loginError) loginError.textContent = data.message || "Chyba přihlášení";
+                            return;
                         }
+                        if(loginError) loginError.textContent = "";
+                        localStorage.setItem('jwtToken', data.token);
+                        if(email) localStorage.setItem('userEmail', email);
+                        bootstrap.Modal.getInstance(document.getElementById('loginModal'))?.hide();
+                        window.location.reload();
+                    } catch (err) {
+                        console.error(err);
+                        if(loginError) loginError.textContent = "Nepodařilo se přihlásit.";
                     }
+                });
+            }
 
-                    localStorage.setItem("openWidgets", JSON.stringify(merged.map(m => ({ name: m.name, location: m.location }))));
-                } catch (err) {
-                    console.error(err);
-                    loginError.textContent = "Nepodařilo se přihlásit.";
-                }
-            });
+            // Google Login (doplněno)
+            const googleBtn = document.getElementById("googleLoginBtn");
+            if (googleBtn) {
+                googleBtn.addEventListener("click", () => {
+                    const clientId = document.querySelector("meta[name='google-client-id']")?.content;
+                    const redirectUri = document.querySelector("meta[name='google-redirect-uri']")?.content;
+                    if(!clientId || !redirectUri) return;
+                    const scope = encodeURIComponent("openid email profile");
+                    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scope}&access_type=offline&prompt=select_account`;
+                    window.location.href = authUrl;
+                });
+            }
+
+            // Google Callback
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get("code");
+            if (code) {
+                (async () => {
+                    try {
+                        const res = await fetch("/api/auth/google/exchange", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ code })
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data?.message || "Google login failed");
+
+                        localStorage.setItem("jwtToken", data.token);
+                        localStorage.setItem("userEmail", data.email);
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        window.location.href = "/";
+                    } catch (err) {
+                        console.error(err);
+                        alert("Google login failed");
+                    }
+                })();
+            }
         });
     </script>
-
-
-
-
 </body>
 </html>

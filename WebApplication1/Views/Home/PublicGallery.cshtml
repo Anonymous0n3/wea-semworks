@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Galerie Widgetů";
+}
+
+<div class="text-center py-4 bg-light rounded-3 mb-4">
+    <h1 class="display-6">Galerie Widgetů</h1>
+    <p class="text-muted">Prohlížejte a hodnoťte widgety ostatních. Kliknutím na <strong>Použít</strong> si widget vyzkoušíte přímo zde.</p>
+    <a asp-action="Index" class="btn btn-primary">Zpět na Můj Dashboard</a>
+</div>
+
+<!-- 1. SEKCE: OBLÍBENÉ -->
+<div id="favoritesSection" class="d-none mb-5">
+    <h4 class="border-bottom pb-2 text-warning">⭐ Vaše oblíbené</h4>
+    <div id="favoritesContainer" class="row g-3 mt-2">
+        <div class="col-12 text-muted">Načítám...</div>
+    </div>
+</div>
+
+<!-- 2. SEKCE: NÁHLED AKTIVNÍHO WIDGETU (Zde se načte po kliknutí na Použít) -->
+<div id="activeWidgetSection" class="mb-5 d-none">
+    <h4 class="border-bottom pb-2 text-primary">▶️ Aktivní náhled</h4>
+    <div class="p-4 border rounded bg-white shadow-sm position-relative">
+        <button onclick="closePreview()" class="btn btn-sm btn-close position-absolute top-0 end-0 m-3" aria-label="Zavřít"></button>
+        <div id="previewContainer">
+            <!-- Sem se dynamicky načte HTML widgetu -->
+        </div>
+    </div>
+</div>
+
+<!-- 3. SEKCE: VŠECHNY VEŘEJNÉ -->
+<div id="publicSection">
+    <h4 class="border-bottom pb-2">🌐 Všechny veřejné widgety</h4>
+
+    <div class="row g-2 mt-2 mb-3">
+        <div class="col-md-5">
+            <input type="text" id="discoSearch" class="form-control" placeholder="Hledat podle názvu...">
+        </div>
+        <div class="col-md-3">
+            <input type="text" id="discoAuthor" class="form-control" placeholder="Hledat autora...">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100" onclick="loadPublicList(1)">Hledat</button>
+        </div>
+    </div>
+
+    <div id="publicContainer" class="row g-3">
+        <div class="col-12 text-muted">Načítám galerii...</div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-sm btn-outline-secondary me-2" onclick="changePage(-1)">Předchozí</button>
+        <span class="align-self-center" id="pageIndicator">Strana 1</span>
+        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="changePage(1)">Další</button>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Důležité: Chart.js musíme mít načtený pro grafy v náhledu -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/discovery.js"></script>
+}

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication1.Models;
@@ -14,9 +13,16 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
+        // TOTO JE DASHBOARD (Pracovní plocha)
         public IActionResult Index()
         {
-            return View("~/Views/Home/Index.cshtml");
+            return View();
+        }
+
+        // TOTO JE GALERIE (Rozcestník / Veøejné widgety)
+        public IActionResult PublicGallery()
+        {
+            return View();
         }
 
         public IActionResult Privacy()
@@ -30,12 +36,11 @@ namespace WebApplication1.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        // Helper pro Currency widget reload
         [HttpGet]
         public IActionResult CurrencyWidget(string baseCurrency = "EUR", string quoteCurrency = "USD")
         {
-            // pøepošle parametry zpìt na Index, kde se komponenta znovu vykreslí s novými daty
             return RedirectToAction("Index", new { baseCurrency, quoteCurrency });
         }
-
     }
 }
