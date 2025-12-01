@@ -228,26 +228,47 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 // ==========================================
 var app = builder.Build();
 
-// 1. Nastavení PathBase z proměnné prostředí (Docker)
-// Toto zajistí, že aplikace ví, že běží na /sk04-web a generuje správné odkazy.
+// 1. Získání Base Path z prostředí (Docker)
 var pathBase = Environment.GetEnvironmentVariable("ASPNETCORE_URLS_PATH_BASE");
+
+// 2. Hybridní nastavení PathBase (Smart Middleware)
+// Toto řeší oba případy:
+// A) Pokud Nginx provádí Rewrite (ořízne cestu), použijeme X-Forwarded-Path-Base
+// B) Pokud Nginx neprovádí Rewrite (posílá plnou cestu), použijeme app.UsePathBase()
+app.Use((context, next) =>
+{
+    if (context.Request.Headers.TryGetValue("X-Forwarded-Path-Base", out var headerPathBase))
+    {
+        var pathBaseStr = new PathString(headerPathBase);
+        // Pokud aktuální cesta NEZAČÍNÁ tímto base (tzn. Nginx udělal rewrite a ořízl to),
+        // tak musíme PathBase nastavit ručně z hlavičky.
+        // Pokud cesta base obsahuje, necháme to na UsePathBase middleware níže.
+        if (!context.Request.Path.StartsWithSegments(pathBaseStr))
+        {
+            context.Request.PathBase = pathBaseStr;
+        }
+    }
+    return next();
+});
+
+// Pokud je nastaveno v ENV, zaregistrujeme standardní middleware.
+// Ten zafunguje jen tehdy, pokud request path skutečně začíná tímto prefixem (Scénář B).
 if (!string.IsNullOrEmpty(pathBase))
 {
-    Console.WriteLine($"[Config] Using PathBase: {pathBase}");
+    Console.WriteLine($"[Config] UsePathBase registered: {pathBase}");
     app.UsePathBase(pathBase);
 }
 
-// 2. Forwarded Headers (musí být úplně nahoře pro proxy)
+// 3. Forwarded Headers (Proxy IP, Proto, Host)
 app.UseForwardedHeaders();
 
-// 3. Inicializace DB (může být zde, neovlivňuje HTTP pipeline)
+// 4. Inicializace DB
 using (var scope = app.Services.CreateScope())
 {
     try
     {
         var couch = scope.ServiceProvider.GetRequiredService<CouchDbService>();
         await couch.EnsureDbExistsAsync();
-        // Vytvoření indexů pro Mango queries (pro Public Widgets)
         await couch.CreateIndexesAsync();
         Console.WriteLine("✅ CouchDB databáze ověřena a indexy vytvořeny.");
     }
@@ -257,7 +278,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// 4. Exception Handler / HSTS / Swagger
+// 5. Exception Handler / Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -266,9 +287,7 @@ if (app.Environment.IsDevelopment())
     {
         c.DefaultModelsExpandDepth(-1);
 
-        // Pokud je nastaven pathBase, musíme Swaggeru říct plnou cestu k JSONu, 
-        // jinak by ji hledal na rootu domény (404).
-        // Příklad: /sk04-web/swagger/v1/swagger.json
+        // Pokud existuje pathBase, musíme Swaggeru říct plnou cestu k JSONu
         var swaggerEndpoint = string.IsNullOrEmpty(pathBase)
             ? "/swagger/v1/swagger.json"
             : $"{pathBase}/swagger/v1/swagger.json";
@@ -282,32 +301,31 @@ else
     app.UseHsts();
 }
 
-// 5. HTTPS Redirection & Static Files
+// 6. HTTPS Redirection & Static Files
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-// 6. Routing (musí být před CORS a Auth)
+// 7. Routing
 app.UseRouting();
 
-// 7. CORS (musí být mezi UseRouting a UseResponseCaching/UseAuth)
+// 8. CORS
 app.UseCors("DefaultCorsPolicy");
 
-// 8. Lokalizace
+// 9. Lokalizace
 var locOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(locOptions.Value);
 
-// 9. AUTENTIZACE & AUTORIZACE (v tomto pořadí!)
-app.UseAuthentication(); // Zjistí KDO to je (rozbalí JWT)
-app.UseAuthorization();  // Zjistí CO může dělat
+// 10. Auth
+app.UseAuthentication();
+app.UseAuthorization();
 
-// 10. Mapování Endpointů
+// 11. Endpoints
 app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Endpoint pro přepnutí jazyka
 app.MapPost("/set-language", (HttpContext http) =>
 {
     var culture = http.Request.Form["culture"].ToString();
