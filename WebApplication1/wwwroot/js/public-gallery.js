@@ -29,43 +29,74 @@ async function loadPublicWidgets(page) {
     }
 }
 
-function renderWidgets(widgets) {
-    const container = document.getElementById('publicWidgetsList');
-    container.innerHTML = '';
-    const currentUser = localStorage.getItem('userEmail'); // Předpokládá uložení emailu po loginu
-    const token = localStorage.getItem('jwtToken');
+function renderCard(w, currentUserEmail, token) {
+    const isAuthor = w.authorEmail === currentUserEmail;
+    // Escapování dat pro vložení do onclick
+    const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
+    // Escapování názvu pro bezpečné vložení do JS
+    const safeName = w.publicName.replace(/'/g, "\\'");
+    const widgetType = w.widgetType;
 
-    widgets.forEach(w => {
-        const isAuthor = w.authorEmail === currentUser;
+    let likesCount = w.likesCount || 0;
 
-        // Kartička widgetu
-        const col = document.createElement('div');
-        col.className = 'col-md-6 col-lg-4 mb-4';
+    // --- 1. LIKE TLAČÍTKO ---
+    let likeSection = '';
+    if (token) {
+        const likedBy = w.likedBy || [];
+        const isLiked = currentUserEmail && likedBy.some(e => e.toLowerCase() === currentUserEmail.toLowerCase());
+        const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
+        const icon = isLiked ? '❤️' : '🤍';
 
-        let settingsSummary = `Typ: ${w.widgetType}`;
-        if (w.widgetData.location) settingsSummary += `<br>Lokace: ${w.widgetData.location}`;
+        if (!isAuthor) {
+            likeSection = `
+            <button type="button" class="btn btn-sm ${btnClass} position-relative" 
+                    style="z-index: 5;"
+                    onclick="event.stopPropagation(); window.toggleLike('${w.id}')">
+                ${icon} ${likesCount}
+            </button>`;
+        } else {
+            likeSection = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
+        }
+    } else {
+        likeSection = `<span class="text-muted fw-bold">❤️ ${likesCount}</span>`;
+    }
 
-        col.innerHTML = `
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">${w.publicName}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Autor: ${w.authorName}</h6>
-                    <p class="card-text small">${settingsSummary}</p>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div>
-                            <span class="badge bg-secondary me-2">${w.likesCount} Likes</span>
-                            <small class="text-muted">${new Date(w.createdAt).toLocaleDateString()}</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
-                    ${!isAuthor && token ? `<button class="btn btn-sm btn-outline-danger" onclick="likeWidget('${w.id}')">♥ Like</button>` : ''}
-                    ${token ? `<button class="btn btn-sm btn-success" onclick='adoptWidget(${JSON.stringify(w.widgetData)})'>+ Přidat na můj Dashboard</button>` : '<small>Přihlas se pro přidání</small>'}
-                </div>
-            </div>
+    // --- 2. TLAČÍTKO POUŽÍT (NÁHLED) ---
+    let actionButtons = `
+        <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">
+            👁️ Vyzkoušet (Náhled)
+        </button>
+    `;
+
+    // --- 3. NOVÉ TLAČÍTKO ZVLASTNIT (JEN PŘIHLÁŠENÍ) ---
+    if (token) {
+        actionButtons += `
+        <button class="btn btn-success btn-sm w-100 mt-2" onclick="window.adoptWidget('${widgetType}', ${widgetDataStr}, '${safeName}')">
+            💾 Zvlastnit (Uložit)
+        </button>
         `;
-        container.appendChild(col);
-    });
+    }
+
+    return `
+    <div class="col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title text-truncate" title="${w.publicName}">${w.publicName}</h5>
+                <div class="mb-2">
+                    <span class="badge bg-info text-dark">${w.widgetType}</span>
+                </div>
+                <p class="card-text small text-muted mb-1">Autor: ${w.authorName}</p>
+                <p class="card-text small text-muted mb-auto">Lokalita: ${w.widgetData.location || "N/A"}</p>
+                
+                ${actionButtons}
+            </div>
+            <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center py-2">
+                ${likeSection}
+                <small class="text-muted">${new Date(w.createdAt).toLocaleDateString()}</small>
+            </div>
+        </div>
+    </div>
+    `;
 }
 
 async function likeWidget(id) {
@@ -79,25 +110,39 @@ async function likeWidget(id) {
     loadPublicWidgets(currentPage); // Reload pro aktualizaci počtu
 }
 
-function adoptWidget(widgetData) {
-    // 1. Načíst stávající widgety z localStorage
-    let currentWidgets = JSON.parse(localStorage.getItem("openWidgets") || "[]");
+function adoptWidget(widgetType, widgetData, widgetName) {
+    // 1. Definice klíče, pod kterým Dashboard očekává data
+    const STORAGE_KEY = 'dashboard_widgets';
 
-    // 2. Přidat nový (zkopírování nastavení)
-    // Ujistíme se, že je formát kompatibilní s UserWidgetState
+    // 2. Načtení současných widgetů
+    let currentWidgets = [];
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            currentWidgets = JSON.parse(stored);
+            if (!Array.isArray(currentWidgets)) currentWidgets = [];
+        }
+    } catch (e) {
+        console.error("Chyba při čtení localStorage", e);
+        currentWidgets = [];
+    }
+
+    // 3. Vytvoření nového objektu widgetu
+    // Struktura musí odpovídat tomu, co očekává tvůj Dashboard script!
     const newWidget = {
-        name: widgetData.name, // Case sensitive match s UserWidgetState
-        location: widgetData.location || ""
+        id: 'imported_' + Date.now(), // Unikátní ID
+        type: widgetType,
+        data: widgetData,
+        // Volitelně můžeš uložit i původní název, pokud ho dashboard zobrazuje
+        title: widgetName
     };
 
+    // 4. Přidání do pole a uložení
     currentWidgets.push(newWidget);
-    localStorage.setItem("openWidgets", JSON.stringify(currentWidgets));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentWidgets));
 
-    // 3. Pokud je online, uložíme i do DB (využijeme existující funkci v site.js logice nebo reloadneme)
-    // Nejjednodušší: přesměrovat uživatele na jeho dashboard, kde se to uloží
-    if (confirm("Widget byl přidán! Přejít na Můj Dashboard?")) {
-        window.location.href = "/";
-    }
+    // 5. Zpětná vazba uživateli
+    alert(`Widget "${widgetName}" byl úspěšně uložen! Najdete ho na svém Dashboardu.`);
 }
 
 function renderPagination(page, count) {
