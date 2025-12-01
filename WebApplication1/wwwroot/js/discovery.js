@@ -83,17 +83,17 @@ function renderCard(w, currentUserEmail, token) {
     const isAuthor = w.authorEmail === currentUserEmail;
     // Escapování dat pro vložení do onclick
     const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
+    // Escapování názvu pro bezpečné vložení do JS
+    const safeName = w.publicName.replace(/'/g, "\\'");
     const widgetType = w.widgetType;
 
     let likesCount = w.likesCount || 0;
 
-    // --- 1. LOGIKA PRO LIKE TLAČÍTKO (Pouze přihlášení) ---
+    // --- 1. LIKE TLAČÍTKO ---
     let likeSection = '';
-
     if (token) {
         const likedBy = w.likedBy || [];
         const isLiked = currentUserEmail && likedBy.some(e => e.toLowerCase() === currentUserEmail.toLowerCase());
-
         const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
         const icon = isLiked ? '❤️' : '🤍';
 
@@ -108,17 +108,24 @@ function renderCard(w, currentUserEmail, token) {
             likeSection = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
         }
     } else {
-        // Nepřihlášený vidí jen počet, nemůže kliknout
         likeSection = `<span class="text-muted fw-bold">❤️ ${likesCount}</span>`;
     }
 
-    // --- 2. TLAČÍTKO POUŽÍT (PRO VŠECHNY) ---
-    // Zde byla změna: Odstraněna podmínka if(token), nyní se zobrazí všem.
-    let addBtn = `
+    // --- 2. TLAČÍTKO POUŽÍT (NÁHLED) ---
+    let actionButtons = `
         <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">
-            Vyzkoušet (Náhled)
+            👁️ Vyzkoušet (Náhled)
         </button>
     `;
+
+    // --- 3. NOVÉ TLAČÍTKO ZVLASTNIT (JEN PŘIHLÁŠENÍ) ---
+    if (token) {
+        actionButtons += `
+        <button class="btn btn-success btn-sm w-100 mt-2" onclick="window.adoptWidget('${widgetType}', ${widgetDataStr}, '${safeName}')">
+            💾 Zvlastnit (Uložit)
+        </button>
+        `;
+    }
 
     return `
     <div class="col-md-4 col-lg-3">
@@ -131,7 +138,7 @@ function renderCard(w, currentUserEmail, token) {
                 <p class="card-text small text-muted mb-1">Autor: ${w.authorName}</p>
                 <p class="card-text small text-muted mb-auto">Lokalita: ${w.widgetData.location || "N/A"}</p>
                 
-                ${addBtn}
+                ${actionButtons}
             </div>
             <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center py-2">
                 ${likeSection}
@@ -210,6 +217,41 @@ async function previewWidget(widgetName, widgetData) {
         console.error(e);
         container.innerHTML = `<div class="alert alert-danger">Nepodařilo se načíst náhled widgetu. Chyba: ${e.message}</div>`;
     }
+}
+
+function adoptWidget(widgetType, widgetData, widgetName) {
+    // 1. Definice klíče, pod kterým Dashboard očekává data
+    const STORAGE_KEY = 'dashboard_widgets';
+
+    // 2. Načtení současných widgetů
+    let currentWidgets = [];
+    try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            currentWidgets = JSON.parse(stored);
+            if (!Array.isArray(currentWidgets)) currentWidgets = [];
+        }
+    } catch (e) {
+        console.error("Chyba při čtení localStorage", e);
+        currentWidgets = [];
+    }
+
+    // 3. Vytvoření nového objektu widgetu
+    // Struktura musí odpovídat tomu, co očekává tvůj Dashboard script!
+    const newWidget = {
+        id: 'imported_' + Date.now(), // Unikátní ID
+        type: widgetType,
+        data: widgetData,
+        // Volitelně můžeš uložit i původní název, pokud ho dashboard zobrazuje
+        title: widgetName
+    };
+
+    // 4. Přidání do pole a uložení
+    currentWidgets.push(newWidget);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentWidgets));
+
+    // 5. Zpětná vazba uživateli
+    alert(`Widget "${widgetName}" byl úspěšně uložen! Najdete ho na svém Dashboardu.`);
 }
 
 function closePreview() {
@@ -311,3 +353,4 @@ function initWidgetScripts(wrapper, widgetName) {
 window.toggleLike = toggleLike;
 window.previewWidget = previewWidget;
 window.closePreview = closePreview;
+window.adoptWidget = adoptWidget; // <--- PŘIDÁNO
