@@ -14,7 +14,6 @@ services:
       - webapplication1
 
   webapplication1:
-    container_name: webapplication1
     build:
       context: .
       dockerfile: WebApplication1/Dockerfile
@@ -26,8 +25,8 @@ services:
       - BACKEND_BASE_URL
       - ASPNETCORE_URLS=http://+:8080
       - ASPNETCORE_URLS_PATH_BASE=/sk04-web
-    #env_file:
-    #  - .env
+    env_file:
+      - .env
     depends_on:
       - couchdb
     volumes:
