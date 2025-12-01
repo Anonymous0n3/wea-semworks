@@ -219,9 +219,9 @@ async function previewWidget(widgetName, widgetData) {
     }
 }
 
-function adoptWidget(widgetType, widgetData, widgetName) {
-    // 1. Definice klíče, pod kterým Dashboard očekává data
-    const STORAGE_KEY = 'dashboard_widgets';
+function adoptWidget(widgetType, widgetData) {
+    // 1. PŘESNÝ KLÍČ PRO LOCALSTORAGE
+    const STORAGE_KEY = 'openWidgets';
 
     // 2. Načtení současných widgetů
     let currentWidgets = [];
@@ -229,6 +229,7 @@ function adoptWidget(widgetType, widgetData, widgetName) {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
             currentWidgets = JSON.parse(stored);
+            // Pojistka, aby to bylo vždy pole
             if (!Array.isArray(currentWidgets)) currentWidgets = [];
         }
     } catch (e) {
@@ -236,22 +237,20 @@ function adoptWidget(widgetType, widgetData, widgetName) {
         currentWidgets = [];
     }
 
-    // 3. Vytvoření nového objektu widgetu
-    // Struktura musí odpovídat tomu, co očekává tvůj Dashboard script!
+    // 3. Vytvoření objektu ve správné struktuře: {name: "...", location: "..."}
     const newWidget = {
-        id: 'imported_' + Date.now(), // Unikátní ID
-        type: widgetType,
-        data: widgetData,
-        // Volitelně můžeš uložit i původní název, pokud ho dashboard zobrazuje
-        title: widgetName
+        name: widgetType,
+        location: widgetData.location || "" // Pokud location chybí, uloží prázdný string
     };
 
-    // 4. Přidání do pole a uložení
+    // 4. Přidání do pole
     currentWidgets.push(newWidget);
+
+    // 5. Uložení zpět do localStorage pod klíčem 'openWidgets'
     localStorage.setItem(STORAGE_KEY, JSON.stringify(currentWidgets));
 
-    // 5. Zpětná vazba uživateli
-    alert(`Widget "${widgetName}" byl úspěšně uložen! Najdete ho na svém Dashboardu.`);
+    // 6. Potvrzení
+    alert("Widget byl uložen! Po návratu na Dashboard se načte.");
 }
 
 function closePreview() {
