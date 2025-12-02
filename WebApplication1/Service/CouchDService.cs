@@ -260,7 +260,7 @@ namespace WebApplication1.Service
         // VEŘEJNÉ WIDGETY (PUBLIC API) - FIXED
         // ==========================================
 
-        public async Task CreateIndexesAsync()
+        /*public async Task CreateIndexesAsync()
         {
             _logger.LogInformation("[CouchDB] Creating/Verifying indexes...");
 
@@ -274,7 +274,7 @@ namespace WebApplication1.Service
 
             await _client.PostAsync($"{_couchBase}/{_dbName}/_index",
                 new StringContent(JsonSerializer.Serialize(indexData, _jsonOptions), Encoding.UTF8, "application/json"));
-        }
+        }*/
 
         public async Task<bool> PublishWidgetAsync(UserDoc author, UserWidgetState widgetData, string publicName)
         {
@@ -303,12 +303,66 @@ namespace WebApplication1.Service
             return true;
         }
 
+        public async Task CreateIndexesAsync()
+        {
+            _logger.LogInformation("[CouchDB] Creating/Verifying indexes...");
+
+            // Index 1: Pro základní filtrování podle typu
+            var indexDataType = new
+            {
+                index = new { fields = new[] { "Type" } },
+                name = "idx_type_simple",
+                type = "json"
+            };
+
+            // Index 2: Pro Řazení podle Oblíbenosti (LikesCount)
+            // Musí obsahovat "Type" jako první pole, protože to je náš hlavní filtr
+            var indexDataLikes = new
+            {
+                index = new { fields = new[] { "Type", "LikesCount" } },
+                name = "idx_type_likes",
+                type = "json"
+            };
+
+            // Index 3: Pro Řazení podle Data Vytvoření (CreatedAt)
+            var indexDataDate = new
+            {
+                index = new { fields = new[] { "Type", "CreatedAt" } },
+                name = "idx_type_date",
+                type = "json"
+            };
+
+            // Index 4: Pro filtrování PublicName
+            var indexDataPublicName = new
+            {
+                index = new { fields = new[] { "Type", "PublicName" } },
+                name = "idx_type_publicname",
+                type = "json"
+            };
+
+            // Vytvoření všech indexů
+            var indexList = new[] { indexDataType, indexDataLikes, indexDataDate, indexDataPublicName };
+
+            foreach (var indexData in indexList)
+            {
+                var content = new StringContent(JsonSerializer.Serialize(indexData, _jsonOptions), Encoding.UTF8, "application/json");
+                var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_index", content);
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    var error = await resp.Content.ReadAsStringAsync();
+                    _logger.LogError($"[CouchDB] Failed to create index {indexData.name}: {error}");
+                }
+            }
+        }
+
         // -------------------------------------------------------------
         // OPRAVA: In-Memory Filtering (Spolehlivější než Mango Sort)
         // -------------------------------------------------------------
-        public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
+        /*public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
         {
             // 1. Stáhneme VŠECHNY dokumenty typu 'public_widget' (bez sortu v DB)
+
             var query = new
             {
                 selector = new { Type = "public_widget" },
@@ -368,6 +422,105 @@ namespace WebApplication1.Service
                 .Skip((filter.Page - 1) * filter.PageSize)
                 .Take(filter.PageSize)
                 .ToList();
+        }*/
+
+        // -------------------------------------------------------------
+        // OPRAVA: Filtrování, řazení a stránkování přímo v DB dotazu (Mango Query)
+        // -------------------------------------------------------------
+        public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
+        {
+            // 1. Sestavení Mango Query (Filtrování, Řazení a Stránkování v DB)
+
+            // Používáme Dictionary<string, object> pro dynamické sestavení "selector" objektu,
+            // abychom se vyhnuli chybám spojeným s neměnnými anonymními typy v C# při dynamickém přidávání polí.
+            var selector = new Dictionary<string, object>
+    {
+        // Pevný filtr: Vždy filtrujeme podle typu dokumentu
+        { "Type", "public_widget" }
+    };
+
+            // Dynamické přidání filtru podle typu widgetu (přesná shoda)
+            if (!string.IsNullOrEmpty(filter.WidgetType))
+            {
+                selector.Add("WidgetType", filter.WidgetType);
+            }
+
+            // Dynamické přidání filtru pro PublicName (textové vyhledávání - $regex pro "obsahuje")
+            if (!string.IsNullOrEmpty(filter.SearchName))
+            {
+                // (?i) zajišťuje case-insensitive (ignoruje velikost písmen)
+                selector.Add("PublicName", new Dictionary<string, object>
+                {
+                    ["$regex"] = $"(?i){Uri.EscapeDataString(filter.SearchName)}"
+                });
+            }
+
+            // Dynamické přidání filtru pro AuthorName (textové vyhledávání - $regex pro "obsahuje")
+            if (!string.IsNullOrEmpty(filter.Author))
+            {
+                // (?i) zajišťuje case-insensitive (ignoruje velikost písmen)
+                selector.Add("AuthorName", new Dictionary<string, object>
+                {
+                    ["$regex"] = $"(?i){Uri.EscapeDataString(filter.Author)}"
+                });
+            }
+
+            // 2. Sestavení pole pro řazení (Sort)
+            var sortField = filter.SortBy == "likes" ? "LikesCount" : "CreatedAt";
+            var sortOrder = "desc";
+
+            // CouchDB očekává pole objektů pro sort, např.: [{"LikesCount": "desc"}]
+            var sort = new List<object>
+    {
+        new Dictionary<string, string> { { sortField, sortOrder } }
+    };
+
+            // 3. Kompletní Mango Query objekt pro odeslání do CouchDB
+            var query = new
+            {
+                selector = selector,
+                sort = sort,
+                // Stránkování pomocí DB parametrů skip/limit
+                skip = (filter.Page - 1) * filter.PageSize,
+                limit = filter.PageSize
+            };
+
+            // Odeslání Mango Query do CouchDB
+            var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
+            var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
+
+            if (!resp.IsSuccessStatusCode)
+            {
+                var errorContent = await resp.Content.ReadAsStringAsync();
+                _logger.LogError($"[CouchDB] Find failed: {resp.StatusCode}. Error detail: {errorContent}. Query was: {JsonSerializer.Serialize(query, _jsonOptions)}");
+                return new List<PublicWidgetDoc>();
+            }
+
+            // Zpracování a deserializace odpovědi
+            var result = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(result);
+
+            var list = new List<PublicWidgetDoc>();
+
+            if (doc.RootElement.TryGetProperty("docs", out var docs))
+            {
+                foreach (var d in docs.EnumerateArray())
+                {
+                    try
+                    {
+                        // Deserializujeme pouze dokumenty vrácené databází
+                        var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
+                        if (item != null) list.Add(item);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning($"Deserialization error: {ex.Message}");
+                    }
+                }
+            }
+
+            // Vracíme rovnou výsledek, protože byl již filtrován, seřazen a stránkován v DB.
+            return list;
         }
 
         public async Task<List<PublicWidgetDoc>> GetLikedWidgetsAsync(string userEmail)
