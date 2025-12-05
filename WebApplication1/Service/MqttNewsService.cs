@@ -19,10 +19,12 @@ namespace WebApplication1.Service
         private readonly MqttClientOptions _options;
         private readonly ConcurrentBag<NewsMessage> _messages = new();
         private readonly ILogger<MqttNewsService> _logger;
+        private readonly CouchDbService _dbService;
 
-        public MqttNewsService(ILogger<MqttNewsService> logger)
+        public MqttNewsService(ILogger<MqttNewsService> logger, CouchDbService dbService)
         {
             _logger = logger;
+            _dbService = dbService;
 
             try
             {
@@ -56,8 +58,19 @@ namespace WebApplication1.Service
                         var msg = JsonSerializer.Deserialize<NewsMessage>(payload);
                         if (msg != null)
                         {
-                            _messages.Add(msg);
-                            _logger.LogInformation("[MqttNewsService] ✅ Message deserialized and stored: {Headline}", msg.Title ?? msg.Title ?? "(no title)");
+                            // Krok 1: Uložit do databáze
+                            var saved = await _dbService.SaveNewsMessageAsync(msg);
+
+                            if (saved)
+                            {
+                                // Krok 2: Přidat do in-memory cache (ConcurrentBag)
+                                _messages.Add(msg);
+                                _logger.LogInformation("[MqttNewsService] ✅ Message deserialized, SAVED to DB and stored in cache: {Headline}", msg.Title ?? "(no title)");
+                            }
+                            else
+                            {
+                                _logger.LogError("[MqttNewsService] ❌ Failed to save message to DB. Not adding to cache.");
+                            }
                         }
                         else
                         {
@@ -66,7 +79,7 @@ namespace WebApplication1.Service
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "[MqttNewsService] ❌ Error deserializing MQTT payload: {Payload}", payload);
+                        _logger.LogError(ex, "[MqttNewsService] ❌ Error deserializing or saving MQTT payload: {Payload}", payload);
                     }
 
                     await Task.CompletedTask;
@@ -75,6 +88,34 @@ namespace WebApplication1.Service
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[MqttNewsService] ❌ Error during MQTT initialization");
+            }
+
+            _dbService = dbService;
+        }
+
+        // NOVÁ METODA: Načtení zpráv z DB do in-memory cache
+        public async Task InitializeMessagesAsync()
+        {
+            _logger.LogInformation("[MqttNewsService] 🔄 Initializing messages from CouchDB...");
+
+            // Vyčištění staré cache pro zamezení duplicit
+            while (_messages.TryTake(out _)) { }
+
+            try
+            {
+                // Volání metody z CouchDbService
+                var messagesFromDb = await _dbService.GetAllNewsMessagesAsync();
+
+                foreach (var msg in messagesFromDb)
+                {
+                    _messages.Add(msg);
+                }
+
+                _logger.LogInformation("[MqttNewsService] ✅ Successfully loaded {Count} messages from DB into cache.", _messages.Count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[MqttNewsService] ❌ Failed to initialize messages from CouchDB.");
             }
         }
 
@@ -92,7 +133,13 @@ namespace WebApplication1.Service
                 await _client.ConnectAsync(_options);
                 _logger.LogInformation("[MqttNewsService] ✅ Connected successfully!");
 
-                // ✅ Subscribe na topic s QoS AtMostOnce
+                // 1. ZAVOLAT INICIALIZACI (načtení z DB do cache)
+                await InitializeMessagesAsync();
+
+                // 2. NOVÉ: ZAVOLAT MAZÁNÍ STARÝCH ZPRÁV
+                await _dbService.DeleteOldNewsMessagesAsync();
+
+                // 3. Subscribe na topic s QoS AtMostOnce
                 await _client.SubscribeAsync(new MqttTopicFilterBuilder()
                     .WithTopic("NEWS")
                     .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
@@ -100,8 +147,6 @@ namespace WebApplication1.Service
 
                 _logger.LogInformation("[MqttNewsService] 📡 Subscribed to topic 'NEWS'");
 
-                // Po připojení MQTT klient automaticky dostane všechny retained zprávy
-                // a handler je uloží do _messages
             }
             catch (Exception ex)
             {
@@ -137,28 +182,13 @@ namespace WebApplication1.Service
 
         public IEnumerable<NewsMessage> GetRecentMessages()
         {
-            _logger.LogInformation("[MqttNewsService] 📊 Getting all stored messages...");
+            _logger.LogInformation("[MqttNewsService] 📊 Getting all stored messages from CACHE ({Count} messages)...", _messages.Count);
 
             if (_messages.IsEmpty)
             {
-                _logger.LogInformation("[MqttNewsService] ⚠️ Bag _messages je PRÁZDNÝ!");
+                _logger.LogInformation("[MqttNewsService] ⚠️ Bag _messages je PRÁZDNÝ! Zkuste zkontrolovat databázi.");
             }
-            else
-            {
-                // 🔹 Vypíše všechny zprávy v bagu
-                foreach (var msg in _messages)
-                {
-                    _logger.LogInformation(
-                        "[MqttNewsService] 🔹 Stored message date: {Date} | Headline: {Headline} | Category: {Category} | Link: {Link}",
-                        msg.Date,
-                        msg.Title ?? "(no title)",
-                        msg.Category ?? "(no category)",
-                        msg.Link ?? "(no link)"
-                    );
-                }
-            }
-
-            // Vracíme všechny zprávy seřazené od nejnovějších podle data
+            // Logika řazení zůstává stejná, ale pracuje s daty z cache/DB
             var list = _messages
                 .OrderByDescending(x =>
                 {
@@ -171,7 +201,7 @@ namespace WebApplication1.Service
                     {
                         return parsedDate;
                     }
-                    return DateTime.MinValue; // nepřesné datum půjde na konec
+                    return DateTime.MinValue;
                 })
                 .ToList();
 

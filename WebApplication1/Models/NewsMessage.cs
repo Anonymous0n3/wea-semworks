@@ -4,6 +4,18 @@ namespace WebApplication1.Models
 {
     public class NewsMessage
     {
+        // Metadata pro CouchDB
+        [JsonPropertyName("_id")]
+        public string _id { get; set; } = Guid.NewGuid().ToString(); // Automatické generování ID
+
+        [JsonPropertyName("_rev")]
+        public string? _rev { get; set; }
+
+        // Pevný typ dokumentu pro filtrování
+        [JsonPropertyName("Type")]
+        public string Type { get; set; } = "news_message";
+
+        // Původní vlastnosti
         [JsonPropertyName("link")]
         public string Link { get; set; }
 
