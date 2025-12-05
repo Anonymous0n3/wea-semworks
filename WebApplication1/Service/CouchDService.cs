@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using WebApplication1.Controllers;
 using WebApplication1.Models;
 using WebApplication1.Models.Data;
+using System.Collections.Generic;
 
 namespace WebApplication1.Service
 {
@@ -579,6 +580,186 @@ namespace WebApplication1.Service
             var putResp = await _client.PutAsync(putUrl, putContent);
 
             return putResp.IsSuccessStatusCode;
+        }
+
+
+        // ---------------------------
+        // NOVÁ LOGIKA PRO NEWS MESSAGE
+        // ---------------------------
+
+        /// <summary>
+        /// Uloží novou NewsMessage do CouchDB.
+        /// </summary>
+        public async Task<bool> SaveNewsMessageAsync(NewsMessage message)
+        {
+            try
+            {
+                // Zajištění, že ID je unikátní pro nový dokument
+                if (string.IsNullOrEmpty(message._id))
+                {
+                    message._id = Guid.NewGuid().ToString();
+                }
+                message.Type = "news_message"; // Pevně nastavíme typ
+
+                var json = JsonSerializer.Serialize(message, _jsonOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // Používáme PUT, protože již máme _id
+                var putUrl = $"{_couchBase}/{_dbName}/{Uri.EscapeDataString(message._id)}";
+                var resp = await _client.PutAsync(putUrl, content);
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    // Volitelné: Aktualizace _rev z odpovědi DB pro případné budoucí aktualizace
+                    var resultJson = await resp.Content.ReadAsStringAsync();
+                    using var doc = JsonDocument.Parse(resultJson);
+                    if (doc.RootElement.TryGetProperty("rev", out var revEl))
+                        message._rev = revEl.GetString();
+
+                    _logger.LogInformation("[CouchDbService] ✅ NewsMessage saved: {Title}", message.Title);
+                    return true;
+                }
+
+                var error = await resp.Content.ReadAsStringAsync();
+                _logger.LogError("[CouchDbService] ❌ Failed to save NewsMessage. Status: {Status}, Detail: {Error}", resp.StatusCode, error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[CouchDbService] ❌ Exception during saving NewsMessage");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Načte všechny dokumenty typu 'news_message' z CouchDB.
+        /// </summary>
+        public async Task<List<NewsMessage>> GetAllNewsMessagesAsync()
+        {
+            var list = new List<NewsMessage>();
+            try
+            {
+                // Mango dotaz pro filtrování podle typu
+                var query = new
+                {
+                    selector = new { Type = "news_message" },
+                    limit = 5000 // Rozumný limit
+                };
+
+                var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
+                var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
+
+                if (!resp.IsSuccessStatusCode)
+                {
+                    var errorContent = await resp.Content.ReadAsStringAsync();
+                    _logger.LogError("[CouchDbService] ❌ Find NewsMessages failed. Status: {Status}, Detail: {Error}", resp.StatusCode, errorContent);
+                    return list;
+                }
+
+                var result = await resp.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(result);
+
+                if (doc.RootElement.TryGetProperty("docs", out var docs))
+                {
+                    foreach (var d in docs.EnumerateArray())
+                    {
+                        var item = JsonSerializer.Deserialize<NewsMessage>(d.GetRawText(), _jsonOptions);
+                        if (item != null) list.Add(item);
+                    }
+                }
+
+                _logger.LogInformation("[CouchDbService] 📦 Loaded {Count} news messages from DB.", list.Count);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[CouchDbService] ❌ Exception during loading news messages from DB.");
+            }
+
+            return list;
+        }
+
+        // NOVÁ METODA: Mazání starých zpráv
+        /// <summary>
+        /// Vyhledá a hromadně smaže NewsMessage dokumenty starší než 7 dní.
+        /// </summary>
+        /// <returns>Počet smazaných dokumentů.</returns>
+        public async Task<int> DeleteOldNewsMessagesAsync()
+        {
+            // 1. Vypočítáme hraniční datum (7 dní zpět)
+            var sevenDaysAgo = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
+            _logger.LogInformation("[CouchDbService] 🗑️ Searching for news messages older than: {Date}", sevenDaysAgo);
+
+            // 2. Mango dotaz pro vyhledání dokumentů starších než 7 dní
+            // POUŽÍVÁME SLOVNÍKY PRO VYTVOŘENÍ VLASTNOSTI "$lt"
+            var query = new
+            {
+                selector = new Dictionary<string, object>
+        {
+            { "Type", "news_message" },
+            {
+                "date", new Dictionary<string, object>
+                {
+                    // TOTO JE OPRAVA: Klíč je teď jako string v Dictionary
+                    { "$lt", sevenDaysAgo }
+                }
+            }
+        },
+                // Potřebujeme získat _id a _rev pro smazání
+                fields = new[] { "_id", "_rev" },
+                limit = 10000
+            };
+
+            var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
+            var findResp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
+
+            if (!findResp.IsSuccessStatusCode)
+            {
+                var error = await findResp.Content.ReadAsStringAsync();
+                _logger.LogError("[CouchDbService] ❌ Failed to find documents for deletion. Detail: {Error}", error);
+                return 0;
+            }
+
+            // ... (zbytek logiky pro zpracování odpovědi a hromadné smazání zůstává stejný)
+            var result = await findResp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(result);
+
+            var docsToDelete = new List<object>();
+            if (doc.RootElement.TryGetProperty("docs", out var docs))
+            {
+                foreach (var d in docs.EnumerateArray())
+                {
+                    if (d.TryGetProperty("_id", out var idEl) && d.TryGetProperty("_rev", out var revEl))
+                    {
+                        docsToDelete.Add(new
+                        {
+                            _id = idEl.GetString(),
+                            _rev = revEl.GetString(),
+                            _deleted = true
+                        });
+                    }
+                }
+            }
+
+            if (docsToDelete.Count == 0)
+            {
+                _logger.LogInformation("[CouchDbService] 🧹 No old news messages found to delete.");
+                return 0;
+            }
+
+            var bulkDeletePayload = new { docs = docsToDelete };
+
+            var bulkContent = new StringContent(JsonSerializer.Serialize(bulkDeletePayload, _jsonOptions), Encoding.UTF8, "application/json");
+            var deleteResp = await _client.PostAsync($"{_couchBase}/{_dbName}/_bulk_docs", bulkContent);
+
+            if (!deleteResp.IsSuccessStatusCode)
+            {
+                var error = await deleteResp.Content.ReadAsStringAsync();
+                _logger.LogError("[CouchDbService] ❌ Failed to perform bulk deletion. Detail: {Error}", error);
+                return 0;
+            }
+
+            _logger.LogInformation("[CouchDbService] ✅ Successfully deleted {Count} old news messages.", docsToDelete.Count);
+            return docsToDelete.Count;
         }
     }
 }
