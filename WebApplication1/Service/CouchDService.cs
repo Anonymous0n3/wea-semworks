@@ -554,52 +554,42 @@ namespace WebApplication1.Service
 
         public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
         {
-            // 1. Získání aktuálního dokumentu z DB
-            // Používáme EscapeDataString, protože ID může obsahovat znaky, které by rozbily URL
+            // 1. Získání dokumentu
             var url = $"{_couchBase}/{_dbName}/{Uri.EscapeDataString(widgetId)}";
-
             var resp = await _client.GetAsync(url);
-            if (!resp.IsSuccessStatusCode)
-            {
-                _logger.LogError($"[Like] Widget {widgetId} nenalezen.");
-                return false;
-            }
+            if (!resp.IsSuccessStatusCode) return false;
 
-            // 2. Deserializace (Zde se načte _rev díky tvému modelu!)
             var jsonContent = await resp.Content.ReadAsStringAsync();
             var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(jsonContent, _jsonOptions);
 
             if (widget == null) return false;
 
-            // 3. Logika Like / Unlike
+            // --- NOVÁ OCHRANA: Autor nemůže lajkovat sám sebe ---
+            if (string.Equals(widget.AuthorEmail, userEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogWarning($"[Like] Uživatel {userEmail} se pokusil olajkovat vlastní widget {widgetId}. Akce zamítnuta.");
+                return false;
+            }
+            // ----------------------------------------------------
+
             if (widget.LikedBy == null) widget.LikedBy = new List<string>();
 
+            // ... zbytek logiky (přidání/odebrání ze seznamu a uložení) zůstává stejný ...
             if (widget.LikedBy.Contains(userEmail))
             {
-                // Už lajkoval -> odebrat
                 widget.LikedBy.Remove(userEmail);
                 widget.LikesCount = Math.Max(0, widget.LikesCount - 1);
             }
             else
             {
-                // Ještě nelajkoval -> přidat
                 widget.LikedBy.Add(userEmail);
                 widget.LikesCount++;
             }
 
-            // 4. Uložení zpět (PUT)
-            // Protože objekt 'widget' nyní obsahuje správné '_id' a '_rev', CouchDB update přijme.
             var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
             var putResp = await _client.PutAsync(url, putContent);
 
-            if (!putResp.IsSuccessStatusCode)
-            {
-                var err = await putResp.Content.ReadAsStringAsync();
-                _logger.LogError($"[Like] Chyba při ukládání: {putResp.StatusCode}, {err}");
-                return false;
-            }
-
-            return true;
+            return putResp.IsSuccessStatusCode;
         }
 
 

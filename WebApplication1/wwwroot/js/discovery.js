@@ -107,11 +107,6 @@ window.toggleLike = async (id) => {
             // Obnovení seznamu (uprav podle toho, jakou funkci používáš pro refresh)
             if (typeof loadFavorites === 'function') await loadFavorites();
             if (typeof loadPublicList === 'function') await loadPublicList(currentPage);
-        } else {
-            // Zobrazit přesnou chybu ze serveru
-            const errText = await resp.text();
-            console.error("Like failed:", errText);
-            alert("Chyba při hodnocení: " + errText);
         }
     } catch (e) {
         console.error("Network error:", e);

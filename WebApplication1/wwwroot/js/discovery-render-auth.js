@@ -1,51 +1,57 @@
 ﻿// discovery-render-auth.js
 
 export function renderCard(w, userEmail) {
-    // 1. DEFINITIVNÍ ZÍSKÁNÍ ID (zkusí všechny možnosti)
-    // Server (CouchDB) posílá '_id', ale C# někdy serializuje 'Id'. Toto pokryje vše.
+    // 1. Získání ID (pro Like)
     const widgetId = w._id || w.id || w.Id;
 
-    // 2. DIAGNOSTIKA (Pokud otevřeš konzoli F12, uvidíš to tam)
-    if (!widgetId) {
-        console.error("❌ POZOR: Widget nemá ID! Data widgetu:", w);
-        return `<div class="col-md-4"><div class="alert alert-danger">Chyba: Widget bez ID</div></div>`;
-    }
+    // 2. Příprava dat pro tlačítka (bezpečné převedení objektu na text)
+    // Pokud widgetData neexistují, použijeme prázdný objekt {}
+    const dataString = JSON.stringify(w.widgetData || {});
 
-    // Zbytek logiky pro barvy a ikony...
+    // 3. Stav Liku
     const isLiked = w.likedBy && w.likedBy.includes(userEmail);
     const heartClass = isLiked ? "text-danger" : "text-muted";
     const heartIcon = isLiked ? "❤️" : "🤍";
-
-    // Formátování data
     const dateStr = w.createdAt ? new Date(w.createdAt).toLocaleDateString() : "Neznámé datum";
 
-    // 3. HTML (Všimni si použití proměnné widgetId v onclicku)
     return `
     <div class="col-md-4 col-lg-3">
         <div class="card h-100 shadow-sm widget-card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h5 class="card-title text-truncate" title="${w.publicName}">${w.publicName || 'Bezejmenný'}</h5>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title text-truncate m-0" title="${w.publicName}" style="max-width: 70%;">
+                        ${w.publicName || 'Bezejmenný'}
+                    </h5>
                     <span class="badge bg-light text-dark border">${w.widgetType}</span>
                 </div>
                 
-                <p class="card-text small text-muted mb-2">
+                <p class="card-text small text-muted mb-3">
                     Autor: <strong>${w.authorName || 'Neznámý'}</strong><br>
-                    ${dateStr}
+                    <span class="text-secondary">${dateStr}</span>
                 </p>
 
-                <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
                     
-                    <button class="btn btn-sm btn-link text-decoration-none p-0" 
-                            onclick="window.toggleLike('${widgetId}')">
-                        <span class="${heartClass} fs-5">${heartIcon}</span> 
-                        <span class="text-dark fw-bold">${w.likesCount || 0}</span>
+                    <button class="btn btn-sm btn-link text-decoration-none p-0 me-2" 
+                            onclick="window.toggleLike('${widgetId}')"
+                            title="To se mi líbí">
+                        <span class="${heartClass} fs-5 align-middle">${heartIcon}</span> 
+                        <span class="text-dark fw-bold align-middle">${w.likesCount || 0}</span>
                     </button>
 
-                    <button class="btn btn-sm btn-outline-primary"
-                            onclick='window.previewWidget("${w.widgetType}", ${JSON.stringify(w.widgetData || {})})'>
-                        Použít
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-secondary"
+                                onclick='window.previewWidget("${w.widgetType}", ${dataString})'
+                                title="Vyzkoušet nanečisto">
+                            👁️ Náhled
+                        </button>
+
+                        <button class="btn btn-sm btn-success"
+                                onclick='window.adoptWidget("${w.widgetType}", ${dataString})'
+                                title="Přidat natrvalo na můj Dashboard">
+                            ➕ Přidat
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
