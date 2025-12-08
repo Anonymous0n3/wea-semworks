@@ -554,32 +554,52 @@ namespace WebApplication1.Service
 
         public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
         {
-            var resp = await GetDocumentAsync(widgetId);
-            if (!resp.IsSuccessStatusCode) return false;
+            // 1. Získání aktuálního dokumentu z DB
+            // Používáme EscapeDataString, protože ID může obsahovat znaky, které by rozbily URL
+            var url = $"{_couchBase}/{_dbName}/{Uri.EscapeDataString(widgetId)}";
 
-            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(await resp.Content.ReadAsStringAsync(), _jsonOptions);
+            var resp = await _client.GetAsync(url);
+            if (!resp.IsSuccessStatusCode)
+            {
+                _logger.LogError($"[Like] Widget {widgetId} nenalezen.");
+                return false;
+            }
+
+            // 2. Deserializace (Zde se načte _rev díky tvému modelu!)
+            var jsonContent = await resp.Content.ReadAsStringAsync();
+            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(jsonContent, _jsonOptions);
+
             if (widget == null) return false;
 
-            if (widget.AuthorEmail == userEmail) return false;
-
+            // 3. Logika Like / Unlike
             if (widget.LikedBy == null) widget.LikedBy = new List<string>();
 
             if (widget.LikedBy.Contains(userEmail))
             {
+                // Už lajkoval -> odebrat
                 widget.LikedBy.Remove(userEmail);
                 widget.LikesCount = Math.Max(0, widget.LikesCount - 1);
             }
             else
             {
+                // Ještě nelajkoval -> přidat
                 widget.LikedBy.Add(userEmail);
                 widget.LikesCount++;
             }
 
-            var putUrl = $"{_couchBase}/{_dbName}/{widget.Id}";
+            // 4. Uložení zpět (PUT)
+            // Protože objekt 'widget' nyní obsahuje správné '_id' a '_rev', CouchDB update přijme.
             var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
-            var putResp = await _client.PutAsync(putUrl, putContent);
+            var putResp = await _client.PutAsync(url, putContent);
 
-            return putResp.IsSuccessStatusCode;
+            if (!putResp.IsSuccessStatusCode)
+            {
+                var err = await putResp.Content.ReadAsStringAsync();
+                _logger.LogError($"[Like] Chyba při ukládání: {putResp.StatusCode}, {err}");
+                return false;
+            }
+
+            return true;
         }
 
 

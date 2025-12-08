@@ -58,39 +58,38 @@ namespace WebApplication1.Controllers
 
         // 4. OPRAVA: Akce Like/Unlike
         // V JS voláš ".../like" (bez D), ale v C# jsi měl "liked". Sjednotíme to na "like".
-        [HttpPost("{id}/like")] // Ujisti se, že tady NENÍ "liked", ale "like" (aby sedělo s JS)
+        [HttpPost("{id}/like")]
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
-            // 1. Získání emailu
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            // 1. Získání emailu - ROBUSTNÍ VERZE
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                     ?? User.FindFirst("email")?.Value
+                     ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
 
-            // DIAGNOSTIKA: Pokud se v konzoli serveru objeví "Email is null", je problém v Tokenu
             if (string.IsNullOrEmpty(email))
             {
-                _logger.LogError($"Like failed: User email claim is missing. ID: {id}");
-                return Unauthorized("Email claim missing in token");
+                _logger.LogError("[Like Controller] ❌ Email claim not found in JWT!");
+                return Unauthorized("User email not found in token.");
             }
+
+            _logger.LogInformation($"[Like Controller] 🟢 User: {email} is liking Widget: {id}");
 
             try
             {
-                // 2. Volání služby
                 var success = await _couchService.ToggleLikeAsync(id, email);
 
                 if (!success)
                 {
-                    _logger.LogWarning($"Like failed inside Service. User: {email}, Widget: {id}. Maybe author self-like or DB error.");
-                    // Vracíme 200 i při neúspěchu logiky (např. vlastní like), 
-                    // aby frontend nevyhazoval chybu, nebo 400 pokud chceš chybu.
-                    // Pro teď zkusíme 400 s vysvětlením:
-                    return BadRequest("Action failed. Are you the author? Or DB error.");
+                    _logger.LogWarning($"[Like Controller] ⚠️ Service returned false (DB update failed or logic denied).");
+                    return BadRequest("Could not toggle like. Check server logs.");
                 }
 
-                return Ok(new { count = "updated" }); // Vracíme JSON pro jistotu
+                return Ok(new { message = "Success", id = id });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"CRITICAL ERROR processing like for {id}");
+                _logger.LogError(ex, "[Like Controller] 💥 Exception thrown.");
                 return StatusCode(500, ex.Message);
             }
         }

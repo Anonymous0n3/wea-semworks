@@ -91,7 +91,10 @@ async function loadPublicList(page) {
 // --- 3. AKCE (GLOBAL SCOPE) ---
 
 window.toggleLike = async (id) => {
+    const token = localStorage.getItem('jwtToken');
     if (!token) return alert("Pro hodnocení se musíte přihlásit.");
+
+    console.log("👍 Odesílám like pro ID:", id); // DEBUG
 
     try {
         const resp = await fetch(`/api/PublicWidgets/${id}/like`, {
@@ -100,12 +103,20 @@ window.toggleLike = async (id) => {
         });
 
         if (resp.ok) {
-            loadFavorites();
-            loadPublicList(currentPage);
+            console.log("Like úspěšný");
+            // Obnovení seznamu (uprav podle toho, jakou funkci používáš pro refresh)
+            if (typeof loadFavorites === 'function') await loadFavorites();
+            if (typeof loadPublicList === 'function') await loadPublicList(currentPage);
         } else {
-            console.error("Like failed", await resp.text());
+            // Zobrazit přesnou chybu ze serveru
+            const errText = await resp.text();
+            console.error("Like failed:", errText);
+            alert("Chyba při hodnocení: " + errText);
         }
-    } catch (e) { console.error("Like network error", e); }
+    } catch (e) {
+        console.error("Network error:", e);
+        alert("Chyba sítě.");
+    }
 };
 
 window.previewWidget = async (widgetName, widgetData) => {
@@ -148,8 +159,16 @@ window.previewWidget = async (widgetName, widgetData) => {
     }
 };
 
-window.adoptWidget = (widgetType, widgetData) => {
+window.adoptWidget = async (widgetType, widgetData) => {
+    const token = localStorage.getItem('jwtToken');
     const STORAGE_KEY = 'openWidgets';
+
+    const newWidget = {
+        name: widgetType,
+        location: widgetData.location || ""
+    };
+
+    // --- A. Uložení do LocalStorage (Vždy, jako záloha a pro nepřihlášené) ---
     let currentWidgets = [];
     try {
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -157,19 +176,57 @@ window.adoptWidget = (widgetType, widgetData) => {
             currentWidgets = JSON.parse(stored);
             if (!Array.isArray(currentWidgets)) currentWidgets = [];
         }
-    } catch (e) {
-        console.error("Chyba při čtení localStorage", e);
-        currentWidgets = [];
-    }
-
-    const newWidget = {
-        name: widgetType,
-        location: widgetData.location || ""
-    };
+    } catch (e) { currentWidgets = []; }
 
     currentWidgets.push(newWidget);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(currentWidgets));
-    alert("Widget byl uložen! Po návratu na Dashboard se načte.");
+
+    // --- B. Uložení na Server (Pouze pokud je uživatel přihlášen) ---
+    if (token) {
+        try {
+            // 1. Stáhneme aktuální widgety ze serveru (abychom je nepřepsali)
+            const getResp = await fetch('/api/auth/widgets', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            let serverWidgets = [];
+            if (getResp.ok) {
+                serverWidgets = await getResp.json();
+            }
+
+            // 2. Přidáme nový widget
+            // Server očekává formát { Name: "...", Location: "..." } nebo { name: "...", location: "..." }
+            // Sjednotíme formát pro odeslání:
+            const widgetsToSave = serverWidgets.map(w => ({
+                Name: w.name || w.Name,       // Ošetření velkých/malých písmen
+                Location: w.location || w.Location || ""
+            }));
+
+            widgetsToSave.push({
+                Name: newWidget.name,
+                Location: newWidget.location
+            });
+
+            // 3. Pošleme aktualizovaný seznam zpět
+            const saveResp = await fetch('/api/auth/widgets', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(widgetsToSave)
+            });
+
+            if (!saveResp.ok) throw new Error("Server odmítl uložení");
+
+        } catch (e) {
+            console.error("Chyba synchronizace:", e);
+            alert("Uloženo jen lokálně. Zkontrolujte připojení.");
+            return;
+        }
+    }
+
+    alert("Widget byl přidán! Najdete ho na svém Dashboardu.");
 };
 
 window.closePreview = () => {
