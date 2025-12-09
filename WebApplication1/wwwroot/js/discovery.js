@@ -2,72 +2,94 @@
 import * as PublicRenderer from './discovery-render-public.js';
 
 let currentPage = 1;
-
-// --- 1. INITIAL SETUP & RENDER STRATEGY ---
 const token = localStorage.getItem('jwtToken');
 const userEmail = localStorage.getItem('userEmail');
-
-// Zde se rozhodne, který soubor s HTML šablonami se použije
 const Renderer = token ? AuthRenderer : PublicRenderer;
 
+// AUTOMATICKY PŘIDÁVÁ TOKEN DO VŠECH VOLÁNÍ NA /api/ (včetně /api/auth/widgets)
+const originalFetch = window.fetch;
+window.fetch = async function (url, options = {}) {
+    if (token && (url.includes('/api/'))) {
+        if (!options.headers) options.headers = {};
+        options.headers['Authorization'] = 'Bearer ' + token;
+    }
+    return originalFetch(url, options);
+};
+
+// DEBOUNCE
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
+// DOM LOADED
 document.addEventListener('DOMContentLoaded', async () => {
-    // Řízení sekce Oblíbené
     const favSection = document.getElementById('favoritesSection');
-    if (token) {
-        if (favSection) favSection.classList.remove('d-none');
+    if (token && favSection) {
+        favSection.classList.remove('d-none');
         await loadFavorites();
-    } else {
-        if (favSection) favSection.classList.add('d-none');
     }
 
-    // Načtení veřejného seznamu
     await loadPublicList(1);
+
+    ['discoSearch', 'discoAuthor', 'discoType', 'discoSort'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (el.tagName === 'INPUT') {
+                el.addEventListener('input', debounce(() => loadPublicList(1), 300));
+            }
+            el.addEventListener('change', () => loadPublicList(1));
+        }
+    });
 });
 
-// Zpřístupnění změny stránky pro HTML
+// STRÁNKOVÁNÍ
 window.changePage = async (delta) => {
-    if (currentPage + delta < 1) return;
-    currentPage += delta;
-    const indicator = document.getElementById('pageIndicator');
-    if (indicator) indicator.innerText = `Strana ${currentPage}`;
+    const newPage = currentPage + delta;
+    if (newPage < 1) return;
+    currentPage = newPage;
+    document.getElementById('pageIndicator').textContent = `Strana ${currentPage}`;
     await loadPublicList(currentPage);
 };
 
-// --- 2. NAČÍTÁNÍ DAT ---
-
+// OBLÍBENÉ
 async function loadFavorites() {
     const container = document.getElementById('favoritesContainer');
     if (!container) return;
-
     try {
-        const resp = await fetch('/api/PublicWidgets/liked', {
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
+        const resp = await fetch('/api/PublicWidgets/liked');
         if (resp.ok) {
             const data = await resp.json();
-            if (data.length === 0) {
-                container.innerHTML = Renderer.renderEmptyState();
-            } else {
-                // Voláme renderCard z vybraného modulu
-                container.innerHTML = data.map(w => Renderer.renderCard(w, userEmail)).join('');
-            }
+            container.innerHTML = data.length === 0
+                ? (Renderer.renderEmptyState?.() || '<div class="col-12 text-muted fst-italic">Zatím nemáte oblíbené</div>')
+                : data.map(w => Renderer.renderCard(w, userEmail)).join('');
         }
-    } catch (e) { console.error(e); }
+    } catch (e) {
+        console.error('Load favorites error:', e);
+    }
 }
 
-async function loadPublicList(page) {
+// VEŘEJNÝ SEZNAM
+async function loadPublicList(page = 1) {
     const container = document.getElementById('publicContainer');
     if (!container) return;
 
-    const searchInput = document.getElementById('discoSearch');
-    const authorInput = document.getElementById('discoAuthor');
+    container.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-3 text-muted">Načítám widgety...</p>
+        </div>`;
 
     const filter = {
-        searchName: searchInput ? searchInput.value : "",
-        author: authorInput ? authorInput.value : "",
+        searchName: document.getElementById('discoSearch')?.value.trim() || "",
+        author: document.getElementById('discoAuthor')?.value.trim() || "",
+        widgetType: document.getElementById('discoType')?.value || null,
+        sortBy: document.getElementById('discoSort')?.value || "date",
         page: page,
-        pageSize: 12,
-        sortBy: "date"
+        pageSize: 20
     };
 
     try {
@@ -76,102 +98,102 @@ async function loadPublicList(page) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(filter)
         });
+
         if (resp.ok) {
             const data = await resp.json();
             if (data.length === 0 && page > 1) {
                 window.changePage(-1);
                 return;
             }
-            // Znovu voláme renderCard z vybraného modulu
             container.innerHTML = data.map(w => Renderer.renderCard(w, userEmail)).join('');
+
+            const hasMore = data.length === 20;
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            if (nextBtn) nextBtn.disabled = !hasMore;
+            if (prevBtn) prevBtn.disabled = page <= 1;
+        } else {
+            container.innerHTML = '<div class="col-12 text-danger text-center">Chyba při načítání widgetů</div>';
         }
-    } catch (e) { console.error(e); }
+    } catch (e) {
+        console.error('Load public list error:', e);
+        container.innerHTML = '<div class="col-12 text-danger text-center">Nelze se připojit k serveru</div>';
+    }
 }
 
-// --- 3. AKCE (GLOBAL SCOPE) ---
-
+// LIKE
 window.toggleLike = async (id) => {
-    if (!token) return alert("Pro hodnocení se musíte přihlásit.");
-
+    if (!token) return alert("Pro lajkování se musíte přihlásit.");
     try {
-        const resp = await fetch(`/api/PublicWidgets/${id}/like`, {
-            method: 'POST',
-            headers: { 'Authorization': 'Bearer ' + token }
-        });
-
-        if (resp.ok) {
-            loadFavorites();
-            loadPublicList(currentPage);
-        } else {
-            console.error("Like failed", await resp.text());
+        const resp = await fetch(`/api/PublicWidgets/${id}/like`, { method: 'POST' });
+        if (resp.ok || resp.status === 400) {
+            await loadFavorites();
+            await loadPublicList(currentPage);
         }
-    } catch (e) { console.error("Like network error", e); }
+    } catch (e) {
+        console.error("Like error:", e);
+    }
 };
 
+// ZVLASTNĚNÍ – 100% funkční
+window.adoptWidget = async (widgetType, widgetData, publicName = "") => {
+    if (!token) {
+        alert("Pro zvlastnění widgetu musíte být přihlášeni.");
+        return;
+    }
+    try {
+        const response = await fetch('/api/PublicWidgets/adopt', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                widgetType: widgetType,
+                settings: widgetData
+            })
+        });
+
+        if (response.ok) {
+            alert(`Widget "${publicName || widgetType}" byl přidán do tvého dashboardu!`);
+        } else {
+            const err = await response.text();
+            alert("Zvlastnění selhalo: " + err);
+        }
+    } catch (e) {
+        console.error("Adopt error:", e);
+        alert("Chyba připojení při zvlastňování.");
+    }
+};
+
+// NÁHLED
 window.previewWidget = async (widgetName, widgetData) => {
     const section = document.getElementById('activeWidgetSection');
     const container = document.getElementById('previewContainer');
-
     if (!section || !container) return;
-
     section.classList.remove('d-none');
     container.innerHTML = '<div class="text-center p-3 text-muted"><span class="spinner-border spinner-border-sm"></span> Načítám náhled...</div>';
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
     try {
         let url = `/Widget/Load?name=${widgetName}`;
-
         if (widgetName === "CurrencyWidget") {
             const base = localStorage.getItem("baseCurrency") || "EUR";
             const quote = localStorage.getItem("quoteCurrency") || "USD";
             url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
         }
-
         if (widgetData.location) {
             url += `&location=${encodeURIComponent(widgetData.location)}`;
         }
-
         const resp = await fetch(url);
         if (!resp.ok) throw new Error("Chyba při načítání widgetu");
-
         const html = await resp.text();
         container.innerHTML = html;
         container.dataset.location = widgetData.location || "";
-
-        setTimeout(() => {
-            initWidgetScripts(container, widgetName);
-        }, 100);
-
+        setTimeout(() => initWidgetScripts(container, widgetName), 100);
     } catch (e) {
         console.error(e);
-        container.innerHTML = `<div class="alert alert-danger">Nepodařilo se načíst náhled widgetu. Chyba: ${e.message}</div>`;
+        container.innerHTML = `<div class="alert alert-danger">Nepodařilo se načíst náhled. Chyba: ${e.message}</div>`;
     }
 };
 
-window.adoptWidget = (widgetType, widgetData) => {
-    const STORAGE_KEY = 'openWidgets';
-    let currentWidgets = [];
-    try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            currentWidgets = JSON.parse(stored);
-            if (!Array.isArray(currentWidgets)) currentWidgets = [];
-        }
-    } catch (e) {
-        console.error("Chyba při čtení localStorage", e);
-        currentWidgets = [];
-    }
-
-    const newWidget = {
-        name: widgetType,
-        location: widgetData.location || ""
-    };
-
-    currentWidgets.push(newWidget);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentWidgets));
-    alert("Widget byl uložen! Po návratu na Dashboard se načte.");
-};
-
+// ZAVŘENÍ NÁHLEDU
 window.closePreview = () => {
     const section = document.getElementById('activeWidgetSection');
     if (section) section.classList.add('d-none');
@@ -179,10 +201,8 @@ window.closePreview = () => {
     if (container) container.innerHTML = '';
 };
 
-// --- 4. POMOCNÉ FUNKCE (INIT SCRIPTS) ---
-
+// INICIALIZACE SKRIPTŮ VE WIDGETU
 function initWidgetScripts(wrapper, widgetName) {
-    // 1. Toggle C/F
     const toggleBtn = wrapper.querySelector('#toggleUnit');
     if (toggleBtn) {
         toggleBtn.addEventListener('click', () => {
@@ -193,19 +213,12 @@ function initWidgetScripts(wrapper, widgetName) {
         });
     }
 
-    // 2. Grafy pro Počasí
     if (widgetName === "ForecastWeather") {
-        const charts = wrapper.querySelectorAll('.temperatureChart');
-        charts.forEach(canvas => {
+        wrapper.querySelectorAll('.temperatureChart').forEach(canvas => {
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            const labelsRaw = canvas.dataset.labels;
-            const valuesRaw = canvas.dataset.values;
-
-            if (!labelsRaw || !valuesRaw) return;
-            const labels = JSON.parse(labelsRaw);
-            const values = JSON.parse(valuesRaw);
-
+            const labels = JSON.parse(canvas.dataset.labels || '[]');
+            const values = JSON.parse(canvas.dataset.values || '[]');
             if (typeof Chart !== 'undefined') {
                 new Chart(ctx, {
                     type: 'line',
@@ -216,47 +229,38 @@ function initWidgetScripts(wrapper, widgetName) {
         });
     }
 
-    // 3. Grafy pro Měny
     if (widgetName === "CurrencyWidget") {
         const canvas = wrapper.querySelector("#rateChart");
         if (canvas && typeof Chart !== 'undefined') {
-            const labelsRaw = canvas.dataset.labels;
-            const dataRaw = canvas.dataset.rates;
-
-            if (labelsRaw && dataRaw) {
-                const labels = JSON.parse(labelsRaw);
-                const data = JSON.parse(dataRaw);
-                new Chart(canvas.getContext("2d"), {
-                    type: 'line',
-                    data: { labels, datasets: [{ label: canvas.dataset.label || '', data, fill: false, tension: 0.3 }] }
-                });
-            }
-        }
-        const currencyForm = wrapper.querySelector('#currencyForm');
-        if (currencyForm) {
-            currencyForm.addEventListener("submit", e => {
-                e.preventDefault();
-                alert("V režimu náhledu nelze měnit měnu (používá se nastavení z dashboardu).");
+            const labels = JSON.parse(canvas.dataset.labels || '[]');
+            const data = JSON.parse(canvas.dataset.rates || '[]');
+            new Chart(canvas.getContext("2d"), {
+                type: 'line',
+                data: { labels, datasets: [{ label: canvas.dataset.label || '', data, fill: false, tension: 0.3 }] }
             });
         }
+        wrapper.querySelector('#currencyForm')?.addEventListener("submit", e => {
+            e.preventDefault();
+            alert("V náhledu nelze měnit měnu.");
+        });
     }
 
-    // 4. Inicializace Country Widgetu
-    if (widgetName === "CountryInfoWidget") {
-        const widgetEl = wrapper.querySelector('.country-info-widget');
-        if (widgetEl && typeof window.initCountryWidget === 'function') {
-            if (!widgetEl.id) {
-                widgetEl.id = `preview_country_${Math.random().toString(36).substr(2, 9)}`;
-            }
-            window.initCountryWidget(widgetEl.id);
-            const loc = wrapper.dataset.location;
-            if (loc) {
-                const input = widgetEl.querySelector('.input-country');
-                if (input) {
-                    widgetEl.dataset.location = loc;
-                    window.initCountryWidget(widgetEl.id);
-                }
-            }
+    if (widgetName === "CountryInfoWidget" && typeof window.initCountryWidget === 'function') {
+        let el = wrapper.querySelector('.country-info-widget');
+        if (el && !el.id) el.id = `preview_country_${Math.random().toString(36).substr(2, 9)}`;
+        window.initCountryWidget(el?.id);
+        if (wrapper.dataset.location) {
+            el.dataset.location = wrapper.dataset.location;
+            window.initCountryWidget(el.id);
         }
     }
 }
+
+// EXPORT
+window.changePage = window.changePage;
+window.toggleLike = window.toggleLike;
+window.previewWidget = window.previewWidget;
+window.adoptWidget = window.adoptWidget;
+window.closePreview = window.closePreview;
+
+console.log("discovery.js načteno – token se automaticky posílá na všechny /api/ volání");

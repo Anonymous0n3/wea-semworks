@@ -554,16 +554,27 @@ namespace WebApplication1.Service
 
         public async Task<bool> ToggleLikeAsync(string widgetId, string userEmail)
         {
-            var resp = await GetDocumentAsync(widgetId);
+            // 1. Získání dokumentu
+            var url = $"{_couchBase}/{_dbName}/{Uri.EscapeDataString(widgetId)}";
+            var resp = await _client.GetAsync(url);
             if (!resp.IsSuccessStatusCode) return false;
 
-            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(await resp.Content.ReadAsStringAsync(), _jsonOptions);
+            var jsonContent = await resp.Content.ReadAsStringAsync();
+            var widget = JsonSerializer.Deserialize<PublicWidgetDoc>(jsonContent, _jsonOptions);
+
             if (widget == null) return false;
 
-            if (widget.AuthorEmail == userEmail) return false;
+            // --- NOVÁ OCHRANA: Autor nemůže lajkovat sám sebe ---
+            if (string.Equals(widget.AuthorEmail, userEmail, StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogWarning($"[Like] Uživatel {userEmail} se pokusil olajkovat vlastní widget {widgetId}. Akce zamítnuta.");
+                return false;
+            }
+            // ----------------------------------------------------
 
             if (widget.LikedBy == null) widget.LikedBy = new List<string>();
 
+            // ... zbytek logiky (přidání/odebrání ze seznamu a uložení) zůstává stejný ...
             if (widget.LikedBy.Contains(userEmail))
             {
                 widget.LikedBy.Remove(userEmail);
@@ -575,9 +586,8 @@ namespace WebApplication1.Service
                 widget.LikesCount++;
             }
 
-            var putUrl = $"{_couchBase}/{_dbName}/{widget.Id}";
             var putContent = new StringContent(JsonSerializer.Serialize(widget, _jsonOptions), Encoding.UTF8, "application/json");
-            var putResp = await _client.PutAsync(putUrl, putContent);
+            var putResp = await _client.PutAsync(url, putContent);
 
             return putResp.IsSuccessStatusCode;
         }

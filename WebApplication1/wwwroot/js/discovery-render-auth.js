@@ -1,52 +1,58 @@
 ﻿// discovery-render-auth.js
 
 export function renderCard(w, userEmail) {
-    const isAuthor = w.authorEmail === userEmail;
-    // Escapování dat
-    const safeName = w.publicName.replace(/'/g, "\\'");
-    const widgetDataStr = JSON.stringify(w.widgetData).replace(/"/g, '&quot;');
-    let likesCount = w.likesCount || 0;
+    // 1. Získání ID (pro Like)
+    const widgetId = w._id || w.id || w.Id;
 
-    // Logika pro Like tlačítko
-    let likeHtml = '';
-    if (isAuthor) {
-        likeHtml = `<span class="badge bg-light text-dark border" title="Vlastní widget">❤️ ${likesCount}</span>`;
-    } else {
-        const likedBy = w.likedBy || [];
-        const isLiked = userEmail && likedBy.some(e => e.toLowerCase() === userEmail.toLowerCase());
-        const btnClass = isLiked ? 'btn-danger' : 'btn-outline-danger';
-        const icon = isLiked ? '❤️' : '🤍';
+    // 2. Příprava dat pro tlačítka (bezpečné převedení objektu na text)
+    // Pokud widgetData neexistují, použijeme prázdný objekt {}
+    const dataString = JSON.stringify(w.widgetData || {});
 
-        likeHtml = `
-            <button type="button" class="btn btn-sm ${btnClass} position-relative" 
-                    style="z-index: 5;"
-                    onclick="event.stopPropagation(); window.toggleLike('${w.id}')">
-                ${icon} ${likesCount}
-            </button>`;
-    }
+    // 3. Stav Liku
+    const isLiked = w.likedBy && w.likedBy.includes(userEmail);
+    const heartClass = isLiked ? "text-danger" : "text-muted";
+    const heartIcon = isLiked ? "❤️" : "🤍";
+    const dateStr = w.createdAt ? new Date(w.createdAt).toLocaleDateString() : "Neznámé datum";
 
     return `
     <div class="col-md-4 col-lg-3">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body d-flex flex-column">
-                <h5 class="card-title text-truncate" title="${w.publicName}">${w.publicName}</h5>
-                <div class="mb-2">
-                    <span class="badge bg-info text-dark">${w.widgetType}</span>
+        <div class="card h-100 shadow-sm widget-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title text-truncate m-0" title="${w.publicName}" style="max-width: 70%;">
+                        ${w.publicName || 'Bezejmenný'}
+                    </h5>
+                    <span class="badge bg-light text-dark border">${w.widgetType}</span>
                 </div>
-                <p class="card-text small text-muted mb-1">Autor: ${w.authorName}</p>
-                <p class="card-text small text-muted mb-auto">Lokalita: ${w.widgetData.location || "N/A"}</p>
                 
-                <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${w.widgetType}', ${widgetDataStr})">
-                    👁️ Vyzkoušet (Náhled)
-                </button>
+                <p class="card-text small text-muted mb-3">
+                    Autor: <strong>${w.authorName || 'Neznámý'}</strong><br>
+                    <span class="text-secondary">${dateStr}</span>
+                </p>
 
-                <button class="btn btn-success btn-sm w-100 mt-2" onclick="window.adoptWidget('${w.widgetType}', ${widgetDataStr}, '${safeName}')">
-                    💾 Zvlastnit (Uložit)
-                </button>
-            </div>
-            <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center py-2">
-                ${likeHtml}
-                <small class="text-muted">${new Date(w.createdAt).toLocaleDateString()}</small>
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                    
+                    <button class="btn btn-sm btn-link text-decoration-none p-0 me-2" 
+                            onclick="window.toggleLike('${widgetId}')"
+                            title="To se mi líbí">
+                        <span class="${heartClass} fs-5 align-middle">${heartIcon}</span> 
+                        <span class="text-dark fw-bold align-middle">${w.likesCount || 0}</span>
+                    </button>
+
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-secondary"
+                                onclick='window.previewWidget("${w.widgetType}", ${dataString})'
+                                title="Vyzkoušet nanečisto">
+                            👁️ Náhled
+                        </button>
+
+                        <button class="btn btn-sm btn-success"
+                                onclick='window.adoptWidget("${w.widgetType}", ${dataString})'
+                                title="Přidat natrvalo na můj Dashboard">
+                            ➕ Přidat
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

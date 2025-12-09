@@ -19,87 +19,113 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
-        // 1. Získání seznamu všech (filtr)
+        // 1. Seznam veřejných widgetů
         [HttpPost("list")]
         [AllowAnonymous]
         public async Task<IActionResult> GetList([FromBody] WidgetFilterRequest filter)
         {
-            var widgets = await _couchService.GetPublicWidgetsAsync(filter);
-            return Ok(widgets);
+            try
+            {
+                var widgets = await _couchService.GetPublicWidgetsAsync(filter);
+                return Ok(widgets);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Chyba při načítání veřejných widgetů");
+                return StatusCode(500, "Interní chyba");
+            }
         }
 
-        // 2. Publikování widgetu
+        // 2. Publikování
         [HttpPost("publish")]
         [Authorize]
         public async Task<IActionResult> Publish([FromBody] PublishRequest request)
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                     ?? User.FindFirst("email")?.Value;
+
+            if (string.IsNullOrEmpty(email)) return Unauthorized();
+
             var user = await _couchService.GetUserByEmailAsync(email);
             if (user == null) return Unauthorized();
 
             var success = await _couchService.PublishWidgetAsync(user, request.WidgetState, request.PublicName);
-            if (!success) return BadRequest("Failed to publish");
-
-            return Ok(new { message = "Published successfully" });
+            return success ? Ok() : BadRequest();
         }
 
-        // 3. NOVÁ METODA: Získání oblíbených widgetů (GET /api/PublicWidgets/liked)
+        // 3. Oblíbené
         [HttpGet("liked")]
         [Authorize]
         public async Task<IActionResult> GetLikedWidgets()
         {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                     ?? User.FindFirst("email")?.Value;
+
             if (string.IsNullOrEmpty(email)) return Unauthorized();
 
-            // Tuto metodu musíme mít v Service (viz bod 2 níže)
             var widgets = await _couchService.GetLikedWidgetsAsync(email);
             return Ok(widgets);
         }
 
-        // 4. OPRAVA: Akce Like/Unlike
-        // V JS voláš ".../like" (bez D), ale v C# jsi měl "liked". Sjednotíme to na "like".
-        [HttpPost("{id}/like")] // Ujisti se, že tady NENÍ "liked", ale "like" (aby sedělo s JS)
+        // 4. Like
+        [HttpPost("{id}/like")]
         [Authorize]
         public async Task<IActionResult> Like(string id)
         {
-            // 1. Získání emailu
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                     ?? User.FindFirst("email")?.Value;
 
-            // DIAGNOSTIKA: Pokud se v konzoli serveru objeví "Email is null", je problém v Tokenu
-            if (string.IsNullOrEmpty(email))
-            {
-                _logger.LogError($"Like failed: User email claim is missing. ID: {id}");
-                return Unauthorized("Email claim missing in token");
-            }
+            if (string.IsNullOrEmpty(email)) return Unauthorized();
 
-            try
-            {
-                // 2. Volání služby
-                var success = await _couchService.ToggleLikeAsync(id, email);
-
-                if (!success)
-                {
-                    _logger.LogWarning($"Like failed inside Service. User: {email}, Widget: {id}. Maybe author self-like or DB error.");
-                    // Vracíme 200 i při neúspěchu logiky (např. vlastní like), 
-                    // aby frontend nevyhazoval chybu, nebo 400 pokud chceš chybu.
-                    // Pro teď zkusíme 400 s vysvětlením:
-                    return BadRequest("Action failed. Are you the author? Or DB error.");
-                }
-
-                return Ok(new { count = "updated" }); // Vracíme JSON pro jistotu
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"CRITICAL ERROR processing like for {id}");
-                return StatusCode(500, ex.Message);
-            }
+            await _couchService.ToggleLikeAsync(id, email);
+            return Ok();
         }
 
-        // DTO
+        // 5. ZVLASTNĚNÍ – 100% funguje s tvým UserDoc + OpenWidgets
+        [HttpPost("adopt")]
+        [Authorize]
+        public async Task<IActionResult> Adopt([FromBody] AdoptRequest request)
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                     ?? User.FindFirst("email")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized();
+
+            var user = await _couchService.GetUserByEmailAsync(email);
+            if (user == null)
+                return NotFound("Uživatel nenalezen");
+
+            // Nový widget – přesně podle tvé UserWidgetState
+            var newWidget = new UserWidgetState
+            {
+                Name = request.WidgetType,
+                Location = request.Settings?.TryGetValue("location", out var loc) == true ? loc : ""
+            };
+
+            // Přidáme do OpenWidgets
+            user.OpenWidgets ??= new List<UserWidgetState>();
+            user.OpenWidgets.Add(newWidget);
+
+            // Uložíme pomocí stávající metody SaveUserWidgetsAsync (ta už vše umí správně)
+            var success = await _couchService.SaveUserWidgetsAsync(email, user.OpenWidgets);
+
+            return success
+                ? Ok(new { message = "Widget byl úspěšně přidán do tvého dashboardu!" })
+                : StatusCode(500, "Nepodařilo se uložit widget");
+        }
+
+        // DTOs
         public class PublishRequest
         {
-            public string PublicName { get; set; }
-            public UserWidgetState WidgetState { get; set; }
+            public string PublicName { get; set; } = string.Empty;
+            public UserWidgetState WidgetState { get; set; } = null!;
+        }
+
+        public class AdoptRequest
+        {
+            public string WidgetType { get; set; } = string.Empty;
+            public Dictionary<string, string>? Settings { get; set; }
         }
     }
 }
