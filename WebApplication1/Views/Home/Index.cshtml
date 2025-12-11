@@ -17,21 +17,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Zveřejnit Widget</h5>
+                    <h5 class="modal-title">@Localizer["Zveřejnit Widget"]</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Ostatní uživatelé uvidí vaše nastavení tohoto widgetu.</p>
+                    <p>@Localizer["Ostatní uživatelé uvidí vaše nastavení tohoto widgetu"].</p>
                     <input type="hidden" id="publishWidgetName">
                     <input type="hidden" id="publishWidgetLocation">
                     <div class="mb-3">
-                        <label class="form-label">Veřejný název widgetu</label>
+                        <label class="form-label">@Localizer["Veřejný název widgetu"]</label>
                         <input type="text" class="form-control" id="publicWidgetNameInput" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
-                    <button type="button" class="btn btn-primary" id="confirmPublishBtn">Publikovat</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Zrušit"]</button>
+                    <button type="button" class="btn btn-primary" id="confirmPublishBtn">@Localizer["Publikovat"]</button>
                 </div>
             </div>
         </div>
@@ -43,13 +43,13 @@
         <h3>@Localizer["Login"] / @Localizer["Register"]</h3>
         <div class="row">
             <div class="col-md-6">
-                <h5>Login</h5>
+                <h5>@Localizer["Login"]</h5>
                 <form id="loginForm">
                     <div class="mb-2">
-                        <input type="email" id="loginEmail" placeholder="Email" class="form-control" required />
+                        <input type="email" id="loginEmail" placeholder="@Localizer["Email"]" class="form-control" required />
                     </div>
                     <div class="mb-2">
-                        <input type="password" id="loginPassword" placeholder="Password" class="form-control" required />
+                        <input type="password" id="loginPassword" placeholder="@Localizer["Password"]" class="form-control" required />
                     </div>
                     <div id="loginError" class="text-danger mb-2"></div>
                     <button type="submit" class="btn btn-success">@Localizer["Login"]</button>
@@ -61,13 +61,13 @@
                 <h5>@Localizer["Register"]</h5>
                 <form id="registerForm">
                     <div class="mb-2">
-                        <input type="text" id="regName" placeholder="Name" class="form-control" required />
+                        <input type="text" id="regName" placeholder="@Localizer["Name"]" class="form-control" required />
                     </div>
                     <div class="mb-2">
-                        <input type="email" id="regEmail" placeholder="Email" class="form-control" required />
+                        <input type="email" id="regEmail" placeholder="@Localizer["Email"]" class="form-control" required />
                     </div>
                     <div class="mb-2">
-                        <input type="password" id="regPassword" placeholder="Password" class="form-control" required />
+                        <input type="password" id="regPassword" placeholder="@Localizer["Password"]" class="form-control" required />
                     </div>
                     <div id="registerError" class="text-danger mb-2"></div>
                     <button type="submit" class="btn btn-primary">@Localizer["Register"]</button>

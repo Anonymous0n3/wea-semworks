@@ -222,8 +222,8 @@
   <data name="Kurz" xml:space="preserve">
     <value>Rate</value>
   </data>
-  <data name="change" xml:space="preserve">
-    <value>Change from current</value>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
   </data>
   <data name="Quote" xml:space="preserve">
     <value>Quote currency</value>
@@ -269,5 +269,173 @@
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
+  </data>
+  <data name="Nepodařilo se přihlásit" xml:space="preserve">
+    <value>Login Failed</value>
+  </data>
+  <data name="Widget publikován" xml:space="preserve">
+    <value>Widget published</value>
+  </data>
+  <data name="Ostatní uživatelé uvidí vaše nastavení tohoto widgetu ve veřejných widgetech" xml:space="preserve">
+    <value>Other users will see the published widget</value>
+  </data>
+  <data name="Veřejný název" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="Placeholder" xml:space="preserve">
+    <value>example. Weather in Brno</value>
+  </data>
+  <data name="Zrušit" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Publikovat" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="Přihlásit přes Google" xml:space="preserve">
+    <value>Google Login</value>
+  </data>
+  <data name="Přihlásit se" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Přihlášení" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Heslo" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Můj Dashboard" xml:space="preserve">
+    <value>My Dashboard</value>
+  </data>
+  <data name="Veřejné Widgety" xml:space="preserve">
+    <value>Public Widgets</value>
+  </data>
+  <data name="Phone code" xml:space="preserve">
+    <value>Phone code</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="Zveřejnit Widget" xml:space="preserve">
+    <value>Publish Widget</value>
+  </data>
+  <data name="Ostatní uživatelé uvidí vaše nastavení tohoto widgetu" xml:space="preserve">
+    <value>Other users will see the published widget</value>
+  </data>
+  <data name="Veřejný název widgetu" xml:space="preserve">
+    <value>Widget display name</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Prohlížejte, lajkujte a přidávejte si widgety od ostatních uživatelů" xml:space="preserve">
+    <value>Browse, like and add widgets from other users</value>
+  </data>
+  <data name="Vaše oblíbené" xml:space="preserve">
+    <value>Your favourites</value>
+  </data>
+  <data name="Načítám" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Aktivní náhled" xml:space="preserve">
+    <value>Widgets Preview</value>
+  </data>
+  <data name="Všechny veřejné widgety" xml:space="preserve">
+    <value>All public widgets</value>
+  </data>
+  <data name="Název widgetu" xml:space="preserve">
+    <value>Widget Name</value>
+  </data>
+  <data name="Např. Počasí v Praze" xml:space="preserve">
+    <value>example Weather in Prague</value>
+  </data>
+  <data name="Autor" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Jméno nebo e-mail" xml:space="preserve">
+    <value>Name or Email</value>
+  </data>
+  <data name="Typ widgetu" xml:space="preserve">
+    <value>Widget type</value>
+  </data>
+  <data name="Všechny typy" xml:space="preserve">
+    <value>All types</value>
+  </data>
+  <data name="Aktuální počasí" xml:space="preserve">
+    <value>Current Weather</value>
+  </data>
+  <data name="Měnový převodník" xml:space="preserve">
+    <value>Currency Widget</value>
+  </data>
+  <data name="Novinky" xml:space="preserve">
+    <value>News Widget</value>
+  </data>
+  <data name="Informace o zemi" xml:space="preserve">
+    <value>Country Info</value>
+  </data>
+  <data name="Info o aplikaci" xml:space="preserve">
+    <value>App Info</value>
+  </data>
+  <data name="Řadit podle" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="Nejnovější" xml:space="preserve">
+    <value>Newest</value>
+  </data>
+  <data name="Nejvíce liků" xml:space="preserve">
+    <value>Most Likes</value>
+  </data>
+  <data name="Předchozí" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="Další" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Galerie veřejných widgetů" xml:space="preserve">
+    <value>Public widgets gallery</value>
+  </data>
+  <data name="Zatím nemáte oblíbené" xml:space="preserve">
+    <value>You do not have favourites</value>
+  </data>
+  <data name="Načítám widgety" xml:space="preserve">
+    <value>Loading widgets</value>
+  </data>
+  <data name="Chyba při načítání widgetů" xml:space="preserve">
+    <value>Error loading widgets</value>
+  </data>
+  <data name="Nelze se připojit k serveru" xml:space="preserve">
+    <value>Unable to connect to server</value>
+  </data>
+  <data name="Načítám náhled" xml:space="preserve">
+    <value>Loading preview</value>
+  </data>
+  <data name="Nepodařilo se načíst náhled. Chyba" xml:space="preserve">
+    <value>Unable to load preview. Error</value>
+  </data>
+  <data name="Náhled" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Přidat" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Zatím nemáte žádné oblíbené widgety" xml:space="preserve">
+    <value>You have no favourite widgets</value>
+  </data>
+  <data name="Pro zobrazení oblíbených položek se musíte přihlásit" xml:space="preserve">
+    <value>To see liked widgets log in</value>
+  </data>
+  <data name="Zvlastnit" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Lokalita" xml:space="preserve">
+    <value>Locale</value>
   </data>
 </root>

@@ -64,7 +64,7 @@ function renderCard(w, currentUserEmail, token) {
     // --- 2. TLAČÍTKO POUŽÍT (NÁHLED) ---
     let actionButtons = `
         <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${widgetType}', ${widgetDataStr})">
-            👁️ Vyzkoušet (Náhled)
+            👁️ @Localizer["Náhled"]
         </button>
     `;
 
@@ -72,7 +72,7 @@ function renderCard(w, currentUserEmail, token) {
     if (token) {
         actionButtons += `
         <button class="btn btn-success btn-sm w-100 mt-2" onclick="window.adoptWidget('${widgetType}', ${widgetDataStr}, '${safeName}')">
-            💾 Zvlastnit (Uložit)
+            💾 @Localizer["Zvlastnit"]
         </button>
         `;
     }
@@ -85,8 +85,8 @@ function renderCard(w, currentUserEmail, token) {
                 <div class="mb-2">
                     <span class="badge bg-info text-dark">${w.widgetType}</span>
                 </div>
-                <p class="card-text small text-muted mb-1">Autor: ${w.authorName}</p>
-                <p class="card-text small text-muted mb-auto">Lokalita: ${w.widgetData.location || "N/A"}</p>
+                <p class="card-text small text-muted mb-1">@Localizer["Autor"]: ${w.authorName}</p>
+                <p class="card-text small text-muted mb-auto">@Localizer["Lokalita"]: ${w.widgetData.location || "N/A"}</p>
                 
                 ${actionButtons}
             </div>
@@ -151,11 +151,11 @@ function renderPagination(page, count) {
 
     // Prev
     if (page > 1) {
-        nav.innerHTML += `<li class="page-item"><button class="page-link" onclick="loadPublicWidgets(${page - 1})">Předchozí</button></li>`;
+        nav.innerHTML += `<li class="page-item"><button class="page-link" onclick="loadPublicWidgets(${page - 1})">@Localizer["Předchozí"]</button></li>`;
     }
 
     // Next (zjednodušené - pokud jsme dostali plnou stránku, asi je další)
     if (count === 20) {
-        nav.innerHTML += `<li class="page-item"><button class="page-link" onclick="loadPublicWidgets(${page + 1})">Další</button></li>`;
+        nav.innerHTML += `<li class="page-item"><button class="page-link" onclick="loadPublicWidgets(${page + 1})">@Localizer["Další"]</button></li>`;
     }
 }

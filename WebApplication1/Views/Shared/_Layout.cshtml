@@ -22,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/Home/PublicGallery">WebApplication1</a>
+                <a class="navbar-brand" href="/Home/PublicGallery">WEA-App</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -31,10 +31,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Home/Index">Můj Dashboard</a>
+                            <a class="nav-link text-dark" href="/Home/Index">@Localizer["Můj Dashboard"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Home/PublicGallery">Veřejné Widgety</a>
+                            <a class="nav-link text-dark" href="/Home/PublicGallery">@Localizer["Veřejné Widgety"]</a>
                         </li>
                     </ul>
 
@@ -63,11 +63,8 @@
 
                     <!-- Login / Logout -->
                     <ul class="navbar-nav">
-                        <li class="nav-item" id="navLoginItem">
-                            <button class="btn btn-link nav-link text-dark" data-bs-toggle="modal" data-bs-target="#loginModal">Přihlásit se</button>
-                        </li>
                         <li class="nav-item d-none" id="navLogoutItem">
-                            <button class="btn btn-link nav-link text-dark" id="logoutBtn">Odhlásit se</button>
+                            <button class="btn btn-link nav-link text-dark" id="logoutBtn">@Localizer["Odhlásit se"]</button>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +81,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - WebApplication1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - WEA-App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -93,26 +90,26 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Přihlášení</h5>
+                    <h5 class="modal-title">@Localizer["Přihlášení"]</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="loginForm">
                         <div class="mb-3">
-                            <label for="loginEmail" class="form-label">Email</label>
+                            <label for="loginEmail" class="form-label">@Localizer["Email"]</label>
                             <input type="email" class="form-control" id="loginEmail" required>
                         </div>
                         <div class="mb-3">
-                            <label for="loginPassword" class="form-label">Heslo</label>
+                            <label for="loginPassword" class="form-label">@Localizer["Heslo"]</label>
                             <input type="password" class="form-control" id="loginPassword" required>
                         </div>
                         <div class="text-danger mb-3" id="loginError"></div>
 
-                        <button type="submit" class="btn btn-primary w-100 mb-3">Přihlásit se</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">@Localizer["Přihlásit se"]</button>
 
                         <!-- Google Login Button (pokud je potřeba) -->
                         <button type="button" id="googleLoginBtn" class="btn btn-outline-danger w-100">
-                            Přihlásit přes Google
+                            @Localizer["Přihlásit přes Google"]
                         </button>
                     </form>
                 </div>
@@ -129,17 +126,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-muted small">Ostatní uživatelé uvidí vaše nastavení tohoto widgetu v "Veřejných Widgetech".</p>
+                    <p class="text-muted small">@Localizer["Ostatní uživatelé uvidí vaše nastavení tohoto widgetu ve veřejných widgetech"].</p>
                     <input type="hidden" id="publishWidgetName">
                     <input type="hidden" id="publishWidgetLocation">
                     <div class="mb-3">
-                        <label class="form-label">Veřejný název (pro vyhledávání)</label>
-                        <input type="text" class="form-control" id="publicWidgetNameInput" placeholder="Např. Počasí v Praze" required>
+                        <label class="form-label">@Localizer["Veřejný název"]</label>
+                        <input type="text" class="form-control" id="publicWidgetNameInput" placeholder="Brno" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
-                    <button type="button" class="btn btn-primary" id="confirmPublishBtn">Publikovat</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Zrušit"]</button>
+                    <button type="button" class="btn btn-primary" id="confirmPublishBtn">@Localizer["Publikovat"]</button>
                 </div>
             </div>
         </div>
@@ -498,7 +495,7 @@
                     const name = document.getElementById('publishWidgetName').value;
                     const location = document.getElementById('publishWidgetLocation').value;
                     const publicName = document.getElementById('publicWidgetNameInput').value;
-                    if(!publicName) { alert("Prosím vyplňte název."); return; }
+                    if(!publicName) { alert("Error"); return; }
 
                     const widgetState = { Name: name, Location: location };
                     try {
@@ -508,12 +505,12 @@
                             body: JSON.stringify({ publicName: publicName, widgetState: widgetState })
                         });
                         if(resp.ok) {
-                            alert("Widget publikován!");
+                            alert("Ok");
                             bootstrap.Modal.getInstance(document.getElementById('publishModal'))?.hide();
                         } else {
-                            alert("Chyba při publikaci.");
+                            alert("Error");
                         }
-                    } catch(e) { console.error(e); alert("Chyba spojení."); }
+                    } catch(e) { console.error(e); alert("Error"); }
                 });
             }
 
@@ -588,7 +585,7 @@
                         });
                         const data = await resp.json();
                         if (!resp.ok) {
-                            if(loginError) loginError.textContent = data.message || "Chyba přihlášení";
+                            if(loginError) loginError.textContent = data.message || "Error";
                             return;
                         }
                         if(loginError) loginError.textContent = "";
@@ -598,7 +595,7 @@
                         window.location.reload();
                     } catch (err) {
                         console.error(err);
-                        if(loginError) loginError.textContent = "Nepodařilo se přihlásit.";
+                        if(loginError) loginError.textContent = "Error";
                     }
                 });
             }
@@ -636,7 +633,7 @@
                         window.location.href = "/";
                     } catch (err) {
                         console.error(err);
-                        alert("Google login failed");
+                        alert("Google error");
                     }
                 })();
             }

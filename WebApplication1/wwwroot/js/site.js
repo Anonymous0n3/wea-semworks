@@ -6,33 +6,44 @@
 document.addEventListener("DOMContentLoaded", function () {
     const langSelect = document.getElementById("langSelect");
 
-    // Když na stránce není přepínač jazyka, nic nedělej
+    // 1. Ochrana: Pokud element neexistuje, skonči
     if (!langSelect) {
         return;
     }
 
     const LS_KEY = "preferredLang";
+    // Zkusíme načíst z localStorage, jinak default (zde natvrdo 'cs', nebo logika navigatoru)
     const storedLang = localStorage.getItem(LS_KEY);
 
-    // preferuj uloženou volbu; jinak vezmi z prohlížeče (en/cs)
-    const initialLang = storedLang
-        ? storedLang
-        : (navigator.language && navigator.language.toLowerCase().startsWith("en") ? "en" : "cs");
-
-    // nastav select (existuje → safe)
-    langSelect.value = initialLang;
-
-    // ulož do localStorage, pokud tam ještě nebylo
-    if (!storedLang) {
-        localStorage.setItem(LS_KEY, initialLang);
+    // Nastavení počáteční hodnoty selectu
+    // POZNÁMKA: Ideální je, aby 'value' nastavil už server v Razor pohledu (atribut selected),
+    // ale toto je funkční pojistka na straně klienta.
+    if (storedLang) {
+        langSelect.value = storedLang;
     }
 
-    // změna jazyka → ulož + přesměruj
+    // 2. Event Listener pro změnu
     langSelect.addEventListener("change", function () {
-        const val = this.value || "cs";
+        const val = this.value; // 'cs' nebo 'en'
+
+        // Uložíme volbu pro příště
         localStorage.setItem(LS_KEY, val);
-        // Pokud používáš route typu /set-language (POST) s cookie, tenhle redirect klidně smaž.
-        // Tady nechávám jednoduchou variantu s prefixem v URL:
-        window.location.href = `/`;
+
+        // 3. DŮLEŽITÉ: Musíme říct serveru, aby nastavil Cookie!
+        // Bez tohoto kroku server neví, že došlo ke změně.
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+
+        fetch('/set-language', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `culture=${val}&returnUrl=${returnUrl}`
+        }).then(() => {
+            // 4. Obnovení stránky
+            // Používáme přiřazení href samo sobě, aby se obešla cache prohlížeče
+            // a stránka se načetla znovu se správným jazykem ze serveru.
+            window.location.href = window.location.href;
+        }).catch(err => {
+            console.error("Chyba při změně jazyka:", err);
+        });
     });
 });

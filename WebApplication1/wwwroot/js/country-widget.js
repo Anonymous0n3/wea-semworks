@@ -51,7 +51,7 @@ function initCountryWidget(widgetId) {
             });
 
             if (!resp.ok) {
-                resultContainer.innerHTML = `<p class="text-danger">Failed to load country details.</p>`;
+                resultContainer.innerHTML = `<p class="text-danger">@Localizer["Failed to load country details"].</p>`;
                 return;
             }
 
@@ -66,7 +66,7 @@ function initCountryWidget(widgetId) {
 
         } catch (err) {
             console.error(err);
-            resultContainer.innerHTML = `<p class="text-danger">Error fetching country details.</p>`;
+            resultContainer.innerHTML = `<p class="text-danger">@Localizer["Failed to load country details"].</p>`;
         }
     }
 

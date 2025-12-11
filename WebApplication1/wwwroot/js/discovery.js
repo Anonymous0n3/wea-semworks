@@ -51,7 +51,7 @@ window.changePage = async (delta) => {
     const newPage = currentPage + delta;
     if (newPage < 1) return;
     currentPage = newPage;
-    document.getElementById('pageIndicator').textContent = `Strana ${currentPage}`;
+    document.getElementById('pageIndicator').textContent = `${currentPage}`;
     await loadPublicList(currentPage);
 };
 
@@ -63,8 +63,9 @@ async function loadFavorites() {
         const resp = await fetch('/api/PublicWidgets/liked');
         if (resp.ok) {
             const data = await resp.json();
+            // OPRAVA ZDE:
             container.innerHTML = data.length === 0
-                ? (Renderer.renderEmptyState?.() || '<div class="col-12 text-muted fst-italic">Zatím nemáte oblíbené</div>')
+                ? (Renderer.renderEmptyState?.() || `<div class="col-12 text-muted fst-italic">${window.translations.noFavorites}</div>`)
                 : data.map(w => Renderer.renderCard(w, userEmail)).join('');
         }
     } catch (e) {
@@ -80,7 +81,7 @@ async function loadPublicList(page = 1) {
     container.innerHTML = `
         <div class="col-12 text-center py-5">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-3 text-muted">Načítám widgety...</p>
+            <p class="mt-3 text-muted">${window.translations.loadingWidgets}...</p>
         </div>`;
 
     const filter = {
@@ -113,17 +114,17 @@ async function loadPublicList(page = 1) {
             if (nextBtn) nextBtn.disabled = !hasMore;
             if (prevBtn) prevBtn.disabled = page <= 1;
         } else {
-            container.innerHTML = '<div class="col-12 text-danger text-center">Chyba při načítání widgetů</div>';
+            container.innerHTML = '<div class="col-12 text-danger text-center">${window.translations.errorLoading}</div>';
         }
     } catch (e) {
         console.error('Load public list error:', e);
-        container.innerHTML = '<div class="col-12 text-danger text-center">Nelze se připojit k serveru</div>';
+        container.innerHTML = '<div class="col-12 text-danger text-center">${window.translations.serverError}</div>';
     }
 }
 
 // LIKE
 window.toggleLike = async (id) => {
-    if (!token) return alert("Pro lajkování se musíte přihlásit.");
+    if (!token) return alert("Nope");
     try {
         const resp = await fetch(`/api/PublicWidgets/${id}/like`, { method: 'POST' });
         if (resp.ok || resp.status === 400) {
@@ -138,7 +139,7 @@ window.toggleLike = async (id) => {
 // ZVLASTNĚNÍ – 100% funkční
 window.adoptWidget = async (widgetType, widgetData, publicName = "") => {
     if (!token) {
-        alert("Pro zvlastnění widgetu musíte být přihlášeni.");
+        alert("Nope");
         return;
     }
     try {
@@ -152,14 +153,14 @@ window.adoptWidget = async (widgetType, widgetData, publicName = "") => {
         });
 
         if (response.ok) {
-            alert(`Widget "${publicName || widgetType}" byl přidán do tvého dashboardu!`);
+            alert(`Ok`);
         } else {
             const err = await response.text();
-            alert("Zvlastnění selhalo: " + err);
+            alert("Error: " + err);
         }
     } catch (e) {
         console.error("Adopt error:", e);
-        alert("Chyba připojení při zvlastňování.");
+        alert("Error");
     }
 };
 
@@ -169,7 +170,7 @@ window.previewWidget = async (widgetName, widgetData) => {
     const container = document.getElementById('previewContainer');
     if (!section || !container) return;
     section.classList.remove('d-none');
-    container.innerHTML = '<div class="text-center p-3 text-muted"><span class="spinner-border spinner-border-sm"></span> Načítám náhled...</div>';
+    container.innerHTML = '<div class="text-center p-3 text-muted"><span class="spinner-border spinner-border-sm"></span> ${window.translations.loadingPreview}...</div>';
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     try {
         let url = `/Widget/Load?name=${widgetName}`;
@@ -189,7 +190,7 @@ window.previewWidget = async (widgetName, widgetData) => {
         setTimeout(() => initWidgetScripts(container, widgetName), 100);
     } catch (e) {
         console.error(e);
-        container.innerHTML = `<div class="alert alert-danger">Nepodařilo se načíst náhled. Chyba: ${e.message}</div>`;
+        container.innerHTML = `<div class="alert alert-danger">${window.translations.previewError}: ${e.message}</div>`;
     }
 };
 
@@ -241,7 +242,7 @@ function initWidgetScripts(wrapper, widgetName) {
         }
         wrapper.querySelector('#currencyForm')?.addEventListener("submit", e => {
             e.preventDefault();
-            alert("V náhledu nelze měnit měnu.");
+            alert("Nope");
         });
     }
 

@@ -12,7 +12,7 @@ export function renderCard(w, userEmail) {
     const isLiked = w.likedBy && w.likedBy.includes(userEmail);
     const heartClass = isLiked ? "text-danger" : "text-muted";
     const heartIcon = isLiked ? "❤️" : "🤍";
-    const dateStr = w.createdAt ? new Date(w.createdAt).toLocaleDateString() : "Neznámé datum";
+    const dateStr = w.createdAt ? new Date(w.createdAt).toLocaleDateString() : "Null";
 
     return `
     <div class="col-md-4 col-lg-3">
@@ -20,13 +20,13 @@ export function renderCard(w, userEmail) {
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <h5 class="card-title text-truncate m-0" title="${w.publicName}" style="max-width: 70%;">
-                        ${w.publicName || 'Bezejmenný'}
+                        ${w.publicName || 'Null'}
                     </h5>
                     <span class="badge bg-light text-dark border">${w.widgetType}</span>
                 </div>
                 
                 <p class="card-text small text-muted mb-3">
-                    Autor: <strong>${w.authorName || 'Neznámý'}</strong><br>
+                    ${window.translations.autor}: <strong>${w.authorName || 'Null'}</strong><br>
                     <span class="text-secondary">${dateStr}</span>
                 </p>
 
@@ -43,13 +43,13 @@ export function renderCard(w, userEmail) {
                         <button class="btn btn-sm btn-outline-secondary"
                                 onclick='window.previewWidget("${w.widgetType}", ${dataString})'
                                 title="Vyzkoušet nanečisto">
-                            👁️ Náhled
+                            👁️ ${window.translations.preview}
                         </button>
 
                         <button class="btn btn-sm btn-success"
                                 onclick='window.adoptWidget("${w.widgetType}", ${dataString})'
                                 title="Přidat natrvalo na můj Dashboard">
-                            ➕ Přidat
+                            ➕ ${window.translations.add}
                         </button>
                     </div>
                 </div>
@@ -60,5 +60,5 @@ export function renderCard(w, userEmail) {
 }
 
 export function renderEmptyState() {
-    return '<div class="col-12 text-muted fst-italic">Zatím nemáte žádné oblíbené widgety.</div>';
+    return '<div class="col-12 text-muted fst-italic"></div>';
 }

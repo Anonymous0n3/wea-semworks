@@ -13,7 +13,7 @@
 
 <div class="currency-widget card shadow-sm p-4 rounded-3 bg-light">
     <h3 class="mb-3 text-center">
-        Kurz: @baseCurrency → @quoteCurrency
+        @Localizer["Kurz"]: @baseCurrency → @quoteCurrency
     </h3>
 
     <div class="current-rate text-center mb-4">
@@ -29,7 +29,7 @@
     <!-- 📈 Graf vývoje kurzu -->
     <div class="chart-container mb-4">
         <canvas id="rateChart"
-                data-label="Kurz @baseCurrency → @quoteCurrency"
+                data-label="@baseCurrency → @quoteCurrency"
                 data-labels='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Date.ToString("dd.MM.yyyy"))))'
                 data-rates='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(orderedHistory.Select(h => h.Rate)))'>
         </canvas>

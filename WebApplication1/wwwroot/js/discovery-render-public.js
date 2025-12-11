@@ -13,11 +13,11 @@ export function renderCard(w) {
                 <div class="mb-2">
                     <span class="badge bg-info text-dark">${w.widgetType}</span>
                 </div>
-                <p class="card-text small text-muted mb-1">Autor: ${w.authorName}</p>
-                <p class="card-text small text-muted mb-auto">Lokalita: ${w.widgetData.location || "N/A"}</p>
+                <p class="card-text small text-muted mb-1">${window.translations.autor}: ${w.authorName}</p>
+                <p class="card-text small text-muted mb-auto">${window.translations.locale}: ${w.widgetData.location || "N/A"}</p>
                 
                 <button class="btn btn-primary btn-sm w-100 mt-3" onclick="window.previewWidget('${w.widgetType}', ${widgetDataStr})">
-                    👁️ Vyzkoušet (Náhled)
+                    👁️ ${window.translations.preview}
                 </button>
             </div>
             <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center py-2">
@@ -30,5 +30,5 @@ export function renderCard(w) {
 }
 
 export function renderEmptyState() {
-    return '<div class="col-12 text-center text-muted py-5">Pro zobrazení oblíbených položek se musíte přihlásit.</div>';
+    return '<div class="col-12 text-center text-muted py-5">@Localizer["Pro zobrazení oblíbených položek se musíte přihlásit"].</div>';
 }

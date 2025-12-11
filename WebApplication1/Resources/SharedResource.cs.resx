@@ -222,8 +222,8 @@
   <data name="Kurz" xml:space="preserve">
     <value>Kurz</value>
   </data>
-  <data name="change" xml:space="preserve">
-    <value>Změna oproti aktuálnímu</value>
+  <data name="Change" xml:space="preserve">
+    <value>Změna</value>
   </data>
   <data name="Quote" xml:space="preserve">
     <value>Nabídka měny</value>
@@ -269,5 +269,173 @@
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Aktualizovat</value>
+  </data>
+  <data name="Nepodařilo se přihlásit" xml:space="preserve">
+    <value>Nepodařilo se přihlásit</value>
+  </data>
+  <data name="Widget publikován" xml:space="preserve">
+    <value>Widget publikován</value>
+  </data>
+  <data name="Ostatní uživatelé uvidí vaše nastavení tohoto widgetu ve veřejných widgetech" xml:space="preserve">
+    <value>Ostatní uživatelé uvidí vaše nastavení tohoto widgetu ve veřejných widgetech</value>
+  </data>
+  <data name="Veřejný název" xml:space="preserve">
+    <value>Veřejný název</value>
+  </data>
+  <data name="Placeholder" xml:space="preserve">
+    <value>Např. Počasí v Brně</value>
+  </data>
+  <data name="Zrušit" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="Publikovat" xml:space="preserve">
+    <value>Publikovat</value>
+  </data>
+  <data name="Přihlásit přes Google" xml:space="preserve">
+    <value>Přihlásit přes Google</value>
+  </data>
+  <data name="Přihlásit se" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="Přihlášení" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Heslo" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="Můj Dashboard" xml:space="preserve">
+    <value>Můj Dashboard</value>
+  </data>
+  <data name="Veřejné Widgety" xml:space="preserve">
+    <value>Veřejné Widgety</value>
+  </data>
+  <data name="Phone code" xml:space="preserve">
+    <value>Předčíslí</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>Odkaz</value>
+  </data>
+  <data name="Zveřejnit Widget" xml:space="preserve">
+    <value>Zveřejnit Widget</value>
+  </data>
+  <data name="Ostatní uživatelé uvidí vaše nastavení tohoto widgetu" xml:space="preserve">
+    <value>Ostatní uživatelé uvidí vaše nastavení tohoto widgetu</value>
+  </data>
+  <data name="Veřejný název widgetu" xml:space="preserve">
+    <value>Veřejný název widgetu</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="Prohlížejte, lajkujte a přidávejte si widgety od ostatních uživatelů" xml:space="preserve">
+    <value>Prohlížejte, lajkujte a přidávejte si widgety od ostatních uživatelů</value>
+  </data>
+  <data name="Vaše oblíbené" xml:space="preserve">
+    <value>Vaše oblíbené</value>
+  </data>
+  <data name="Načítám" xml:space="preserve">
+    <value>Načítám</value>
+  </data>
+  <data name="Aktivní náhled" xml:space="preserve">
+    <value>Aktivní náhled</value>
+  </data>
+  <data name="Všechny veřejné widgety" xml:space="preserve">
+    <value>Všechny veřejné widgety</value>
+  </data>
+  <data name="Název widgetu" xml:space="preserve">
+    <value>Název widgetu</value>
+  </data>
+  <data name="Např. Počasí v Praze" xml:space="preserve">
+    <value>Např. Počasí v Praze</value>
+  </data>
+  <data name="Autor" xml:space="preserve">
+    <value>Autor</value>
+  </data>
+  <data name="Jméno nebo e-mail" xml:space="preserve">
+    <value>Jméno nebo e-mail</value>
+  </data>
+  <data name="Typ widgetu" xml:space="preserve">
+    <value>Typ widgetu</value>
+  </data>
+  <data name="Všechny typy" xml:space="preserve">
+    <value>Všechny typy</value>
+  </data>
+  <data name="Aktuální počasí" xml:space="preserve">
+    <value>Aktuální počasí</value>
+  </data>
+  <data name="Měnový převodník" xml:space="preserve">
+    <value>Měnový převodník</value>
+  </data>
+  <data name="Novinky" xml:space="preserve">
+    <value>Novinky</value>
+  </data>
+  <data name="Informace o zemi" xml:space="preserve">
+    <value>Informace o zemi</value>
+  </data>
+  <data name="Info o aplikaci" xml:space="preserve">
+    <value>Info o aplikaci</value>
+  </data>
+  <data name="Řadit podle" xml:space="preserve">
+    <value>Řadit podle</value>
+  </data>
+  <data name="Nejnovější" xml:space="preserve">
+    <value>Nejnovější</value>
+  </data>
+  <data name="Nejvíce liků" xml:space="preserve">
+    <value>Nejvíce liků</value>
+  </data>
+  <data name="Předchozí" xml:space="preserve">
+    <value>Předchozí</value>
+  </data>
+  <data name="Další" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="Galerie veřejných widgetů" xml:space="preserve">
+    <value>Galerie veřejných widgetů</value>
+  </data>
+  <data name="Zatím nemáte oblíbené" xml:space="preserve">
+    <value>Zatím nemáte oblíbené</value>
+  </data>
+  <data name="Načítám widgety" xml:space="preserve">
+    <value>Načítám widgety</value>
+  </data>
+  <data name="Chyba při načítání widgetů" xml:space="preserve">
+    <value>Chyba při načítání widgetů</value>
+  </data>
+  <data name="Nelze se připojit k serveru" xml:space="preserve">
+    <value>Nelze se připojit k serveru</value>
+  </data>
+  <data name="Načítám náhled" xml:space="preserve">
+    <value>Načítám náhled</value>
+  </data>
+  <data name="Nepodařilo se načíst náhled. Chyba" xml:space="preserve">
+    <value>Nepodařilo se načíst náhled. Chyba</value>
+  </data>
+  <data name="Náhled" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="Přidat" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Zatím nemáte žádné oblíbené widgety" xml:space="preserve">
+    <value>Zatím nemáte žádné oblíbené widgety</value>
+  </data>
+  <data name="Pro zobrazení oblíbených položek se musíte přihlásit" xml:space="preserve">
+    <value>Pro zobrazení oblíbených položek se musíte přihlásit</value>
+  </data>
+  <data name="Zvlastnit" xml:space="preserve">
+    <value>Zvlastnit</value>
+  </data>
+  <data name="Lokalita" xml:space="preserve">
+    <value>Lokalita</value>
   </data>
 </root>

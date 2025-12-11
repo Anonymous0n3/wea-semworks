@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics;
 using System.Globalization;
 using WebApplication1.Service;
@@ -8,25 +9,39 @@ namespace YourProject.ViewComponents
     public class AppInfoWidgetViewComponent : ViewComponent
     {
         private readonly WeatherService _weatherService;
-        public AppInfoWidgetViewComponent(WeatherService weatherService)
+        private readonly IMemoryCache _cache; // Přidáno pro "stateful" výpočet CPU
+
+        public AppInfoWidgetViewComponent(WeatherService weatherService, IMemoryCache cache)
         {
             _weatherService = weatherService;
+            _cache = cache;
         }
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var model = new AppInfoViewModel
             {
+                // Používáme Assembly informaci bezpečněji
                 AppVersion = typeof(Program).Assembly.GetName().Version?.ToString(),
                 DeploymentDate = System.IO.File.GetLastWriteTime(typeof(Program).Assembly.Location),
                 MemoryUsage = GetMemoryUsage(),
-                CpuUsage = await GetCpuUsageAsync(),
+                CpuUsage = await GetCpuUsageAsync(), // Nyní bez delaye
                 ProcessCount = GetProcessCount(),
                 ApiStatuses = new List<string>()
             };
 
-            // --- Health Check Weather API ---
-            bool weatherApiOk = await _weatherService.HealthCheckAsync();
-            model.ApiStatuses.Add($"Weather API: {(weatherApiOk ? "✅ Dostupné" : "❌ Nedostupné")}");
+            // --- Health Check ---
+            // Pozor: HealthCheck by měl mít timeout, aby nezasekl widget
+            try
+            {
+                // Doporučuji přidat timeout token, pokud ho služba nepodporuje
+                bool weatherApiOk = await _weatherService.HealthCheckAsync();
+                model.ApiStatuses.Add($"Weather API: {(weatherApiOk ? "✅ Ok" : "❌ Error")}");
+            }
+            catch
+            {
+                model.ApiStatuses.Add("Weather API: ⚠️ Timeout/Error");
+            }
 
             return View(model);
         }
@@ -39,78 +54,130 @@ namespace YourProject.ViewComponents
                 var usagePath = "/sys/fs/cgroup/memory.current";
                 var limitPath = "/sys/fs/cgroup/memory.max";
 
+                // Fallback pro cgroup v1
                 if (!System.IO.File.Exists(usagePath))
                 {
-                    // starší cgroup v1 fallback
                     usagePath = "/sys/fs/cgroup/memory/memory.usage_in_bytes";
                     limitPath = "/sys/fs/cgroup/memory/memory.limit_in_bytes";
                 }
 
-                var usage = long.Parse(System.IO.File.ReadAllText(usagePath).Trim());
-                var limit = long.Parse(System.IO.File.ReadAllText(limitPath).Trim());
+                if (System.IO.File.Exists(usagePath) && System.IO.File.Exists(limitPath))
+                {
+                    var usage = long.Parse(System.IO.File.ReadAllText(usagePath).Trim());
+                    var limitStr = System.IO.File.ReadAllText(limitPath).Trim();
 
-                double percent = (double)usage / limit * 100.0;
-                return $"{usage / 1024 / 1024} MB / {limit / 1024 / 1024} MB ({percent:F1}%)";
+                    double usageMb = usage / 1024.0 / 1024.0;
+
+                    // Ošetření pro "max", které v cgroup v2 může být "max" textově, nebo obrovské číslo
+                    if (limitStr == "max" || !long.TryParse(limitStr, out long limit) || limit > 1_000_000_000_000) // > 1TB považujeme za unlimited
+                    {
+                        return $"{usageMb:F0} MB (Unlimited)";
+                    }
+
+                    double limitMb = limit / 1024.0 / 1024.0;
+                    double percent = (double)usage / limit * 100.0;
+
+                    return $"{usageMb:F0} MB / {limitMb:F0} MB ({percent:F1}%)";
+                }
             }
-            catch
-            {
-                return "N/A";
-            }
+            catch { /* Ignorovat chyby čtení */ }
+
+            return "N/A";
         }
 
-        // === CPU ===
+        // === CPU (Bez blokování requestu) ===
         private async Task<string> GetCpuUsageAsync()
         {
             try
             {
-                var cpuUsageFile = "/sys/fs/cgroup/cpu/cpu.stat";
-                if (!System.IO.File.Exists(cpuUsageFile))
+                // Cesty pro cgroup v2 a v1
+                var cpuPathV2 = "/sys/fs/cgroup/cpu.stat"; // Standardní cesta v Dockeru pro v2
+                var cpuPathV1 = "/sys/fs/cgroup/cpuacct/cpuacct.usage"; // Starší v1
+
+                long currentUsage = 0;
+                long currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(); // Použijeme MS pro měření času
+
+                if (System.IO.File.Exists(cpuPathV2))
+                {
+                    // Format: "usage_usec 12345\nuser_usec..."
+                    var lines = await System.IO.File.ReadAllLinesAsync(cpuPathV2);
+                    var usageLine = lines.FirstOrDefault(l => l.StartsWith("usage_usec"));
+                    if (usageLine != null)
+                    {
+                        // usage_usec jsou mikrosekundy
+                        currentUsage = long.Parse(usageLine.Split(' ')[1]);
+                    }
+                }
+                else if (System.IO.File.Exists(cpuPathV1))
+                {
+                    // v1 vrací nanosekundy, převedeme na mikrosekundy (/1000)
+                    var text = await System.IO.File.ReadAllTextAsync(cpuPathV1);
+                    currentUsage = long.Parse(text.Trim()) / 1000;
+                }
+                else
+                {
                     return "N/A";
+                }
 
-                var initialUsage = await ReadCpuUsageAsync(cpuUsageFile);
-                await Task.Delay(500);
-                var finalUsage = await ReadCpuUsageAsync(cpuUsageFile);
+                // --- VÝPOČET POMOCÍ CACHE ---
+                var cacheKey = "CpuUsage_LastRead";
 
-                var delta = finalUsage - initialUsage; // mikrosekundy
-                var cpuCount = Environment.ProcessorCount;
-                var percent = (delta / 500_000_000.0) / cpuCount; // půl sekundy = 500 000 µs
+                // Zkusíme získat minulá data
+                if (_cache.TryGetValue(cacheKey, out (long usage, long time) lastRead))
+                {
+                    var timeDeltaMs = currentTime - lastRead.time;
 
-                return $"{percent:F1}%";
+                    // Pokud od posledního refreshe uběhlo příliš málo času (např. < 100ms), vrátíme cached výsledek, aby čísla neskákala
+                    if (timeDeltaMs < 100) return _cache.Get<string>("CpuUsage_LastDisplay") ?? "...";
+
+                    var usageDeltaUsec = currentUsage - lastRead.usage;
+
+                    // Převod času na mikrosekundy: ms * 1000
+                    var timeDeltaUsec = timeDeltaMs * 1000.0;
+                    var cpuCount = Environment.ProcessorCount;
+
+                    // Vzorec: (Spotřebovaný čas CPU / Uplynulý reálný čas) / Počet jader * 100
+                    var percent = (usageDeltaUsec / timeDeltaUsec) / cpuCount * 100.0;
+
+                    // Uložit pro zobrazení
+                    var result = $"{percent:F1}%";
+                    _cache.Set("CpuUsage_LastDisplay", result, TimeSpan.FromMinutes(1));
+
+                    // Aktualizovat "last read" pro příští request
+                    _cache.Set(cacheKey, (currentUsage, currentTime));
+
+                    return result;
+                }
+                else
+                {
+                    // První spuštění - nemáme deltu, uložíme aktuální a vrátíme "načítám..."
+                    _cache.Set(cacheKey, (currentUsage, currentTime));
+                    return "Calc...";
+                }
             }
             catch
             {
                 return "N/A";
             }
         }
-
-        private async Task<long> ReadCpuUsageAsync(string path)
-        {
-            var lines = await System.IO.File.ReadAllLinesAsync(path);
-            var usageLine = lines.FirstOrDefault(l => l.StartsWith("usage_usec"));
-            if (usageLine != null)
-            {
-                return long.Parse(usageLine.Split(' ')[1]);
-            }
-            return 0;
-        }
-
 
         // === PROCESY ===
         private int GetProcessCount()
         {
             try
             {
-                var pidFile = "/sys/fs/cgroup/pids.current";
+                var pidFile = "/sys/fs/cgroup/pids.current"; // cgroup v2
                 if (!System.IO.File.Exists(pidFile))
-                {
-                    pidFile = "/sys/fs/cgroup/pids/pids.current";
-                }
-                var count = int.Parse(System.IO.File.ReadAllText(pidFile).Trim());
-                return count;
+                    pidFile = "/sys/fs/cgroup/pids/pids.current"; // cgroup v1
+
+                if (System.IO.File.Exists(pidFile))
+                    return int.Parse(System.IO.File.ReadAllText(pidFile).Trim());
+
+                return Process.GetProcesses().Length;
             }
             catch
             {
-                return Process.GetProcesses().Length; // fallback mimo Docker
+                return 0;
             }
         }
     }

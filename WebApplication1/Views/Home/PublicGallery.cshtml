@@ -1,24 +1,28 @@
-﻿@{
+﻿@using System.Globalization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<WebApplication1.SharedResource> Localizer
+
+@{
     ViewData["Title"] = "Galerie Widgetů";
 }
 
 <div class="text-center py-4 bg-light rounded-3 mb-4">
-    <h1 class="display-6">Galerie veřejných widgetů</h1>
-    <p class="text-muted">Prohlížejte, lajkujte a přidávejte si widgety od ostatních uživatelů</p>
-    <a asp-action="Index" class="btn btn-primary btn-lg">Můj Dashboard</a>
+    <h1 class="display-6">@Localizer["Galerie veřejných widgetů"]</h1>
+    <p class="text-muted">@Localizer["Prohlížejte, lajkujte a přidávejte si widgety od ostatních uživatelů"]</p>
+    <a asp-action="Index" class="btn btn-primary btn-lg">@Localizer["Můj Dashboard"]</a>
 </div>
 
 <!-- 1. OBLÍBENÉ (zůstává beze změny) -->
 <div id="favoritesSection" class="d-none mb-5">
-    <h4 class="border-bottom pb-2 text-warning">Vaše oblíbené</h4>
+    <h4 class="border-bottom pb-2 text-warning">@Localizer["Vaše oblíbené"]</h4>
     <div id="favoritesContainer" class="row g-3 mt-2">
-        <div class="col-12 text-muted">Načítám...</div>
+        <div class="col-12 text-muted">@Localizer["Načítám"]...</div>
     </div>
 </div>
 
 <!-- 2. NÁHLED WIDGETU (beze změny) -->
 <div id="activeWidgetSection" class="mb-5 d-none">
-    <h4 class="border-bottom pb-2 text-primary">Aktivní náhled</h4>
+    <h4 class="border-bottom pb-2 text-primary">@Localizer["Aktivní náhled"]</h4>
     <div class="p-4 border rounded bg-white shadow-sm position-relative">
         <button onclick="closePreview()" class="btn btn-sm btn-close position-absolute top-0 end-0 m-3" aria-label="Zavřít"></button>
         <div id="previewContainer"></div>
@@ -27,38 +31,38 @@
 
 <!-- 3. VEŘEJNÉ WIDGETY + KOMPLETNÍ FILTRY -->
 <div id="publicSection">
-    <h4 class="border-bottom pb-2 mb-4">Všechny veřejné widgety</h4>
+    <h4 class="border-bottom pb-2 mb-4">@Localizer["Všechny veřejné widgety"]</h4>
 
     <!-- FILTRY (automatické – žádné tlačítko) -->
     <div class="row g-3 align-items-end mb-5">
         <div class="col-lg-3 col-md-6">
-            <label class="form-label fw-semibold">Název widgetu</label>
-            <input type="text" id="discoSearch" class="form-control" placeholder="Např. Počasí v Praze">
+            <label class="form-label fw-semibold">@Localizer["Název widgetu"]</label>
+            <input type="text" id="discoSearch" class="form-control" placeholder="@Localizer["Např. Počasí v Praze"]">
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <label class="form-label fw-semibold">Autor</label>
-            <input type="text" id="discoAuthor" class="form-control" placeholder="Jméno nebo e-mail">
+            <label class="form-label fw-semibold">@Localizer["Autor"]</label>
+            <input type="text" id="discoAuthor" class="form-control" placeholder="@Localizer["Jméno nebo e-mail"]">
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <label class="form-label fw-semibold">Typ widgetu</label>
+            <label class="form-label fw-semibold">@Localizer["Typ widgetu"]</label>
             <select id="discoType" class="form-select">
-                <option value="">Všechny typy</option>
-                <option value="CurrentWeather">Aktuální počasí</option>
-                <option value="ForecastWeather">Předpověď počasí</option>
-                <option value="CurrencyWidget">Měnový převodník</option>
-                <option value="NewsWidget">Novinky</option>
-                <option value="CountryInfoWidget">Informace o zemi</option>
-                <option value="AppInfoWidget">Info o aplikaci</option>
+                <option value="">@Localizer["Všechny typy"]</option>
+                <option value="CurrentWeather">@Localizer["Aktuální počasí"]</option>
+                <option value="ForecastWeather">@Localizer["Předpověď počasí"]</option>
+                <option value="CurrencyWidget">@Localizer["Měnový převodník"]</option>
+                <option value="NewsWidget">@Localizer["Novinky"]</option>
+                <option value="CountryInfoWidget">@Localizer["Informace o zemi"]</option>
+                <option value="AppInfoWidget">@Localizer["Info o aplikaci"]</option>
             </select>
         </div>
 
         <div class="col-lg-3 col-md-6">
-            <label class="form-label fw-semibold">Řadit podle</label>
+            <label class="form-label fw-semibold">@Localizer["Řadit podle"]</label>
             <select id="discoSort" class="form-select">
-                <option value="date">Nejnovější</option>
-                <option value="likes">Nejvíce liků</option>
+                <option value="date">@Localizer["Nejnovější"]</option>
+                <option value="likes">@Localizer["Nejvíce liků"]</option>
             </select>
         </div>
     </div>
@@ -67,20 +71,39 @@
     <div id="publicContainer" class="row g-4">
         <div class="col-12 text-center py-5">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-3 text-muted">Načítám veřejné widgety...</p>
+            <p class="mt-3 text-muted">@Localizer["Načítám"]...</p>
         </div>
     </div>
 
     <!-- STRÁNKOVÁNÍ -->
     <div class="d-flex justify-content-center align-items-center mt-5 gap-4">
-        <button class="btn btn-outline-primary px-4" onclick="changePage(-1)" id="prevBtn">Předchozí</button>
-        <span class="fs-5 fw-bold mx-3" id="pageIndicator">Strana 1</span>
-        <button class="btn btn-outline-primary px-4" onclick="changePage(1)" id="nextBtn">Další</button>
+        <button class="btn btn-outline-primary px-4" onclick="changePage(-1)" id="prevBtn">@Localizer["Předchozí"]</button>
+        <span class="fs-5 fw-bold mx-3" id="pageIndicator">1</span>
+        <button class="btn btn-outline-primary px-4" onclick="changePage(1)" id="nextBtn">@Localizer["Další"]</button>
     </div>
 </div>
 
 @section Scripts {
     <!-- Chart.js pro grafy v náhledu -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Předáme překlady ze serveru do globální proměnné window.translations
+        window.translations = {
+            noFavorites: '@Localizer["Zatím nemáte oblíbené"]',
+            loadingWidgets: '@Localizer["Načítám widgety"]',
+            errorLoading: '@Localizer["Chyba při načítání widgetů"]',
+            serverError: '@Localizer["Nelze se připojit k serveru"]',
+            loadingPreview: '@Localizer["Načítám náhled"]',
+            previewError: '@Localizer["Nepodařilo se načíst náhled. Chyba"]',
+            preview: '@Localizer["Náhled"]',
+            add: '@Localizer["Přidat"]',
+            noFavoritesLong: '@Localizer["Zatím nemáte žádné oblíbené widgety"]',
+            loginRequired: '@Localizer["Pro zobrazení oblíbených položek se musíte přihlásit"]',
+            autor: '@Localizer["Autor"]',
+            locale: '@Localizer["Lokalita"]'
+        };
+    </script>
+
     <script type="module" src="~/js/discovery.js"></script>
 }
