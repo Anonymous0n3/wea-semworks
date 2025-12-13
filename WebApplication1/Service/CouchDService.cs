@@ -430,10 +430,7 @@ namespace WebApplication1.Service
         // -------------------------------------------------------------
         public async Task<List<PublicWidgetDoc>> GetPublicWidgetsAsync(WidgetFilterRequest filter)
         {
-            // 1. Sestavení Mango Query (Filtrování, Řazení a Stránkování v DB)
-
-            // Používáme Dictionary<string, object> pro dynamické sestavení "selector" objektu,
-            // abychom se vyhnuli chybám spojeným s neměnnými anonymními typy v C# při dynamickém přidávání polí.
+            // 1. Sestavení Mango Query (Filtrování)
             var selector = new Dictionary<string, object>
     {
         // Pevný filtr: Vždy filtrujeme podle typu dokumentu
@@ -446,53 +443,65 @@ namespace WebApplication1.Service
                 selector.Add("WidgetType", filter.WidgetType);
             }
 
-            // Dynamické přidání filtru pro PublicName (textové vyhledávání - $regex pro "obsahuje")
+            // Dynamické přidání filtru pro PublicName ($regex)
             if (!string.IsNullOrEmpty(filter.SearchName))
             {
-                // (?i) zajišťuje case-insensitive (ignoruje velikost písmen)
                 selector.Add("PublicName", new Dictionary<string, object>
                 {
                     ["$regex"] = $"(?i){Uri.EscapeDataString(filter.SearchName)}"
                 });
             }
 
-            // Dynamické přidání filtru pro AuthorName (textové vyhledávání - $regex pro "obsahuje")
+            // Dynamické přidání filtru pro AuthorName ($regex)
             if (!string.IsNullOrEmpty(filter.Author))
             {
-                // (?i) zajišťuje case-insensitive (ignoruje velikost písmen)
                 selector.Add("AuthorName", new Dictionary<string, object>
                 {
                     ["$regex"] = $"(?i){Uri.EscapeDataString(filter.Author)}"
                 });
             }
 
-            // 2. Sestavení pole pro řazení (Sort)
+            // 2. Příprava pro řazení (Sort) a OPRAVA SELECTORU
             var sortField = filter.SortBy == "likes" ? "LikesCount" : "CreatedAt";
             var sortOrder = "desc";
 
-            // CouchDB očekává pole objektů pro sort, např.: [{"LikesCount": "desc"}]
+            // --- KLÍČOVÁ OPRAVA PRO COUCHDB ---
+            // Aby CouchDB použila index pro řazení, MUSÍ být řazené pole zmíněno v 'selector'.
+            // Pokud tam ještě není (např. jsme podle něj nefiltrovali), přidáme podmínku,
+            // že hodnota musí být větší než null (tzn. pole existuje).
+            if (!selector.ContainsKey(sortField))
+            {
+                selector.Add(sortField, new Dictionary<string, object>
+        {
+            { "$gt", null }
+        });
+            }
+            // ----------------------------------
+
+            // CouchDB očekává pole objektů pro sort
             var sort = new List<object>
     {
         new Dictionary<string, string> { { sortField, sortOrder } }
     };
 
-            // 3. Kompletní Mango Query objekt pro odeslání do CouchDB
+            // 3. Kompletní Mango Query objekt
             var query = new
             {
                 selector = selector,
                 sort = sort,
-                // Stránkování pomocí DB parametrů skip/limit
                 skip = (filter.Page - 1) * filter.PageSize,
                 limit = filter.PageSize
             };
 
             // Odeslání Mango Query do CouchDB
+            // Poznámka: Serializace query s _jsonOptions je důležitá pro správný formát
             var content = new StringContent(JsonSerializer.Serialize(query, _jsonOptions), Encoding.UTF8, "application/json");
             var resp = await _client.PostAsync($"{_couchBase}/{_dbName}/_find", content);
 
             if (!resp.IsSuccessStatusCode)
             {
                 var errorContent = await resp.Content.ReadAsStringAsync();
+                // Logujeme i query, abychom viděli, co přesně jsme poslali
                 _logger.LogError($"[CouchDB] Find failed: {resp.StatusCode}. Error detail: {errorContent}. Query was: {JsonSerializer.Serialize(query, _jsonOptions)}");
                 return new List<PublicWidgetDoc>();
             }
@@ -509,7 +518,6 @@ namespace WebApplication1.Service
                 {
                     try
                     {
-                        // Deserializujeme pouze dokumenty vrácené databází
                         var item = JsonSerializer.Deserialize<PublicWidgetDoc>(d.GetRawText(), _jsonOptions);
                         if (item != null) list.Add(item);
                     }
@@ -520,7 +528,6 @@ namespace WebApplication1.Service
                 }
             }
 
-            // Vracíme rovnou výsledek, protože byl již filtrován, seřazen a stránkován v DB.
             return list;
         }
 
