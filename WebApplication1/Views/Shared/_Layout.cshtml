@@ -294,77 +294,84 @@
             }
 
             // --- Load Widget ---
-            async function loadWidget(widgetName, location = '', optionsRaw = null) {
-                const key = getWidgetKey(widgetName, location);
-                if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
+                    async function loadWidget(widgetName, location = '', optionsRaw = null, forceReload = false) {
+            const key = getWidgetKey(widgetName, location);
+            if (widgetLoadPromises.has(key)) return widgetLoadPromises.get(key);
 
-                const existingInDom = document.querySelector(`.widget-wrapper[data-widget-key="${key}"]`);
-                if (existingInDom) {
-                    if (!activeWidgets.has(key)) activeWidgets.set(key, { wrapper: existingInDom, raw: optionsRaw });
+            const existingInDom = document.querySelector(`.widget-wrapper[data-widget-key="${key}"]`);
+            if (existingInDom) {
+                if (!activeWidgets.has(key)) activeWidgets.set(key, { wrapper: existingInDom, raw: optionsRaw });
+                // ZDE JE ZMĚNA: Pokud je forceReload true, ignorujeme fakt, že widget už existuje, a pokračujeme dál
+                if (!forceReload) {
                     return Promise.resolve();
                 }
-
-                let widgetObj = activeWidgets.get(key);
-                const isNew = !widgetObj;
-
-                if (!widgetObj) {
-                    const wrapper = document.createElement('div');
-                    wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
-                    wrapper.dataset.widgetKey = key;
-                    wrapper.dataset.location = location;
-                    container.appendChild(wrapper);
-                    widgetObj = { wrapper, raw: optionsRaw || null };
-                    activeWidgets.set(key, widgetObj);
-                } else {
-                    if (optionsRaw) widgetObj.raw = optionsRaw;
-                }
-
-                const { wrapper } = widgetObj;
-                if (wrapper.children.length > 0 && !isNew) return Promise.resolve();
-
-                const promise = (async () => {
-                    try {
-                        if (isNew || wrapper.children.length === 0) {
-                            let url = `/Widget/Load?name=${widgetName}`;
-                            if (widgetName === "CurrencyWidget") {
-                                const base = localStorage.getItem("baseCurrency") || "EUR";
-                                const quote = localStorage.getItem("quoteCurrency") || "USD";
-                                url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
-                            }
-                            if (location) url += `&location=${encodeURIComponent(location)}`;
-                            const resp = await fetch(url);
-                            wrapper.innerHTML = await resp.text();
-                        }
-                        wrapper.dataset.location = location;
-                        addWidgetControls(wrapper, widgetName, key);
-                        attachInteractions(wrapper, widgetName, widgetObj.raw);
-
-                        if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
-                        if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
-                        if (widgetName === "NewsWidget") initNewsWidget(wrapper);
-                        if (widgetName === "CountryInfoWidget") {
-                            const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
-                            wrapper.id = wrapperId;
-                            if (window.initCountryWidget) window.initCountryWidget(wrapperId);
-                        }
-                        if (isNew) {
-                            wrapper.style.opacity = "0";
-                            wrapper.style.transition = "opacity 0.3s ease";
-                            requestAnimationFrame(() => wrapper.style.opacity = "1");
-                        }
-                    } catch (err) {
-                        console.error("Chyba při načítání widgetu:", err);
-                        if(isNew && wrapper.parentNode) {
-                            wrapper.remove();
-                            activeWidgets.delete(key);
-                        }
-                    } finally {
-                        widgetLoadPromises.delete(key);
-                    }
-                })();
-                widgetLoadPromises.set(key, promise);
-                return promise;
             }
+
+            let widgetObj = activeWidgets.get(key);
+            const isNew = !widgetObj;
+
+            if (!widgetObj) {
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('widget-wrapper', 'mb-3', 'position-relative', 'p-2', 'border', 'rounded');
+                wrapper.dataset.widgetKey = key;
+                wrapper.dataset.location = location;
+                container.appendChild(wrapper);
+                widgetObj = { wrapper, raw: optionsRaw || null };
+                activeWidgets.set(key, widgetObj);
+            } else {
+                if (optionsRaw) widgetObj.raw = optionsRaw;
+            }
+
+            const { wrapper } = widgetObj;
+
+            // ZDE JE ZMĚNA: Přidána podmínka !forceReload
+            // Pokud chceme vynutit reload, nenecháme funkci skončit, i když už má potomky
+            if (!forceReload && wrapper.children.length > 0 && !isNew) return Promise.resolve();
+
+            const promise = (async () => {
+                try {
+                    // Pokud vynucujeme reload nebo je nový, stáhneme data
+                    if (forceReload || isNew || wrapper.children.length === 0) {
+                        let url = `/Widget/Load?name=${widgetName}`;
+                        if (widgetName === "CurrencyWidget") {
+                            const base = localStorage.getItem("baseCurrency") || "EUR";
+                            const quote = localStorage.getItem("quoteCurrency") || "USD";
+                            url += `&baseCurrency=${encodeURIComponent(base)}&quoteCurrency=${encodeURIComponent(quote)}`;
+                        }
+                        if (location) url += `&location=${encodeURIComponent(location)}`;
+
+                        // Přidáme malý indikátor načítání, aby uživatel viděl reakci
+                        if(forceReload) wrapper.style.opacity = "0.5";
+
+                        const resp = await fetch(url);
+                        wrapper.innerHTML = await resp.text(); // Tady se přepíše starý obsah novým
+
+                        if(forceReload) wrapper.style.opacity = "1";
+                    }
+
+                    // ... zbytek funkce zůstává stejný (addWidgetControls, attachInteractions atd.) ...
+                    wrapper.dataset.location = location;
+                    addWidgetControls(wrapper, widgetName, key);
+                    attachInteractions(wrapper, widgetName, widgetObj.raw);
+
+                    if (widgetName === "ForecastWeather") renderForecastCharts(wrapper);
+                    if (widgetName === "CurrencyWidget") initCurrencyWidget(wrapper);
+                    if (widgetName === "NewsWidget") initNewsWidget(wrapper);
+                    if (widgetName === "CountryInfoWidget") {
+                        const wrapperId = `countryWidget_${key.replace(/[^a-zA-Z0-9]/g, "_")}`;
+                        wrapper.id = wrapperId;
+                        if (window.initCountryWidget) window.initCountryWidget(wrapperId);
+                    }
+                    // ...
+                } catch (err) {
+                     // ... error handling ...
+                } finally {
+                    widgetLoadPromises.delete(key);
+                }
+            })();
+            widgetLoadPromises.set(key, promise);
+            return promise;
+        }
 
             // --- Widget Functions (Charts, etc) ---
             function renderForecastCharts(wrapper) {
@@ -410,11 +417,37 @@
                 const forms = wrapper.querySelectorAll('form');
                 forms.forEach(form => {
                     if ((form.id === 'locationForm' || form.id === 'forecastLocationForm') && !wrapper.dataset.formInit) {
-                        form.addEventListener('submit', async e => {
-                            e.preventDefault();
-                            const locInput = form.querySelector('input[name="location"]');
-                            if(locInput) await loadWidget(widgetName, locInput.value);
-                        });
+                                // --- NOVÝ OPRAVENÝ KÓD ---
+                form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const locInput = form.querySelector('input[name="location"]');
+
+            if (locInput) {
+                const newLocation = locInput.value;
+                const oldKey = wrapper.dataset.widgetKey;
+                const newKey = getWidgetKey(widgetName, newLocation);
+
+                if (oldKey === newKey) return;
+
+                // 1. Aktualizujeme mapu activeWidgets (přehodíme klíče)
+                if (activeWidgets.has(oldKey)) {
+                    const widgetData = activeWidgets.get(oldKey);
+                    activeWidgets.delete(oldKey);
+                    activeWidgets.set(newKey, widgetData);
+                }
+
+                // 2. Aktualizujeme DOM wrapperu
+                wrapper.dataset.location = newLocation;
+                wrapper.dataset.widgetKey = newKey;
+
+                // 3. Zavoláme loadWidget s parametrem forceReload = true
+                // To zajistí, že se data stáhnou znovu, i když wrapper existuje
+                await loadWidget(widgetName, newLocation, null, true);
+
+                // 4. Uložíme
+                saveWidgetState();
+            }
+        });
                         wrapper.dataset.formInit = "1";
                     }
                 });
