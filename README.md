@@ -28,8 +28,13 @@ Pro rozjetí aplikace v lokálním prostředí je třeba podniknout tyto kroky.
   GOOGLE_REDIRECTURI
 
   f. MQTT proměnné - zde je třeba zadat údaje pro připojení k MQTT brokerovy
+  
   MQTT_USERNAME
+  
   MQTT_PASSWORD
+  
   MQTT_ADDRESS
+  
   MQTT_PORT
+  
 5.následně stačí v kořenové složce projektu udělat docker-compose up --build a aplikace se na serveru spustí
