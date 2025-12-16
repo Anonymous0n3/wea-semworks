@@ -8,6 +8,9 @@
 
 ## Statistiky přispěvatelů
 Berte v potaz že počty commituů neukazují vykonanou práci ale kolikrát byly na github nahrány změny
+
+
+
 Pro rozjetí aplikace v lokálním prostředí je třeba podniknout tyto kroky.
 
 1. naklonujte repozitář
