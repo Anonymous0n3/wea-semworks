@@ -1,5 +1,5 @@
 ## Statistiky přispěvatelů
-Berte v potaz že počty commituů neukazují vykonanou práci ale kolikrát byly na github nahrány změny
+Berte v potaz že počty commituů neukazují vykonanou práci ale kolikrát byly na github nahrány změny a počet větví ukazuje větve které mají jako poslední commit od toho uživatele
 
 | Uživatel | Počet commitů | Aktivní větve (last commit) |
 | --- | ---: | ---: |
