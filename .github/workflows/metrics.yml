@@ -19,7 +19,9 @@ jobs:
         with:
           filename: contributors.svg
           token: ${{ secrets.GITHUB_TOKEN }}
-          #base: ""
+          user: Anonymous0n3    # The owner of the repo
+          repo: wea-semworks          # The exact name of the repo
           plugin_contributors: yes
           plugin_contributors_sections: contributors
           plugin_contributors_head: master
+          plugin_contributors_base: ""
