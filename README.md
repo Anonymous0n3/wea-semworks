@@ -1,5 +1,5 @@
 ## 🏆 Top Contributors
-![Contributors List](https://github.com/Anonymous0n3/wea-semworks/blob/main/contributors.svg)
+![Contributors List](https://github.com/Anonymous0n3/wea-semworks/blob/master/contributors.svg)
 
 Pro rozjetí aplikace v lokálním prostředí je třeba podniknout tyto kroky.
 
