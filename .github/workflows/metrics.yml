@@ -1,0 +1,22 @@
+name: Contributors Leaderboard
+on:
+  # Update every Sunday at midnight
+  schedule: [{cron: "0 0 * * 0"}]
+  # Run when pushing to main
+  push: {branches: ["main"]}
+  workflow_dispatch:
+
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: lowlighter/metrics@latest
+        with:
+          filename: contributors.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: ""
+          plugin_contributors: yes
+          plugin_contributors_sections: contributors
+          plugin_contributors_head: master
