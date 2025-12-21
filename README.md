@@ -1,3 +1,11 @@
+
+| Uživatel | Počet commitů | Aktivní větve (last commit) |
+| --- | ---: | ---: |
+| <img src='https://avatars.githubusercontent.com/u/90748580?v=4' width='20'/> [Anonymous0n3](https://github.com/Anonymous0n3) | 191 | 32 |
+| <img src='https://avatars.githubusercontent.com/u/92031623?v=4' width='20'/> [hofmic92](https://github.com/hofmic92) | 9 | 4 |
+| <img src='https://avatars.githubusercontent.com/u/147032696?v=4' width='20'/> [martinvojtek03](https://github.com/martinvojtek03) | 7 | 6 |
+| <img src='https://avatars.githubusercontent.com/in/15368?v=4' width='20'/> [github-actions[bot]](https://github.com/github-actions[bot]) | 5 | - |
+
 ## Statistiky přispěvatelů
 Berte v potaz že počty commituů neukazují vykonanou práci ale kolikrát byly na github nahrány změny a počet větví ukazuje větve které mají jako poslední commit od toho uživatele
 
